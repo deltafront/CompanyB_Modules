@@ -4,6 +4,7 @@
     <name>Maven Default Project</name>
     <version>1.0</version>
     <modules>
+        <module>Convertor</module>
         <module>ConfigurationEnabled</module>
         <module>DataAccess</module>
         <module>HttpCookieEnabled</module>
