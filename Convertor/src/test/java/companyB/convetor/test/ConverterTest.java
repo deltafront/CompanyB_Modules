@@ -1,8 +1,6 @@
-package companyB.decorated.test;
+package companyB.convetor.test;
 
-import companyB.decorated.Converter;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import companyB.convertor.Converter;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -14,9 +12,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by chburrell on 2/10/15.
- */
+
 public class ConverterTest
 {
     @Test

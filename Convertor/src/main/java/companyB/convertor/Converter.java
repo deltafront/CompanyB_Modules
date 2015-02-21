@@ -1,14 +1,16 @@
-package companyB.decorated;
+package companyB.convertor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Created by chburrell on 2/9/15.
+ * Created by chburrell on 2/9/15.//TODO  - document
  */
 @SuppressWarnings("ALL")
 public abstract class Converter
