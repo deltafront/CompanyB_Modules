@@ -7,21 +7,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>GuiceEnabled</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>Decorator</artifactId>
+    <packaging>jar</packaging>
 
-    <name>GuiceEnabled</name>
+    <name>Decorator</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>3.0</version>
-        </dependency>
-    </dependencies>
 </project>

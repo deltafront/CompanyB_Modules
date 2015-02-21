@@ -4,11 +4,10 @@
     <name>Maven Default Project</name>
     <version>1.0</version>
     <modules>
-        <module>SpringEnabled</module>
-        <module>ScalaEnabled</module>
-        <module>JacocoEnabled</module>
-        <module>GuiceEnabled</module>
-        <module>PmdEnabled</module>
+        <module>ConfigurationEnabled</module>
+        <module>DataAccess</module>
+        <module>HttpCookieEnabled</module>
+        <module>Decorator</module>
     </modules>
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
@@ -39,14 +38,24 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.3</version>
         </dependency>
     </dependencies>
     <contributors>
@@ -76,29 +85,97 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.2</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>3.4</version>
+                    <configuration>
+                        <linkXref>true</linkXref>
+                        <sourceEncoding>utf-8</sourceEncoding>
+                        <minimumTokens>100</minimumTokens>
+                        <targetJdk>1.7</targetJdk>
+                        <excludes>
+                            <exclude>**/**Test*.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>cpd-report</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>check</goal>
+                                <goal>cpd-check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.18.1</version>
+                    <configuration>
+                        <skipTests>false</skipTests>
+                        <forkCount>1</forkCount>
+                        <reuseForks>true</reuseForks>
+                        <properties>
+                            <property>
+                                <name>usedefaultlisteners</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>reporter</name>
+                                <value>listenReport.Reporter</value>
+                            </property>
+                        </properties>
+                        <workingDirectory>target/</workingDirectory>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.7.2.201409121644</version>
+                    <configuration>
+                        <append>true</append>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>pre-test</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>post-integration-test</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.8</version>
-                <configuration>
-                    <licenseName>my_license</licenseName>
-                    <licenseResolver>${project.baseUri}</licenseResolver>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

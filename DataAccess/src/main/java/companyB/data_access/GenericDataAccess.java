@@ -1,11 +1,11 @@
 package companyB.data_access;
 
 import com.google.gson.Gson;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class GenericDataAccess<DataClass,IdClass extends Serializable>
 {
     private static HibernateSessionFactory hibernateSessionFactory;
-    private final Logger logger = Logger.getLogger(GenericDataAccess.class);
+    private final Logger logger = org.slf4j.LoggerFactory.getLogger(GenericDataAccess.class);
     private static Gson gson;
     private Session session;
     private Transaction transaction;
