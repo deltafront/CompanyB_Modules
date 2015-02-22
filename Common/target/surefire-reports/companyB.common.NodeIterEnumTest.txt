@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: companyB.common.NodeIterEnumTest
--------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.928 sec - in companyB.common.NodeIterEnumTest

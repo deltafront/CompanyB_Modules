@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: companyB.common.SimpleRegexUtilsTest
--------------------------------------------------------------------------------
-Tests run: 61, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.11 sec - in companyB.common.SimpleRegexUtilsTest
