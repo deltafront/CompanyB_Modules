@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FactoryUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Common</a> &gt; <a href="index.source.html" class="el_package">companyB.common.utils</a> &gt; <span class="el_source">FactoryUtils.java</span></div><h1>FactoryUtils.java</h1><pre class="source lang-java linenums">package companyB.common.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * &lt;strong&gt;THE&lt;/strong&gt; Object Instantiation Factory!
+ * @author cburrell deltafront@gmail.com
+ * @version 1.0
+ */
+<span class="nc" id="L14">public abstract class FactoryUtils</span>
+{
+    private static Logger log;
+    private static Map&lt;String, Object&gt; objects;
+
+    static
+    {
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (log == null)</span>
+        {
+<span class="fc" id="L23">            log = LoggerFactory.getLogger(FactoryUtils.class);</span>
+        }
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (objects == null)</span>
+        {
+<span class="fc" id="L27">            objects = new HashMap&lt;String, Object&gt;();</span>
+        }
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Returns an object that is of the type specified by the class name, or null
+     * if that class cannot be loaded.
+     * @param class_name Fully qualified class name.
+     * @return object of type, or null
+     * @since 1.0
+     */
+    public static Object loadObject(String class_name)
+    {
+<span class="fc" id="L40">        return loadObject(class_name, false);</span>
+    }
+
+    /**
+     * Returns an object that is of the type specified by the class name, or null
+     * if that class cannot be loaded. If the static indicator is set to 'true', then this instance will either be
+     * loaded from an internal map, or, if it isn't present, it will be loaded into the map for future retrieval
+     * @param class_name Fully qualified class name.
+     * @param is_static Whether or not to load class as a singleton.
+     * @return object of type, or null
+     * @since 1.0
+     */
+    public static Object loadObject(String class_name, boolean is_static)
+    {
+<span class="fc" id="L54">        Object out = null;</span>
+        try
+        {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (is_static)</span>
+            {
+<span class="fc" id="L59">                out = objects.get(class_name);</span>
+            }
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (out == null)</span>
+            {
+<span class="fc" id="L63">                out = Class.forName(class_name).newInstance();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                if (is_static)</span>
+                {
+<span class="fc" id="L66">                    objects.put(class_name, out);</span>
+                }
+            }
+        }
+<span class="fc" id="L70">        catch (Exception e)</span>
+        {
+<span class="fc" id="L72">            log.error(e.getMessage(),e);</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">        return out;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

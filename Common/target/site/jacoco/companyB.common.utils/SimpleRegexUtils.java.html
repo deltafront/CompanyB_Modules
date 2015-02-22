@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SimpleRegexUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Common</a> &gt; <a href="index.source.html" class="el_package">companyB.common.utils</a> &gt; <span class="el_source">SimpleRegexUtils.java</span></div><h1>SimpleRegexUtils.java</h1><pre class="source lang-java linenums">package companyB.common.utils;
+
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
+
+/**
+ * Contains utilities for evaluation of string content
+ *
+ * @author C.A. Burrell (deltafront@gmail.com)
+ * @version 1.0
+ */
+<span class="nc" id="L15">public class SimpleRegexUtils</span>
+{
+    /**
+     * Tests to see if this string consists entirely of alphanumeric characters
+     *
+     * @param string String to be evaluated.
+     * @return true if this string consists entirely of alphanumeric characters
+     * @since 1.0
+     */
+    public static boolean isAlphaNSeries(String string)
+    {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (isEmpty(string))</span>
+        {
+<span class="fc" id="L28">            return false;</span>
+        }
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        for (int i = 0; i &lt; string.length(); i++)</span>
+        {
+<span class="fc" id="L32">            char _char = string.toLowerCase().charAt(i);</span>
+<span class="fc bfc" id="L33" title="All 4 branches covered.">            if (!isNumber(_char) &amp;&amp; !isLetter(_char))</span>
+            {
+<span class="fc" id="L35">                return false;</span>
+            }
+        }
+<span class="fc" id="L38">        return true;</span>
+    }
+
+    /**
+     * Tests to see if the string consists entirely of letters
+     *
+     * @param string String to be evaluated.
+     * @return true if the string consists entirely of letters
+     * @since 1.0
+     */
+    public static boolean isLetterSeries(String string)
+    {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (isEmpty(string))</span>
+        {
+<span class="fc" id="L52">            return false;</span>
+        }
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (int i = 0; i &lt; string.length(); i++)</span>
+        {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if (!isLetter(string.charAt(i)))</span>
+            {
+<span class="fc" id="L58">                return false;</span>
+            }
+        }
+<span class="fc" id="L61">        return true;</span>
+    }
+
+    /**
+     * Determines if the character represents a alphabetic character.
+     * @param _char character to be evaluated.
+     * @return True if char is a letter.
+     * @since 1.0
+     */
+    public static boolean isLetter(char _char)
+    {
+<span class="fc" id="L72">        return Character.isLetter(_char);</span>
+    }
+
+    /**
+     * Determines if the character represents a numeric character.
+     * @param _char character to be evaluated.
+     * @return True if char is a number.
+     * @since 1.0
+     */
+    public static boolean isNumber(char _char)
+    {
+<span class="fc" id="L83">        return Character.isDigit(_char);</span>
+    }
+
+    /**
+     * Determines whether this string is comprised of all numerical digits
+     *
+     * @param string String to be evaluated.
+     * @return true if this string represents a valid number series
+     * @since 1.0
+     */
+    @SuppressWarnings(&quot;UnnecessaryContinue&quot;)
+    public static boolean isValidNumberSeries(String string)
+    {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (isEmpty(string))</span>
+        {
+<span class="fc" id="L98">            return false;</span>
+        }
+<span class="fc" id="L100">        boolean isValid = true;</span>
+<span class="fc" id="L101">        boolean isESeries = string.toLowerCase().contains(&quot;e&quot;);</span>
+<span class="fc" id="L102">        char[] chars = string.toCharArray();</span>
+<span class="fc" id="L103">        boolean eflag = false;</span>
+<span class="fc" id="L104">        int negcount = 0;</span>
+<span class="fc" id="L105">        boolean decimalflag = false;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (char c : chars)</span>
+        {
+<span class="pc bpc" id="L108" title="1 of 8 branches missed.">            if (c == '-' &amp;&amp; (isESeries) ? negcount &lt; 2 : negcount &lt; 1)</span>
+            {
+<span class="fc" id="L110">                negcount++;</span>
+<span class="fc" id="L111">                continue;</span>
+            }
+<span class="fc bfc" id="L113" title="All 6 branches covered.">            else if ((c == 'E' || c == 'e') &amp;&amp; !eflag)</span>
+            {
+<span class="fc" id="L115">                eflag = true;</span>
+<span class="fc" id="L116">                continue;</span>
+            }
+<span class="fc bfc" id="L118" title="All 4 branches covered.">            else if (c == '.' &amp;&amp; !decimalflag)</span>
+            {
+<span class="fc" id="L120">                decimalflag = true;</span>
+<span class="fc" id="L121">                continue;</span>
+            }
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            else if (!Character.isDigit(c))</span>
+            {
+<span class="fc" id="L125">                isValid = false;</span>
+<span class="fc" id="L126">                break;</span>
+            }
+        }
+<span class="fc" id="L129">        return isValid;</span>
+    }
+
+    /**
+     * Determines if the input string conforms to the format string. The format string must be a valid regular expression,
+     *
+     * @param format format string
+     * @param input  string that is supposed to adhere to format string
+     * @return true if input is of 'format' format
+     * @since 1.0
+     */
+    public static boolean isValidFormattedSeries(String format, String input)
+    {
+<span class="fc bfc" id="L142" title="All 4 branches covered.">        if (isEmpty(format) || isEmpty(input))</span>
+        {
+<span class="fc" id="L144">            return false;</span>
+        }
+<span class="fc" id="L146">        boolean isValid = true;</span>
+        try
+        {
+<span class="fc" id="L149">            isValid = Pattern.matches(format, input);</span>
+        }
+<span class="fc" id="L151">        catch (PatternSyntaxException e)</span>
+        {
+<span class="fc" id="L153">            isValid = false;</span>
+<span class="fc" id="L154">            e.printStackTrace();</span>
+<span class="fc" id="L155">        }</span>
+<span class="fc" id="L156">        return isValid;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

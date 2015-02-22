@@ -1,0 +1,14 @@
+companyB/common/SimpleRegexUtilsTest.class
+companyB/common/ConverterTest.class
+companyB/common/MonthsTest.class
+companyB/common/FactoryUtilsTest.class
+companyB/common/CanadianProvincesTest.class
+companyB/common/DateTimeUtilsTest.class
+companyB/common/US_StatesTest.class
+companyB/common/InternationalizationsTest.class
+companyB/common/objects/test.class
+companyB/common/junit/CustomAsserts.class
+companyB/common/NodeIterEnumTest.class
+companyB/common/DaysTest.class
+companyB/common/ListSplitterTest.class
+companyB/common/PropertiesUtilsTest.class

@@ -1,0 +1,16 @@
+companyB/common/enums/Months.class
+companyB/common/enums/Days.class
+companyB/common/iter_enum/node.class
+companyB/common/internationalizations/Internationalization$TimeFrame.class
+companyB/common/internationalizations/Internationalization.class
+companyB/common/utils/DateTimeUtils.class
+companyB/common/conversion/Converter.class
+companyB/common/iter_enum/NodeIterEnum.class
+companyB/common/utils/FactoryUtils.class
+companyB/common/internationalizations/Internationalization$Language.class
+companyB/common/utils/SimpleRegexUtils.class
+companyB/common/utils/CollectionsSplitter.class
+companyB/common/utils/CollectionsSplitter$optimization_strategy.class
+companyB/common/utils/PropertiesUtils.class
+companyB/common/enums/US_States.class
+companyB/common/enums/Canadian_Provinces.class

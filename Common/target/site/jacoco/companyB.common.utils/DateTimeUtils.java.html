@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DateTimeUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Common</a> &gt; <a href="index.source.html" class="el_package">companyB.common.utils</a> &gt; <span class="el_source">DateTimeUtils.java</span></div><h1>DateTimeUtils.java</h1><pre class="source lang-java linenums">package companyB.common.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+/**
+ * Simple Utility class for getting formatted datetime strings from Calendar objects.
+ * @author C.A. Burrell (deltafront@gmail.com)
+ * @version 1.0
+ */
+
+<span class="nc" id="L15">public class DateTimeUtils</span>
+{
+<span class="fc" id="L17">    private final static Logger LOGGER  = LoggerFactory.getLogger(DateTimeUtils.class);</span>
+    /**
+     * Sole overload of the getFormattedDate function that allows you to specify
+     * the format of the date. The available choices are as follows (from http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html):
+     * &lt;table border=0 cellspacing=3 cellpadding=0 summary=&quot;Chart shows pattern letters, date/time component, presentation, and examples.&quot;&gt;
+     * &lt;tr bgcolor=&quot;#ccccff&quot;&gt;
+     * &lt;th align=left&gt;Letter
+     * &lt;th align=left&gt;Date or Time Component
+     * &lt;th align=left&gt;Presentation
+     * &lt;th align=left&gt;Examples
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;G&lt;/code&gt;
+     * &lt;td&gt;Era designator
+     * &lt;td&gt;&lt;a href=&quot;#text&quot;&gt;Text&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;AD&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;y&lt;/code&gt;
+     * &lt;td&gt;Year
+     * &lt;td&gt;&lt;a href=&quot;#year&quot;&gt;Year&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;1996&lt;/code&gt;; &lt;code&gt;96&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;M&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;Month in year
+     * &lt;td&gt;&lt;a href=&quot;#month&quot;&gt;Month&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;July&lt;/code&gt;; &lt;code&gt;Jul&lt;/code&gt;; &lt;code&gt;07&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;w&lt;/code&gt;
+     * &lt;td&gt;Week in year
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;27&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;W&lt;/code&gt;
+     * &lt;td&gt;Week in month
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;2&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;D&lt;/code&gt;
+     * &lt;td&gt;Day in year
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;189&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;d&lt;/code&gt;
+     * &lt;td&gt;Day in month
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;10&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;F&lt;/code&gt;
+     * &lt;td&gt;Day of week in month
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;2&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;E&lt;/code&gt;
+     * &lt;td&gt;Day in week
+     * &lt;td&gt;&lt;a href=&quot;#text&quot;&gt;Text&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;Tuesday&lt;/code&gt;; &lt;code&gt;Tue&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;a&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;Am/pm marker
+     * &lt;td&gt;&lt;a href=&quot;#text&quot;&gt;Text&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;PM&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;H&lt;/code&gt;
+     * &lt;td&gt;Hour in day (0-23)
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;0&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;k&lt;/code&gt;
+     * &lt;td&gt;Hour in day (1-24)
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;24&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;K&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;Hour in am/pm (0-11)
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;0&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;h&lt;/code&gt;
+     * &lt;td&gt;Hour in am/pm (1-12)
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;12&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;m&lt;/code&gt;
+     * &lt;td&gt;Minute in hour
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;30&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;s&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;Second in minute
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;55&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;S&lt;/code&gt;
+     * &lt;td&gt;Millisecond
+     * &lt;td&gt;&lt;a href=&quot;#number&quot;&gt;Number&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;978&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;z&lt;/code&gt;
+     * &lt;td&gt;Time zone
+     * &lt;td&gt;&lt;a href=&quot;#timezone&quot;&gt;General time zone&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;Pacific Standard Time&lt;/code&gt;; &lt;code&gt;PST&lt;/code&gt;; &lt;code&gt;GMT-08:00&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;Z&lt;/code&gt;
+     * &lt;td&gt;Time zone
+     * &lt;td&gt;&lt;a href=&quot;#rfc822timezone&quot;&gt;RFC 822 time zone&lt;/a&gt;
+     * &lt;td&gt;&lt;code&gt;-0800&lt;/code&gt;
+     * &lt;/table&gt;
+     * &lt;table border=0 cellspacing=3 cellpadding=0 summary=&quot;Examples of date and time patterns interpreted in the U.S. locale&quot;&gt;
+     * &lt;tr bgcolor=&quot;#ccccff&quot;&gt;
+     * &lt;th align=left&gt;Date and Time Pattern
+     * &lt;th align=left&gt;Result
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;yyyy.MM.dd G 'at' HH:mm:ss z&quot;&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;2001.07.04 AD at 12:08:56 PDT&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;EEE, MMM d, ''yy&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;Wed, Jul 4, '01&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;h:mm a&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;12:08 PM&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;hh 'o''clock' a, zzzz&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;12 o'clock PM, Pacific Daylight Time&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;K:mm a, z&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;0:08 PM, PDT&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;yyyyy.MMMMM.dd GGG hh:mm aaa&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;02001.July.04 AD 12:08 PM&lt;/code&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;EEE, d MMM yyyy HH:mm:ss Z&quot;&lt;/code&gt;
+     * &lt;td&gt;&lt;code&gt;Wed, 4 Jul 2001 12:08:56 -0700&lt;/code&gt;
+     * &lt;tr bgcolor=&quot;#eeeeff&quot;&gt;
+     * &lt;td&gt;&lt;code&gt;&quot;yyMMddHHmmssZ&quot;&lt;/code&gt;
+     * &lt;p/&gt;
+     * &lt;td&gt;&lt;code&gt;010704120856-0700&lt;/code&gt;
+     * &lt;/table&gt;
+     * @param calendar Calendar representation of the date
+     * @param format   format of the date as per example
+     * @return String of formatted date, or null
+     * @since 1.0
+     */
+    public static String getFormattedDate(Calendar calendar, String format)
+    {
+<span class="fc" id="L176">        String out = &quot;&quot;;</span>
+        try
+        {
+<span class="fc" id="L179">            SimpleDateFormat sdf = new SimpleDateFormat(format);</span>
+<span class="fc" id="L180">            sdf.setCalendar(calendar);</span>
+<span class="fc" id="L181">            out = sdf.format(calendar.getTimeInMillis());</span>
+        }
+<span class="fc" id="L183">        catch (Exception e)</span>
+        {
+<span class="fc" id="L185">            LOGGER.error(e.getMessage(),e);</span>
+<span class="fc" id="L186">        }</span>
+<span class="fc" id="L187">        return out;</span>
+    }
+
+    /**
+     * Returns a date formatted in MMDDYYYY,HH:mm:ss format
+     * @param calendar Calendar object
+     * @return formatted date
+     * @since 1.0
+     */
+    public static String getFormattedDate(Calendar calendar)
+    {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (calendar == null)</span>
+        {
+<span class="fc" id="L200">            return &quot;&quot;;</span>
+        }
+<span class="fc" id="L202">        return getFormattedDate(calendar, &quot;MMM dd yyyy, HH:mm:ss&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
