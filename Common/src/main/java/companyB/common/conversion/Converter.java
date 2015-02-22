@@ -1,4 +1,4 @@
-package companyB.convertor;
+package companyB.common.conversion;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by chburrell on 2/9/15.//TODO  - document
+ * Converts Strings representations into various supported datatypes.
+ * The types supported are:
+ * <ul>
+ *     <li>java.lang.Boolean</li>
+ *     <li>java.lang.String</li>
+ *     <li>java.lang.Integer</li>
+ *     <li>java.lang.Short</li>
+ *     <li>java.lang.Long</li>
+ *     <li>java.lang.Double</li>
+ *     <li>java.lang.Byte</li>
+ *     <li>java.lang.Character</li>
+ *     <li>java.math.BigDecimal</li>
+ *     <li>java.math.BigInteger</li>
+ *     <li>boolean</li>
+ *     <li>char</li>
+ *     <li>int</li>
+ *     <li>long</li>
+ *     <li>short</li>
+ *     <li><double/li>
+ *     <li>byte</li>
+ * </ul>
+ * @author Charles Burrell (deltafront@gmail.com)
+ * @version 1.0
  */
 @SuppressWarnings("ALL")
 public abstract class Converter
@@ -29,9 +51,35 @@ public abstract class Converter
     private final static  String[] _true = new String[]{"t", "true", "y", "yes","1"};
     private final static  String[] _false = new String[]{"f", "false", "n", "no","0"};
 
+    /**
+     * All supported classes.
+     * @since 1.0
+     */
     public static List<Class> supportedClasses;
+    /**
+     * String values which constitute a boolean value of 'true'.
+     * @since 1.0
+     */
     public static List<String> trueValues;
+    /**
+     * String values which constitute a boolean value of 'false'.
+     * @since 1.0
+     */
     public static List<String>falseValues;
+    /**
+     * All of the valid number classes. This list includes:
+     * <ul>
+     *     <li>java.lang.Integer</li>
+     *     <li>java.lang.Short</li>
+     *     <li>java.lang.Long</li>
+     *     <li>java.lang.Double</li>
+     *     <li>int</li>
+     *     <li>long</li>
+     *     <li>short</li>
+     *     <li><double/li>
+     * </ul>
+     * @since 1.0
+     */
     public static List<Class> numberClasses;
 
     static
@@ -59,55 +107,118 @@ public abstract class Converter
         }
     }
 
+    /**
+     * Returns whether or not the indicated class is supported.
+     * @param c Class to be evaluated.
+     * @return Whether or not the indicated class is supported.
+     * @since 1.0
+     */
     public static boolean isSupported(Class c)
     {
         return supportedClasses.contains(c);
     }
+
+    /**
+     * @param c Class to be evaluated.
+     * @return If class represents a number type.
+     * @since 1.0
+     */
     public static boolean isNumberType(Class c)
     {
         return numberClasses.contains(c);
     }
+
+    /**
+     * @param c Class to be evaluated.
+     * @return Is either a BigDecimal or BigInteger.
+     * @since 1.0
+     */
     public static boolean isBigType(Class c)
     {
         return BigDecimal.class.equals(c) || BigInteger.class.equals(c);
     }
+
+    /**
+     * @param c Class to be evaluated.
+     * @return If class represents a Boolean type.
+     * @since 1.0
+     */
     public static boolean isBoolean(Class c)
     {
         return boolean.class.equals(c) || Boolean.class.equals(c);
     }
+
+    /**
+     *
+     * @param c Class to be evaluated.
+     * @return If class represents a Byte type.
+     * @since 1.0
+     */
     public static boolean isByte(Class c)
     {
         return byte.class.equals(c) || Byte.class.equals(c);
     }
+
+    /**
+     * @param c Class to be evaluated.
+     * @return If the class represents a Character type or is a string.
+     * @since 1.0
+     */
     public static boolean isCharOrString(Class c)
     {
         return  char.class.equals(c) ||
                 Character.class.equals(c) ||
                 String.class.equals(c);
     }
-    public static Object convertToByte(String value)
+
+    /**
+     * @param value String value to be converted.
+     * @return Byte representation.
+     * @since 1.0
+     */
+    public static Byte convertToByte(String value)
     {
-        Object out = Byte.parseByte(value);
+        Byte out = Byte.parseByte(value);
         logOut(out);
         return out;
-
     }
-    public static Object convertToStringOrChar(String value, Class classType)
+
+    /**
+     * @param value String value to be converted.
+     * @param classType Class type to be returned  - either Character or String.
+     * @return String or Character representation.
+     * @since 1.0
+     */
+    public static <T>T convertToStringOrChar(String value, Class<T> classType)
     {
         Object out = char.class.equals(classType) || Character.class.equals(classType) ?
-                value.charAt(0) : value;
+                new Character(value.charAt(0)) : value;
         logOut(out);
-        return out;
+        return (T)out;
     }
-    public static Object convertToBig(String value, Class classType)
+
+    /**
+     * @param value String value to be converted.
+     * @param classType Class type to be returned  - either BigDecimal or BigInteger.
+     * @return Either BigDecimal or BigInteger representaion.
+     * @since 1.0
+     */
+    public static<T> T convertToBig(String value, Class<T> classType)
     {
         Object out = BigDecimal.class.equals(classType) ? new BigDecimal(value) :
                 (BigInteger.class.equals(classType)) ? new BigInteger(value) :
                         null;
         logOut(out);
-        return out;
+        return (T)out;
     }
-    public static Object convertToNumber(String value, Class classType)
+
+    /**
+     * @param value String value to be converted.
+     * @param classType Numeric Class type.
+     * @return Numeric representation.
+     * @since 1.0
+     */
+    public static<T> T convertToNumber(String value, Class<T> classType)
     {
         Object out = value;
         if(null != value)
@@ -130,11 +241,17 @@ public abstract class Converter
             }
         }
         logOut(out);
-        return out;
+        return (T)out;
     }
-    public static Object convertToBoolean(String value)
+
+    /**
+     * @param value String value to be converted.
+     * @return Boolean representation.
+     * @since 1.0
+     */
+    public static Boolean convertToBoolean(String value)
     {
-        Object out = null;
+        Boolean out = null;
         if (trueValues.contains(value.toLowerCase()))
         {
             out = Boolean.TRUE;

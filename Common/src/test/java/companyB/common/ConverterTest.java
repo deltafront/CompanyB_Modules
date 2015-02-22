@@ -1,6 +1,6 @@
-package companyB.convetor.test;
+package companyB.common;
 
-import companyB.convertor.Converter;
+import companyB.common.conversion.Converter;
 import org.junit.Test;
 
 import java.math.BigDecimal;
