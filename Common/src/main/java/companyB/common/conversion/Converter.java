@@ -13,24 +13,25 @@ import java.util.List;
  * Converts Strings representations into various supported datatypes.
  * The types supported are:
  * <ul>
- *     <li>java.lang.Boolean</li>
- *     <li>java.lang.String</li>
- *     <li>java.lang.Integer</li>
- *     <li>java.lang.Short</li>
- *     <li>java.lang.Long</li>
- *     <li>java.lang.Double</li>
- *     <li>java.lang.Byte</li>
- *     <li>java.lang.Character</li>
- *     <li>java.math.BigDecimal</li>
- *     <li>java.math.BigInteger</li>
- *     <li>boolean</li>
- *     <li>char</li>
- *     <li>int</li>
- *     <li>long</li>
- *     <li>short</li>
- *     <li><double/li>
- *     <li>byte</li>
+ * <li>java.lang.Boolean</li>
+ * <li>java.lang.String</li>
+ * <li>java.lang.Integer</li>
+ * <li>java.lang.Short</li>
+ * <li>java.lang.Long</li>
+ * <li>java.lang.Double</li>
+ * <li>java.lang.Byte</li>
+ * <li>java.lang.Character</li>
+ * <li>java.math.BigDecimal</li>
+ * <li>java.math.BigInteger</li>
+ * <li>boolean</li>
+ * <li>char</li>
+ * <li>int</li>
+ * <li>long</li>
+ * <li>short</li>
+ * <li><double/li>
+ * <li>byte</li>
  * </ul>
+ *
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
@@ -39,45 +40,49 @@ public abstract class Converter
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(Converter.class);
     private final static Class[] _supported = new Class[]
-            {   Long.class,long.class,String.class, Integer.class, int.class,
-                short.class,Short.class, Double.class, double.class,
-                Boolean.class, boolean.class, Byte.class, byte.class,
-                char.class, Character.class, BigDecimal.class, BigInteger.class
+            {Long.class, long.class, String.class, Integer.class, int.class,
+                    short.class, Short.class, Double.class, double.class,
+                    Boolean.class, boolean.class, Byte.class, byte.class,
+                    char.class, Character.class, BigDecimal.class, BigInteger.class
             };
     private final static Class[] _numbers = new Class[]
-            {   Long.class,long.class,Integer.class, int.class,
-                short.class,Short.class, Double.class, double.class,
+            {Long.class, long.class, Integer.class, int.class,
+                    short.class, Short.class, Double.class, double.class,
             };
-    private final static  String[] _true = new String[]{"t", "true", "y", "yes","1"};
-    private final static  String[] _false = new String[]{"f", "false", "n", "no","0"};
+    private final static String[] _true = new String[]{"t", "true", "y", "yes", "1"};
+    private final static String[] _false = new String[]{"f", "false", "n", "no", "0"};
 
     /**
      * All supported classes.
+     *
      * @since 1.0
      */
     public static List<Class> supportedClasses;
     /**
      * String values which constitute a boolean value of 'true'.
+     *
      * @since 1.0
      */
     public static List<String> trueValues;
     /**
      * String values which constitute a boolean value of 'false'.
+     *
      * @since 1.0
      */
-    public static List<String>falseValues;
+    public static List<String> falseValues;
     /**
      * All of the valid number classes. This list includes:
      * <ul>
-     *     <li>java.lang.Integer</li>
-     *     <li>java.lang.Short</li>
-     *     <li>java.lang.Long</li>
-     *     <li>java.lang.Double</li>
-     *     <li>int</li>
-     *     <li>long</li>
-     *     <li>short</li>
-     *     <li><double/li>
+     * <li>java.lang.Integer</li>
+     * <li>java.lang.Short</li>
+     * <li>java.lang.Long</li>
+     * <li>java.lang.Double</li>
+     * <li>int</li>
+     * <li>long</li>
+     * <li>short</li>
+     * <li><double/li>
      * </ul>
+     *
      * @since 1.0
      */
     public static List<Class> numberClasses;
@@ -88,19 +93,19 @@ public abstract class Converter
         if (null == supportedClasses)
         {
             supportedClasses = new LinkedList<>();
-            Collections.addAll(supportedClasses,_supported);
+            Collections.addAll(supportedClasses, _supported);
         }
-        if(null == trueValues)
+        if (null == trueValues)
         {
             trueValues = new LinkedList<>();
-            Collections.addAll(trueValues,_true);
+            Collections.addAll(trueValues, _true);
         }
-        if(null == falseValues)
+        if (null == falseValues)
         {
             falseValues = new LinkedList<>();
-            Collections.addAll(falseValues,_false);
+            Collections.addAll(falseValues, _false);
         }
-        if(null == numberClasses)
+        if (null == numberClasses)
         {
             numberClasses = new LinkedList<>();
             Collections.addAll(numberClasses, _numbers);
@@ -109,6 +114,7 @@ public abstract class Converter
 
     /**
      * Returns whether or not the indicated class is supported.
+     *
      * @param c Class to be evaluated.
      * @return Whether or not the indicated class is supported.
      * @since 1.0
@@ -149,7 +155,6 @@ public abstract class Converter
     }
 
     /**
-     *
      * @param c Class to be evaluated.
      * @return If class represents a Byte type.
      * @since 1.0
@@ -166,7 +171,7 @@ public abstract class Converter
      */
     public static boolean isCharOrString(Class c)
     {
-        return  char.class.equals(c) ||
+        return char.class.equals(c) ||
                 Character.class.equals(c) ||
                 String.class.equals(c);
     }
@@ -184,44 +189,44 @@ public abstract class Converter
     }
 
     /**
-     * @param value String value to be converted.
+     * @param value     String value to be converted.
      * @param classType Class type to be returned  - either Character or String.
      * @return String or Character representation.
      * @since 1.0
      */
-    public static <T>T convertToStringOrChar(String value, Class<T> classType)
+    public static <T> T convertToStringOrChar(String value, Class<T> classType)
     {
         Object out = char.class.equals(classType) || Character.class.equals(classType) ?
                 new Character(value.charAt(0)) : value;
         logOut(out);
-        return (T)out;
+        return (T) out;
     }
 
     /**
-     * @param value String value to be converted.
+     * @param value     String value to be converted.
      * @param classType Class type to be returned  - either BigDecimal or BigInteger.
      * @return Either BigDecimal or BigInteger representaion.
      * @since 1.0
      */
-    public static<T> T convertToBig(String value, Class<T> classType)
+    public static <T> T convertToBig(String value, Class<T> classType)
     {
         Object out = BigDecimal.class.equals(classType) ? new BigDecimal(value) :
                 (BigInteger.class.equals(classType)) ? new BigInteger(value) :
                         null;
         logOut(out);
-        return (T)out;
+        return (T) out;
     }
 
     /**
-     * @param value String value to be converted.
+     * @param value     String value to be converted.
      * @param classType Numeric Class type.
      * @return Numeric representation.
      * @since 1.0
      */
-    public static<T> T convertToNumber(String value, Class<T> classType)
+    public static <T> T convertToNumber(String value, Class<T> classType)
     {
         Object out = value;
-        if(null != value)
+        if (null != value)
         {
             if (long.class.equals(classType) || Long.class.equals(classType))
             {
@@ -241,7 +246,7 @@ public abstract class Converter
             }
         }
         logOut(out);
-        return (T)out;
+        return (T) out;
     }
 
     /**
@@ -263,6 +268,7 @@ public abstract class Converter
         logOut(out);
         return out;
     }
+
     private static void logOut(Object out)
     {
         String outToString = (null == out) ? "" : String.valueOf(out);

@@ -6,6 +6,7 @@ import java.util.Iterator;
 /**
  * This class implements both java.util.Iterator and java.util.Enumeration.
  * Internally, it is a primitive node-based singly linked list.
+ *
  * @param <E>
  * @author C.A. Burrell deltafront@gmail.com
  */
@@ -57,6 +58,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * Adds an element to the list
+     *
      * @param in element that is added
      * @since 1.0
      */
@@ -75,8 +77,9 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
     /**
      * This method is not implemented.
      * Calling this method will throw a UnsupportedOperationException.
-     * @since 1.0
+     *
      * @throws UnsupportedOperationException
+     * @since 1.0
      */
     public void remove()
     {

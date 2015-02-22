@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 /**
  * This class contains internationalization for days and months in the world's top four Latin-scripted languages.
+ *
  * @author C.A. Burrell (deltafront@gmail.com)
  * @version 1.0
  */
@@ -32,7 +33,8 @@ public abstract class Internationalization
      * <li> Month of the yeay</li>
      * <li> Day of the week</li>
      * </ul>
-     *@since 1.0
+     *
+     * @since 1.0
      */
     public enum TimeFrame
     {

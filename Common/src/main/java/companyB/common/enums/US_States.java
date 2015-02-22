@@ -8,6 +8,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * This class contains all of the US States and Territories as of April 2008.
+ *
  * @author C.A. Burrell deltafront@gmail.com
  * @version 1.0
  */
@@ -82,6 +83,7 @@ public enum US_States
 
     /**
      * Checks to see whether the supplied input is a valid state (full state name or abbreviation)
+     *
      * @param state string to be evaluated.
      * @return true if the state is a valid one, or if the input is null || ""
      * @since 1.0
@@ -109,6 +111,7 @@ public enum US_States
     /**
      * Returns an alphabetized Set of U.S. States. The states themselves are presented "naturally",
      * without underscores standing in for spaces.
+     *
      * @param abbreviations set this to true if you just want the state abbreviations
      * @return Alphabetized list of states
      * @since 1.0
@@ -135,6 +138,7 @@ public enum US_States
     /**
      * Convenience method for determining whether the submitted postal code is a valid U.S one.
      * Valid formats are 12345, 12345-6789, or 12345 6789.
+     *
      * @param postal_code postal code to be evaluated.
      * @return true if this represents a valid US Postal Code.
      * @since 1.0

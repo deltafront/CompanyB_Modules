@@ -10,6 +10,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 /**
  * This enumeration contains utilities for Canadian Provinces.
  * It contains all of the provinces and territories as of April 2008.
+ *
  * @author C.A. Burrell deltafront@gmail.com
  * @version 1.0
  */
@@ -38,6 +39,7 @@ public enum Canadian_Provinces
 
     /**
      * Checks to see whether the supplied input is a valid province (full province name or abbreviation)
+     *
      * @param province String to be evaluated.
      * @return true if the province is a valid one, or if the input is null || ""
      * @since 1.0
@@ -65,6 +67,7 @@ public enum Canadian_Provinces
     /**
      * Returns an alphabetized Set of Canadian Provinces. The provinces themselves are presented "naturally",
      * without underscores standing in for spaces.
+     *
      * @param abbreviations set this to true if you just want the provincial abbreviations
      * @return Alphabetized list of provinces
      * @since 1.0
@@ -91,6 +94,7 @@ public enum Canadian_Provinces
     /**
      * Determines whether the provided string represents a valid Canadian Postal Code. Valid inputs are
      * A1B-2D3 and A1B 2D3.
+     *
      * @param postal_code Postal code to be evaluated.
      * @return true if input represents a valid Canadian Postal code.
      * @since 1.0

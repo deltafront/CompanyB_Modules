@@ -20,35 +20,38 @@ public class ConverterTest
     {
         testForBoolean(true);
     }
+
     @Test
     public void testFalseBoolean()
     {
         testForBoolean(false);
     }
+
     @Test
     public void testNumberConversions()
     {
         String numberString = "42";
-        for(Class c : Converter.numberClasses)
+        for (Class c : Converter.numberClasses)
         {
-            Object ret = Converter.convertToNumber(numberString,c);
+            Object ret = Converter.convertToNumber(numberString, c);
             assertNotNull(ret);
             assertTrue(Converter.isNumberType(ret.getClass()));
-            if(Double.class.equals(c) || double.class.equals(c))
+            if (Double.class.equals(c) || double.class.equals(c))
             {
                 assertEquals(String.valueOf(Double.parseDouble(numberString)), String.valueOf(ret));
             }
             else
             {
-                assertEquals(numberString,String.valueOf(ret));
+                assertEquals(numberString, String.valueOf(ret));
             }
         }
     }
+
     @Test
     public void testByteConversion()
     {
         String byteValues = "This needs to be converted into bytes";
-        for(byte b : byteValues.getBytes())
+        for (byte b : byteValues.getBytes())
         {
             Object ret = Converter.convertToByte(String.valueOf(b));
             assertNotNull(ret);
@@ -56,6 +59,7 @@ public class ConverterTest
             assertEquals(b, ret);
         }
     }
+
     @Test
     public void testIsByte()
     {
@@ -70,10 +74,11 @@ public class ConverterTest
     {
         assertFalse(Converter.isSupported(this.getClass()));
     }
+
     @Test
     public void testValidSupportedTypes()
     {
-        for(Class c : Converter.supportedClasses)
+        for (Class c : Converter.supportedClasses)
         {
             assertTrue(Converter.isSupported(c));
         }
@@ -83,7 +88,7 @@ public class ConverterTest
     public void testGetStringOrChar()
     {
         String charValue = "c";
-        for(Class c : new Class[]{String.class, char.class, Character.class})
+        for (Class c : new Class[]{String.class, char.class, Character.class})
         {
             Object ret = Converter.convertToStringOrChar(charValue, c);
             assertNotNull(ret);
@@ -95,7 +100,7 @@ public class ConverterTest
     @Test
     public void testIsStringOrChar()
     {
-        for(Class c : new Class[]{String.class, char.class, Character.class})
+        for (Class c : new Class[]{String.class, char.class, Character.class})
         {
             assertTrue(Converter.isCharOrString(c));
         }
@@ -126,20 +131,21 @@ public class ConverterTest
     {
         boolean isBigDecimal = BigDecimal.class.equals(c);
         String big = isBigDecimal ? "42.0" : "42";
-        Object ret = Converter.convertToBig(big,c);
+        Object ret = Converter.convertToBig(big, c);
         assertTrue(Converter.isBigType(ret.getClass()));
         assertEquals(big, String.valueOf(ret));
 
     }
+
     private void testForBoolean(boolean testForTrue)
     {
         List<String> values = (testForTrue) ? Converter.trueValues : Converter.falseValues;
-        for(String value : values)
+        for (String value : values)
         {
             Object ret = Converter.convertToBoolean(value);
             assertNotNull(ret);
             assertTrue(Converter.isBoolean(ret.getClass()));
-            assertEquals(testForTrue,ret);
+            assertEquals(testForTrue, ret);
         }
     }
 

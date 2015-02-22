@@ -6,6 +6,7 @@ import java.util.Set;
 
 /**
  * Provides access to months, their order in the calendar year (1 based),their abbreviations, and days
+ *
  * @author C.A. Burrell deltafront@gmail.com
  * @version 1.0
  */
@@ -46,6 +47,7 @@ public enum Months
 
     /**
      * Returns the month represented by the integer (1 = January / Jan). This method assumes a 1-base.
+     *
      * @param month_in_year month in year to get string for.
      * @param abbreviation  true if you want the the abbreviated month
      * @return Month represented by the integer (1-based)
@@ -59,6 +61,7 @@ public enum Months
     /**
      * Returns the month represented by the integer (1 = January / Jan). If zero-based is set to true, then
      * 0 = January / Jan.
+     *
      * @param month_in_year month in year to get string for.
      * @param zero_based    true if you are using zero as the first number
      * @param abbreviation  true if you want the the abbreviated month
@@ -85,6 +88,7 @@ public enum Months
 
     /**
      * Returns a Set of months of the year ordered by their occurrence.
+     *
      * @param abbreviated Setting this to true will fill the set with abbreviations.
      * @return Set of months of the year
      * @since 1.0

@@ -15,6 +15,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * This class provides a simple wrapper for java.util.Properties.
  * It allows a property to be retrieved using a single-line of code.
  * This class is designed to work with a key=value type properties file.
+ *
  * @author C.A. Burrell deltafront@gmail.com
  * @version 1.0
  */
@@ -36,7 +37,7 @@ public abstract class PropertiesUtils
      * Returns the property value associated with 'key'.
      *
      * @param path location of properties file
-     * @param key attribute to get property value for
+     * @param key  attribute to get property value for
      * @return value associated with key, or null
      * @since 1.0
      */
@@ -50,6 +51,7 @@ public abstract class PropertiesUtils
 
     /**
      * Returns a map of all properties contained within field located at 'path'
+     *
      * @param path path at which desired file is located
      * @return HashMap of all properties contained within field located at 'path'
      * @since 1.0

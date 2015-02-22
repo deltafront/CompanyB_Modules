@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Splits Collection into a List of Lists.
+ *
  * @author C.A. Burrell (deltafront@gmail.com)
  * @version 1.0
  */

@@ -20,23 +20,27 @@ public class SimpleRegexUtilsTest
     {
         assertFalse(SimpleRegexUtils.isLetterSeries(null));
     }
+
     @Test
     public void testIsNumberTrue()
     {
         char c = '3';
         assertTrue(SimpleRegexUtils.isNumber(c));
     }
+
     @Test
     public void testIsNumberFalse()
     {
         char c = 'a';
         assertFalse(SimpleRegexUtils.isNumber(c));
     }
+
     @Test
     public void testIsValidNumberSeriesNull()
     {
         assertFalse(SimpleRegexUtils.isValidNumberSeries(""));
     }
+
     @Test
     public void testIsLetterSeriesEmptyString()
     {
@@ -336,31 +340,37 @@ public class SimpleRegexUtilsTest
     {
         assertFalse(SimpleRegexUtils.isValidFormattedSeries("[A-Z]{1}[0-9]{1}[A-Z]{1}[\\s]{1}[0-9]{1}[A-Z]{1}[0-9]{1}", "9R7 B4D"));
     }
+
     @Test
     public void testIsValidAlphaNNull()
     {
         assertFalse(SimpleRegexUtils.isAlphaNSeries(null));
     }
+
     @Test
     public void testIsValidAlphaNEmpty()
     {
         assertFalse(SimpleRegexUtils.isAlphaNSeries(""));
     }
+
     @Test
     public void testIsValidAlphaNAllAlpha()
     {
         assertTrue(SimpleRegexUtils.isAlphaNSeries("AbC"));
     }
+
     @Test
     public void testIsValidAlphaNAllN()
     {
         assertTrue(SimpleRegexUtils.isAlphaNSeries("1234567890"));
     }
+
     @Test
     public void testIsValidAlphaNMixedTrue()
     {
         assertTrue(SimpleRegexUtils.isAlphaNSeries("1234567890AbCDeF"));
     }
+
     @Test
     public void testIsValidAlphaNMixedFalse()
     {

@@ -15,11 +15,13 @@ public class MonthsTest
     {
         assertEquals("Jan", Months.getMonth(1, true));
     }
+
     @Test
     public void getMonthFull()
     {
-        assertEquals("January", Months.getMonth(1,false));
+        assertEquals("January", Months.getMonth(1, false));
     }
+
     @Test
     public void getMonthFullOneOffset()
     {

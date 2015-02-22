@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * <strong>THE</strong> Object Instantiation Factory!
+ *
  * @author cburrell deltafront@gmail.com
  * @version 1.0
  */
@@ -31,6 +32,7 @@ public abstract class FactoryUtils
     /**
      * Returns an object that is of the type specified by the class name, or null
      * if that class cannot be loaded.
+     *
      * @param class_name Fully qualified class name.
      * @return object of type, or null
      * @since 1.0
@@ -44,8 +46,9 @@ public abstract class FactoryUtils
      * Returns an object that is of the type specified by the class name, or null
      * if that class cannot be loaded. If the static indicator is set to 'true', then this instance will either be
      * loaded from an internal map, or, if it isn't present, it will be loaded into the map for future retrieval
+     *
      * @param class_name Fully qualified class name.
-     * @param is_static Whether or not to load class as a singleton.
+     * @param is_static  Whether or not to load class as a singleton.
      * @return object of type, or null
      * @since 1.0
      */
@@ -69,7 +72,7 @@ public abstract class FactoryUtils
         }
         catch (Exception e)
         {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
         }
         return out;
     }

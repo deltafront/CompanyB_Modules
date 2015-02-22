@@ -108,13 +108,13 @@ public class DaysTest
     @Test
     public void getDayOfWeekFull()
     {
-        assertEquals("Monday", Days.getDayOfWeek(2,false));
+        assertEquals("Monday", Days.getDayOfWeek(2, false));
     }
 
     @Test
     public void getDayOfWeekAbbreviation()
     {
-        assertEquals("Mon", Days.getDayOfWeek(2,true));
+        assertEquals("Mon", Days.getDayOfWeek(2, true));
     }
 
 }

@@ -8,13 +8,15 @@ import java.util.Calendar;
 
 /**
  * Simple Utility class for getting formatted datetime strings from Calendar objects.
+ *
  * @author C.A. Burrell (deltafront@gmail.com)
  * @version 1.0
  */
 
 public class DateTimeUtils
 {
-    private final static Logger LOGGER  = LoggerFactory.getLogger(DateTimeUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DateTimeUtils.class);
+
     /**
      * Sole overload of the getFormattedDate function that allows you to specify
      * the format of the date. The available choices are as follows (from http://java.sun.com/javase/6/docs/api/java/text/SimpleDateFormat.html):
@@ -166,6 +168,7 @@ public class DateTimeUtils
      * <p/>
      * <td><code>010704120856-0700</code>
      * </table>
+     *
      * @param calendar Calendar representation of the date
      * @param format   format of the date as per example
      * @return String of formatted date, or null
@@ -182,13 +185,14 @@ public class DateTimeUtils
         }
         catch (Exception e)
         {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return out;
     }
 
     /**
      * Returns a date formatted in MMDDYYYY,HH:mm:ss format
+     *
      * @param calendar Calendar object
      * @return formatted date
      * @since 1.0

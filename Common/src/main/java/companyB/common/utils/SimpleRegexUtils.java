@@ -63,6 +63,7 @@ public class SimpleRegexUtils
 
     /**
      * Determines if the character represents a alphabetic character.
+     *
      * @param _char character to be evaluated.
      * @return True if char is a letter.
      * @since 1.0
@@ -74,6 +75,7 @@ public class SimpleRegexUtils
 
     /**
      * Determines if the character represents a numeric character.
+     *
      * @param _char character to be evaluated.
      * @return True if char is a number.
      * @since 1.0
