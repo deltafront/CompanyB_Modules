@@ -12,9 +12,6 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by chburrell on 2/13/15.
- */
 @SuppressWarnings("ConstantConditions")
 public class ConfigEnablerTest extends ConfigurationEnabledTestBase
 {

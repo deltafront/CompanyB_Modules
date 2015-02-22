@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by chburrell on 2/13/15.
- */
 public class ConfigurationEnabledTestBase
 {
     protected ConfigEnabler configEnabler;

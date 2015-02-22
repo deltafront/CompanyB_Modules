@@ -3,7 +3,6 @@ package companyB.configuration.test;
 import companyB.configuration.ClassLevelConfigEnabler;
 import companyB.configuration.ConfigEnabled;
 import companyB.configuration.ConfigEnabler;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,9 +15,6 @@ import java.util.List;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by chburrell on 2/13/15.
- */
 public class ClassLevelConfigEnablerTest
 {
     @Test

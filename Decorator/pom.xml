@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>companyB</groupId>
-            <artifactId>Convertor</artifactId>
+            <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

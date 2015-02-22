@@ -1,24 +1,20 @@
 package companyB.configuration.test;
 
 import companyB.configuration.ConfigEnabler;
-import companyB.configuration.CustomPropertiesReader;
-import junit.framework.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.*;
-import java.util.Map;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by chburrell on 2/13/15.
- */
 public class CustomPropertiesReaderTest
 {
     @Rule

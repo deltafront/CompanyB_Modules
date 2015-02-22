@@ -16,9 +16,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.fail;
 
-/**
- * Created by chburrell on 2/16/15.
- */
 public class DecoratorTest
 {
     private TestClass testClass;

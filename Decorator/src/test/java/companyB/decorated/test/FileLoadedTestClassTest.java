@@ -14,9 +14,6 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by chburrell on 2/16/15.
- */
 public class FileLoadedTestClassTest
 {
     private FileLoadedTestClass fileLoadedTestClass;

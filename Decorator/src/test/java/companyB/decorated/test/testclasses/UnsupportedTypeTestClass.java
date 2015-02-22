@@ -4,9 +4,6 @@ import companyB.decorated.Decorated;
 
 import java.util.List;
 
-/**
- * Created by chburrell on 2/16/15.
- */
 public class UnsupportedTypeTestClass
 {
     @Decorated

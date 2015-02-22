@@ -5,9 +5,6 @@ import companyB.decorated.Decorated;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-/**
- * Created by chburrell on 2/16/15.
- */
 public class TestClass
 {
     @Decorated()
