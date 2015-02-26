@@ -22,6 +22,8 @@ public class NodeIterEnumTest
     public void setUp() throws Exception
     {
         nie = new NodeIterEnum<String>();
+        e_iter = (Enumeration<String>) nie;
+        iter_e = (Iterator<String>) nie;
         test_string = "test string";
         fake_string = "fake string";
     }
@@ -30,6 +32,7 @@ public class NodeIterEnumTest
     public void tearDown() throws Exception
     {
         iter_e = null;
+        e_iter = null;
         test_string = null;
         fake_string = null;
         nie = null;
@@ -39,7 +42,6 @@ public class NodeIterEnumTest
     public void testHasMoreElementsTrue()
     {
         nie.add(test_string);
-        e_iter = (Enumeration<String>) nie;
         assertTrue(e_iter.hasMoreElements());
         assertEquals(test_string, e_iter.nextElement());
     }
@@ -49,7 +51,6 @@ public class NodeIterEnumTest
     {
         nie.add(test_string);
         nie.add(fake_string);
-        e_iter = (Enumeration<String>) nie;
         String next = e_iter.nextElement();
         assertTrue(e_iter.hasMoreElements());
         assertEquals(test_string, next);
@@ -58,7 +59,6 @@ public class NodeIterEnumTest
     @Test
     public void testHasMoreElementsFalse()
     {
-        e_iter = (Enumeration<String>) nie;
         assertFalse(e_iter.hasMoreElements());
         assertNull(e_iter.nextElement());
     }
@@ -67,7 +67,6 @@ public class NodeIterEnumTest
     public void testHasMoreElementsFalseIterate()
     {
         nie.add(test_string);
-        e_iter = (Enumeration<String>) nie;
         e_iter.nextElement();
         assertFalse(e_iter.hasMoreElements());
     }
@@ -77,7 +76,6 @@ public class NodeIterEnumTest
     {
         nie.add(test_string);
         nie.add(fake_string);
-        e_iter = (Enumeration<String>) nie;
         assertEquals(e_iter.nextElement(), test_string);
         assertEquals(e_iter.nextElement(), fake_string);
         assertFalse(e_iter.hasMoreElements());
@@ -87,7 +85,6 @@ public class NodeIterEnumTest
     public void testNextElementFalse()
     {
         nie.add(test_string);
-        e_iter = (Enumeration<String>) nie;
         assertFalse(e_iter.nextElement().equals(fake_string));
     }
 
@@ -95,7 +92,6 @@ public class NodeIterEnumTest
     public void testHasNextTrue()
     {
         nie.add(test_string);
-        iter_e = (Iterator<String>) nie;
         assertTrue(iter_e.hasNext());
     }
 
@@ -104,7 +100,6 @@ public class NodeIterEnumTest
     {
         nie.add(test_string);
         nie.add(fake_string);
-        iter_e = (Iterator<String>) nie;
         iter_e.next();
         assertTrue(iter_e.hasNext());
     }
@@ -112,7 +107,6 @@ public class NodeIterEnumTest
     @Test
     public void testHasNextFalse()
     {
-        iter_e = (Iterator<String>) nie;
         assertFalse(iter_e.hasNext());
     }
 
@@ -121,7 +115,6 @@ public class NodeIterEnumTest
     {
         nie.add(test_string);
         nie.add(fake_string);
-        iter_e = (Iterator<String>) nie;
         iter_e.next();
         iter_e.next();
         assertFalse(iter_e.hasNext());
@@ -132,7 +125,6 @@ public class NodeIterEnumTest
     {
         nie.add(test_string);
         nie.add(fake_string);
-        iter_e = (Iterator<String>) nie;
         assertEquals(iter_e.next(), test_string);
         assertEquals(iter_e.next(), fake_string);
     }
@@ -141,24 +133,14 @@ public class NodeIterEnumTest
     public void testNextFalse()
     {
         nie.add(test_string);
-        iter_e = (Iterator<String>) nie;
         assertFalse(iter_e.next().equals(fake_string));
     }
 
     @Test
     public void testAdd()
     {
-        iter_e = (Iterator<String>) nie;
         nie.add(test_string);
         assertTrue(iter_e.hasNext());
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testRemoveIterator()
-    {
-        iter_e = (Iterator<String>) nie;
-        iter_e.remove();
-        fail("java.lang.UnsupportedOperationException was not thrown.");
     }
 
     @Test
@@ -169,7 +151,6 @@ public class NodeIterEnumTest
         {
             nie.add(string);
         }
-        iter_e = (Iterator<String>) nie;
         int count = 0;
         while (iter_e.hasNext())
         {
@@ -187,7 +168,6 @@ public class NodeIterEnumTest
         {
             nie.add(string);
         }
-        e_iter = (Enumeration<String>) nie;
         int count = 0;
         while (e_iter.hasMoreElements())
         {
@@ -195,6 +175,39 @@ public class NodeIterEnumTest
             count++;
         }
         assertEquals(strings.length, count);
+    }
+    @Test
+    public void testRemove()
+    {
+        nie.add(test_string);
+        nie.add(fake_string);
+
+        iter_e.next();
+        iter_e.remove();
+        assertFalse(iter_e.hasNext());
+        assertNull(iter_e.next());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testRemoveNoInitialCallToNext()
+    {
+        nie.add(test_string);
+        nie.add(fake_string);
+
+        iter_e.remove();
+        fail("IllegalStateException should have been thrown.");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testRemoveSubsequentCallToRemove()
+    {
+        nie.add(test_string);
+        nie.add(fake_string);
+
+        iter_e.next();
+        iter_e.remove();
+        iter_e.remove();
+        fail("IllegalStateException should have been thrown.");
     }
 
     private String[] getStrings()

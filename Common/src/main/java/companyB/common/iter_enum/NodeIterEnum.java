@@ -14,6 +14,7 @@ import java.util.Iterator;
 public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 {
     private node<E> head;
+    private boolean nextFlag;
 
     public NodeIterEnum()
     {
@@ -26,7 +27,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      */
     public boolean hasMoreElements()
     {
-        return (hasUnmarkedNodes(head));
+        return _hasUnmarkedNodes(head);
     }
 
     /**
@@ -44,7 +45,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      */
     public boolean hasNext()
     {
-        return hasMoreElements();
+        return _hasUnmarkedNodes(head);
     }
 
     /**
@@ -75,34 +76,38 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
     }
 
     /**
-     * This method is not implemented.
-     * Calling this method will throw a UnsupportedOperationException.
-     *
-     * @throws UnsupportedOperationException
+     * Removes next element from consideration.
+     * @throws java.lang.IllegalStateException If at least one call to 'next' has not been made prior to the current
+     * invocation of this method.
      * @since 1.0
      */
     public void remove()
     {
-        //remove the current node
-        //node temp = current.next
-        //current == null
-        //current = temp
-        throw new UnsupportedOperationException("This operation has not been implemented");
+        if(!nextFlag)
+        {
+            throw new IllegalStateException("A call to 'next' needs to be made before a call to remove.");
+        }
+        if(hasMoreElements())
+        {
+            _nextElement();
+        }
+        nextFlag = false;
     }
 
     private E _nextElement()
     {
+        nextFlag = true;
         if (!hasMoreElements())
         {
             return null;
         }
         else
         {
-            return getUnMarkedNode(head);
+            return _getUnMarkedNode(head);
         }
     }
 
-    private E getUnMarkedNode(node<E> _node)
+    private E _getUnMarkedNode(node<E> _node)
     {
         if (!_node.marked)
         {
@@ -111,11 +116,11 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
         }
         else
         {
-            return getUnMarkedNode(_node.next);
+            return _getUnMarkedNode(_node.next);
         }
     }
 
-    private boolean hasUnmarkedNodes(node<E> _node)
+    private boolean _hasUnmarkedNodes(node<E> _node)
     {
         if (_node == null)
         {
@@ -127,7 +132,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
         }
         else
         {
-            return hasUnmarkedNodes(_node.next);
+            return _hasUnmarkedNodes(_node.next);
         }
     }
 }
