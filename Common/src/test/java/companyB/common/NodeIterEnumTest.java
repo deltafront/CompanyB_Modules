@@ -210,6 +210,16 @@ public class NodeIterEnumTest
         fail("IllegalStateException should have been thrown.");
     }
 
+    @Test
+    public void testRemoveAfterAllGone()
+    {
+        nie.add(test_string);
+        iter_e.next();
+        iter_e.remove();
+        assertFalse(iter_e.hasNext());
+        assertNull(iter_e.next());
+    }
+
     private String[] getStrings()
     {
         String[] strings = new String[1000];
