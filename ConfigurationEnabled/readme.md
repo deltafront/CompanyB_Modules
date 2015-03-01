@@ -31,25 +31,25 @@ There are two ways that a ConfigEnabler can be utilized:
 
 1.  **Ad-Hoc**
     1.  Declare a new instance of ConfigEnabler, feeding it the name of the property file and the contextual family needed:
-        ```java
+        ```
             String fileName = "config.properties";
             String family = "foo";
             ConfigEnabler config = new ConfigEnabler(fileName,family);
         ```
     2.  Get the needed value from your now loaded configurations:
-        ```java
+        ```
             Long sleepCycle = config.getLong("sleepCycle");
         ```
 
 2. **Decorated**
     1.  In a class that has ConfigEnabler fields, decorate the fields using the 'ConfigEnabled' decoration:
-        ```java
+        ```
         @ConfigEnabled(filename = "config.properties", family = "foo")
         private ConfigEnabler configEnabler;
         ```
     
     2.  Process an instance of that class through the ClassLevelConfigEnabler:
-        ```java
+        ```
         AnnotatedClass toBeDecorated  = new AnnotatedClass();
         ClassLevelConfigEnabler.decorate(toBeDecorated);
         ```
