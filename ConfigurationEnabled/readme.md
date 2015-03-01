@@ -63,8 +63,8 @@ A few notes:
  found.
 *   If no default value is specified and the key is not found, the following values are returned:
 
-|Data Type  |Default Value  |
- ----------------------------
+|Data Type|Default Value|
+ -----------------------
 |short|0|
 |int|0              |
 |long	    |0L             |
