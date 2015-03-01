@@ -9,6 +9,7 @@
         <module>DataAccess</module>
         <module>HttpCookieEnabled</module>
         <module>Decorator</module>
+        <module>ContextEnabled</module>
     </modules>
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>

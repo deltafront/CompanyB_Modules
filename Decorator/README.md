@@ -52,3 +52,12 @@ The following scenarios are not supported by this module:
 
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
+
+## Maven Dependency Declaration
+```xml
+    <dependency>
+        <groupId>companyB</groupId>
+        <artifactId>Decorator</artifactId>
+        <version>1.0</version>
+    </dependency>
+```

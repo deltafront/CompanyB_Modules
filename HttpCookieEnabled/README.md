@@ -63,3 +63,12 @@ The Cookie Definition file must have at least two lines:
 ## Logging
 SLF4J is being used as a facade for logging; a runtime implementation will need to be provided.
 Most messages are being logged to trace or debug, except for in the case where exceptions have been thrown.
+
+## Maven Dependency Declaration
+```xml
+    <dependency>
+        <groupId>companyB</groupId>
+        <artifactId>HttpCookieEnabled</artifactId>
+        <version>1.0</version>
+    </dependency>
+```

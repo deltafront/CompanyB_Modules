@@ -9,6 +9,7 @@ import java.util.Iterator;
  *
  * @param <E>
  * @author C.A. Burrell deltafront@gmail.com
+ * @version 1.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
 public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>

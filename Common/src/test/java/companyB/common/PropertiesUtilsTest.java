@@ -15,16 +15,23 @@ import static org.junit.Assert.*;
 
 public class PropertiesUtilsTest
 {
-    private static String[] old_props = new String[]{"one=1", "two=2", "three=3", "four=4"};
-    private static String[] new_props = new String[]{"one=10", "two=20", "three=30", "four=40", "five=50"};
+    private static String[] old_props = {"one=1", "two=2", "three=3", "four=4"};
+    private static String[] new_props = {"one=10", "two=20", "three=30", "four=40", "five=50"};
     private static String old_prop_file_name = "old.properties";
     private static String new_prop_file_name = "new.properties";
+    private static String xml_prop_file = "config.properties.xml";
+    private static String[] xml_props = {
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>",
+            "<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">",
+            "<properties>","<entry key='one'>1</entry>","<entry key='two'>2</entry>",
+            "<entry key='three'>3</entry>","</properties>"};
 
     @BeforeClass
     public static void beforeClass()
     {
         writeToFile(old_props, old_prop_file_name);
         writeToFile(new_props, new_prop_file_name);
+        writeToFile(xml_props, xml_prop_file);
     }
 
     @Test
@@ -38,6 +45,9 @@ public class PropertiesUtilsTest
         assertEquals("20", PropertiesUtils.getProperty(new_prop_file_name, "two"));
         assertEquals("30", PropertiesUtils.getProperty(new_prop_file_name, "three"));
         assertEquals("40", PropertiesUtils.getProperty(new_prop_file_name, "four"));
+        assertEquals("1",PropertiesUtils.getProperty(xml_prop_file,"one"));
+        assertEquals("2",PropertiesUtils.getProperty(xml_prop_file,"two"));
+        assertEquals("3",PropertiesUtils.getProperty(xml_prop_file,"three"));
     }
 
     @Test

@@ -85,3 +85,12 @@ resources!
 *   This module makes use of the slf4j logging facade. A logging implementation should be supplied at runtime. 
 *   All returns from methods are logged at *debug*. All other statements are logged at *trace*, unless they are in a catch block,
     which case they are logged to *error* and include both the message and the stack trace.
+
+## Maven Dependency Declaration
+```xml
+    <dependency>
+        <groupId>ConfigurationEnabled</groupId>
+        <artifactId>Decorator</artifactId>
+        <version>1.0</version>
+    </dependency>
+```
