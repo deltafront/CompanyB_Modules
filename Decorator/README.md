@@ -7,13 +7,13 @@ This module seeks to alleviate that by providing one with the ability to decorat
 ## Usage
 1.  Annotate the fields that need to be decorated from a properties file
 ```java
-# Use this format if the name of the field matches the name of the property in the properties file
+#Use this format if the name of the field matches the name of the property in the properties file
 @Decorated
 private String foo;
-# Use the 'alternateName' field if the name of the field does not match the property in the properties file
+#Use the 'alternateName' field if the name of the field does not match the property in the properties file
 @Decorated(alternateName = "altFoo")
 private int integerValue;
-# Use the 'defaultValue' field if there is a default value that can be used in the case of when no value can be found.
+#Use the 'defaultValue' field if there is a default value that can be used in the case of when no value can be found.
 @Decorated(defaultValue = "42")
 private BigInteger bigIntValue;
 ```
