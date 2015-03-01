@@ -65,8 +65,8 @@ A few notes:
 
 |Data Type  |Default Value  |
  ----------------------------
-|short	    |0              |
-|int	    |0              |
+|short|0|
+|int|0              |
 |long	    |0L             |
 |float	    |0.0F           |
 |double	    |0.0D           |
