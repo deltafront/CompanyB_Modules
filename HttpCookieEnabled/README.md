@@ -47,9 +47,9 @@ The Cookie Definition file must have at least two lines:
 
 1. Header line
 
-```
-#name,value,domain,maxAge,path,secure,version,comment,httpOnly
-```
+ ```
+ #name,value,domain,maxAge,path,secure,version,comment,httpOnly
+ ```
 2. At least one line that has the following information in this exact order:
     I. name 
     II. value
