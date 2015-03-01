@@ -31,7 +31,8 @@ There are two ways that a ConfigEnabler can be utilized:
 
 1.  **Ad-Hoc**
     1.  Declare a new instance of ConfigEnabler, feeding it the name of the property file and the contextual family needed:
-        ```
+    
+        ```java
             String fileName = "config.properties";
             String family = "foo";
             ConfigEnabler config = new ConfigEnabler(fileName,family);
