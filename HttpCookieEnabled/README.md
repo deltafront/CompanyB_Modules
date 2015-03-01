@@ -14,7 +14,7 @@ This text file has to have the following header:
 See section [Cookie Definition file] below for more information
 
 2. Get the list of Default Cookies from the reader:
-``` java
+```java
 List<DefaultCookie> defaultCookies = CookieReader.readCookiesFromFile(filename);
 ```
 
