@@ -6,11 +6,10 @@ certain web application to function. This module is designed so that all of the 
 file and loaded at runtime via the application. 
 
 ## Usage
-
 1. First, you will need to make sure that there exists at least one text file that contains values for the cookie(s) that are required to be set. This text file has to have the following header (See section [Cookie Definition file] below for more information on each of the fields):
-```
-#name,value,domain,maxAge,path,secure,version,comment,httpOnly
-```
+ ```
+ #name,value,domain,maxAge,path,secure,version,comment,httpOnly
+ ```
 2. Get the list of Default Cookies from the reader:
 ```java
 List<DefaultCookie> defaultCookies = CookieReader.readCookiesFromFile(filename);
