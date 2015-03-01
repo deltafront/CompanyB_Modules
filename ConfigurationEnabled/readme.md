@@ -62,16 +62,15 @@ A few notes:
 *   Each of the get* methods are overloaded so that a default value can be specified to be returned if for some reason the desired key is not 
  found.
 *   If no default value is specified and the key is not found, the following values are returned:
-
-|Data Type|Default Value|
- -----------------------
-|short|0|
-|int|0              |
-|long	    |0L             |
-|float	    |0.0F           |
-|double	    |0.0D           |
-|String     |null           |
-|boolean	|false          |
+  *   *short (Short)* - 0
+  *   *int (Integer)* - 0
+  *   *Big Integer* - 0
+  *   *long (Long)*  - 0L
+  *   *float (Float)* - 0F
+  *   *double (Double)* - 0.0D
+  *   *BigDecimal* - 0.0
+  *   *String* - null
+  *   *boolean (Boolean)* - false
 
 *   Each instance of ConfigEnabler will return values based upon a single properties filename / contextual family paring. 
   *  If a different contextual family from the same properties file is needed, a separate instance of ConfigEnabler will need to be instantiated.
