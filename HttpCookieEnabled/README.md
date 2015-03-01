@@ -6,8 +6,8 @@ certain web application to function. This module is designed so that all of the 
 file and loaded at runtime via the application. 
 
 ## Usage
-1. First, you will need to make sure that there exists at least one text file that contains values for the cookie(s) that are required to be set.
-This text file has to have the following header:
+
+1. First, you will need to make sure that there exists at least one text file that contains values for the cookie(s) that are required to be set. This text file has to have the following header:
 ```
 #name,value,domain,maxAge,path,secure,version,comment,httpOnly
 ```
@@ -20,22 +20,22 @@ List<DefaultCookie> defaultCookies = CookieReader.readCookiesFromFile(filename);
 
 3. Use this list to either populate an instance of HttpServletResponse with the default cookies or get all of the existing
 Default Cookie values from an instance of HttpServletRequest:
-    I. Populate response:
+  I. Populate response:
     ```java
     DefaultCookieUtils utils = new DefaultCookieUtils(defaultCookies);
     utils.setDefaultCookies(response);
     ```
-    II. Get Default Cookies
+  II. Get Default Cookies
     ```java
     DefaultCookieUtils utils = new DefaultCookieUtils(defaultCookies);
     List<DefaultCookies> cookiesFromRequest = utils.getDefaultCookies(request);
     ```
-    III. Get a Default Cookie from the request
+  III. Get a Default Cookie from the request
     ```java
     DefaultCookieUtils utils = new DefaultCookieUtils(defaultCookies);
     Cookie cookie = utils.getDefaultCookie("Foo",request);
     ```
-    IV. Set a new value for a Default Cookie
+  IV. Set a new value for a Default Cookie
     ```java
     DefaultCookieUtils utils = new DefaultCookieUtils(defaultCookies);
     boolean cookieHasBeenSet = utils.setDefaultCookieValue("Foo","Bar",response);
