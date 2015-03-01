@@ -74,10 +74,10 @@ A few notes:
 |boolean	|false          |
 
 *   Each instance of ConfigEnabler will return values based upon a single properties filename / contextual family paring. 
-**  If a different contextual family from the same properties file is needed, a separate instance of ConfigEnabler will need to be instantiated.
+  *  If a different contextual family from the same properties file is needed, a separate instance of ConfigEnabler will need to be instantiated.
 For this case, however, the performance impact should be minimal, since all contextual families within a single properties file are loaded and 
 retained in memory for the duration of the application session.
-**  If a contextual family from a different properties file is needed, a separate instance of ConfigEnabler. This will cause all of the contextual
+  *  If a contextual family from a different properties file is needed, a separate instance of ConfigEnabler. This will cause all of the contextual
 families from that properties file to be loaded and added to any previously existing properties file contextual family mappings.
 Due to the key behavior in each of the cases above, it is recommended that only **absolute paths** are specified, and **not** classpath
 resources!
