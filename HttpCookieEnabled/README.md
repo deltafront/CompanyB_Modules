@@ -45,6 +45,7 @@ Once these values are loaded into Cookies, they can be updated at anytime before
 ## Cookie Definition file
 The Cookie Definition file must have at least two lines:
 1. Header line
+
 ```
 #name,value,domain,maxAge,path,secure,version,comment,httpOnly
 ```
