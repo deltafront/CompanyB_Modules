@@ -1,4 +1,4 @@
-# Decorated
+# Decorator
 
 ## Concepts
 Mapping instance fields to properties that are in properties files can be cumbersome and introduce a lot of duplicated code.
