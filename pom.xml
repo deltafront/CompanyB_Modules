@@ -10,6 +10,7 @@
         <module>HttpCookieEnabled</module>
         <module>Decorator</module>
         <module>ContextEnabled</module>
+        <module>HttpSessionEnabled</module>
     </modules>
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
