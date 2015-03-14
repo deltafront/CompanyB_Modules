@@ -23,6 +23,9 @@ Contains utilities for evaluation of string content.
 ### ToStringUtils
 Provides custom representations of Iterables and Maps.
 
+### RunTimeUtils
+Provides a one-step utility for executing simple commands.
+
 ### Converter
 This class converts Strings representations into various supported datatypes.
 
