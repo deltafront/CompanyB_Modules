@@ -9,7 +9,7 @@
 
     <name>SiteEnabled</name>
     <url>http://maven.apache.org</url>
-    <artifactId>SiteEnabled</artifactId>
+    <artifactId>HttpSiteEnabled</artifactId>
     <packaging>jar</packaging>
 
     <properties>

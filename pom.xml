@@ -12,7 +12,7 @@
         <module>ContextEnabled</module>
         <module>HttpSessionEnabled</module>
         <module>SpringEnabled</module>
-        <module>SiteEnabled</module>
+        <module>HttpSiteEnabled</module>
     </modules>
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
