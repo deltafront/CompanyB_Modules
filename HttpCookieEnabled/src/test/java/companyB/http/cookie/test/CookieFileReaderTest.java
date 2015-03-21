@@ -1,6 +1,6 @@
 package companyB.http.cookie.test;
 
-import companyB.http.cookie.CookieReader;
+import companyB.http.cookie.CookieFileReader;
 import companyB.http.cookie.DefaultCookie;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class CookieReaderTest extends TestBase
+public class CookieFileReaderTest extends TestBase
 {
 
     private String name = "foo";
@@ -217,7 +217,7 @@ public class CookieReaderTest extends TestBase
         String filename = writeCookieFile();
         try
         {
-            List<DefaultCookie> defaultCookies = CookieReader.readCookiesFromFile(filename);
+            List<DefaultCookie> defaultCookies = CookieFileReader.readCookiesFromFile(filename);
             assertNotNull(defaultCookies);
             if(cookiesExpected)
             {

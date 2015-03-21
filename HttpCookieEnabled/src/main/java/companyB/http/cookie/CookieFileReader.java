@@ -39,9 +39,9 @@ import java.util.List;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class CookieReader
+public abstract class CookieFileReader
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CookieReader.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CookieFileReader.class);
 
     /**
      * Reads the cookie definitions from the file.
