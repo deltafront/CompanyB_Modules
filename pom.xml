@@ -20,6 +20,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <common.version>1.0</common.version>
+        <decorator.version>1.0</decorator.version>
+        <data.access.version>1.0</data.access.version>
+        <spring.enabled.version>1.0</spring.enabled.version>
+        <http.site.enabled.version>1.0</http.site.enabled.version>
+        <http.cookie.enabled.version>1.0</http.cookie.enabled.version>
+        <http.session.enbled.version>1.0</http.session.enbled.version>
+        <configuration.enabled.version>1.0</configuration.enabled.version>
     </properties>
 
     <repositories>
@@ -51,11 +59,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
