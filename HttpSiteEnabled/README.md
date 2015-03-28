@@ -3,9 +3,9 @@
 ## Concept
 This module is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities
 that are to be made available globally within the context of a web application. This is done via three discreet concepts:
-1. Site - Information about the site as a whole.
-2. Context - Information about a particular operation within the site, usually bound to a specific page.
-3. UserContext - Container for activities that a user has performed on the site.
+  1. Site - Information about the site as a whole.
+  2. Context - Information about a particular operation within the site, usually bound to a specific page.
+  3. UserContext - Container for activities that a user has performed on the site.
 
 ## Usage
 1. Create a new Site reference:
