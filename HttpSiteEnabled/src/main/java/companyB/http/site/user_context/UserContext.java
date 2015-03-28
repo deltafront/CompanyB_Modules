@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Container for activities that a user has performed on the site.
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
@@ -69,6 +69,11 @@ public class UserContext
         return userActivities;
     }
 
+    /**
+     * Records the current user activity.
+     * @author Charles Burrell (deltafront@gmail.com)
+     * @version 1.0
+     */
     public static class UserActivity
     {
         public String pageId;

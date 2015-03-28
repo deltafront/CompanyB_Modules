@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -32,7 +33,7 @@ public class ContextUtilsTest
         EasyMock.expectLastCall();
         control.replay();
 
-        ContextUtils.wrapContext(session, "foo",context);
+        ContextUtils.wrapContext(session,context);
         control.verify();
     }
     @Test
@@ -64,6 +65,12 @@ public class ContextUtilsTest
         assertNotNull(end);
         assertTrue(start.before(end));
         assertEquals(fromSession.getOperationEnd(), end);
+        Set<String>keys = context.getReferences();
+        assertNotNull(keys);
+        for(String key : keys)
+        {
+            assertNotNull(context.get(key));
+        }
         control.verify();
     }
 
@@ -100,6 +107,7 @@ public class ContextUtilsTest
     {
         Site site = new Site("Foo","123", IsoLang.English, null, IsoLocale.United_States);
         Context context = new Context("index.html","login",site,"TestContext");
+        context.setObject("foo","bar");
         return context;
     }
 

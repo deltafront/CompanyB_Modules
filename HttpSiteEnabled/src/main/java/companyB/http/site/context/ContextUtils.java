@@ -17,16 +17,15 @@ public abstract class ContextUtils
     /**
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.
-     * @param contextAttributeName Name that this context is to be keyed to when it to be wrapped in an HttpSession.
      * @param context Context to wrap into session.
      * @since 1.0
      */
-    public static <T extends Context> void wrapContext(HttpSession session, final String contextAttributeName, final T context)
+    public static <T extends Context> void wrapContext(HttpSession session, final T context)
     {
         Validate.notNull(session);
         String string = new Gson().toJson(context);
-        session.setAttribute(contextAttributeName, context);
-        LOGGER.trace(String.format("Wrapping Context to key '%s'\n%s", contextAttributeName, string));
+        session.setAttribute(context.getContextAttributeName(), context);
+        LOGGER.trace(String.format("Wrapping Context to key '%s'\n%s", context.getContextAttributeName(), string));
     }
 
     /**

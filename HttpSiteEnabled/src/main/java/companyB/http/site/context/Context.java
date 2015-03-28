@@ -6,6 +6,9 @@ import companyB.http.site.Site;
 import org.apache.commons.lang3.Validate;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Container that holds applicable data concerning the current context.
@@ -21,6 +24,7 @@ public class Context
     private final Site site;
     private final String contextAttributeName;
     private boolean operationEnded;
+    private final Map<String,Object> objects;
 
     /**
      * Default constructor.
@@ -40,6 +44,7 @@ public class Context
         this.pageId = pageId;
         this.operation = operation;
         this.operationStart = new Timestamp(System.currentTimeMillis());
+        this.objects = new HashMap<>();
     }
 
     /**
@@ -115,6 +120,40 @@ public class Context
     public String getContextAttributeName()
     {
         return contextAttributeName;
+    }
+
+    /**
+     * Associates an object reference with this context.
+     * @param key Key to associate object reference with.
+     * @param object Object to be associated.
+     * @since 1.0
+     */
+    public void setObject(String key, Object object)
+    {
+        Validate.notBlank(key);
+        objects.put(key,object);
+    }
+
+    /**
+     *
+     * @param key Key that is associated with reference.
+     * @param <T> Type parameter.
+     * @return Object associated with reference.
+     * @since 1.0
+     */
+    @SuppressWarnings("unchecked")
+    public <T>T get(String key)
+    {
+        return (T)objects.get(key);
+    }
+
+    /**
+     * @return Listing of all keys in mapping.
+     * @since 1.0
+     */
+    public Set<String>getReferences()
+    {
+        return objects.keySet();
     }
 
     @Override

@@ -33,7 +33,7 @@ public class UserContextUtilsTest
         EasyMock.expectLastCall();
         control.replay();
 
-        UserContextUtils.wrapContext(session,"foo",setUpContext());
+        UserContextUtils.wrapContext(session,setUpContext());
         control.verify();
     }
 
@@ -43,10 +43,10 @@ public class UserContextUtilsTest
         control = EasyMock.createControl();
         session = control.createMock(HttpSession.class);
         UserContext userContext = setUpContext();
-        EasyMock.expect(session.getAttribute("foo")).andReturn(userContext);
+        EasyMock.expect(session.getAttribute(UserContext.USER_CONTEXT_IDENTIFIER)).andReturn(userContext);
         control.replay();
 
-        UserContext fromSession = UserContextUtils.unwrapContext(session,"foo");
+        UserContext fromSession = UserContextUtils.unwrapContext(session);
         assertNotNull(fromSession);
         assertEquals(userContext.getUserId(),fromSession.getUserId());
         assertNotNull(fromSession.getUserActivities());
@@ -59,10 +59,10 @@ public class UserContextUtilsTest
     {
         control = EasyMock.createControl();
         session = control.createMock(HttpSession.class);
-        EasyMock.expect(session.getAttribute("foo")).andReturn("Bar");
+        EasyMock.expect(session.getAttribute(UserContext.USER_CONTEXT_IDENTIFIER)).andReturn("Bar");
         control.replay();
 
-        UserContext fromSession = UserContextUtils.unwrapContext(session,"foo");
+        UserContext fromSession = UserContextUtils.unwrapContext(session);
         assertNull(fromSession);
         control.verify();
     }
@@ -72,10 +72,10 @@ public class UserContextUtilsTest
     {
         control = EasyMock.createControl();
         session = control.createMock(HttpSession.class);
-        EasyMock.expect(session.getAttribute("foo")).andReturn(null);
+        EasyMock.expect(session.getAttribute(UserContext.USER_CONTEXT_IDENTIFIER)).andReturn(null);
         control.replay();
 
-        UserContext fromSession = UserContextUtils.unwrapContext(session,"foo");
+        UserContext fromSession = UserContextUtils.unwrapContext(session);
         assertNull(fromSession);
         control.verify();
     }
