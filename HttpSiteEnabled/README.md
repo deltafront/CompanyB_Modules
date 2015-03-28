@@ -8,24 +8,21 @@ that are to be made available globally within the context of a web application. 
   3. UserContext - Container for activities that a user has performed on the site.
 
 ## Usage
-1. Create a new Site reference:
+  1. Create a new Site reference:
 ```java
     Site site = new Site("main","123",IsoLang.English,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},IsoLocale.UnitedStates);
 ```
-
-2. For each operation on a page, create a new Context and associate it with the current session:
+  2. For each operation on a page, create a new Context and associate it with the current session:
 ```java
     Context context = new Context("login.html", "register", site, "myLogin");
     ContextUtils.wrapContext(request.getSession(),context);
 ```
-
-3. When the operation is ended, get the context from the session and end the operation:
+  3. When the operation is ended, get the context from the session and end the operation:
 ```java
     context = ContextUtils.unwrapContext(request.getSession(), "myLogin");
     context.endOp();
 ```
-
-4. To start or continue a record of User Activity, use the UserContext:
+  4. To start or continue a record of User Activity, use the UserContext:
 ```java
     UserContext userContext = new UserContext("user:foo");
     //or if the userContext exists already
