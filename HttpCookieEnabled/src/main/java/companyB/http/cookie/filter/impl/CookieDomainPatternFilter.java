@@ -19,7 +19,7 @@ public class CookieDomainPatternFilter implements CookieFilter
         this.pattern = Pattern.compile(regex);
     }
     @Override
-    public List<Cookie> filter(List<Cookie> cookies)
+    public List<Cookie> filter(Cookie[] cookies)
     {
         final List<Cookie>cookieList = new LinkedList<>();
         for(final Cookie cookie : cookies)

@@ -12,5 +12,5 @@ import java.util.List;
 public interface CookieFilter
 {
     final static Logger LOGGER = LoggerFactory.getLogger(CookieFilter.class);
-    public List<Cookie>filter(List<Cookie>cookies);
+    public List<Cookie>filter(Cookie[]cookies);
 }

@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,10 +24,9 @@ public class CookieFilterer
     public List<Cookie>processCookies(HttpServletRequest request)
     {
         List<Cookie>cookies = new LinkedList<>();
-        Collections.addAll(cookies, request.getCookies());
         for(CookieFilter cookieFilter : cookieFilters)
         {
-            cookies = cookieFilter.filter(cookies);
+            cookies = cookieFilter.filter(request.getCookies());
             LOGGER.trace(String.format("Returning %d cookies filtered by %s.",
                     cookies.size(),cookieFilter.getClass().getCanonicalName()));
         }

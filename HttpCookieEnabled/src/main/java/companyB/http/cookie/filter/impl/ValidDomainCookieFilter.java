@@ -9,13 +9,12 @@ import java.util.List;
 /**
  * Created by Charles Burrell (deltafront@gmail.com).
  */
-public class InvalidDomainCookieFilter implements CookieFilter
+public class ValidDomainCookieFilter implements CookieFilter
 {
-    private final String[] invalidDomains;
-
-    public InvalidDomainCookieFilter(String... invalidDomains)
+    private final String[]validDomains;
+    public ValidDomainCookieFilter(String...validDomains)
     {
-        this.invalidDomains = invalidDomains;
+        this.validDomains = validDomains;
     }
     @Override
     public List<Cookie> filter(Cookie[] cookies)
@@ -23,20 +22,14 @@ public class InvalidDomainCookieFilter implements CookieFilter
         final List<Cookie>cookieList = new LinkedList<>();
         for(final Cookie cookie : cookies)
         {
-            boolean isValid = true;
-            for(final String domain : invalidDomains)
+            for(final String domain : validDomains)
             {
-                LOGGER.trace(String.format("Evaluating cookie domain %s against disallowed domain %s.",
+                LOGGER.trace(String.format("Evaluating cookie domain %s against allowed domain %s.",
                         cookie.getDomain(), domain));
                 if (cookie.getDomain().equals(domain))
                 {
-                   isValid = false;
-                    break;
+                    cookieList.add(cookie);
                 }
-            }
-            if(isValid)
-            {
-                cookieList.add(cookie);
             }
         }
         LOGGER.trace(String.format("Returning %d cookies.",cookieList.size()));

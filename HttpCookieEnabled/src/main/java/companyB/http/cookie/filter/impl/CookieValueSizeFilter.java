@@ -19,7 +19,7 @@ public class CookieValueSizeFilter implements CookieFilter
     }
 
     @Override
-    public List<Cookie> filter(List<Cookie> cookies)
+    public List<Cookie> filter(Cookie[] cookies)
     {
         final List<Cookie>cookieList = new LinkedList<>();
         for(Cookie cookie : cookies)
