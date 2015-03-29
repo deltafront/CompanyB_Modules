@@ -9,12 +9,10 @@ The following modules are currently available:
 * [**Common**](https://github.com/deltafront/CompanyB_Modules/tree/master/Common) - This module contains reusable components for consumption by other modules and applications.
 * [**ConfigurationEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ConfigurationEnabled) - This module allows several identically named properties to exist in the same property file delineated only by a contextual family.
 * [**ContextEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ContextEnabled)- This module is meant to provide the interface for (and default implantation of) a thread-safe application context that can be shared between classes running within a single application.
-* [**Decortator**](https://github.com/deltafront/CompanyB_Modules/tree/master/Decorator) - This module provides one with the ability to decorate particular class fields directly using standard reflection.
-* [**HttpCookieEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpCookieEnabled) - This module is designed to remove some of the boilerplate code around setting cookies that are required in order for a certain web application to function. 
-
-Coming soon:
-* [**HttpSessionEnabled**]() - This module is designed to remove some of the boilerplate code around setting session attributes that are required in order for a certain web application to function. 
-* [**DataAccess**](https://github.com/deltafront/CompanyB_Modules/tree/master/DataAccess) - Provides a default interface and Hibernate-based implementation that will accommplish roughly 85% of all common data access actions.
+* [**Decorator**](https://github.com/deltafront/CompanyB_Modules/tree/master/Decorator) - This module provides one with the ability to decorate particular class fields directly using standard reflection.
+* [**HttpCookieEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpCookieEnabled) - This module is designed to remove some of the boilerplate code around setting cookies that are required in order for a certain web application to function.
+* [**HttpSessionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSessionEnabled) - This module is designed to remove some of the boilerplate code around setting session attributes that are required in order for a certain web application to function.
+* [**HttpSiteEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSiteEnabled) - This module is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities that are to be made available globally within the context of a web application.
 
 ## Contributing
 ### Become a contributor
