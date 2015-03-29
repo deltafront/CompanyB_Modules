@@ -18,7 +18,6 @@ This module allows you to define and access attributes that should be present in
     DefaultSessionAttributes defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.properties");
 ```
 3. Use the utils to set and get these attributes:
-
 ```java
     DefaultSessionUtils utils = new DefaultSessionUtils(defaultSessionAttributes);
     utils.setDefaultSessionAttribute(request, "foo",42,true,true);
