@@ -4,7 +4,7 @@
 This module allows you to define and access attributes that should be present in every session.
 
 ## Usage
-1. Create a Session Definition file.The file must contain one line adhering to the following:
+* Create a Session Definition file.The file must contain one line adhering to the following:
   * If maxInterval is to be defined:
   ```
     42=foo,bar,one,two
@@ -13,11 +13,11 @@ This module allows you to define and access attributes that should be present in
   ```
     foo,bar,one,two
    ```
-2. Read this file:
+* Read this file:
 ```java
     DefaultSessionAttributes defaultSessionAttributes= DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.properties");
 ```
-3. Use the utils to set and get these attributes:
+* Use the utils to set and get these attributes:
 ```java
     DefaultSessionUtils utils = new DefaultSessionUtils(defaultSessionAttributes);
     utils.setDefaultSessionAttribute(request, "foo",42,true,true);
