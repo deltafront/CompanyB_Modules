@@ -23,3 +23,18 @@ If you would like to contribute directly to these modules, please Please email [
 Please log all issues [here](https://github.com/deltafront/CompanyB_Modules/issues)
 ### Project tracking
 Post 2.0 work will be tracked using [Trello](http://trello.com). You will need to be a member of the CompanyB Trello orginization in order to see the current status of all work. Please email [deltafront@gmail.com](mailto:deltafront@gmail.com) for access.
+
+## PMD
+By default, PMD is executed during the Maven build. We are using the basic ruleset found [here](http://pmd.sourceforge.net/pmd-4.3.0/rules/basic.html).
+
+## Jacoco
+Jacoco code coverage is executed during the builds. The following targets are supposed to be met:
+* **Instruction** - 80%
+* **Branch** - 80%
+
+## Versioning
+The following format will be used for versioning:
+*Major*.*Minor*.*Point*
+* **Major** - These releases will comprise new functionalities, modules and significant issue resolutions.
+* **Minor** - These releases will comprise minor new features and bugfixes
+* **Point** - These releases will comprise mainly documentation and dependency updates.
