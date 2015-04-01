@@ -1,14 +1,14 @@
 package companyB.http.site;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertNotNull;
 
-
+@Test(groups = {"unit","site","http.session.enabled"})
 public class SiteTest
 {
     private IsoLang primaryIsoLang;
@@ -18,7 +18,7 @@ public class SiteTest
     private String id;
 
 
-    @Before
+    @BeforeMethod
     public void before()
     {
         primaryIsoLang = IsoLang.English;
@@ -28,7 +28,7 @@ public class SiteTest
         id = "Bar";
     }
 
-    @Test
+
     public void nullLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,null,isoLocale);
@@ -42,7 +42,7 @@ public class SiteTest
         assertNotNull(site.getHostName());
 
     }
-    @Test
+
     public void zeroLenLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[0],isoLocale);
@@ -56,7 +56,7 @@ public class SiteTest
         assertNotNull(site.getHostName());
 
     }
-    @Test
+
     public void nonEmptyLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
@@ -69,7 +69,7 @@ public class SiteTest
         assertNotNull(site.getHostIpAddress());
         assertNotNull(site.getHostName());
     }
-    @Test
+
     public void emptyLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[100],isoLocale);
@@ -83,7 +83,7 @@ public class SiteTest
         assertNotNull(site.getHostName());
     }
 
-    @Test
+
     public void allLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,isoLangs,isoLocale);

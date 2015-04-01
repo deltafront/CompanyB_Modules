@@ -6,7 +6,7 @@ import companyB.http.site.Site;
 import companyB.http.site.context.Context;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,16 +15,14 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.easymock.EasyMock.anyObject;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
+@Test(groups = {"unit","user.context.utils","http.session.enabled"})
 public class UserContextUtilsTest
 {
 
     private IMocksControl control;
     private HttpSession session;
 
-    @Test
+
     public void setUserContext()
     {
         control = EasyMock.createControl();
@@ -37,7 +35,7 @@ public class UserContextUtilsTest
         control.verify();
     }
 
-    @Test
+
     public void getUserContext()
     {
         control = EasyMock.createControl();
@@ -54,7 +52,7 @@ public class UserContextUtilsTest
         control.verify();
     }
 
-    @Test
+
     public void getStringUserContext()
     {
         control = EasyMock.createControl();
@@ -67,7 +65,7 @@ public class UserContextUtilsTest
         control.verify();
     }
 
-    @Test
+
     public void getNullUserContext()
     {
         control = EasyMock.createControl();

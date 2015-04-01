@@ -1,12 +1,13 @@
 package companyB.http.site;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static junit.framework.TestCase.assertNotNull;
 
+@Test(groups = {"unit","iso","http.session.enabled"})
 public class IsoTest
 {
-    @Test
+
     public void testIsoLangNonEmpty()
     {
         IsoLang[]isoLangs = IsoLang.values();
@@ -15,7 +16,7 @@ public class IsoTest
             assertNotNull(String.format("No abbreviation for IsoLang '%s'.",isoLang),isoLang.abbr);
         }
     }
-    @Test
+
     public void testIsoLocaleNonEmpty()
     {
         IsoLocale[]isoLocales = IsoLocale.values();

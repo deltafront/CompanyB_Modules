@@ -1,7 +1,7 @@
 package companyB.common;
 
 import companyB.common.utils.CollectionsSplitter;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -11,16 +11,17 @@ import static org.junit.Assert.*;
 
 @SuppressWarnings("unchecked")
 
+@Test(groups = {"unit","list.splitter","common"})
 public class ListSplitterTest
 {
-    @Test
+    
     public void NullSet()
     {
         Set set = null;
         assertEquals(0, CollectionsSplitter.split(set, 0, CollectionsSplitter.optimization_strategy.number_of_lists).size());
     }
 
-    @Test
+    
     public void TwoItemsSet()
     {
         Set<String> set = new LinkedHashSet<String>();
@@ -34,7 +35,7 @@ public class ListSplitterTest
         }
     }
 
-    @Test
+    
     public void SplitNumSet()
     {
         Set<String> set = new LinkedHashSet<String>();
@@ -52,7 +53,7 @@ public class ListSplitterTest
         }
     }
 
-    @Test
+    
     public void EvenNumSet()
     {
         Set<String> set = new LinkedHashSet<String>();
@@ -68,7 +69,7 @@ public class ListSplitterTest
         }
     }
 
-    @Test
+    
     public void ItemsPerListManyLists()
     {
         Set<String> set = new LinkedHashSet<String>();
@@ -92,7 +93,7 @@ public class ListSplitterTest
         }
     }
 
-    @Test
+    
     public void ItemsPerListOneList()
     {
         Set<String> set = new LinkedHashSet<String>();
@@ -109,7 +110,7 @@ public class ListSplitterTest
         }
     }
 
-    @Test
+    
     public void getOptimizationValues()
     {
         for (CollectionsSplitter.optimization_strategy strategy : CollectionsSplitter.optimization_strategy.values())

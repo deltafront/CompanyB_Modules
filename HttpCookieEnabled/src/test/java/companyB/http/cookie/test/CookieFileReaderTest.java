@@ -2,7 +2,7 @@ package companyB.http.cookie.test;
 
 import companyB.http.cookie.CookieFileReader;
 import companyB.http.cookie.DefaultCookie;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.Cookie;
 import java.io.File;
@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Test(groups = {"unit","cookie.file.reader","http.cookie.enabled"})
 public class CookieFileReaderTest extends TestBase
 {
 
@@ -28,88 +29,61 @@ public class CookieFileReaderTest extends TestBase
     private String httpOnly = "true";
     private String[]boolVals = {"true","false","TRUE","FALSE"};
 
-    //#name,value,domain,maxAge,path,secure,version,comment,httpOnly
-    private String writeCookieFile()
-    {
-        String header = "#name,value,domain,maxAge,path,secure,version,comment,httpOnly";
-        String content = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",name,value,domain,maxAge,path,secure,version,comment,httpOnly);
-        List<String>lines = new LinkedList<>();
-        lines.add(header);
-        lines.add(content);
-        String filename = null;
-        try
-        {
-            File file = File.createTempFile("cookie","definition");
-            Writer writer = new FileWriter(file);
-            for(String line : lines)
-            {
-                writer.write(String.format("%s\n",line));
-            }
-            writer.close();
-            filename = file.getAbsolutePath();
-            file.deleteOnExit();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return filename;
-    }
-
-    @Test
+    
     public void allValues()
     {
         doTest(true);
     }
-    @Test
+    
     public void missingName()
     {
         name = "";
         doTest(false);
     }
-    @Test
+    
     public void missingValue()
     {
         value = "";
         doTest(false);
     }
-    @Test
+    
     public void missingDomain()
     {
         domain = "";
         doTest(false);
     }
-    @Test
+    
     public void missingPath()
     {
         path = "";
         doTest(false);
     }
-    @Test
+    
     public void missingComment()
     {
         comment = "";
         doTest(false);
     }
-    @Test
+    
     public void missingMaxAge()
     {
         maxAge = "";
         doTest(false);
     }
-    @Test
+    
     public void missingVersion()
     {
         version = "";
         doTest(false);
     }
-    @Test
+    
     public void invalidVersion()
     {
         version = "2";
         doTest(false);
     }
-    @Test
+
+    @Test(enabled = false)
     public void validVersions()
     {
         version = "1";
@@ -117,19 +91,19 @@ public class CookieFileReaderTest extends TestBase
         version = "0";
         doTest(true);
     }
-    @Test
+    
     public void missingSecure()
     {
         secure = "";
         doTest(false);
     }
-    @Test
+    
     public void invalidSecure()
     {
         secure = "yes";
         doTest(false);
     }
-    @Test
+    @Test(enabled = false)
     public void validSecure()
     {
         for (String val : boolVals)
@@ -138,20 +112,21 @@ public class CookieFileReaderTest extends TestBase
             doTest(true);
         }
     }
-    @Test
+    
     public void missingHttpOnly()
     {
         httpOnly = "";
         doTest(false);
     }
 
-    @Test
+    
     public void invalidHttpOnly()
     {
         httpOnly = "no";
         doTest(false);
     }
-    @Test
+
+    @Test(enabled = false)
     public void validHttpOnly()
     {
         for (String val : boolVals)
@@ -239,11 +214,32 @@ public class CookieFileReaderTest extends TestBase
                 fail("This exception should not have been thrown.");
             }
         }
-
     }
-
-
-
-
-
+    //#name,value,domain,maxAge,path,secure,version,comment,httpOnly
+    private String writeCookieFile()
+    {
+        String header = "#name,value,domain,maxAge,path,secure,version,comment,httpOnly";
+        String content = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",name,value,domain,maxAge,path,secure,version,comment,httpOnly);
+        List<String>lines = new LinkedList<>();
+        lines.add(header);
+        lines.add(content);
+        String filename = null;
+        try
+        {
+            File file = File.createTempFile("cookie","definition");
+            Writer writer = new FileWriter(file);
+            for(String line : lines)
+            {
+                writer.write(String.format("%s\n",line));
+            }
+            writer.close();
+            filename = file.getAbsolutePath();
+            file.deleteOnExit();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return filename;
+    }
 }

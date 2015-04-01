@@ -1,13 +1,13 @@
 package companyB.common;
 
 import companyB.common.utils.RuntimeUtils;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static junit.framework.TestCase.assertNotNull;
 
+@Test(groups = {"unit","runtime.utils","common"})
 public class RuntimeUtilsTest
 {
-    @Test
     public void testRunSimpleCommand()
     {
         String out = RuntimeUtils.executeCommand("date");

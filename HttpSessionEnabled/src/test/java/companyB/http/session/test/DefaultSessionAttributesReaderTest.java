@@ -3,7 +3,7 @@ package companyB.http.session.test;
 import companyB.http.session.DefaultSessionAttributes;
 import companyB.http.session.DefaultSessionAttributesReader;
 import junit.framework.TestCase;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,16 +12,15 @@ import java.io.Writer;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
+@Test(groups = {"unit","default.session.attributes","http.session.enabled"})
 public class DefaultSessionAttributesReaderTest
 {
     private DefaultSessionAttributes defaultSessionAttributes;
     private String filename;
 
-    @Test
+
     public void invalidFile()
     {
         defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
@@ -29,7 +28,7 @@ public class DefaultSessionAttributesReaderTest
         assertNotNull(defaultSessionAttributes.maxInterval);
         assertNull(defaultSessionAttributes.defaultSessionAttributeNames);
     }
-    @Test
+
     public void noMaxIntervalSingleArg()
     {
         String[]args = new String[]{"foo"};
@@ -38,7 +37,7 @@ public class DefaultSessionAttributesReaderTest
         defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
-    @Test
+
     public void noMaxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};
@@ -48,7 +47,7 @@ public class DefaultSessionAttributesReaderTest
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
 
-    @Test
+
     public void maxIntervalSingleArg()
     {
         String[]args = new String[]{"foo"};
@@ -57,7 +56,7 @@ public class DefaultSessionAttributesReaderTest
         defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
-    @Test
+
     public void maxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};

@@ -5,7 +5,7 @@ import companyB.common.objects.test;
 import companyB.common.utils.FactoryUtils;
 import junit.framework.Assert;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -15,6 +15,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Test(groups = {"unit","factory.utils","common"})
 public class FactoryUtilsTest
 {
 
@@ -29,7 +30,7 @@ public class FactoryUtilsTest
     private Object[]objects = new Object[]{Integer.MAX_VALUE,Long.MAX_VALUE,Short.MAX_VALUE,Double.MAX_VALUE,Byte.MAX_VALUE,Character.MAX_VALUE,
             Boolean.TRUE};
 
-    @Test
+    
     public void testLoadObjectTrue()
     {
         Object loaded = FactoryUtils.loadObject(valid_class_name);
@@ -37,14 +38,14 @@ public class FactoryUtilsTest
         assertTrue(loaded instanceof test);
     }
 
-    @Test
+    
     public void testLoadObjectFalse()
     {
         Object loaded = FactoryUtils.loadObject("java.lang.Foo");
         assertNull(loaded);
     }
 
-    @Test
+    
     public void notStatic()
     {
         Object loaded_1 = FactoryUtils.loadObject(valid_class_name, false);
@@ -56,7 +57,7 @@ public class FactoryUtilsTest
         assertTrue(loaded_1.hashCode() != loaded_2.hashCode());
     }
 
-    @Test
+    
     public void isStaticInitial()
     {
         Object loaded_1 = FactoryUtils.loadObject(valid_class_name, true);
@@ -68,7 +69,7 @@ public class FactoryUtilsTest
         assertTrue(loaded_1.hashCode() == loaded_2.hashCode());
     }
 
-    @Test
+    
     public void isStaticAfter()
     {
         Object loaded_1 = FactoryUtils.loadObject(valid_class_name, false);
@@ -85,7 +86,7 @@ public class FactoryUtilsTest
         assertTrue(loaded_3.hashCode() != loaded_1.hashCode());
     }
 
-    @Test
+    
     public void isStaticOneNotTwoIsThree()
     {
         Object loaded_1 = FactoryUtils.loadObject(valid_class_name, true);
@@ -101,7 +102,7 @@ public class FactoryUtilsTest
         assertTrue(loaded_3.hashCode() == loaded_1.hashCode());
         assertTrue(loaded_3.hashCode() != loaded_2.hashCode());
     }
-    @Test
+    
     public void instantiateNoArgs()
     {
         Object[]args = new Object[]{};
@@ -111,7 +112,7 @@ public class FactoryUtilsTest
         assertEquals(false, testObject.booleanValue);
         assertEquals(42,testObject.intValue);
     }
-    @Test
+    
     public void instantiateOneArgsTrue()
     {
         Object[]args = new Object[]{17,"this",true};
@@ -141,7 +142,7 @@ public class FactoryUtilsTest
             }
         }
     }
-    @Test
+    
     public void instantiateOneArgsTrueBoxed()
     {
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
@@ -152,7 +153,7 @@ public class FactoryUtilsTest
         }
     }
 
-    @Test
+    
     public void instantiateThreeArgsTrue()
     {
         Object[]args = new Object[]{17,"this",true};
@@ -162,14 +163,14 @@ public class FactoryUtilsTest
         assertEquals(true,testObject.booleanValue);
         assertEquals(17,testObject.intValue);
     }
-    @Test
+    
     public void instantiateThreeArgsWrongOrder()
     {
         Object[]args = new Object[]{"this",17,true};
         TestObject testObject = FactoryUtils.getInstance(TestObject.class,args);
         assertNull(testObject);
     }
-    @Test
+    
     public void instantiateThreeArgsTrueBoxed()
     {
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
@@ -180,7 +181,7 @@ public class FactoryUtilsTest
         assertEquals(17,testObject.intValue);
     }
 
-    @Test
+    
     public void instantiateTwoArgsTrue()
     {
         Object[]args_a = new Object[]{true,"this"};
@@ -196,7 +197,7 @@ public class FactoryUtilsTest
         verifyTestInstance(testObject_c,args_c);
     }
 
-    @Test
+    
     public void withGenericInterface()
     {
         LinkedList<String> list = new LinkedList<>();
@@ -205,7 +206,8 @@ public class FactoryUtilsTest
         assertNotNull(testObject);
         assertEquals(list, testObject.booleanIterable);
     }
-    @Test
+
+    @Test(enabled = false)
     @Ignore("Known issue when we try to pass along a generic that has the wrong type.")
     public void withGenericInterfaceWrongType()
     {
@@ -219,7 +221,7 @@ public class FactoryUtilsTest
         assertNull(testObject);
     }
 
-    @Test
+    
     public void instantiateInvalidArgs()
     {
         Object[]args = {Long.MAX_VALUE};

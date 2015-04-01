@@ -1,19 +1,19 @@
 package companyB.http.site;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static junit.framework.TestCase.assertNotNull;
-
+@Test(groups = {"unit","site.utils","http.session.enabled"})
 public class SiteUtilsTest
 {
-    @Test
+
     public void testGetLocalHostName()
     {
         String hostName = SiteUtils.getHostName();
         assertNotNull(hostName);
         System.out.println(hostName);
     }
-    @Test
+
     public void testGetLocalIpAddress()
     {
         String ipAddress = SiteUtils.getLocalIpAddress();
