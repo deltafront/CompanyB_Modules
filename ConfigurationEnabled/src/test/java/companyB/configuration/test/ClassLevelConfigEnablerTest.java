@@ -3,7 +3,7 @@ package companyB.configuration.test;
 import companyB.configuration.ClassLevelConfigEnabler;
 import companyB.configuration.ConfigEnabled;
 import companyB.configuration.ConfigEnabler;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,9 +15,9 @@ import java.util.List;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
+@Test(groups = {"unit","class.level.config","configuration.enabled"})
 public class ClassLevelConfigEnablerTest
 {
-    @Test
     public void testClassLevelDecorating()
     {
         boolean passed = false;

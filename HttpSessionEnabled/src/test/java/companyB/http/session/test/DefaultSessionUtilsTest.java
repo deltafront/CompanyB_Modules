@@ -4,7 +4,7 @@ import companyB.http.session.DefaultSessionAttributes;
 import companyB.http.session.DefaultSessionUtils;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,13 +12,9 @@ import java.util.LinkedList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
+@Test(groups = {"unit","default.session.utils","http.session.enabled"})
 public class DefaultSessionUtilsTest
 {
     private HttpServletRequest request;
@@ -29,7 +25,6 @@ public class DefaultSessionUtilsTest
     private DefaultSessionUtils sessionUtils;
 
 
-    @Test
     public void getValidAttributeRemoveFalse()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -56,7 +51,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void getValidAttributeRemoveTrue()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -91,7 +86,7 @@ public class DefaultSessionUtilsTest
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = {IllegalArgumentException.class})
     public void getInvalidAttribute()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -117,7 +112,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = {IllegalArgumentException.class})
     public void setInvalidAttribute()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -141,7 +136,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test(expected = NullPointerException.class)
+    @Test(expectedExceptions = {NullPointerException.class})
     public void setValidAttributeNoSessionNotSettingSession()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -167,7 +162,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeNoSessionSettingSession()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -193,7 +188,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeSessionSettingMaxInterval()
     {
         IMocksControl control = EasyMock.createNiceControl();
@@ -219,7 +214,7 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeSessionNotSettingMaxInterval()
     {
         IMocksControl control = EasyMock.createNiceControl();

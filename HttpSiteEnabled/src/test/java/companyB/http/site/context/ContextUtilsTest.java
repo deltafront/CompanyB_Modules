@@ -5,7 +5,7 @@ import companyB.http.site.IsoLocale;
 import companyB.http.site.Site;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
@@ -17,12 +17,13 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.easymock.EasyMock.anyObject;
 import static org.junit.Assert.assertNull;
 
+@Test(groups = {"unit","context.utils","http.session.enabled"})
 public class ContextUtilsTest
 {
     private HttpSession session;
     private IMocksControl control;
 
-    @Test
+
     public void setContext()
     {
         control = EasyMock.createControl();
@@ -36,7 +37,7 @@ public class ContextUtilsTest
         ContextUtils.wrapContext(session,context);
         control.verify();
     }
-    @Test
+
     public void getContext()
     {
         control = EasyMock.createControl();
@@ -74,7 +75,7 @@ public class ContextUtilsTest
         control.verify();
     }
 
-    @Test
+
     public void getStringContext()
     {
         control = EasyMock.createControl();
@@ -88,7 +89,7 @@ public class ContextUtilsTest
         control.verify();
     }
 
-    @Test
+
     public void getNullContext()
     {
         control = EasyMock.createControl();

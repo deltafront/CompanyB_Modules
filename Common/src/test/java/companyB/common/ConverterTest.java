@@ -1,7 +1,7 @@
 package companyB.common;
 
 import companyB.common.conversion.Converter;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,22 +12,20 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-
+@Test(groups = {"unit","converter","common"})
 public class ConverterTest
 {
-    @Test
     public void testTrueBoolean()
     {
         testForBoolean(true);
     }
 
-    @Test
     public void testFalseBoolean()
     {
         testForBoolean(false);
     }
 
-    @Test
+
     public void testNumberConversions()
     {
         String numberString = "42";
@@ -47,7 +45,7 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testByteConversion()
     {
         String byteValues = "This needs to be converted into bytes";
@@ -60,7 +58,7 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testIsByte()
     {
         for (Class c : new Class[]{Byte.class, byte.class})
@@ -69,13 +67,13 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testInvalidSupportedType()
     {
         assertFalse(Converter.isSupported(this.getClass()));
     }
 
-    @Test
+
     public void testValidSupportedTypes()
     {
         for (Class c : Converter.supportedClasses)
@@ -84,7 +82,7 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testGetStringOrChar()
     {
         String charValue = "c";
@@ -97,7 +95,7 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testIsStringOrChar()
     {
         for (Class c : new Class[]{String.class, char.class, Character.class})
@@ -106,7 +104,7 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testIsBigType()
     {
         for (Class c : new Class[]{BigDecimal.class, BigInteger.class})
@@ -115,13 +113,13 @@ public class ConverterTest
         }
     }
 
-    @Test
+
     public void testConvertToBigDecimal()
     {
         testForBig(BigDecimal.class);
     }
 
-    @Test
+
     public void testConvertToBigInteger()
     {
         testForBig(BigInteger.class);
