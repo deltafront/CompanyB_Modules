@@ -51,16 +51,19 @@ public class EncryptedDecorator
             final Field[]fields = instance.getClass().getDeclaredFields();
             for(final Field field : fields)
             {
-                field.setAccessible(true);
-                final Encrypted encrypted = field.getAnnotation(Encrypted.class);
-                if(null != encrypted)
+                if(String.class.equals(field.getType()))
                 {
-                    final Object fromClass = field.get(instance);
-                    Validate.notNull(fromClass);
-                    final String encryptedValue = encrypted.algorithm().encrypt(String.valueOf(fromClass));
-                    field.set(instance,encryptedValue);
-                    LOGGER.trace(String.format("Encrypting value on field %s using algorithm %s.",
-                            field.getName(), encrypted.algorithm().name()));
+                    field.setAccessible(true);
+                    final Encrypted encrypted = field.getAnnotation(Encrypted.class);
+                    if(null != encrypted)
+                    {
+                        final Object fromClass = field.get(instance);
+                        Validate.notNull(fromClass);
+                        final String encryptedValue = encrypted.algorithm().encrypt(String.valueOf(fromClass));
+                        field.set(instance,encryptedValue);
+                        LOGGER.trace(String.format("Encrypting value on field %s using algorithm %s.",
+                                field.getName(), encrypted.algorithm().name()));
+                    }
                 }
             }
         }
