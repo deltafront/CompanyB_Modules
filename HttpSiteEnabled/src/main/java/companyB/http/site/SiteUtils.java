@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
  * @author Charles Burrell (deltafront@gmail.com).
  * @version 1.0
  */
-public abstract class SiteUtils
+public class SiteUtils
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(SiteUtils.class);
 
@@ -27,8 +27,9 @@ public abstract class SiteUtils
      * @return Hostname or null if it cannot be found.
      * @since 1.0
      */
-    public static String getHostName()
+    public String getHostName()
     {
+        final RuntimeUtils runtimeUtils = new RuntimeUtils();
         String hostname = null;
         InetAddress inetAddress = getLocalInetAddress();
         Validate.notNull(inetAddress);
@@ -43,7 +44,7 @@ public abstract class SiteUtils
         }
         if(StringUtils.isBlank(hostname))
         {
-           hostname = RuntimeUtils.executeCommand("hostname");
+           hostname = runtimeUtils.executeCommand("hostname");
         }
         LOGGER.debug(String.format("Returning hostname '%s'.", hostname));
         return hostname;
@@ -53,7 +54,7 @@ public abstract class SiteUtils
      * @return Local IP Address.
      * @since 1.0
      */
-    public static String getLocalIpAddress()
+    public String getLocalIpAddress()
     {
         InetAddress inetAddress = getLocalInetAddress();
         Validate.notNull(inetAddress);

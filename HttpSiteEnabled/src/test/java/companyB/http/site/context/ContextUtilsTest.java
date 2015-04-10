@@ -5,6 +5,7 @@ import companyB.http.site.IsoLocale;
 import companyB.http.site.Site;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,12 @@ public class ContextUtilsTest
 {
     private HttpSession session;
     private IMocksControl control;
+    private ContextUtils contextUtils;
+    @BeforeMethod
+    public void before()
+    {
+        contextUtils = new ContextUtils();
+    }
 
 
     public void setContext()
@@ -34,7 +41,7 @@ public class ContextUtilsTest
         EasyMock.expectLastCall();
         control.replay();
 
-        ContextUtils.wrapContext(session,context);
+        contextUtils.wrapContext(session,context);
         control.verify();
     }
 
@@ -47,7 +54,7 @@ public class ContextUtilsTest
         EasyMock.expect(session.getAttribute("TestContext")).andReturn(context);
         control.replay();
 
-        Context fromSession = ContextUtils.unwrapContext("TestContext",session);
+        Context fromSession = contextUtils.unwrapContext("TestContext",session);
         assertNotNull(fromSession);
         assertEquals(fromSession.getContextAttributeName(),context.getContextAttributeName());
         assertEquals(fromSession.getPageId(),context.getPageId());
@@ -84,7 +91,7 @@ public class ContextUtilsTest
         EasyMock.expect(session.getAttribute("TestContext")).andReturn("Bar");
         control.replay();
 
-        Context fromSession = ContextUtils.unwrapContext("TestContext",session);
+        Context fromSession = contextUtils.unwrapContext("TestContext",session);
         assertNull(fromSession);
         control.verify();
     }
@@ -98,7 +105,7 @@ public class ContextUtilsTest
         EasyMock.expect(session.getAttribute("TestContext")).andReturn(null);
         control.replay();
 
-        Context fromSession = ContextUtils.unwrapContext("TestContext",session);
+        Context fromSession = contextUtils.unwrapContext("TestContext",session);
         assertNull(fromSession);
         control.verify();
     }

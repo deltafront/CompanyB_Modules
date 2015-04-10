@@ -50,15 +50,17 @@ public class ConfigEnabler
     {
         Validate.notNull(filename);
         Validate.notNull(family);
+        final CustomPropertiesReader customPropertiesReader = new CustomPropertiesReader();
+        final CustomMapper customMapper = new CustomMapper();
         if(!property_mappings.containsKey(filename))
         {
-            Map<String,String>props = CustomPropertiesReader.read(filename);
+            Map<String,String>props = customPropertiesReader.read(filename);
             property_mappings.put(filename,props);
             LOGGER.trace(String.format("Hashing all properties for properties file '%s'.",filename));
         }
         Map<String,String>properties = property_mappings.get(filename);
         Validate.notEmpty(properties);
-        Map<String,Map<String,String>>mappings = CustomMapper.getMappings(properties);
+        Map<String,Map<String,String>>mappings = customMapper.getMappings(properties);
         Validate.notEmpty(mappings);
         mapping = mappings.get(family);
         Validate.notEmpty(mappings);

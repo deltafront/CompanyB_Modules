@@ -11,7 +11,7 @@ import java.util.List;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class SupportedClasses
+public class SupportedClasses
 {
     private static Class[] _supported = new Class[]
      {   Long.class,long.class,String.class, Integer.class, int.class,
@@ -30,7 +30,7 @@ public abstract class SupportedClasses
      * @return String containing all of the currently supported classes.
      * @since 1.0
      */
-    public static String getSupportedClassesList()
+    public String getSupportedClassesList()
     {
         StringBuilder stringBuilder = new StringBuilder("[");
         for(Class c : supportedClasses)

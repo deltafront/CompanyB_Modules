@@ -3,6 +3,7 @@ package companyB.http.session.test;
 import companyB.http.session.DefaultSessionAttributes;
 import companyB.http.session.DefaultSessionAttributesReader;
 import junit.framework.TestCase;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -19,11 +20,18 @@ public class DefaultSessionAttributesReaderTest
 {
     private DefaultSessionAttributes defaultSessionAttributes;
     private String filename;
+    private DefaultSessionAttributesReader defaultSessionAttributesReader;
+
+    @BeforeMethod
+    public void before()
+    {
+        defaultSessionAttributesReader = new DefaultSessionAttributesReader();
+    }
 
 
     public void invalidFile()
     {
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
         assertNotNull(defaultSessionAttributes);
         assertNotNull(defaultSessionAttributes.maxInterval);
         assertNull(defaultSessionAttributes.defaultSessionAttributeNames);
@@ -34,7 +42,7 @@ public class DefaultSessionAttributesReaderTest
         String[]args = new String[]{"foo"};
         Integer maxInterval = null;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
 
@@ -43,7 +51,7 @@ public class DefaultSessionAttributesReaderTest
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = null;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
 
@@ -53,7 +61,7 @@ public class DefaultSessionAttributesReaderTest
         String[]args = new String[]{"foo"};
         Integer maxInterval = 42;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
 
@@ -62,7 +70,7 @@ public class DefaultSessionAttributesReaderTest
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = 42;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
     private String writeFile(Integer maxInterval, String...attributes)

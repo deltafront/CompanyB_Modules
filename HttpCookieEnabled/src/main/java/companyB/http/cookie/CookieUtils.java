@@ -12,10 +12,17 @@ import java.lang.reflect.Method;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 1.0
  */
-public abstract class Utils
+public class CookieUtils
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Utils.class);
-    public static String cookieToString(Cookie cookie)
+    private final static Logger LOGGER = LoggerFactory.getLogger(CookieUtils.class);
+
+    /**
+     * Prints this cookie to String.
+     * @param cookie Cookie to be printed.
+     * @return String representation of Cookie.
+     * @since 1.0
+     */
+    public String cookieToString(Cookie cookie)
     {
         StringBuilder stringBuilder = new StringBuilder("");
         Method[]methods = cookie.getClass().getMethods();

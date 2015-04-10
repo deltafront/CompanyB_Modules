@@ -19,7 +19,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
 {
     protected final static Logger LOGGER = LoggerFactory.getLogger(DefaultIApplicationContext.class);
     protected static Map<String, Object> mapping;
-
+    protected FactoryUtils factoryUtils;
     static
     {
         if (null == mapping)
@@ -35,6 +35,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     public DefaultIApplicationContext()
     {
         super();
+        this.factoryUtils = new FactoryUtils();
     }
 
     /**
@@ -51,7 +52,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
             Object[] args = container.getArgs();
             Validate.notNull(c);
             Validate.notBlank(id);
-            Object instance = FactoryUtils.getInstance(c, args);
+            Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
             LOGGER.trace(String.format("Instantiated instance of '%s' (number of args: %d).",
                     c.getCanonicalName(), args.length));
@@ -91,7 +92,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     {
         if (!mapping.containsKey(id))
         {
-            mapping.put(id, FactoryUtils.getInstance(c, args));
+            mapping.put(id, factoryUtils.getInstance(c, args));
         }
         T out = (T) mapping.get(id);
         LOGGER.trace(String.format("Instance of %s returned? %b", c.getCanonicalName(), null != out));

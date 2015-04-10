@@ -14,6 +14,7 @@ public class UnsupportedTypeException extends Throwable
      */
     public UnsupportedTypeException(Class c)
     {
-        super(String.format("'%s' is not a supported type!\nSupported types are %s.",c.getCanonicalName(),SupportedClasses.getSupportedClassesList()));
+        super(String.format("'%s' is not a supported type!\nSupported types are %s.",
+                c.getCanonicalName(),new SupportedClasses().getSupportedClassesList()));
     }
 }

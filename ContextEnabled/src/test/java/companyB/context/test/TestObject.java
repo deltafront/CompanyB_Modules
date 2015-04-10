@@ -9,6 +9,7 @@ public class TestObject
     public String stringValue;
     public boolean booleanValue;
     public Iterable<Boolean> booleanIterable;
+    private ToStringUtils toStringUtils;
 
     public TestObject()
     {
@@ -47,11 +48,12 @@ public class TestObject
         this.stringValue = stringValue;
         this.booleanValue = booleanValue;
         this.intValue = intValue;
+        this.toStringUtils = new ToStringUtils();
     }
 
     public String toString()
     {
-        return String.format("%s %s %s %s",intValue,booleanValue,stringValue, ToStringUtils.iterableToString(booleanIterable));
+        return String.format("%s %s %s %s",intValue,booleanValue,stringValue, toStringUtils.iterableToString(booleanIterable));
     }
 
 }

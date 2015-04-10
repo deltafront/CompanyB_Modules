@@ -36,7 +36,7 @@ import java.util.List;
  * @version 1.0
  */
 @SuppressWarnings("ALL")
-public abstract class Converter
+public class Converter
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(Converter.class);
     private final static Class[] _supported = new Class[]
@@ -119,7 +119,7 @@ public abstract class Converter
      * @return Whether or not the indicated class is supported.
      * @since 1.0
      */
-    public static boolean isSupported(Class c)
+    public boolean isSupported(Class c)
     {
         return supportedClasses.contains(c);
     }
@@ -129,7 +129,7 @@ public abstract class Converter
      * @return If class represents a number type.
      * @since 1.0
      */
-    public static boolean isNumberType(Class c)
+    public boolean isNumberType(Class c)
     {
         return numberClasses.contains(c);
     }
@@ -139,7 +139,7 @@ public abstract class Converter
      * @return Is either a BigDecimal or BigInteger.
      * @since 1.0
      */
-    public static boolean isBigType(Class c)
+    public boolean isBigType(Class c)
     {
         return BigDecimal.class.equals(c) || BigInteger.class.equals(c);
     }
@@ -149,7 +149,7 @@ public abstract class Converter
      * @return If class represents a Boolean type.
      * @since 1.0
      */
-    public static boolean isBoolean(Class c)
+    public boolean isBoolean(Class c)
     {
         return boolean.class.equals(c) || Boolean.class.equals(c);
     }
@@ -159,7 +159,7 @@ public abstract class Converter
      * @return If class represents a Byte type.
      * @since 1.0
      */
-    public static boolean isByte(Class c)
+    public boolean isByte(Class c)
     {
         return byte.class.equals(c) || Byte.class.equals(c);
     }
@@ -169,7 +169,7 @@ public abstract class Converter
      * @return If the class represents a Character type or is a string.
      * @since 1.0
      */
-    public static boolean isCharOrString(Class c)
+    public boolean isCharOrString(Class c)
     {
         return char.class.equals(c) ||
                 Character.class.equals(c) ||
@@ -181,7 +181,7 @@ public abstract class Converter
      * @return Byte representation.
      * @since 1.0
      */
-    public static Byte convertToByte(String value)
+    public Byte convertToByte(String value)
     {
         Byte out = Byte.parseByte(value);
         logOut(out);
@@ -194,7 +194,7 @@ public abstract class Converter
      * @return String or Character representation.
      * @since 1.0
      */
-    public static <T> T convertToStringOrChar(String value, Class<T> classType)
+    public <T> T convertToStringOrChar(String value, Class<T> classType)
     {
         Object out = char.class.equals(classType) || Character.class.equals(classType) ?
                 new Character(value.charAt(0)) : value;
@@ -208,7 +208,7 @@ public abstract class Converter
      * @return Either BigDecimal or BigInteger representaion.
      * @since 1.0
      */
-    public static <T> T convertToBig(String value, Class<T> classType)
+    public <T> T convertToBig(String value, Class<T> classType)
     {
         Object out = BigDecimal.class.equals(classType) ? new BigDecimal(value) :
                 (BigInteger.class.equals(classType)) ? new BigInteger(value) :
@@ -223,7 +223,7 @@ public abstract class Converter
      * @return Numeric representation.
      * @since 1.0
      */
-    public static <T> T convertToNumber(String value, Class<T> classType)
+    public <T> T convertToNumber(String value, Class<T> classType)
     {
         Object out = value;
         if (null != value)
@@ -254,7 +254,7 @@ public abstract class Converter
      * @return Boolean representation.
      * @since 1.0
      */
-    public static Boolean convertToBoolean(String value)
+    public Boolean convertToBoolean(String value)
     {
         Boolean out = null;
         if (trueValues.contains(value.toLowerCase()))
@@ -269,7 +269,7 @@ public abstract class Converter
         return out;
     }
 
-    private static void logOut(Object out)
+    private void logOut(Object out)
     {
         String outToString = (null == out) ? "" : String.valueOf(out);
         String className = (null == out) ? "Null" : out.getClass().getCanonicalName();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="SimpleRegexUtils" class="companyB.common.utils.SimpleRegexUtils"/>
+    <bean id="ToStringUtils" class="companyB.common.utils.ToStringUtils"/>
+    <bean id="CollectionsSplitter" class="companyB.common.utils.CollectionsSplitter"/>
+    <bean id="FactoryUtils" class="companyB.common.utils.FactoryUtils"/>
+    <bean id="PropertiesUtils" class="companyB.common.utils.PropertiesUtils"/>
+    <bean id="RuntimeUtils" class="companyB.common.utils.RuntimeUtils"/>
+    <bean id="Converter" class="companyB.common.conversion.Converter"/>
+</beans>

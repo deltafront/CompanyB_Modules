@@ -192,7 +192,8 @@ public class CookieFileReaderTest extends TestBase
         String filename = writeCookieFile();
         try
         {
-            List<DefaultCookie> defaultCookies = CookieFileReader.readCookiesFromFile(filename);
+            CookieFileReader cookieFileReader =  new CookieFileReader();
+            List<DefaultCookie> defaultCookies = cookieFileReader.readCookiesFromFile(filename);
             assertNotNull(defaultCookies);
             if(cookiesExpected)
             {

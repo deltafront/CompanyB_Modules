@@ -6,6 +6,7 @@ import companyB.decorated.test.testclasses.AbstractTestClass;
 import companyB.decorated.test.testclasses.StaticMemberTestClass;
 import companyB.decorated.test.testclasses.TestClass;
 import companyB.decorated.test.testclasses.UnsupportedTypeTestClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -20,6 +21,12 @@ import static junit.framework.TestCase.fail;
 public class DecoratorTest
 {
     private TestClass testClass;
+    private BeanDecorator beanDecorator;
+    @BeforeMethod
+    public void before()
+    {
+        beanDecorator = new BeanDecorator();
+    }
 
     public void stringValNoDefault() throws UnsupportedTypeException
     {
@@ -126,7 +133,7 @@ public class DecoratorTest
         String value = "1,2,3";
         Properties properties = new Properties();
         properties.setProperty("stringListVal", value);
-        BeanDecorator.decorate(UnsupportedTypeTestClass.class,properties);
+        beanDecorator.decorate(UnsupportedTypeTestClass.class,properties);
         fail("As of now, Lists are not supported.");
     }
 
@@ -135,7 +142,7 @@ public class DecoratorTest
         String value = "value";
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
-        TestClass.PublicInnerClass publicInnerClass = BeanDecorator.decorate(TestClass.PublicInnerClass.class,properties);
+        TestClass.PublicInnerClass publicInnerClass = beanDecorator.decorate(TestClass.PublicInnerClass.class,properties);
         assertEquals(value, publicInnerClass.stringVal);
     }
 
@@ -144,7 +151,7 @@ public class DecoratorTest
         String value = "value";
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
-        AbstractTestClass abstractTestClass = BeanDecorator.decorate(AbstractTestClass.class,properties);
+        AbstractTestClass abstractTestClass = beanDecorator.decorate(AbstractTestClass.class,properties);
         assertNull(abstractTestClass);
     }
 
@@ -154,7 +161,7 @@ public class DecoratorTest
         String value = "value";
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
-        StaticMemberTestClass staticMemberTestClass = BeanDecorator.decorate(StaticMemberTestClass.class,properties);
+        StaticMemberTestClass staticMemberTestClass = beanDecorator.decorate(StaticMemberTestClass.class,properties);
         assertNull(StaticMemberTestClass.stringVal);
     }
 
@@ -162,7 +169,7 @@ public class DecoratorTest
     {
         Properties properties = new Properties();
         properties.setProperty(key,value);
-        testClass = BeanDecorator.decorate(TestClass.class,properties);
+        testClass = beanDecorator.decorate(TestClass.class,properties);
     }
 
 }

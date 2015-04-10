@@ -16,9 +16,15 @@ import java.util.Properties;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class BeanDecorator
+public class BeanDecorator
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(BeanDecorator.class);
+    private Converter converter;
+
+    public BeanDecorator()
+    {
+        this.converter = new Converter();
+    }
 
     /**
      * Decorates the fields of a class that are annotated with the @Decorated annotation. See the documentation for supported types.
@@ -29,7 +35,7 @@ public abstract class BeanDecorator
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
      * @since 1.0
      */
-    public static <T> T decorate(Class<T> typeOf, String propertiesFileName) throws UnsupportedTypeException
+    public <T> T decorate(Class<T> typeOf, String propertiesFileName) throws UnsupportedTypeException
     {
         T out = null;
         try
@@ -53,7 +59,7 @@ public abstract class BeanDecorator
      * @throws UnsupportedTypeException if any of the annotated field are of a type that is not supported.
      * @since 1.0
      */
-    public static <T> T decorate(T instance, String propertiesFileName) throws UnsupportedTypeException
+    public <T> T decorate(T instance, String propertiesFileName) throws UnsupportedTypeException
     {
         T out = null;
         Properties properties = new Properties();
@@ -87,7 +93,7 @@ public abstract class BeanDecorator
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
      * @since 1.0
      */
-    public static<T> T decorate(Class<T>typeOf, Properties properties) throws UnsupportedTypeException
+    public <T> T decorate(Class<T>typeOf, Properties properties) throws UnsupportedTypeException
     {
         T out = null;
         try
@@ -112,7 +118,7 @@ public abstract class BeanDecorator
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
      * @since 1.0
      */
-    public static <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
+    public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {
         T out = instance;
         try
@@ -144,11 +150,11 @@ public abstract class BeanDecorator
         }
         return out;
     }
-    private static String getName(Field field, Decorated decorated)
+    private String getName(Field field, Decorated decorated)
     {
         return (0 != decorated.alternateName().length()) ? decorated.alternateName() : field.getName();
     }
-    private static String getValue(String key, Decorated decorated, Properties properties)
+    private String getValue(String key, Decorated decorated, Properties properties)
     {
         String value = properties.getProperty(key);
         if(value == null || 0 == value.length())
@@ -157,38 +163,38 @@ public abstract class BeanDecorator
         }
         return value;
     }
-    private static Object coerce(String value, Class objectClassTypeClass) throws UnsupportedTypeException
+    private Object coerce(String value, Class objectClassTypeClass) throws UnsupportedTypeException
     {
         Object out = value;
-        if(!Converter.isSupported(objectClassTypeClass))
+        if(!converter.isSupported(objectClassTypeClass))
         {
             throw new UnsupportedTypeException(objectClassTypeClass);
         }
         if(value != null && 0 < value.length())
         {
-            if(Converter.isNumberType(objectClassTypeClass))
+            if(converter.isNumberType(objectClassTypeClass))
             {
-                out = Converter.convertToNumber(value, objectClassTypeClass);
+                out = converter.convertToNumber(value, objectClassTypeClass);
             }
-            else if (Converter.isBoolean(objectClassTypeClass))
+            else if (converter.isBoolean(objectClassTypeClass))
             {
-                out = Converter.convertToBoolean(value);
+                out = converter.convertToBoolean(value);
             }
             else if (objectClassTypeClass.equals(char.class) || objectClassTypeClass.equals(Character.class))
             {
                 out = value.charAt(0);
             }
-            else if (Converter.isBigType(objectClassTypeClass))
+            else if (converter.isBigType(objectClassTypeClass))
             {
-                out = Converter.convertToBig(value, objectClassTypeClass);
+                out = converter.convertToBig(value, objectClassTypeClass);
             }
-            else if (Converter.isByte(objectClassTypeClass))
+            else if (converter.isByte(objectClassTypeClass))
             {
-                out = Converter.convertToByte(value);
+                out = converter.convertToByte(value);
             }
-            else if(Converter.isCharOrString(objectClassTypeClass))
+            else if(converter.isCharOrString(objectClassTypeClass))
             {
-                out = Converter.convertToStringOrChar(value, objectClassTypeClass);
+                out = converter.convertToStringOrChar(value, objectClassTypeClass);
             }
         }
         return out;

@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class CustomMapper
+public class CustomMapper
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(CustomMapper.class);
 
@@ -23,7 +23,7 @@ public abstract class CustomMapper
      * @return Family mappings from the properties mapping.
      * @since 1.0
      */
-    public static Map<String,Map<String,String>>getMappings(Map<String,String> properties)
+    public Map<String,Map<String,String>>getMappings(Map<String,String> properties)
     {
         Validate.notNull(properties);
         final Map<String,Map<String,String>> mappings = new HashMap<>();

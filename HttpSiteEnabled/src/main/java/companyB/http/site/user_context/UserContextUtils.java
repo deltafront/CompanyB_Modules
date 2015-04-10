@@ -22,7 +22,7 @@ public class UserContextUtils
      * @param userContext UserContext to wrap into session.
      * @since 1.0
      */
-    public static <T extends UserContext> void wrapContext(HttpSession session, final T userContext)
+    public <T extends UserContext> void wrapContext(HttpSession session, final T userContext)
     {
         Validate.notNull(session);
         String string = new Gson().toJson(userContext);
@@ -36,7 +36,7 @@ public class UserContextUtils
      * @return UserContext from HttpSession.
      * @since 1.0
      */
-    public static UserContext unwrapContext(HttpSession session)
+    public UserContext unwrapContext(HttpSession session)
     {
         Validate.notNull(session);
         UserContext context = null;

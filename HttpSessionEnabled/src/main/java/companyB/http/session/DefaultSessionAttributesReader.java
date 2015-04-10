@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class DefaultSessionAttributesReader
+public class DefaultSessionAttributesReader
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(DefaultSessionAttributesReader.class);
 
@@ -27,7 +27,7 @@ public abstract class DefaultSessionAttributesReader
      * @return DefaultSessionAttributes object.
      * @since 1.0
      */
-    public static DefaultSessionAttributes readDefaultSessionAttributes(String filename)
+    public DefaultSessionAttributes readDefaultSessionAttributes(String filename)
     {
         DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
         final File file = new File(filename);
@@ -58,7 +58,7 @@ public abstract class DefaultSessionAttributesReader
      * @return DefaultSessionAttributes object.
      * @since 1.0
      */
-    public static DefaultSessionAttributes getDefaultSessionAttributes(String line)
+    public DefaultSessionAttributes getDefaultSessionAttributes(String line)
     {
         LOGGER.trace(String.format("Getting DefaultSessionAttributes from line:\n%s",line));
         final DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
