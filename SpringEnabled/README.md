@@ -1,7 +1,7 @@
 # SpringEnabled
 
 ## Purpose
-By importing this module, you get a pre-built set of dependencies suitable for building most Sprint-based applications.
+By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications.
 Also included are the following:
 
 ### Annotations
