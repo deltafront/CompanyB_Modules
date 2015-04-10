@@ -12,7 +12,7 @@ import java.util.List;
  * @version 1.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
-public abstract class CollectionsSplitter
+public class CollectionsSplitter
 {
     public enum optimization_strategy
     {
@@ -32,7 +32,7 @@ public abstract class CollectionsSplitter
      * @since 1.0
      */
     @SuppressWarnings("unchecked")
-    public static List<List> split(Collection collection, int split_num, optimization_strategy strategy)
+    public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
         if (collection == null)
         {
@@ -45,7 +45,7 @@ public abstract class CollectionsSplitter
     }
 
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
-    private static List<List> number_of_lists(Collection collection, int num)
+    private List<List> number_of_lists(Collection collection, int num)
     {
         List<List> list = new LinkedList<List>();
         for (int i = 0; i < num; i++)
@@ -68,7 +68,7 @@ public abstract class CollectionsSplitter
 
     //helper methods
     @SuppressWarnings("unchecked")
-    private static List<List> number_of_items(Collection collection, int num)
+    private List<List> number_of_items(Collection collection, int num)
     {
         List<List> list = new LinkedList<List>();
         Iterator iter = collection.iterator();

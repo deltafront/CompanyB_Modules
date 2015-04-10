@@ -19,6 +19,7 @@ public class DefaultCookieUtils
     private final static Logger LOGGER = LoggerFactory.getLogger(DefaultCookieUtils.class);
     private List<DefaultCookie>defaultCookies;
     private Set<String>defaultCookieNames;
+    private CookieUtils cookieUtils;
 
     /**
      * Default constructor.
@@ -33,6 +34,7 @@ public class DefaultCookieUtils
         {
             defaultCookieNames.add(defaultCookie.getCookie().getName());
         }
+        this.cookieUtils = new CookieUtils();
     }
 
     /**
@@ -50,7 +52,7 @@ public class DefaultCookieUtils
             response.addCookie(cookie);
             counter++;
             LOGGER.trace(String.format("Added cookie %d of %d to request:\n%s",
-                    counter, defaultCookies.size(),Utils.cookieToString(cookie)));
+                    counter, defaultCookies.size(), cookieUtils.cookieToString(cookie)));
         }
         LOGGER.debug(String.format("Number of cookies set: %d",counter));
         return counter;
@@ -76,7 +78,7 @@ public class DefaultCookieUtils
                 {
                     cookie.setValue(value);
                     response.addCookie(cookie);
-                    LOGGER.trace(String.format("Adding Default cookie to response:\n%s",Utils.cookieToString(cookie)));
+                    LOGGER.trace(String.format("Adding Default cookie to response:\n%s", cookieUtils.cookieToString(cookie)));
                     isSet = true;
                 }
             }
@@ -105,7 +107,7 @@ public class DefaultCookieUtils
             {
                 final Cookie cookie = cookieMap.get(name);
                 cookies.add(cookieMap.get(name));
-                LOGGER.trace(String.format("Adding cookie to list:\n%s",Utils.cookieToString(cookie)));
+                LOGGER.trace(String.format("Adding cookie to list:\n%s", cookieUtils.cookieToString(cookie)));
             }
         }
         LOGGER.debug(String.format("Returning %d cookies.", cookies.size()));
@@ -154,7 +156,7 @@ public class DefaultCookieUtils
             for(final Cookie cookie : cookies)
             {
                 cookieMap.put(cookie.getName(),cookie);
-                LOGGER.trace(String.format("Adding cookie to mapping: %s",Utils.cookieToString(cookie)));
+                LOGGER.trace(String.format("Adding cookie to mapping: %s", cookieUtils.cookieToString(cookie)));
             }
         }
         return cookieMap;

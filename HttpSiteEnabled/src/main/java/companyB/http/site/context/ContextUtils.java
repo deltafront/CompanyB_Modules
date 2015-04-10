@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class ContextUtils
+public class ContextUtils
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(ContextUtils.class);
     /**
@@ -20,7 +20,7 @@ public abstract class ContextUtils
      * @param context Context to wrap into session.
      * @since 1.0
      */
-    public static <T extends Context> void wrapContext(HttpSession session, final T context)
+    public <T extends Context> void wrapContext(HttpSession session, final T context)
     {
         Validate.notNull(session);
         String string = new Gson().toJson(context);
@@ -35,7 +35,7 @@ public abstract class ContextUtils
      * @return Context from Session, or null if not found.
      * @since 1.0
      */
-    public static <T extends Context> T unwrapContext(String contextAttributeName, HttpSession session)
+    public <T extends Context> T unwrapContext(String contextAttributeName, HttpSession session)
     {
         Context context = null;
         Object o_context = session.getAttribute(contextAttributeName);

@@ -5,6 +5,7 @@ import companyB.decorated.UnsupportedTypeException;
 import companyB.decorated.test.testclasses.AbstractFileLoadedTestClass;
 import companyB.decorated.test.testclasses.FileLoadedTestClass;
 import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,6 +21,12 @@ public class FileLoadedTestClassTest
     private AbstractFileLoadedTestClass abstractFileLoadedTestClass;
     private String key = "stringVal";
     private String value = "value";
+    private BeanDecorator beanDecorator;
+    @BeforeMethod
+    public void before()
+    {
+        beanDecorator = new BeanDecorator();
+    }
 
     @Test
     public void validPropertiesFile() throws UnsupportedTypeException
@@ -68,9 +75,9 @@ public class FileLoadedTestClassTest
             fileWriter.write(property);
             fileWriter.close();
             fileLoadedTestClass = (loadCorrectFile) ?
-                    BeanDecorator.decorate(FileLoadedTestClass.class,file.getAbsolutePath()) :
-                    BeanDecorator.decorate(FileLoadedTestClass.class, "test.properties");
-            abstractFileLoadedTestClass = BeanDecorator.decorate(AbstractFileLoadedTestClass.class,file.getAbsolutePath());
+                    beanDecorator.decorate(FileLoadedTestClass.class,file.getAbsolutePath()) :
+                    beanDecorator.decorate(FileLoadedTestClass.class, "test.properties");
+            abstractFileLoadedTestClass = beanDecorator.decorate(AbstractFileLoadedTestClass.class,file.getAbsolutePath());
 
         }
         catch (IOException e)

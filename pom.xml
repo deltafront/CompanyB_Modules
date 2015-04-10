@@ -2,7 +2,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <name>Maven Default Project</name>
-    <version>1.0</version>
+    <groupId>companyB</groupId>
+    <artifactId>core</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1.0</version>
     <modules>
         <module>Common</module>
         <module>ConfigurationEnabled</module>
@@ -14,22 +17,21 @@
         <module>SpringEnabled</module>
         <module>HttpSiteEnabled</module>
     </modules>
-    <groupId>companyB</groupId>
-    <artifactId>core</artifactId>
-    <packaging>pom</packaging>
 
     <properties>
+        <master.version>1.1.0</master.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <common.version>1.0</common.version>
-        <decorator.version>1.0</decorator.version>
-        <data.access.version>1.0</data.access.version>
-        <spring.enabled.version>1.0</spring.enabled.version>
-        <http.site.enabled.version>1.0</http.site.enabled.version>
-        <http.cookie.enabled.version>1.0</http.cookie.enabled.version>
-        <http.session.enbled.version>1.0</http.session.enbled.version>
-        <configuration.enabled.version>1.0</configuration.enabled.version>
+        <common.version>${master.version}</common.version>
+        <decorator.version>${master.version}</decorator.version>
+        <data.access.version>${master.version}</data.access.version>
+        <spring.enabled.version>${master.version}</spring.enabled.version>
+        <http.site.enabled.version>${master.version}</http.site.enabled.version>
+        <http.cookie.enabled.version>${master.version}</http.cookie.enabled.version>
+        <http.session.enbled.version>${master.version}</http.session.enbled.version>
+        <configuration.enabled.version>${master.version}</configuration.enabled.version>
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
+        <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
     </properties>
 
     <repositories>

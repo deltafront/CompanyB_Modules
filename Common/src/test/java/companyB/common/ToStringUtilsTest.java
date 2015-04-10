@@ -1,6 +1,7 @@
 package companyB.common;
 
 import companyB.common.utils.ToStringUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertNotNull;
 @Test(groups = {"unit","to.string.utils","common"})
 public class ToStringUtilsTest
 {
+    private ToStringUtils toStringUtils;
     private String basicList = "[0,1,2,3,4,5,6,7,8,9]";
     private String listOfList = "[[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4]]";
     private String listOfMap = "[{this:that},{this:that},{this:that},{this:that},{this:that}]";
@@ -22,7 +24,11 @@ public class ToStringUtilsTest
     private String mapOfList = "{0:[],1:[0],2:[0,1],3:[0,1,2],4:[0,1,2,3]}";
     private String mapOfMap = "{0:{},1:{0:0},2:{0:0,1:1},3:{0:0,1:1,2:2},4:{0:0,1:1,2:2,3:3}}";
 
-    
+    @BeforeMethod
+    public void before()
+    {
+        toStringUtils = new ToStringUtils();
+    }
     public void iterableToStringBasic()
     {
         List<Integer> iterable = new LinkedList();
@@ -30,7 +36,7 @@ public class ToStringUtilsTest
         {
             iterable.add(i);
         }
-        String out = ToStringUtils.iterableToString(iterable);
+        String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
         assertEquals(basicList,out);
     }
@@ -47,7 +53,7 @@ public class ToStringUtilsTest
             }
             iterable.add(inner);
         }
-        String out = ToStringUtils.iterableToString(iterable);
+        String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
         assertEquals(listOfList,out);
     }
@@ -61,7 +67,7 @@ public class ToStringUtilsTest
             map.put("this","that");
             iterable.add(map);
         }
-        String out = ToStringUtils.iterableToString(iterable);
+        String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
         assertEquals(listOfMap,out);
     }
@@ -74,7 +80,7 @@ public class ToStringUtilsTest
         {
             map.put(i,i);
         }
-        String out = ToStringUtils.mapToString(map);
+        String out = toStringUtils.mapToString(map);
         assertNotNull(out);
         assertEquals(basicMap,out);
     }
@@ -91,7 +97,7 @@ public class ToStringUtilsTest
             }
             map.put(i,list);
         }
-        String out = ToStringUtils.mapToString(map);
+        String out = toStringUtils.mapToString(map);
         assertNotNull(out);
         assertEquals(mapOfList,out);
     }
@@ -108,7 +114,7 @@ public class ToStringUtilsTest
             }
             map.put(i,inner);
         }
-        String out = ToStringUtils.mapToString(map);
+        String out = toStringUtils.mapToString(map);
         assertNotNull(out);
         assertEquals(mapOfMap,out);
     }

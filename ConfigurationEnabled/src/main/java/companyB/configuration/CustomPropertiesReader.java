@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class CustomPropertiesReader
+public class CustomPropertiesReader
 {
     /**
      * Reads the properties file and returns a mapping of all of the properties. This mapping is still raw, meaning that
@@ -20,7 +20,7 @@ public abstract class CustomPropertiesReader
      * @return Mapping of all properties in file.
      * @since 1.0
      */
-    public static Map<String,String> read(String filename)
+    public Map<String,String> read(String filename)
     {
         final Map<String,String>props = new HashMap<>();
         final File file = new File(filename);

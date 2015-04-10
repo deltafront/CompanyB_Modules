@@ -17,6 +17,7 @@ public class Site
     private final IsoLocale locale;
     private final String hostName;
     private final String hostIpAddress;
+    private final SiteUtils siteUtils;
 
     /**
      * Default constructor.
@@ -37,8 +38,9 @@ public class Site
         this.siteId = siteId;
         this.primaryLang = primaryLang;
         this.locale = locale;
-        this.hostName = SiteUtils.getHostName();
-        this.hostIpAddress = SiteUtils.getLocalIpAddress();
+        this.siteUtils = new SiteUtils();
+        this.hostName = siteUtils.getHostName();
+        this.hostIpAddress = siteUtils.getLocalIpAddress();
         this.supportedLangs = (null == supportedLangs) ? new IsoLang[0] : supportedLangs;
         Validate.notNull(this.supportedLangs);
         Validate.notBlank(hostName);

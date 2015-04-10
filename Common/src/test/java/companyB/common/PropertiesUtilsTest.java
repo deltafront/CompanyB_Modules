@@ -2,6 +2,7 @@ package companyB.common;
 
 import companyB.common.utils.PropertiesUtils;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
 @Test(groups = {"unit","properties.utils","common"})
 public class PropertiesUtilsTest
 {
+    private PropertiesUtils propertiesUtils;
     private static String[] old_props = {"one=1", "two=2", "three=3", "four=4"};
     private static String[] new_props = {"one=10", "two=20", "three=30", "four=40", "five=50"};
     private static String old_prop_file_name = "old.properties";
@@ -33,65 +35,69 @@ public class PropertiesUtilsTest
         writeToFile(new_props, new_prop_file_name);
         writeToFile(xml_props, xml_prop_file);
     }
+    @BeforeMethod
+    public void before()
+    {
+        propertiesUtils = new PropertiesUtils();
+    }
 
-    
     public void happyPath()
     {
-        assertEquals("1", PropertiesUtils.getProperty(old_prop_file_name, "one"));
-        assertEquals("2", PropertiesUtils.getProperty(old_prop_file_name, "two"));
-        assertEquals("3", PropertiesUtils.getProperty(old_prop_file_name, "three"));
-        assertEquals("4", PropertiesUtils.getProperty(old_prop_file_name, "four"));
-        assertEquals("10", PropertiesUtils.getProperty(new_prop_file_name, "one"));
-        assertEquals("20", PropertiesUtils.getProperty(new_prop_file_name, "two"));
-        assertEquals("30", PropertiesUtils.getProperty(new_prop_file_name, "three"));
-        assertEquals("40", PropertiesUtils.getProperty(new_prop_file_name, "four"));
-        assertEquals("1",PropertiesUtils.getProperty(xml_prop_file,"one"));
-        assertEquals("2",PropertiesUtils.getProperty(xml_prop_file,"two"));
-        assertEquals("3",PropertiesUtils.getProperty(xml_prop_file,"three"));
+        assertEquals("1", propertiesUtils.getProperty(old_prop_file_name, "one"));
+        assertEquals("2", propertiesUtils.getProperty(old_prop_file_name, "two"));
+        assertEquals("3", propertiesUtils.getProperty(old_prop_file_name, "three"));
+        assertEquals("4", propertiesUtils.getProperty(old_prop_file_name, "four"));
+        assertEquals("10", propertiesUtils.getProperty(new_prop_file_name, "one"));
+        assertEquals("20", propertiesUtils.getProperty(new_prop_file_name, "two"));
+        assertEquals("30", propertiesUtils.getProperty(new_prop_file_name, "three"));
+        assertEquals("40", propertiesUtils.getProperty(new_prop_file_name, "four"));
+        assertEquals("1",propertiesUtils.getProperty(xml_prop_file,"one"));
+        assertEquals("2",propertiesUtils.getProperty(xml_prop_file,"two"));
+        assertEquals("3",propertiesUtils.getProperty(xml_prop_file,"three"));
     }
 
     
     public void invalidProperty()
     {
-        assertNull(PropertiesUtils.getProperty(old_prop_file_name, "five"));
-        assertFalse(PropertiesUtils.getProperty(new_prop_file_name, "one").equals("1"));
+        assertNull(propertiesUtils.getProperty(old_prop_file_name, "five"));
+        assertFalse(propertiesUtils.getProperty(new_prop_file_name, "one").equals("1"));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void invalidFile()
     {
-        assertNull(PropertiesUtils.getProperty(old_prop_file_name + ".props", "five"));
+        assertNull(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void nullFileName()
     {
-        assertNull(PropertiesUtils.getProperty(null, "five"));
+        assertNull(propertiesUtils.getProperty(null, "five"));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void emptyStringName()
     {
-        assertNull(PropertiesUtils.getProperty("", "five"));
+        assertNull(propertiesUtils.getProperty("", "five"));
     }
 
     
     public void nullProperty()
     {
-        assertNull(PropertiesUtils.getProperty(old_prop_file_name, null));
+        assertNull(propertiesUtils.getProperty(old_prop_file_name, null));
     }
 
     
     public void emptyStringProperty()
     {
-        assertNull(PropertiesUtils.getProperty(old_prop_file_name, ""));
+        assertNull(propertiesUtils.getProperty(old_prop_file_name, ""));
     }
 
     
     public void getPropertiesByPath()
     {
-        Map<String, String> props_old = PropertiesUtils.getProperties(old_prop_file_name);
-        Map<String, String> props_new = PropertiesUtils.getProperties(new_prop_file_name);
+        Map<String, String> props_old = propertiesUtils.getProperties(old_prop_file_name);
+        Map<String, String> props_new = propertiesUtils.getProperties(new_prop_file_name);
         assertNotNull(props_old);
         assertNotNull(props_new);
         assertEquals(old_props.length, props_old.size());
@@ -109,19 +115,19 @@ public class PropertiesUtilsTest
     @Test(expectedExceptions = IllegalStateException.class)
     public void getPropertiesByPathInvalidPath()
     {
-        assertNull(PropertiesUtils.getProperties(new_prop_file_name + ".properties"));
+        assertNull(propertiesUtils.getProperties(new_prop_file_name + ".properties"));
     }
 
     
     public void getPropertiesByPathNullPath()
     {
-        assertNull(PropertiesUtils.getProperties(null));
+        assertNull(propertiesUtils.getProperties(null));
     }
 
     
     public void getPropertiesByPathEmptyStringPath()
     {
-        assertNull(PropertiesUtils.getProperties(""));
+        assertNull(propertiesUtils.getProperties(""));
     }
 
     private boolean matcher(String value_key_pair, Map<String, String> map)

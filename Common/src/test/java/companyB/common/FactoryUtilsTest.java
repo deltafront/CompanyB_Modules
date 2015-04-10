@@ -5,6 +5,7 @@ import companyB.common.objects.test;
 import companyB.common.utils.FactoryUtils;
 import junit.framework.Assert;
 import org.junit.Ignore;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
@@ -18,6 +19,12 @@ import static org.junit.Assert.assertNotNull;
 @Test(groups = {"unit","factory.utils","common"})
 public class FactoryUtilsTest
 {
+    private FactoryUtils factoryUtils;
+    @BeforeMethod
+    public void before()
+    {
+        factoryUtils = new FactoryUtils();
+    }
 
     private String valid_class_name = test.class.getCanonicalName();
     private Class[] primitives = new Class[]
@@ -33,7 +40,7 @@ public class FactoryUtilsTest
     
     public void testLoadObjectTrue()
     {
-        Object loaded = FactoryUtils.loadObject(valid_class_name);
+        Object loaded = factoryUtils.loadObject(valid_class_name);
         assertNotNull(loaded);
         assertTrue(loaded instanceof test);
     }
@@ -41,17 +48,17 @@ public class FactoryUtilsTest
     
     public void testLoadObjectFalse()
     {
-        Object loaded = FactoryUtils.loadObject("java.lang.Foo");
+        Object loaded = factoryUtils.loadObject("java.lang.Foo");
         assertNull(loaded);
     }
 
     
     public void notStatic()
     {
-        Object loaded_1 = FactoryUtils.loadObject(valid_class_name, false);
+        Object loaded_1 = factoryUtils.loadObject(valid_class_name, false);
         assertNotNull(loaded_1);
         assertTrue(loaded_1 instanceof test);
-        Object loaded_2 = FactoryUtils.loadObject(valid_class_name, false);
+        Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
         assertNotNull(loaded_2);
         assertTrue(loaded_2 instanceof test);
         assertTrue(loaded_1.hashCode() != loaded_2.hashCode());
@@ -60,10 +67,10 @@ public class FactoryUtilsTest
     
     public void isStaticInitial()
     {
-        Object loaded_1 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_1 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_1);
         assertTrue(loaded_1 instanceof test);
-        Object loaded_2 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_2 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_2);
         assertTrue(loaded_2 instanceof test);
         assertTrue(loaded_1.hashCode() == loaded_2.hashCode());
@@ -72,14 +79,14 @@ public class FactoryUtilsTest
     
     public void isStaticAfter()
     {
-        Object loaded_1 = FactoryUtils.loadObject(valid_class_name, false);
+        Object loaded_1 = factoryUtils.loadObject(valid_class_name, false);
         assertNotNull(loaded_1);
         assertTrue(loaded_1 instanceof test);
-        Object loaded_2 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_2 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_2);
         assertTrue(loaded_2 instanceof test);
         assertTrue(loaded_1.hashCode() != loaded_2.hashCode());
-        Object loaded_3 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_3 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_3);
         assertTrue(loaded_3 instanceof test);
         assertTrue(loaded_3.hashCode() == loaded_2.hashCode());
@@ -89,14 +96,14 @@ public class FactoryUtilsTest
     
     public void isStaticOneNotTwoIsThree()
     {
-        Object loaded_1 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_1 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_1);
         assertTrue(loaded_1 instanceof test);
-        Object loaded_2 = FactoryUtils.loadObject(valid_class_name, false);
+        Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
         assertNotNull(loaded_2);
         assertTrue(loaded_2 instanceof test);
         assertTrue(loaded_1.hashCode() != loaded_2.hashCode());
-        Object loaded_3 = FactoryUtils.loadObject(valid_class_name, true);
+        Object loaded_3 = factoryUtils.loadObject(valid_class_name, true);
         assertNotNull(loaded_3);
         assertTrue(loaded_3 instanceof test);
         assertTrue(loaded_3.hashCode() == loaded_1.hashCode());
@@ -106,7 +113,7 @@ public class FactoryUtilsTest
     public void instantiateNoArgs()
     {
         Object[]args = new Object[]{};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class,args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
         assertNotNull(testObject);
         assertEquals("foo",testObject.stringValue);
         assertEquals(false, testObject.booleanValue);
@@ -118,7 +125,7 @@ public class FactoryUtilsTest
         Object[]args = new Object[]{17,"this",true};
         for(Object arg : args)
         {
-            TestObject testObject = FactoryUtils.getInstance(TestObject.class,new Object[]{arg});
+            TestObject testObject = factoryUtils.getInstance(TestObject.class,new Object[]{arg});
             assertNotNull(testObject);
             try
             {
@@ -148,7 +155,7 @@ public class FactoryUtilsTest
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
         for(Object arg : args)
         {
-            TestObject testObject = FactoryUtils.getInstance(TestObject.class,new Object[]{arg});
+            TestObject testObject = factoryUtils.getInstance(TestObject.class,new Object[]{arg});
             verifyTestInstance(testObject,new Object[]{arg});
         }
     }
@@ -157,7 +164,7 @@ public class FactoryUtilsTest
     public void instantiateThreeArgsTrue()
     {
         Object[]args = new Object[]{17,"this",true};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class,args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
         assertNotNull(testObject);
         assertEquals("this",testObject.stringValue);
         assertEquals(true,testObject.booleanValue);
@@ -167,14 +174,14 @@ public class FactoryUtilsTest
     public void instantiateThreeArgsWrongOrder()
     {
         Object[]args = new Object[]{"this",17,true};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class,args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
         assertNull(testObject);
     }
     
     public void instantiateThreeArgsTrueBoxed()
     {
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class,args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
         assertNotNull(testObject);
         assertEquals("this",testObject.stringValue);
         assertEquals(true,testObject.booleanValue);
@@ -188,9 +195,9 @@ public class FactoryUtilsTest
         Object[]args_b = new Object[]{1,"this"};
         Object[]args_c = new Object[]{1,true};
 
-        TestObject testObject_a = FactoryUtils.getInstance(TestObject.class,args_a);
-        TestObject testObject_b = FactoryUtils.getInstance(TestObject.class,args_b);
-        TestObject testObject_c = FactoryUtils.getInstance(TestObject.class,args_c);
+        TestObject testObject_a = factoryUtils.getInstance(TestObject.class,args_a);
+        TestObject testObject_b = factoryUtils.getInstance(TestObject.class,args_b);
+        TestObject testObject_c = factoryUtils.getInstance(TestObject.class,args_c);
 
         verifyTestInstance(testObject_a,args_a);
         verifyTestInstance(testObject_b,args_b);
@@ -202,7 +209,7 @@ public class FactoryUtilsTest
     {
         LinkedList<String> list = new LinkedList<>();
         Object[]args = new Object[]{list};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class, args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
         assertNotNull(testObject);
         assertEquals(list, testObject.booleanIterable);
     }
@@ -217,7 +224,7 @@ public class FactoryUtilsTest
             list.add(i);
         }
         Object[]args = new Object[]{list};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class, args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
         assertNull(testObject);
     }
 
@@ -225,7 +232,7 @@ public class FactoryUtilsTest
     public void instantiateInvalidArgs()
     {
         Object[]args = {Long.MAX_VALUE};
-        TestObject testObject = FactoryUtils.getInstance(TestObject.class, args);
+        TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
         assertNull(testObject);
     }
     private void verifyTestInstance(TestObject testObject, Object[]args)

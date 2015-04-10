@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class ClassLevelConfigEnabler
+public class ClassLevelConfigEnabler
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassLevelConfigEnabler.class);
 
@@ -21,7 +21,7 @@ public abstract class ClassLevelConfigEnabler
      * @param instance instance to be decorated.
      * @since 1.0
      */
-    public static void decorate(Object instance)
+    public void decorate(Object instance)
     {
         Field[]fields = instance.getClass().getDeclaredFields();
         for(Field field : fields)
@@ -38,7 +38,8 @@ public abstract class ClassLevelConfigEnabler
                     field.set(instance,configEnabler);
 
 
-                } catch (IllegalAccessException e)
+                }
+                catch (IllegalAccessException e)
                 {
                     LOGGER.error(e.getMessage(),e);
                 }

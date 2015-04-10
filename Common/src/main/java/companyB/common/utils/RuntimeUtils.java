@@ -11,18 +11,18 @@ import java.util.Arrays;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public abstract class RuntimeUtils
+public class RuntimeUtils
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(RuntimeUtils.class);
 
 
     /**
      * Executes command and returns the result.
-     * @param commandArgs
-     * @return
+     * @param commandArgs Command line arguments
+     * @return String result of Execution
      * @since 1.0
      */
-    public static String executeCommand(String... commandArgs)
+    public String executeCommand(String... commandArgs)
     {
         String result = null;
         try

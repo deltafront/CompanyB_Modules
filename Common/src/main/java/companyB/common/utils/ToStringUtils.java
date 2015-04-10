@@ -9,7 +9,7 @@ import java.util.Set;
  * @version 1.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
-public abstract class ToStringUtils
+public class ToStringUtils
 {
     /**
      * Writes out an iterable instance to a string.
@@ -18,7 +18,7 @@ public abstract class ToStringUtils
      * @return String representation of Iterable.
      * @since 1.0
      */
-    public static<E> String iterableToString(Iterable<E> iterable)
+    public <E> String iterableToString(Iterable<E> iterable)
     {
         StringBuilder stringBuilder = new StringBuilder("[");
         if(null != iterable)
@@ -47,7 +47,7 @@ public abstract class ToStringUtils
      * @return String representation of Map instance.
      * @since 1.0
      */
-    public static<Key,Value> String mapToString(Map<Key, Value> map)
+    public <Key,Value> String mapToString(Map<Key, Value> map)
     {
         StringBuilder stringBuilder = new StringBuilder("{");
         if(null != map)

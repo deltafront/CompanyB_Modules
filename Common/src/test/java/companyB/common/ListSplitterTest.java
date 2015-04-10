@@ -1,6 +1,7 @@
 package companyB.common;
 
 import companyB.common.utils.CollectionsSplitter;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashSet;
@@ -14,11 +15,18 @@ import static org.junit.Assert.*;
 @Test(groups = {"unit","list.splitter","common"})
 public class ListSplitterTest
 {
+    private CollectionsSplitter collectionsSplitter;
+    @BeforeMethod
+    public void before()
+    {
+        collectionsSplitter = new CollectionsSplitter();
+    }
+
     
     public void NullSet()
     {
         Set set = null;
-        assertEquals(0, CollectionsSplitter.split(set, 0, CollectionsSplitter.optimization_strategy.number_of_lists).size());
+        assertEquals(0, collectionsSplitter.split(set, 0, CollectionsSplitter.optimization_strategy.number_of_lists).size());
     }
 
     
@@ -27,7 +35,7 @@ public class ListSplitterTest
         Set<String> set = new LinkedHashSet<String>();
         set.add("one");
         set.add("two");
-        List<List> lists = CollectionsSplitter.split(set, 2, CollectionsSplitter.optimization_strategy.number_of_lists);
+        List<List> lists = collectionsSplitter.split(set, 2, CollectionsSplitter.optimization_strategy.number_of_lists);
         assertEquals(2, lists.size());
         for (List list : lists)
         {
@@ -43,7 +51,7 @@ public class ListSplitterTest
         {
             set.add("Object" + i);
         }
-        List<List> lists = CollectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
+        List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
         assertEquals(42, lists.size());
         int size = (1000 / 42);
         String message = "Expected list size of " + (size - 1) + "' or " + size + "' or '" + (size + 1) + "'. Got '";
@@ -61,7 +69,7 @@ public class ListSplitterTest
         {
             set.add("Object" + i);
         }
-        List<List> lists = CollectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
+        List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
         assertEquals(42, lists.size());
         for (List list : lists)
         {
@@ -77,7 +85,7 @@ public class ListSplitterTest
         {
             set.add("Object" + i);
         }
-        List<List> lists = CollectionsSplitter.split(set, 10, CollectionsSplitter.optimization_strategy.number_of_items);
+        List<List> lists = collectionsSplitter.split(set, 10, CollectionsSplitter.optimization_strategy.number_of_items);
         assertEquals(101, lists.size());
         for (int i = 0; i < lists.size(); i++)
         {
@@ -101,7 +109,7 @@ public class ListSplitterTest
         {
             set.add("Object" + i);
         }
-        List<List> lists = CollectionsSplitter.split(set, 1002, CollectionsSplitter.optimization_strategy.number_of_items);
+        List<List> lists = collectionsSplitter.split(set, 1002, CollectionsSplitter.optimization_strategy.number_of_items);
         assertEquals(1, lists.size());
         for (int i = 0; i < lists.size(); i++)
         {

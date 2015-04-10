@@ -29,7 +29,7 @@ public class ClassLevelConfigEnablerTest
             writer.write(out);
             writer.close();
             TestClass testClass = new TestClass();
-            ClassLevelConfigEnabler.decorate(testClass);
+            new ClassLevelConfigEnabler().decorate(testClass);
             assertNotNull(testClass.configEnabler_1);
             assertNotNull(testClass.configEnabler_2);
             passed = testClass.callAll();
