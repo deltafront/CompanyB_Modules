@@ -4,7 +4,6 @@ import companyB.common.objects.TestObject;
 import companyB.common.objects.test;
 import companyB.common.utils.FactoryUtils;
 import junit.framework.Assert;
-import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -213,21 +212,6 @@ public class FactoryUtilsTest
         assertNotNull(testObject);
         assertEquals(list, testObject.booleanIterable);
     }
-
-    @Test(enabled = false)
-    @Ignore("Known issue when we try to pass along a generic that has the wrong type.")
-    public void withGenericInterfaceWrongType()
-    {
-        LinkedList<Integer>list = new LinkedList<>();
-        for(int i = 0; i < 100; i++)
-        {
-            list.add(i);
-        }
-        Object[]args = new Object[]{list};
-        TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
-        assertNull(testObject);
-    }
-
     
     public void instantiateInvalidArgs()
     {
