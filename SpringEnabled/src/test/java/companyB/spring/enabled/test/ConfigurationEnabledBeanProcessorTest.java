@@ -17,7 +17,7 @@ import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
-@Test(groups = {"unit","spring.enabled","configuration.enabled.bean.processir"})
+@Test(groups = {"unit","spring.enabled","configuration.enabled.bean.processor"})
 public class ConfigurationEnabledBeanProcessorTest
 {
     public void testPostProcessBeforeInitialization()

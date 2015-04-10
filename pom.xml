@@ -5,7 +5,7 @@
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1</version>
+    <version>1.1.0</version>
     <modules>
         <module>Common</module>
         <module>ConfigurationEnabled</module>
@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <master.version>1.1.1</master.version>
+        <master.version>1.1.0</master.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <common.version>${master.version}</common.version>
         <decorator.version>${master.version}</decorator.version>
@@ -31,6 +31,7 @@
         <configuration.enabled.version>${master.version}</configuration.enabled.version>
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
+        <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
     </properties>
 
     <repositories>

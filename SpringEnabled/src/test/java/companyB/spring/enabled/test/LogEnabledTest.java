@@ -29,6 +29,7 @@ public class LogEnabledTest
         Logger defaultLogger = testClass.defaultLogger;
         assertNotNull(defaultLogger);
         assertEquals(fooLogger.hashCode(),defaultLogger.hashCode());
+        assertNull(testClass.nullLogger);
     }
     public void testAfter()
     {
@@ -48,4 +49,7 @@ class TestLoggerClass
 
     @Log()
     public Logger defaultLogger;
+
+    @Log
+    public Object nullLogger;
 }
