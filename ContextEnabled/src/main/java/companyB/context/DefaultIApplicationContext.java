@@ -45,6 +45,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
      */
     public DefaultIApplicationContext(List<ClassArgsContainer> classArgsContainerList)
     {
+        this();
         for (ClassArgsContainer container : classArgsContainerList)
         {
             Class c = container.get_Class();

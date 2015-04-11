@@ -128,7 +128,6 @@ public class DefaultIApplicationContextTest extends TestBase
         }
     }
 
-    @Test(enabled = false)
     public void withContainers() throws ClassNotFoundException
     {
         String fqcn = TestObject.class.getCanonicalName();
