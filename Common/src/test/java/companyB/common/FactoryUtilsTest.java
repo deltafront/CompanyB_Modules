@@ -14,6 +14,7 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 @Test(groups = {"unit","factory.utils","common"})
 public class FactoryUtilsTest
@@ -212,6 +213,25 @@ public class FactoryUtilsTest
         assertNotNull(testObject);
         assertEquals(list, testObject.booleanIterable);
     }
+
+    @Test(expectedExceptions = ClassCastException.class)
+    public void withGenericInterfaceWrongType()
+    {
+        LinkedList<Integer>list = new LinkedList<>();
+        for(int i = 0; i < 100; i++)
+        {
+            list.add(i);
+        }
+        Object[]args = new Object[]{list};
+        TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
+        assertNotNull(testObject);
+        Iterable<Boolean>booleanIterable = testObject.booleanIterable;
+        for(Boolean fromList : booleanIterable)
+        {
+            fail("ClassCastException Expected.");
+        }
+    }
+
     
     public void instantiateInvalidArgs()
     {
