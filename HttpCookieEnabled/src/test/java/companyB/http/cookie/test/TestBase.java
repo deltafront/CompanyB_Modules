@@ -8,6 +8,8 @@ import java.util.List;
 
 public class TestBase
 {
+
+
     protected enum DefaultCookieNames
     {
         foo_1,foo_2;
