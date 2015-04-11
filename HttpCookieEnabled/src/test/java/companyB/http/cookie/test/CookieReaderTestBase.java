@@ -14,9 +14,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
 public class CookieReaderTestBase extends TestBase
 {
     protected String name = "foo";
