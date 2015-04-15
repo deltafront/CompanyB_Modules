@@ -1,6 +1,7 @@
 package companyB.configuration.test;
 
 import companyB.configuration.ConfigEnabler;
+import companyB.configuration.CustomPropertiesReader;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -63,5 +64,13 @@ public class CustomPropertiesReaderTest
             boolean expected = (e instanceof IllegalArgumentException);
             assertTrue(String.format("Instance of %s caught.",e.getClass().getCanonicalName()),expected);
         }
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void loadFromNullFile()
+    {
+        CustomPropertiesReader customPropertiesReader = new CustomPropertiesReader();
+        customPropertiesReader.read(null);
+        fail("Validation exception expected.");
     }
 }

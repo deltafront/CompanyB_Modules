@@ -48,8 +48,8 @@ public class ConfigEnabler
      */
     public ConfigEnabler(String filename, String family)
     {
-        Validate.notNull(filename);
-        Validate.notNull(family);
+        Validate.notNull(filename,"Properties File Name required.");
+        Validate.notNull(family,"Contextual Family required.");
         final CustomPropertiesReader customPropertiesReader = new CustomPropertiesReader();
         final CustomMapper customMapper = new CustomMapper();
         if(!property_mappings.containsKey(filename))
@@ -59,11 +59,11 @@ public class ConfigEnabler
             LOGGER.trace(String.format("Hashing all properties for properties file '%s'.",filename));
         }
         Map<String,String>properties = property_mappings.get(filename);
-        Validate.notEmpty(properties);
+        Validate.notEmpty(properties,"Properties contain no elements.");
         Map<String,Map<String,String>>mappings = customMapper.getMappings(properties);
-        Validate.notEmpty(mappings);
+        Validate.notEmpty(mappings,"Mappings are empty.");
         mapping = mappings.get(family);
-        Validate.notEmpty(mappings);
+        Validate.notEmpty(mappings,"Mappings are empty.");
     }
 
     /**
@@ -75,7 +75,7 @@ public class ConfigEnabler
      */
     public Object getValue(String key, Object defaultValue)
     {
-        Validate.notNull(defaultValue);
+        Validate.notNull(defaultValue,"Default value must be supplied.");
         LOGGER.trace(String.format("Getting value for key '%s' [default = '%s']",key,defaultValue));
         Object value;
         try

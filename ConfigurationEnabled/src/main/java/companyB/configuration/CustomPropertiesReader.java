@@ -1,5 +1,7 @@
 package companyB.configuration;
 
+import org.apache.commons.lang3.Validate;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class CustomPropertiesReader
      */
     public Map<String,String> read(String filename)
     {
+        Validate.notBlank(filename,"Properties File Name must be supplied.");
         final Map<String,String>props = new HashMap<>();
         final File file = new File(filename);
         try
