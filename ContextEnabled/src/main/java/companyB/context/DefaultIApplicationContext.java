@@ -51,8 +51,8 @@ public class DefaultIApplicationContext implements I_ApplicationContext
             Class c = container.get_Class();
             String id = container.getId();
             Object[] args = container.getArgs();
-            Validate.notNull(c);
-            Validate.notBlank(id);
+            Validate.notNull(c,"Container is null.");
+            Validate.notBlank(id,"Id required.");
             Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
             LOGGER.trace(String.format("Instantiated instance of '%s' (number of args: %d).",
@@ -106,11 +106,4 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     {
         mapping.clear();
     }
-
-    /**
-     * @return Singleton instance of DefaultApplicationContext.
-     * @since 1.0
-     */
-
 }
-
