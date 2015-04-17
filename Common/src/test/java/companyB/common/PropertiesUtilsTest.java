@@ -67,18 +67,21 @@ public class PropertiesUtilsTest
     public void invalidFile()
     {
         assertNull(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"));
+        fail("IllegalStateException expected - invalid file.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void nullFileName()
     {
         assertNull(propertiesUtils.getProperty(null, "five"));
+        fail("IllegalStateException expected - null filename.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void emptyStringName()
     {
         assertNull(propertiesUtils.getProperty("", "five"));
+        fail("IllegalStateException expected - empty string filename.");
     }
 
     
@@ -116,6 +119,7 @@ public class PropertiesUtilsTest
     public void getPropertiesByPathInvalidPath()
     {
         assertNull(propertiesUtils.getProperties(new_prop_file_name + ".properties"));
+        fail("IllegalStateException expected - invalid file path.");
     }
 
     

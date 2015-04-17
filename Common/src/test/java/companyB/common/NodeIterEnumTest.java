@@ -180,7 +180,7 @@ public class NodeIterEnumTest
         nie.add(fake_string);
 
         iter_e.remove();
-        fail("IllegalStateException should have been thrown.");
+        fail("IllegalStateException should have been thrown - 'next' was not called before 'remove'..");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
@@ -192,7 +192,7 @@ public class NodeIterEnumTest
         iter_e.next();
         iter_e.remove();
         iter_e.remove();
-        fail("IllegalStateException should have been thrown.");
+        fail("IllegalStateException should have been thrown - 'next' was not called immediately before 'remove'..");
     }
 
     public void testRemoveAfterAllGone()
