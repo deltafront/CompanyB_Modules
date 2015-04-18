@@ -29,6 +29,7 @@ public class UserContext
      */
     public UserContext(final String userId)
     {
+        Validate.notBlank(userId,"UserId is required.");
         this.userId = userId;
         this.userActivities = new LinkedList<>();
     }
@@ -40,8 +41,8 @@ public class UserContext
      */
     public void addActivity(Context context)
     {
+        Validate.notNull(context,"Context is required to add activity to.");
         UserActivity activity = new UserActivity();
-        Validate.notNull(context);
         activity.pageId = context.getPageId();
         activity.operation = context.getOperation();
         activity.duration = context.getOperationStart().getTime() - context.getOperationEnd().getTime();

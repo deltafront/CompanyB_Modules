@@ -33,12 +33,12 @@ public class Context
      * @param site Site object that contains data concerning the site as a whole.
      * @param contextAttributeName Name that this context is to be keyed to when it is wrapped in an HttpSession.
      */
-    public Context(final String pageId, final String operation, final Site site, final String contextAttributeName)
+    public Context(String pageId, String operation, Site site, String contextAttributeName)
     {
-        Validate.notBlank(pageId);
-        Validate.notBlank(operation);
-        Validate.notNull(site);
-        Validate.notBlank(contextAttributeName);
+        Validate.notBlank(pageId,"Page Id is required.");
+        Validate.notBlank(operation,"Operation is required.");
+        Validate.notNull(site,"Valid site object is required.");
+        Validate.notBlank(contextAttributeName,"Context attribute name is required.");
         this.contextAttributeName = contextAttributeName;
         this.site = site;
         this.pageId = pageId;
@@ -130,7 +130,7 @@ public class Context
      */
     public void setObject(String key, Object object)
     {
-        Validate.notBlank(key);
+        Validate.notBlank(key,"Key to map object to is required.");
         objects.put(key,object);
     }
 

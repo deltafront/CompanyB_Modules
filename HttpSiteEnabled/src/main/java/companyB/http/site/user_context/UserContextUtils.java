@@ -24,7 +24,7 @@ public class UserContextUtils
      */
     public <T extends UserContext> void wrapContext(HttpSession session, final T userContext)
     {
-        Validate.notNull(session);
+        Validate.notNull(session,"Session to wrap UserContext in is required.");
         String string = new Gson().toJson(userContext);
         LOGGER.trace(String.format("Wrapping Context to key '%s'\n%s", UserContext.USER_CONTEXT_IDENTIFIER, string));
         session.setAttribute(UserContext.USER_CONTEXT_IDENTIFIER, userContext);
@@ -38,7 +38,7 @@ public class UserContextUtils
      */
     public UserContext unwrapContext(HttpSession session)
     {
-        Validate.notNull(session);
+        Validate.notNull(session,"Session to unwrap UserContext from is required.");
         UserContext context = null;
         Object o_context = session.getAttribute(UserContext.USER_CONTEXT_IDENTIFIER);
         if(null != o_context && o_context instanceof UserContext)
