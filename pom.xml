@@ -9,13 +9,14 @@
     <modules>
         <module>Common</module>
         <module>ConfigurationEnabled</module>
-        <module>DataAccess</module>
         <module>HttpCookieEnabled</module>
         <module>Decorator</module>
         <module>ContextEnabled</module>
         <module>HttpSessionEnabled</module>
-        <module>SpringEnabled</module>
         <module>HttpSiteEnabled</module>
+        <module>EventLogger</module>
+        <module>FlywayEnabled</module>
+        <module>SpringEnabled</module>
     </modules>
 
     <properties>
@@ -29,6 +30,9 @@
         <http.cookie.enabled.version>${master.version}</http.cookie.enabled.version>
         <http.session.enbled.version>${master.version}</http.session.enbled.version>
         <configuration.enabled.version>${master.version}</configuration.enabled.version>
+        <flyway.enabled.version>${master.version}</flyway.enabled.version>
+        <event.logger.version>${master.version}</event.logger.version>
+        <spring.enabled.version>${master.version}</spring.enabled.version>
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
