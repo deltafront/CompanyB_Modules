@@ -68,7 +68,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
     {
         if (head == null)
         {
-            head = new node<E>(in);
+            head = new node<>(in);
         }
         else
         {
@@ -123,18 +123,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     private boolean _hasUnmarkedNodes(node<E> _node)
     {
-        if (_node == null)
-        {
-            return false;
-        }
-        else if (!_node.marked)
-        {
-            return true;
-        }
-        else
-        {
-            return _hasUnmarkedNodes(_node.next);
-        }
+        return _node != null && (!_node.marked || _hasUnmarkedNodes(_node.next));
     }
 }
 
@@ -154,7 +143,7 @@ class node<E>
     {
         if (next == null)
         {
-            next = new node<E>(_next);
+            next = new node<>(_next);
         }
         else
         {

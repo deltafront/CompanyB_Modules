@@ -44,7 +44,7 @@ public class CollectionsSplitter
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
     private List<List> number_of_lists(Collection collection, int num)
     {
-        List<List> list = new LinkedList<List>();
+        List<List> list = new LinkedList<>();
         for (int i = 0; i < num; i++)list.add(new LinkedList());
         int count = 0;
         Iterator iter = collection.iterator();
@@ -61,7 +61,7 @@ public class CollectionsSplitter
     @SuppressWarnings("unchecked")
     private List<List> number_of_items(Collection collection, int num)
     {
-        List<List> list = new LinkedList<List>();
+        List<List> list = new LinkedList<>();
         Iterator iter = collection.iterator();
         int count = 0;
         List _list = new LinkedList();
