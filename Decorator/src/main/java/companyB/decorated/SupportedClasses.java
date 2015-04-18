@@ -32,13 +32,8 @@ public class SupportedClasses
      */
     public String getSupportedClassesList()
     {
-        StringBuilder stringBuilder = new StringBuilder("[");
-        for(Class c : supportedClasses)
-        {
-            stringBuilder.append(String.format("%s,",c.getCanonicalName()));
-        }
-        stringBuilder.trimToSize();
-        String out = stringBuilder.toString();
+        String out = "[";
+        for(Class c : supportedClasses) out += String.format("%s,",c.getCanonicalName());
         int end = out.lastIndexOf(",");
         out = out.substring(0,end);
         out += "]";

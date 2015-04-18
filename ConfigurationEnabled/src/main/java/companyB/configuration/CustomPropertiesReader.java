@@ -39,7 +39,6 @@ public class CustomPropertiesReader
             final Set<String> names = properties.stringPropertyNames();
             for(String name : names)
             {
-
                 String value = properties.getProperty(name);
                 props.put(name,value);
                 LOGGER.trace(String.format("Associating '%s=>%s'.",name,value));

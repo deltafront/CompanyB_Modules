@@ -22,10 +22,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     protected FactoryUtils factoryUtils;
     static
     {
-        if (null == mapping)
-        {
-            mapping = Collections.synchronizedMap(new HashMap<String, Object>());
-        }
+        if (null == mapping) mapping = Collections.synchronizedMap(new HashMap<String, Object>());
     }
 
     /**
@@ -91,14 +88,10 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     @Override
     public <T> T getInstance(Class<T> c, Object[] args, String id)
     {
-        if (!mapping.containsKey(id))
-        {
-            mapping.put(id, factoryUtils.getInstance(c, args));
-        }
+        if (!mapping.containsKey(id)) mapping.put(id, factoryUtils.getInstance(c, args));
         T out = (T) mapping.get(id);
         LOGGER.trace(String.format("Instance of %s returned? %b", c.getCanonicalName(), null != out));
         return out;
-
     }
 
     @Override
