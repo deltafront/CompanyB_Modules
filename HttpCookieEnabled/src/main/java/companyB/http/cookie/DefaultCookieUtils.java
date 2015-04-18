@@ -1,5 +1,6 @@
 package companyB.http.cookie;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ public class DefaultCookieUtils
      */
     public DefaultCookieUtils(List<DefaultCookie>defaultCookies)
     {
+        Validate.notNull(defaultCookies,"List of default cookies must be supplied.");
         this.defaultCookies = defaultCookies;
         defaultCookieNames = new HashSet<>();
         for(DefaultCookie defaultCookie : this.defaultCookies)
@@ -45,6 +47,7 @@ public class DefaultCookieUtils
      */
     public int setDefaultCookies(HttpServletResponse response)
     {
+        Validate.notNull(response,"Response is required.");
         int counter = 0;
         for(final DefaultCookie defaultCookie : defaultCookies)
         {
@@ -68,6 +71,7 @@ public class DefaultCookieUtils
      */
     public boolean setDefaultCookieValue(String name, String value, HttpServletResponse response)
     {
+        Validate.notNull(response,"Response is required.");
         boolean isSet = false;
         if(validateDefaultCookieName(name))
         {

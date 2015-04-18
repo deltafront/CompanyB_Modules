@@ -51,6 +51,7 @@ public class CookieFileReader
      */
     public List<DefaultCookie> readCookiesFromFile(String filename)
     {
+        Validate.notEmpty(filename,"Filename must be provided.");
         final CookieUtils cookieUtils = new CookieUtils();
         final List<DefaultCookie> defaultCookies = new LinkedList<>();
         try

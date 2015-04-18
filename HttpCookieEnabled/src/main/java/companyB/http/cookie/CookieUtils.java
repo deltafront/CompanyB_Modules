@@ -1,5 +1,6 @@
 package companyB.http.cookie;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ public class CookieUtils
      */
     public String cookieToString(Cookie cookie)
     {
+        Validate.notNull(cookie,"Cookie must be supplied.");
         StringBuilder stringBuilder = new StringBuilder("");
         Method[]methods = cookie.getClass().getMethods();
         for(Method method : methods)
