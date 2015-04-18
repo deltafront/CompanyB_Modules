@@ -34,10 +34,7 @@ public class ConfigEnabler
     private final static Logger LOGGER = LoggerFactory.getLogger(ConfigEnabler.class);
     static
     {
-        if(null == property_mappings)
-        {
-            property_mappings = new HashMap<>();
-        }
+        if(null == property_mappings) property_mappings = new HashMap<>();
     }
 
     /**
@@ -100,11 +97,7 @@ public class ConfigEnabler
     public String getString(String key, String defaultValue)
     {
         String value = String.valueOf(getValue(key,defaultValue));
-        if(0 == value.length())
-        {
-            value = null;
-        }
-        return value;
+        return (0 == value.length()) ? null : value;
     }
     /**
      * Gets the property's value as a Boolean.

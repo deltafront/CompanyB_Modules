@@ -38,8 +38,6 @@ public class ClassLevelConfigEnabler
                     String family = configEnabled.family();
                     ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
                     field.set(instance,configEnabler);
-
-
                 }
                 catch (IllegalAccessException e)
                 {

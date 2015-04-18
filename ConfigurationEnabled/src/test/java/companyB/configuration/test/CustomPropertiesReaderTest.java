@@ -28,7 +28,6 @@ public class CustomPropertiesReaderTest
         writer.close();
         file.deleteOnExit();
         String filename = file.getAbsolutePath();
-        System.out.println(filename);
         ConfigEnabler configEnabler = new ConfigEnabler(filename,"family");
         String out = configEnabler.getString("foo");
         assertNotNull(out);

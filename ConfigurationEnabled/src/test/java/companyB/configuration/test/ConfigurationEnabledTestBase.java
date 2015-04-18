@@ -43,11 +43,9 @@ public class ConfigurationEnabledTestBase
                 Object value = configs.get(key);
                 String line = String.format("%s=%s\n",key,String.valueOf(value));
                 bufferedWriter.write(line);
-                System.out.println(line);
             }
             bufferedWriter.close();
             path = file.getAbsolutePath();
-            System.out.println(path);
             file.deleteOnExit();
         }
         catch (IOException e)
