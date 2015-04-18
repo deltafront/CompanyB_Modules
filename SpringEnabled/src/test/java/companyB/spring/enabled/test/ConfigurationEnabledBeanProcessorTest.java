@@ -66,7 +66,7 @@ public class ConfigurationEnabledBeanProcessorTest
             assertNull(testClass.configEnabler_1);
             assertNull(testClass.configEnabler_2);
             testClass.callAll();
-            fail("Null pointer Exception expected.");
+            fail("Null pointer Exception expected - Configuration has not been correctly decorated.");
         }
         catch (IOException e)
         {}
