@@ -22,5 +22,7 @@
 # 1.1.2
 *   Removed warnings in code via addressing or suppressing
     *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
-*   Udated README and POMS to include correct versioning
+*   Updated README and POMS to include correct visioning
     *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies_
+*   Updated readme's to include correct maven and logging dependencies.
+    *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies)
