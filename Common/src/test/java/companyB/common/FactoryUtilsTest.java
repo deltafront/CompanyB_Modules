@@ -4,7 +4,6 @@ import companyB.common.objects.TestObject;
 import companyB.common.objects.test;
 import companyB.common.utils.FactoryUtils;
 import junit.framework.Assert;
-import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,6 +14,7 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 @Test(groups = {"unit","factory.utils","common"})
 public class FactoryUtilsTest
@@ -214,8 +214,7 @@ public class FactoryUtilsTest
         assertEquals(list, testObject.booleanIterable);
     }
 
-    @Test(enabled = false)
-    @Ignore("Known issue when we try to pass along a generic that has the wrong type.")
+    @Test(expectedExceptions = ClassCastException.class)
     public void withGenericInterfaceWrongType()
     {
         LinkedList<Integer>list = new LinkedList<>();
@@ -225,7 +224,12 @@ public class FactoryUtilsTest
         }
         Object[]args = new Object[]{list};
         TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
-        assertNull(testObject);
+        assertNotNull(testObject);
+        Iterable<Boolean>booleanIterable = testObject.booleanIterable;
+        for(Boolean fromList : booleanIterable)
+        {
+            fail("ClassCastException Expected.");
+        }
     }
 
     

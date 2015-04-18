@@ -67,18 +67,21 @@ public class PropertiesUtilsTest
     public void invalidFile()
     {
         assertNull(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"));
+        fail("IllegalStateException expected - invalid file.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void nullFileName()
     {
         assertNull(propertiesUtils.getProperty(null, "five"));
+        fail("IllegalStateException expected - null filename.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void emptyStringName()
     {
         assertNull(propertiesUtils.getProperty("", "five"));
+        fail("IllegalStateException expected - empty string filename.");
     }
 
     
@@ -116,6 +119,7 @@ public class PropertiesUtilsTest
     public void getPropertiesByPathInvalidPath()
     {
         assertNull(propertiesUtils.getProperties(new_prop_file_name + ".properties"));
+        fail("IllegalStateException expected - invalid file path.");
     }
 
     
@@ -132,15 +136,10 @@ public class PropertiesUtilsTest
 
     private boolean matcher(String value_key_pair, Map<String, String> map)
     {
-        boolean match = false;
         String[] split = value_key_pair.split("=");
         String key = split[0];
         String value = split[1];
-        match = (value.equals(map.get(key)));
-        if (!match)
-        {
-            System.out.println(key + "@" + value + "::" + map.get(key));
-        }
+        boolean match = (value.equals(map.get(key)));
         return match;
     }
 

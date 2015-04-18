@@ -86,10 +86,7 @@ public class FileLoadedTestClassTest
         }
         finally
         {
-            if(file.exists())
-            {
-                file.deleteOnExit();
-            }
+            if(file.exists()) file.deleteOnExit();
         }
 
     }

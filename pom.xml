@@ -32,6 +32,7 @@
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+        <tomcat7.dir>${env.USER}/tomcat/7.0.61</tomcat7.dir>
     </properties>
 
     <repositories>
@@ -193,6 +194,16 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <url>http://localhost:8080/manager/text</url>
+                        <server>TomcatServer</server>
+                        <path>${tomcat7.dir}</path>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -212,6 +223,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

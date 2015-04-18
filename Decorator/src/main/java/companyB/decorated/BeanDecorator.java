@@ -67,14 +67,8 @@ public class BeanDecorator
         try
         {
             InputStream inputStream = new FileInputStream(file);
-            if(propertiesFileName.contains(".xml"))
-            {
-                properties.loadFromXML(inputStream);
-            }
-            else
-            {
-                properties.load(inputStream);
-            }
+            if(propertiesFileName.contains(".xml")) properties.loadFromXML(inputStream);
+            else properties.load(inputStream);
             out = decorate(instance,properties);
         }
         catch (IOException e)
@@ -137,10 +131,7 @@ public class BeanDecorator
                     Object coerced = coerce(value,field.getType());
                     String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
                     LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
-                    if(null != coerced && 0 != String.valueOf(coerced).length())
-                    {
-                        field.set(out,coerced);
-                    }
+                    if(null != coerced && 0 != String.valueOf(coerced).length()) field.set(out,coerced);
                 }
             }
         }
@@ -157,45 +148,27 @@ public class BeanDecorator
     private String getValue(String key, Decorated decorated, Properties properties)
     {
         String value = properties.getProperty(key);
-        if(value == null || 0 == value.length())
-        {
-            value = decorated.defaultValue();
-        }
+        if(value == null || 0 == value.length()) value = decorated.defaultValue();
         return value;
     }
     private Object coerce(String value, Class objectClassTypeClass) throws UnsupportedTypeException
     {
         Object out = value;
-        if(!converter.isSupported(objectClassTypeClass))
-        {
-            throw new UnsupportedTypeException(objectClassTypeClass);
-        }
+        if(!converter.isSupported(objectClassTypeClass)) throw new UnsupportedTypeException(objectClassTypeClass);
         if(value != null && 0 < value.length())
         {
             if(converter.isNumberType(objectClassTypeClass))
-            {
                 out = converter.convertToNumber(value, objectClassTypeClass);
-            }
             else if (converter.isBoolean(objectClassTypeClass))
-            {
                 out = converter.convertToBoolean(value);
-            }
             else if (objectClassTypeClass.equals(char.class) || objectClassTypeClass.equals(Character.class))
-            {
                 out = value.charAt(0);
-            }
             else if (converter.isBigType(objectClassTypeClass))
-            {
                 out = converter.convertToBig(value, objectClassTypeClass);
-            }
             else if (converter.isByte(objectClassTypeClass))
-            {
                 out = converter.convertToByte(value);
-            }
             else if(converter.isCharOrString(objectClassTypeClass))
-            {
                 out = converter.convertToStringOrChar(value, objectClassTypeClass);
-            }
         }
         return out;
     }

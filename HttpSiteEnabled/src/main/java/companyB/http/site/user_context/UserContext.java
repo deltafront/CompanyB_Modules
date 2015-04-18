@@ -29,6 +29,7 @@ public class UserContext
      */
     public UserContext(final String userId)
     {
+        Validate.notBlank(userId,"UserId is required.");
         this.userId = userId;
         this.userActivities = new LinkedList<>();
     }
@@ -40,12 +41,9 @@ public class UserContext
      */
     public void addActivity(Context context)
     {
-        UserActivity activity = new UserActivity();
-        Validate.notNull(context);
-        activity.pageId = context.getPageId();
-        activity.operation = context.getOperation();
-        activity.duration = context.getOperationStart().getTime() - context.getOperationEnd().getTime();
-        activity.visited = context.getOperationStart();
+        Validate.notNull(context,"Context is required to add activity to.");
+
+        UserActivity activity = new UserActivity(context);
         this.userActivities.add(activity);
         LOGGER.trace(String.format("Added User activity to userId '%s'\n%s", userId, new Gson().toJson(activity)));
     }
@@ -76,9 +74,69 @@ public class UserContext
      */
     public static class UserActivity
     {
-        public String pageId;
-        public Timestamp visited;
-        public String operation;
-        public Long duration;
+        private final String pageId;
+        private final Timestamp visited;
+        private final String operation;
+        private final Long duration;
+
+        /**
+         * Default constructor.
+         * @param pageId  - ID of the page.
+         * @param visited When page was visited.
+         * @param operation Operation performed / in progress.
+         * @param duration Duration of stay on the page.
+         * @since 1.1.1
+         */
+        public UserActivity(String pageId, Timestamp visited, String operation, Long duration)
+        {
+            this.pageId = pageId;
+            this.visited = visited;
+            this.operation = operation;
+            this.duration = duration;
+        }
+
+        public UserActivity(Context context)
+        {
+            this.duration = context.getOperationStart().getTime() - context.getOperationEnd().getTime();
+            this.pageId = context.getPageId();
+            this.operation = context.getOperation();
+            this.visited = context.getOperationStart();
+        }
+
+        /**
+         * @return ID of the page.
+         * @since 1.1.1
+         */
+        public String getPageId()
+        {
+            return pageId;
+        }
+
+        /**
+         * @return When page was visited.
+         * @since 1.1.1
+         */
+        public Timestamp getVisited()
+        {
+            return visited;
+        }
+
+        /**
+         * @return Operation performed / in progress.
+         * @since 1.1.1
+         */
+        public String getOperation()
+        {
+            return operation;
+        }
+
+        /**
+         * @return Duration of stay on the page.
+         * @since 1.1.1
+         */
+        public Long getDuration()
+        {
+            return duration;
+        }
     }
 }

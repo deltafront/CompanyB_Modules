@@ -51,6 +51,7 @@ public class CookieFileReader
      */
     public List<DefaultCookie> readCookiesFromFile(String filename)
     {
+        Validate.notEmpty(filename,"Filename must be provided.");
         final CookieUtils cookieUtils = new CookieUtils();
         final List<DefaultCookie> defaultCookies = new LinkedList<>();
         try
@@ -61,9 +62,7 @@ public class CookieFileReader
             {
                 if (0 != line.indexOf("#"))
                 {
-                    System.out.println(line);
                     final String[] vals = line.split(",");
-                    System.out.println(vals.length);
                     Validate.isTrue(9 == vals.length);
 
                     final String name = vals[0];
@@ -82,7 +81,7 @@ public class CookieFileReader
                     validateVersion(str_version);
 
 
-                    Cookie cookie = new Cookie(name, value);
+                    final Cookie cookie = new Cookie(name, value);
                     cookie.setDomain(domain);
                     cookie.setPath(path);
                     cookie.setComment(comment);

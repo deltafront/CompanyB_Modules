@@ -32,9 +32,7 @@ public class DefaultSessionAttributesReaderTest
     public void invalidFile()
     {
         defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
-        assertNotNull(defaultSessionAttributes);
-        assertNotNull(defaultSessionAttributes.maxInterval);
-        assertNull(defaultSessionAttributes.defaultSessionAttributeNames);
+        assertNull(defaultSessionAttributes);
     }
 
     public void noMaxIntervalSingleArg()
@@ -110,9 +108,9 @@ public class DefaultSessionAttributesReaderTest
     private void verifyDefaultSessionAttributes(DefaultSessionAttributes defaultSessionAttributes, Integer maxInterval, String...attributes)
     {
         assertNotNull(defaultSessionAttributes);
-        List<String>names = defaultSessionAttributes.defaultSessionAttributeNames;
+        List<String>names = defaultSessionAttributes.getDefaultSessionAttributeNames();
         assertNotNull(names);
-        Integer fromInstance = defaultSessionAttributes.maxInterval;
+        Integer fromInstance = defaultSessionAttributes.getMaxInterval();
         assertNotNull(fromInstance);
         if(null == maxInterval)
         {

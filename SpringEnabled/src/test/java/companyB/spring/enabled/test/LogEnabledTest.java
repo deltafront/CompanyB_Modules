@@ -14,32 +14,41 @@ import static org.testng.AssertJUnit.assertNull;
 public class LogEnabledTest
 {
     private LogBeanProcessor logBeanProcessor;
+    private TestLoggerClass testClass;
+    private Logger fooLogger;
+    private Logger defaultLogger;
+    private Object nullLogger;
     @BeforeMethod
     public void before()
     {
         logBeanProcessor = new LogBeanProcessor();
+        testClass = new TestLoggerClass();
     }
     public void testBefore()
     {
-        TestLoggerClass testClass = new TestLoggerClass();
-        testClass = (TestLoggerClass)logBeanProcessor.postProcessBeforeInitialization(testClass,"testClass");
-        assertNotNull(testClass);
-        Logger fooLogger = testClass.fooLogger;
+        doSetup(false);
         assertNotNull(fooLogger);
-        Logger defaultLogger = testClass.defaultLogger;
         assertNotNull(defaultLogger);
         assertEquals(fooLogger.hashCode(),defaultLogger.hashCode());
-        assertNull(testClass.nullLogger);
+        assertNull(nullLogger);
     }
+
     public void testAfter()
     {
-        TestLoggerClass testClass = new TestLoggerClass();
-        testClass = (TestLoggerClass)logBeanProcessor.postProcessAfterInitialization(testClass, "testClass");
-        assertNotNull(testClass);
-        Logger fooLogger = testClass.fooLogger;
+        doSetup(true);
         assertNull(fooLogger);
-        Logger defaultLogger = testClass.defaultLogger;
         assertNull(defaultLogger);
+        assertNull(nullLogger);
+    }
+    private void doSetup(boolean initAfter)
+    {
+        testClass = initAfter?
+                (TestLoggerClass)logBeanProcessor.postProcessAfterInitialization(testClass,"testClass"):
+                (TestLoggerClass)logBeanProcessor.postProcessBeforeInitialization(testClass,"testClass");
+        assertNotNull(testClass);
+        fooLogger = testClass.fooLogger;
+        defaultLogger = testClass.defaultLogger;
+        nullLogger = testClass.nullLogger;
     }
 }
 class TestLoggerClass

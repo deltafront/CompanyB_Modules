@@ -30,10 +30,10 @@ public class Site
      */
     public Site(String siteName, String siteId, IsoLang primaryLang, IsoLang[] supportedLangs, IsoLocale locale)
     {
-        Validate.notNull(primaryLang);
-        Validate.notNull(locale);
-        Validate.notBlank(siteName);
-        Validate.notBlank(siteId);
+        Validate.notNull(primaryLang,"Primary Lang is required.");
+        Validate.notNull(locale,"Locale is required.");
+        Validate.notBlank(siteName,"Site name is required.");
+        Validate.notBlank(siteId,"Site ID is required.");
         this.siteName = siteName;
         this.siteId = siteId;
         this.primaryLang = primaryLang;
@@ -42,9 +42,9 @@ public class Site
         this.hostName = siteUtils.getHostName();
         this.hostIpAddress = siteUtils.getLocalIpAddress();
         this.supportedLangs = (null == supportedLangs) ? new IsoLang[0] : supportedLangs;
-        Validate.notNull(this.supportedLangs);
-        Validate.notBlank(hostName);
-        Validate.notBlank(hostIpAddress);
+        Validate.notNull(this.supportedLangs,"Supported languages are null after processing!");
+        Validate.notBlank(this.hostName,"Host name is null after processing!");
+        Validate.notBlank(this.hostIpAddress,"Host IP Address is null after processing!");
     }
 
     /**
@@ -108,10 +108,7 @@ public class Site
     public IsoLang[] getSupportedLangs()
     {
         IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-        for(int i = 0; i < this.supportedLangs.length; i++)
-        {
-            isoLangs[i] = this.supportedLangs[i];
-        }
+        for(int i = 0; i < this.supportedLangs.length; i++) isoLangs[i] = this.supportedLangs[i];
         isoLangs[this.supportedLangs.length] = primaryLang;
         return isoLangs;
     }

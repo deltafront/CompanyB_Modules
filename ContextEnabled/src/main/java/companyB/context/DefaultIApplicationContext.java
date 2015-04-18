@@ -22,10 +22,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     protected FactoryUtils factoryUtils;
     static
     {
-        if (null == mapping)
-        {
-            mapping = Collections.synchronizedMap(new HashMap<String, Object>());
-        }
+        if (null == mapping) mapping = Collections.synchronizedMap(new HashMap<String, Object>());
     }
 
     /**
@@ -45,13 +42,14 @@ public class DefaultIApplicationContext implements I_ApplicationContext
      */
     public DefaultIApplicationContext(List<ClassArgsContainer> classArgsContainerList)
     {
+        this();
         for (ClassArgsContainer container : classArgsContainerList)
         {
             Class c = container.get_Class();
             String id = container.getId();
             Object[] args = container.getArgs();
-            Validate.notNull(c);
-            Validate.notBlank(id);
+            Validate.notNull(c,"Container is null.");
+            Validate.notBlank(id,"Id required.");
             Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
             LOGGER.trace(String.format("Instantiated instance of '%s' (number of args: %d).",
@@ -90,14 +88,10 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     @Override
     public <T> T getInstance(Class<T> c, Object[] args, String id)
     {
-        if (!mapping.containsKey(id))
-        {
-            mapping.put(id, factoryUtils.getInstance(c, args));
-        }
+        if (!mapping.containsKey(id)) mapping.put(id, factoryUtils.getInstance(c, args));
         T out = (T) mapping.get(id);
         LOGGER.trace(String.format("Instance of %s returned? %b", c.getCanonicalName(), null != out));
         return out;
-
     }
 
     @Override
@@ -105,11 +99,4 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     {
         mapping.clear();
     }
-
-    /**
-     * @return Singleton instance of DefaultApplicationContext.
-     * @since 1.0
-     */
-
 }
-

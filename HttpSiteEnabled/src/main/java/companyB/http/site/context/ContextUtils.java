@@ -22,7 +22,7 @@ public class ContextUtils
      */
     public <T extends Context> void wrapContext(HttpSession session, final T context)
     {
-        Validate.notNull(session);
+        Validate.notNull(session,"Session to wrap context in is required.");
         String string = new Gson().toJson(context);
         session.setAttribute(context.getContextAttributeName(), context);
         LOGGER.trace(String.format("Wrapping Context to key '%s'\n%s", context.getContextAttributeName(), string));

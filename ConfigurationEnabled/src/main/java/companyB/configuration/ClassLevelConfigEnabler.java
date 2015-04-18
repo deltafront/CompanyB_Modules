@@ -1,5 +1,6 @@
 package companyB.configuration;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,7 @@ public class ClassLevelConfigEnabler
      */
     public void decorate(Object instance)
     {
+        Validate.notNull(instance,"Instance not provided.");
         Field[]fields = instance.getClass().getDeclaredFields();
         for(Field field : fields)
         {
@@ -36,8 +38,6 @@ public class ClassLevelConfigEnabler
                     String family = configEnabled.family();
                     ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
                     field.set(instance,configEnabler);
-
-
                 }
                 catch (IllegalAccessException e)
                 {

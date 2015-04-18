@@ -40,7 +40,7 @@ public class Iso8601Test
         catch (ParseException e)
         {
             e.printStackTrace();
-            fail();
+            fail("Unexpected exception thrown.");
         }
     }
     public void testFromString()

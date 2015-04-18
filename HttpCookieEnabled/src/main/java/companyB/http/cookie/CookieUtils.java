@@ -1,5 +1,6 @@
 package companyB.http.cookie;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,8 @@ public class CookieUtils
      */
     public String cookieToString(Cookie cookie)
     {
-        StringBuilder stringBuilder = new StringBuilder("");
+        Validate.notNull(cookie,"Cookie must be supplied.");
+        String out = "";
         Method[]methods = cookie.getClass().getMethods();
         for(Method method : methods)
         {
@@ -37,9 +39,8 @@ public class CookieUtils
                     Object[]args = null;
                     Object obj_value = method.invoke(cookie,args);
                     if(null != obj_value)
-                    {
-                        stringBuilder.append(String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value)));
-                    }
+                        out += String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value));
+
                 }
                 catch (InvocationTargetException | IllegalAccessException e)
                 {
@@ -47,7 +48,6 @@ public class CookieUtils
                 }
             }
         }
-        stringBuilder.trimToSize();
-        return stringBuilder.toString();
+        return out;
     }
 }

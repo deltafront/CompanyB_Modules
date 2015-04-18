@@ -31,91 +31,102 @@ public class ToStringUtilsTest
     }
     public void iterableToStringBasic()
     {
-        List<Integer> iterable = new LinkedList();
-        for (int i = 0; i < 10; i++)
-        {
-            iterable.add(i);
-        }
+        List<Integer> iterable = getIntegers(10);
         String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
         assertEquals(basicList,out);
     }
-    
+
     public void iterableToStringList()
     {
-        List<List<Integer>> iterable = new LinkedList();
-        for (int i = 0; i < 5; i++)
-        {
-            List<Integer>inner = new LinkedList<>();
-            for(int j=0; j < 5; j++)
-            {
-                inner.add(j);
-            }
-            iterable.add(inner);
-        }
+        List<List<Integer>> iterable = getLists();
         String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
         assertEquals(listOfList,out);
     }
-    
+
     public void iterableToStringMap()
     {
-        List<Map<String,String>> iterable = new LinkedList();
+        List<Map<String, String>> iterable = getMaps();
+        String out = toStringUtils.iterableToString(iterable);
+        assertNotNull(out);
+        assertEquals(listOfMap,out);
+    }
+
+    public void mapToStringBasic()
+    {
+        Map<Integer, Integer> map = getIntegerIntegerMap();
+        String out = toStringUtils.mapToString(map);
+        assertNotNull(out);
+        assertEquals(basicMap,out);
+    }
+
+    public void mapToStringList()
+    {
+        Map<Integer, List<Integer>> map = getIntegerListMap();
+        String out = toStringUtils.mapToString(map);
+        assertNotNull(out);
+        assertEquals(mapOfList,out);
+    }
+
+    public void mapToStringMap()
+    {
+        Map<Integer, Map<Integer, Integer>> map = getIntegerMapMap();
+        String out = toStringUtils.mapToString(map);
+        assertNotNull(out);
+        assertEquals(mapOfMap,out);
+    }
+
+    private Map<Integer, Map<Integer, Integer>> getIntegerMapMap()
+    {
+        Map<Integer,Map<Integer,Integer>>map = new HashMap<>();
+        for(int i= 0; i < 5; i++)
+        {
+            Map<Integer,Integer>inner = new HashMap<>();
+            for(int j=0; j < i; j++)inner.put(j,j);
+            map.put(i,inner);
+        }
+        return map;
+    }
+
+    private List<Integer> getIntegers(int num)
+    {
+        List<Integer> iterable = new LinkedList<>();
+        for (int i = 0; i < num; i++)iterable.add(i);
+        return iterable;
+    }
+    private List<List<Integer>> getLists()
+    {
+        List<List<Integer>> iterable = new LinkedList<>();
+        for (int i = 0; i < 5; i++)iterable.add(getIntegers(5));
+        return iterable;
+    }
+    private List<Map<String, String>> getMaps()
+    {
+        List<Map<String,String>> iterable = new LinkedList<>();
         for (int i = 0; i < 5; i++)
         {
             Map<String,String> map = new HashMap<>();
             map.put("this","that");
             iterable.add(map);
         }
-        String out = toStringUtils.iterableToString(iterable);
-        assertNotNull(out);
-        assertEquals(listOfMap,out);
+        return iterable;
     }
-
-    
-    public void mapToStringBasic()
+    private Map<Integer, Integer> getIntegerIntegerMap()
     {
         Map<Integer,Integer>map = new HashMap<>();
-        for(int i= 0; i < 5; i++)
-        {
-            map.put(i,i);
-        }
-        String out = toStringUtils.mapToString(map);
-        assertNotNull(out);
-        assertEquals(basicMap,out);
+        for(int i= 0; i < 5; i++)map.put(i,i);
+        return map;
     }
-    
-    public void mapToStringList()
+    private Map<Integer, List<Integer>> getIntegerListMap()
     {
         Map<Integer,List<Integer>>map = new HashMap<>();
         for(int i= 0; i < 5; i++)
         {
             List<Integer>list = new LinkedList<>();
-            for(int j=0; j < i; j++)
-            {
-                list.add(j);
-            }
+            for(int j=0; j < i; j++)list.add(j);
             map.put(i,list);
         }
-        String out = toStringUtils.mapToString(map);
-        assertNotNull(out);
-        assertEquals(mapOfList,out);
-    }
-    
-    public void mapToStringMap()
-    {
-        Map<Integer,Map<Integer,Integer>>map = new HashMap<>();
-        for(int i= 0; i < 5; i++)
-        {
-            Map<Integer,Integer>inner = new HashMap<>();
-            for(int j=0; j < i; j++)
-            {
-                inner.put(j,j);
-            }
-            map.put(i,inner);
-        }
-        String out = toStringUtils.mapToString(map);
-        assertNotNull(out);
-        assertEquals(mapOfMap,out);
+        return map;
     }
 }

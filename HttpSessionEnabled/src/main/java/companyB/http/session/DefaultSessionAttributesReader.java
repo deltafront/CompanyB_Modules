@@ -1,5 +1,6 @@
 package companyB.http.session;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,8 @@ public class DefaultSessionAttributesReader
      */
     public DefaultSessionAttributes readDefaultSessionAttributes(String filename)
     {
-        DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
+        Validate.notBlank(filename);
+        DefaultSessionAttributes defaultSessionAttributes = null;
         final File file = new File(filename);
         LOGGER.trace(String.format("Reading attributes from %s",file.getAbsolutePath()));
         try
@@ -40,6 +42,7 @@ public class DefaultSessionAttributesReader
             while((temp = bufferedReader.readLine())!= null)
             {
                 defaultSessionAttributes = getDefaultSessionAttributes(temp);
+                LOGGER.trace(defaultSessionAttributes.toString());
             }
             bufferedReader.close();
             reader.close();
@@ -48,7 +51,7 @@ public class DefaultSessionAttributesReader
         {
             LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace(defaultSessionAttributes.toString());
+
         return defaultSessionAttributes;
     }
 
@@ -60,28 +63,22 @@ public class DefaultSessionAttributesReader
      */
     public DefaultSessionAttributes getDefaultSessionAttributes(String line)
     {
+        Validate.notBlank(line);
         LOGGER.trace(String.format("Getting DefaultSessionAttributes from line:\n%s",line));
-        final DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
         final List<String> attributeList = new LinkedList<>();
-        defaultSessionAttributes.maxInterval = -1;
+        Integer maxInterval = -1;
         String[]attributes;
         if(line.contains("="))
         {
             final String[]splits = line.split("=");
-            defaultSessionAttributes.maxInterval = Integer.parseInt(splits[0]);
+            maxInterval = Integer.parseInt(splits[0]);
             attributes = splits[1].contains(",") ? splits[1].split(",") : new String[]{splits[1]};
-
         }
-        else if (line.contains(","))
-        {
-            attributes = line.split(",");
-        }
-        else
-        {
-            attributes = new String[]{line};
-        }
+        else if (line.contains(",")) attributes = line.split(",");
+        else attributes = new String[]{line};
         Collections.addAll(attributeList, attributes);
-        defaultSessionAttributes.defaultSessionAttributeNames = attributeList;
+        DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes(attributeList);
+        defaultSessionAttributes = defaultSessionAttributes.withMaxInterval(maxInterval);
         LOGGER.trace(defaultSessionAttributes.toString());
         return defaultSessionAttributes;
     }

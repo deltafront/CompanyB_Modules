@@ -33,10 +33,7 @@ public class GetDefaultCookieTest extends TestBase
         cookies = new Cookie[defaultCookieList.size() + 1];
         defaultCookieList = getDefaultCookies();
         cookieUtils = new DefaultCookieUtils(defaultCookieList);
-        for(int i = 0; i < defaultCookieList.size(); i++)
-        {
-            cookies[i]= defaultCookieList.get(i).getCookie();
-        }
+        for(int i = 0; i < defaultCookieList.size(); i++) cookies[i]= defaultCookieList.get(i).getCookie();
         cookies[defaultCookieList.size()] = new Cookie("nondefault", "nondefault");
     }
 

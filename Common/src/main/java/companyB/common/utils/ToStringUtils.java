@@ -20,23 +20,19 @@ public class ToStringUtils
      */
     public <E> String iterableToString(Iterable<E> iterable)
     {
-        StringBuilder stringBuilder = new StringBuilder("[");
+        String result = ("[");
         if(null != iterable)
         {
             for( E out : iterable)
             {
                 String temp = (out instanceof Iterable) ? iterableToString((Iterable)out) :
                         (out instanceof Map) ? mapToString((Map)out) : String.valueOf(out);
-                stringBuilder.append(String.format("%s,",temp));
+                result += (String.format("%s,",temp));
             }
         }
-        stringBuilder.trimToSize();
-        String out = stringBuilder.toString();
-        if(out.contains(","))
-        {
-            out = out.substring(0,out.lastIndexOf(","));
-        }
-        return String.format("%s]",out);
+        if(result.contains(","))
+            result = result.substring(0,result.lastIndexOf(","));
+        return String.format("%s]",result);
     }
 
     /**
@@ -49,7 +45,7 @@ public class ToStringUtils
      */
     public <Key,Value> String mapToString(Map<Key, Value> map)
     {
-        StringBuilder stringBuilder = new StringBuilder("{");
+        String out  = ("{");
         if(null != map)
         {
             Set<Key>keys = map.keySet();
@@ -58,15 +54,11 @@ public class ToStringUtils
                 Value value = map.get(key);
                 String temp = (value instanceof Iterable) ? iterableToString((Iterable)value) :
                         (value instanceof Map) ? mapToString((Map)value) : String.valueOf(value);
-                stringBuilder.append(String.format("%s:%s,",key,temp));
+                out += (String.format("%s:%s,",key,temp));
             }
         }
-        stringBuilder.trimToSize();
-        String out = stringBuilder.toString();
         if(out.contains(","))
-        {
             out = out.substring(0,out.lastIndexOf(","));
-        }
         return String.format("%s}",out);
     }
 }

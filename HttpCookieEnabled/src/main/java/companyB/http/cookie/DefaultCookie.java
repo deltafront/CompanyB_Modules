@@ -1,5 +1,7 @@
 package companyB.http.cookie;
 
+import org.apache.commons.lang3.Validate;
+
 import javax.servlet.http.Cookie;
 
 /**
@@ -21,6 +23,7 @@ public class DefaultCookie
      */
     public DefaultCookie(Cookie cookie, boolean replaceIfExists)
     {
+        Validate.notNull(cookie,"Cookie must be supplied.");
         this.cookie = cookie;
         this.replaceIfExists = replaceIfExists;
     }
