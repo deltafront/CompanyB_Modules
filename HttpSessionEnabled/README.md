@@ -32,7 +32,7 @@ Most messages are being logged to trace or debug, except for in the case where e
 ```xml
     <dependency>
         <groupId>companyB</groupId>
-        <artifactId>HttpCookieEnabled</artifactId>
-        <version>1.0</version>
+        <artifactId>HttpSessionEnabled</artifactId>
+        <version>${http.session.enabled.version}</version>
     </dependency>
 ```

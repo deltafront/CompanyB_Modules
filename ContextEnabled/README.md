@@ -54,6 +54,6 @@ error. Facade implementations will need to be provided at runtime.
     <dependency>
         <groupId>companyB</groupId>
         <artifactId>ContextEnabled</artifactId>
-        <version>1.0</version>
+        <version>${context.enabled.version}</version>
     </dependency>
 ```
