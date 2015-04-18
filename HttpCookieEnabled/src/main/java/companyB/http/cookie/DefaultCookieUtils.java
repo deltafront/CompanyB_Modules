@@ -18,9 +18,9 @@ import java.util.*;
 public class DefaultCookieUtils
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(DefaultCookieUtils.class);
-    private List<DefaultCookie>defaultCookies;
-    private Set<String>defaultCookieNames;
-    private CookieUtils cookieUtils;
+    private final List<DefaultCookie>defaultCookies;
+    private final Set<String>defaultCookieNames;
+    private final CookieUtils cookieUtils;
 
     /**
      * Default constructor.

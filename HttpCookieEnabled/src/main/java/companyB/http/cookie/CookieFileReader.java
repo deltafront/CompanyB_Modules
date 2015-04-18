@@ -49,6 +49,7 @@ public class CookieFileReader
      * @return List of DefaultCookies.
      * @since 1.0
      */
+    @SuppressWarnings("unchecked")
     public List<DefaultCookie> readCookiesFromFile(String filename)
     {
         Validate.notEmpty(filename,"Filename must be provided.");

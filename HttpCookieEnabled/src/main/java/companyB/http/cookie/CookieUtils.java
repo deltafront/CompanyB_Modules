@@ -23,6 +23,7 @@ public class CookieUtils
      * @return String representation of Cookie.
      * @since 1.0
      */
+    @SuppressWarnings("ConstantConditions")
     public String cookieToString(Cookie cookie)
     {
         Validate.notNull(cookie,"Cookie must be supplied.");
