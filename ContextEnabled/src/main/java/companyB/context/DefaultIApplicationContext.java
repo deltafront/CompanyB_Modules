@@ -19,7 +19,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
 {
     protected final static Logger LOGGER = LoggerFactory.getLogger(DefaultIApplicationContext.class);
     protected static Map<String, Object> mapping;
-    protected FactoryUtils factoryUtils;
+    protected final FactoryUtils factoryUtils;
     static
     {
         if (null == mapping) mapping = Collections.synchronizedMap(new HashMap<String, Object>());
@@ -57,6 +57,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public <Value> boolean associate(String key, Value value)
     {
