@@ -32,69 +32,44 @@ public class SiteTest
     public void nullLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,null,isoLocale);
-        assertNotNull(site);
-        assertEquals(name,site.getSiteName());
-        assertEquals(id,site.getSiteId());
-        assertEquals(primaryIsoLang,site.getPrimaryLang());
-        assertTrue(ArrayUtils.contains(site.getSupportedLangs(),primaryIsoLang));
-        assertEquals(isoLocale,site.getLocale());
-        assertNotNull(site.getHostIpAddress());
-        assertNotNull(site.getHostName());
+        validateSite(site);
 
     }
 
     public void zeroLenLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[0],isoLocale);
-        assertNotNull(site);
-        assertEquals(name,site.getSiteName());
-        assertEquals(id,site.getSiteId());
-        assertEquals(primaryIsoLang,site.getPrimaryLang());
-        assertTrue(ArrayUtils.contains(site.getSupportedLangs(),primaryIsoLang));
-        assertEquals(isoLocale,site.getLocale());
-        assertNotNull(site.getHostIpAddress());
-        assertNotNull(site.getHostName());
+        validateSite(site);
 
     }
 
     public void nonEmptyLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
-        assertNotNull(site);
-        assertEquals(name,site.getSiteName());
-        assertEquals(id,site.getSiteId());
-        assertEquals(primaryIsoLang,site.getPrimaryLang());
-        assertTrue(ArrayUtils.contains(site.getSupportedLangs(),primaryIsoLang));
-        assertEquals(isoLocale,site.getLocale());
-        assertNotNull(site.getHostIpAddress());
-        assertNotNull(site.getHostName());
+        validateSite(site);
     }
 
     public void emptyLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[100],isoLocale);
-        assertNotNull(site);
-        assertEquals(name,site.getSiteName());
-        assertEquals(id,site.getSiteId());
-        assertEquals(primaryIsoLang,site.getPrimaryLang());
-        assertTrue(ArrayUtils.contains(site.getSupportedLangs(),primaryIsoLang));
-        assertEquals(isoLocale,site.getLocale());
-        assertNotNull(site.getHostIpAddress());
-        assertNotNull(site.getHostName());
+        validateSite(site);
     }
 
 
     public void allLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,isoLangs,isoLocale);
+        validateSite(site);
+    }
+    private void validateSite(Site site)
+    {
         assertNotNull(site);
         assertEquals(name,site.getSiteName());
         assertEquals(id,site.getSiteId());
         assertEquals(primaryIsoLang,site.getPrimaryLang());
-        assertTrue(ArrayUtils.contains(site.getSupportedLangs(),primaryIsoLang));
+        assertTrue(ArrayUtils.contains(site.getSupportedLangs(), primaryIsoLang));
         assertEquals(isoLocale,site.getLocale());
         assertNotNull(site.getHostIpAddress());
         assertNotNull(site.getHostName());
     }
-
 }

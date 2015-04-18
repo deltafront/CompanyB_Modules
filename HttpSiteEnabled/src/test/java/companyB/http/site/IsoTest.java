@@ -12,17 +12,13 @@ public class IsoTest
     {
         IsoLang[]isoLangs = IsoLang.values();
         for(IsoLang isoLang : isoLangs)
-        {
             assertNotNull(String.format("No abbreviation for IsoLang '%s'.",isoLang),isoLang.abbr);
-        }
     }
 
     public void testIsoLocaleNonEmpty()
     {
         IsoLocale[]isoLocales = IsoLocale.values();
         for(IsoLocale isoLocale : isoLocales)
-        {
             assertNotNull(String.format("No abbreviation for IsoLocale '%s'.",isoLocale),isoLocale.abbr);
-        }
     }
 }

@@ -34,18 +34,9 @@ public class SiteUtils
         InetAddress inetAddress = getLocalInetAddress();
         Validate.notNull(inetAddress);
         hostname = inetAddress.getHostName();
-        if (StringUtils.isBlank(hostname))
-        {
-            hostname = System.getenv("COMPUTERNAME");
-        }
-        if (StringUtils.isBlank(hostname))
-        {
-            hostname = System.getenv("HOSTNAME");
-        }
-        if(StringUtils.isBlank(hostname))
-        {
-           hostname = runtimeUtils.executeCommand("hostname");
-        }
+        if (StringUtils.isBlank(hostname)) hostname = System.getenv("COMPUTERNAME");
+        if (StringUtils.isBlank(hostname)) hostname = System.getenv("HOSTNAME");
+        if(StringUtils.isBlank(hostname)) hostname = runtimeUtils.executeCommand("hostname");
         LOGGER.debug(String.format("Returning hostname '%s'.", hostname));
         return hostname;
     }

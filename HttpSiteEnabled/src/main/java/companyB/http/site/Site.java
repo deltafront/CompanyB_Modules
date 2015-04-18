@@ -108,10 +108,7 @@ public class Site
     public IsoLang[] getSupportedLangs()
     {
         IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-        for(int i = 0; i < this.supportedLangs.length; i++)
-        {
-            isoLangs[i] = this.supportedLangs[i];
-        }
+        for(int i = 0; i < this.supportedLangs.length; i++) isoLangs[i] = this.supportedLangs[i];
         isoLangs[this.supportedLangs.length] = primaryLang;
         return isoLangs;
     }
