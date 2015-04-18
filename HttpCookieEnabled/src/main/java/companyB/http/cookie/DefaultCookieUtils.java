@@ -32,10 +32,8 @@ public class DefaultCookieUtils
         Validate.notNull(defaultCookies,"List of default cookies must be supplied.");
         this.defaultCookies = defaultCookies;
         defaultCookieNames = new HashSet<>();
-        for(DefaultCookie defaultCookie : this.defaultCookies)
-        {
+        for(final DefaultCookie defaultCookie : this.defaultCookies)
             defaultCookieNames.add(defaultCookie.getCookie().getName());
-        }
         this.cookieUtils = new CookieUtils();
     }
 
@@ -129,10 +127,7 @@ public class DefaultCookieUtils
     {
         Cookie cookie = null;
         final Map<String,Cookie> cookieMap = getCookieMap(request);
-        if(validateDefaultCookieName(name) && validateDefaultCookieIsPresent(name,cookieMap))
-        {
-            cookie = cookieMap.get(name);
-        }
+        if(validateDefaultCookieName(name) && validateDefaultCookieIsPresent(name,cookieMap)) cookie = cookieMap.get(name);
         LOGGER.debug(String.format("Cookie %s present? %b",name, null != cookie));
         return cookie;
     }

@@ -39,10 +39,7 @@ public class CookieReaderTestBase extends TestBase
         {
             File file = File.createTempFile("cookie","definition");
             Writer writer = new FileWriter(file);
-            for(String line : lines)
-            {
-                writer.write(String.format("%s\n",line));
-            }
+            for(String line : lines) writer.write(String.format("%s\n",line));
             writer.close();
             filename = file.getAbsolutePath();
             file.deleteOnExit();
@@ -65,22 +62,13 @@ public class CookieReaderTestBase extends TestBase
             if(cookiesExpected)
             {
                 assertFalse(defaultCookies.isEmpty());
-                for(DefaultCookie defaultCookie : defaultCookies)
-                {
-                    verifyDefaultCookie(defaultCookie);
-                }
+                for(DefaultCookie defaultCookie : defaultCookies) verifyDefaultCookie(defaultCookie);
             }
-            else
-            {
-                fail("Illegal Argument Exception should have been thrown.");
-            }
+            else fail("Illegal Argument Exception should have been thrown.");
         }
         catch (IllegalArgumentException | InterruptedException e)
         {
-            if(cookiesExpected)
-            {
-                fail("This exception should not have been thrown.");
-            }
+            if(cookiesExpected) fail("This exception should not have been thrown.");
         }
     }
     private void verifyDefaultCookie(DefaultCookie defaultCookie)
@@ -92,45 +80,15 @@ public class CookieReaderTestBase extends TestBase
         assertEquals(value,cookie.getValue());
         assertEquals(domain.toLowerCase(),cookie.getDomain());
         assertEquals(path,cookie.getPath());
-        if("".equals(comment))
-        {
-            assertNull(cookie.getComment());
-        }
-        else
-        {
-            assertEquals(comment,cookie.getComment());
-        }
-        if("".equals(version))
-        {
-            assertEquals(0,cookie.getVersion());
-        }
-        else
-        {
-            assertEquals(Integer.parseInt(version),cookie.getVersion());
-        }
-        if("".equals(maxAge))
-        {
-            assertEquals(-1,cookie.getMaxAge());
-        }
-        else
-        {
-            assertEquals(Integer.parseInt(maxAge),cookie.getMaxAge());
-        }
-        if("".equals(secure))
-        {
-            assertEquals(false,cookie.getSecure());
-        }
-        else
-        {
-            assertEquals(Boolean.parseBoolean(secure),cookie.getSecure());
-        }
-        if("".equals(httpOnly))
-        {
-            assertEquals(false,cookie.isHttpOnly());
-        }
-        else
-        {
-            assertEquals(Boolean.parseBoolean(httpOnly),cookie.isHttpOnly());
-        }
+        if("".equals(comment)) assertNull(cookie.getComment());
+        else  assertEquals(comment, cookie.getComment());
+        if("".equals(version))  assertEquals(0,cookie.getVersion());
+        else assertEquals(Integer.parseInt(version),cookie.getVersion());
+        if("".equals(maxAge))  assertEquals(-1,cookie.getMaxAge());
+        else assertEquals(Integer.parseInt(maxAge),cookie.getMaxAge());
+        if("".equals(secure)) assertEquals(false,cookie.getSecure());
+        else assertEquals(Boolean.parseBoolean(secure),cookie.getSecure());
+        if("".equals(httpOnly)) assertEquals(false,cookie.isHttpOnly());
+        else assertEquals(Boolean.parseBoolean(httpOnly),cookie.isHttpOnly());
     }
 }

@@ -40,10 +40,7 @@ public class ClassLevelConfigEnablerTest
         }
         finally
         {
-            if(file.exists())
-            {
-                file.deleteOnExit();
-            }
+            if(file.exists()) file.deleteOnExit();
         }
         assertTrue(passed);
     }

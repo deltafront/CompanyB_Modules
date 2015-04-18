@@ -15,3 +15,5 @@
     *   [card](https://trello.com/c/VmbfZ7TH/22-1-1-1-fix-failing-tests)
 *   Ability to deploy to Tomcat instance
     *   [card](https://trello.com/c/X0gubdWw/30-1-1-1-tomcat-7-maven-plugin)
+*  Improved messaging for tests that have expected failure conditions
+    *   [card](https://trello.com/c/FDK2TynQ/31-1-1-1-common-error-messages-in-validate-statements)

@@ -26,7 +26,7 @@ public class CookieUtils
     public String cookieToString(Cookie cookie)
     {
         Validate.notNull(cookie,"Cookie must be supplied.");
-        StringBuilder stringBuilder = new StringBuilder("");
+        String out = "";
         Method[]methods = cookie.getClass().getMethods();
         for(Method method : methods)
         {
@@ -39,9 +39,8 @@ public class CookieUtils
                     Object[]args = null;
                     Object obj_value = method.invoke(cookie,args);
                     if(null != obj_value)
-                    {
-                        stringBuilder.append(String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value)));
-                    }
+                        out += String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value));
+
                 }
                 catch (InvocationTargetException | IllegalAccessException e)
                 {
@@ -49,7 +48,6 @@ public class CookieUtils
                 }
             }
         }
-        stringBuilder.trimToSize();
-        return stringBuilder.toString();
+        return out;
     }
 }
