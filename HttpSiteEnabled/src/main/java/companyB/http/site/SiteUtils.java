@@ -30,10 +30,9 @@ public class SiteUtils
     public String getHostName()
     {
         final RuntimeUtils runtimeUtils = new RuntimeUtils();
-        String hostname = null;
         InetAddress inetAddress = getLocalInetAddress();
         Validate.notNull(inetAddress);
-        hostname = inetAddress.getHostName();
+        String hostname = inetAddress.getHostName();
         if (StringUtils.isBlank(hostname)) hostname = System.getenv("COMPUTERNAME");
         if (StringUtils.isBlank(hostname)) hostname = System.getenv("HOSTNAME");
         if(StringUtils.isBlank(hostname)) hostname = runtimeUtils.executeCommand("hostname");

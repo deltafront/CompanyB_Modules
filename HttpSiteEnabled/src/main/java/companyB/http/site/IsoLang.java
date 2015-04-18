@@ -150,7 +150,7 @@ public enum IsoLang
     Zhuang("ZA"),
     Chinese("ZH"),
     Zulu("ZU");
-    public String abbr;
+    public final String abbr;
 
     private IsoLang(String abbr)
     {

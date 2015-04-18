@@ -17,7 +17,6 @@ public class Site
     private final IsoLocale locale;
     private final String hostName;
     private final String hostIpAddress;
-    private final SiteUtils siteUtils;
 
     /**
      * Default constructor.
@@ -38,7 +37,7 @@ public class Site
         this.siteId = siteId;
         this.primaryLang = primaryLang;
         this.locale = locale;
-        this.siteUtils = new SiteUtils();
+        SiteUtils siteUtils = new SiteUtils();
         this.hostName = siteUtils.getHostName();
         this.hostIpAddress = siteUtils.getLocalIpAddress();
         this.supportedLangs = (null == supportedLangs) ? new IsoLang[0] : supportedLangs;
@@ -108,7 +107,7 @@ public class Site
     public IsoLang[] getSupportedLangs()
     {
         IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-        for(int i = 0; i < this.supportedLangs.length; i++) isoLangs[i] = this.supportedLangs[i];
+        System.arraycopy(this.supportedLangs, 0, isoLangs, 0, this.supportedLangs.length);
         isoLangs[this.supportedLangs.length] = primaryLang;
         return isoLangs;
     }

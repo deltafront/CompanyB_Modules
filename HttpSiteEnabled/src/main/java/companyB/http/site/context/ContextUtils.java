@@ -35,6 +35,7 @@ public class ContextUtils
      * @return Context from Session, or null if not found.
      * @since 1.0
      */
+    @SuppressWarnings("unchecked")
     public <T extends Context> T unwrapContext(String contextAttributeName, HttpSession session)
     {
         Context context = null;

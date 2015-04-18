@@ -257,7 +257,7 @@ public enum IsoLocale
     Yemen("YE"),
     Zambia("ZM"),
     Zimbabwe("ZW");
-    public String abbr;
+    public final String abbr;
     private IsoLocale(String abbr)
     {
         this.abbr = abbr;
