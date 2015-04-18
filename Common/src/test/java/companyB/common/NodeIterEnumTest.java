@@ -22,9 +22,9 @@ public class NodeIterEnumTest
     @BeforeMethod
     public void setUp() throws Exception
     {
-        nie = new NodeIterEnum<String>();
-        e_iter = (Enumeration<String>) nie;
-        iter_e = (Iterator<String>) nie;
+        nie = new NodeIterEnum<>();
+        e_iter = nie;
+        iter_e = nie;
         test_string = "test string";
         fake_string = "fake string";
     }
@@ -180,7 +180,7 @@ public class NodeIterEnumTest
         nie.add(fake_string);
 
         iter_e.remove();
-        fail("IllegalStateException should have been thrown - 'next' was not called before 'remove'..");
+        fail("IllegalStateException should have been thrown - 'next' was not called before 'remove'.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
@@ -192,7 +192,7 @@ public class NodeIterEnumTest
         iter_e.next();
         iter_e.remove();
         iter_e.remove();
-        fail("IllegalStateException should have been thrown - 'next' was not called immediately before 'remove'..");
+        fail("IllegalStateException should have been thrown - 'next' was not called immediately before 'remove'.");
     }
 
     public void testRemoveAfterAllGone()

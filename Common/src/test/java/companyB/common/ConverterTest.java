@@ -43,13 +43,9 @@ public class ConverterTest
             assertNotNull(ret);
             assertTrue(converter.isNumberType(ret.getClass()));
             if (Double.class.equals(c) || double.class.equals(c))
-            {
                 assertEquals(String.valueOf(Double.parseDouble(numberString)), String.valueOf(ret));
-            }
             else
-            {
                 assertEquals(numberString, String.valueOf(ret));
-            }
         }
     }
 
@@ -69,10 +65,7 @@ public class ConverterTest
 
     public void testIsByte()
     {
-        for (Class c : new Class[]{Byte.class, byte.class})
-        {
-            assertTrue(converter.isByte(c));
-        }
+        for (Class c : new Class[]{Byte.class, byte.class}) assertTrue(converter.isByte(c));
     }
 
 
@@ -84,10 +77,7 @@ public class ConverterTest
 
     public void testValidSupportedTypes()
     {
-        for (Class c : Converter.supportedClasses)
-        {
-            assertTrue(converter.isSupported(c));
-        }
+        for (Class c : Converter.supportedClasses) assertTrue(converter.isSupported(c));
     }
 
 
@@ -106,19 +96,13 @@ public class ConverterTest
 
     public void testIsStringOrChar()
     {
-        for (Class c : new Class[]{String.class, char.class, Character.class})
-        {
-            assertTrue(converter.isCharOrString(c));
-        }
+        for (Class c : new Class[]{String.class, char.class, Character.class}) assertTrue(converter.isCharOrString(c));
     }
 
 
     public void testIsBigType()
     {
-        for (Class c : new Class[]{BigDecimal.class, BigInteger.class})
-        {
-            assertTrue(converter.isBigType(c));
-        }
+        for (Class c : new Class[]{BigDecimal.class, BigInteger.class}) assertTrue(converter.isBigType(c));
     }
 
 

@@ -34,10 +34,7 @@ public class CollectionsSplitter
     @SuppressWarnings("unchecked")
     public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
-        if (collection == null)
-        {
-            return new LinkedList<List>();
-        }
+        if (collection == null)return new LinkedList<>();
         int num = (split_num == 0 || split_num > collection.size())
                 ? collection.size() : split_num;
         return (strategy == optimization_strategy.number_of_items)
@@ -48,18 +45,12 @@ public class CollectionsSplitter
     private List<List> number_of_lists(Collection collection, int num)
     {
         List<List> list = new LinkedList<List>();
-        for (int i = 0; i < num; i++)
-        {
-            list.add(new LinkedList());
-        }
+        for (int i = 0; i < num; i++)list.add(new LinkedList());
         int count = 0;
         Iterator iter = collection.iterator();
         while (iter.hasNext())
         {
-            if (count == num)
-            {
-                count = 0;
-            }
+            if (count == num)count = 0;
             list.get(count).add(iter.next());
             count++;
         }
@@ -85,10 +76,7 @@ public class CollectionsSplitter
                 _list = new LinkedList();
             }
         }
-        if (_list.size() > 0)
-        {
-            list.add(_list);
-        }
+        if (_list.size() > 0) list.add(_list);
         return list;
     }
 }

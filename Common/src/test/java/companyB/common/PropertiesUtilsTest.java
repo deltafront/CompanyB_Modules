@@ -136,15 +136,10 @@ public class PropertiesUtilsTest
 
     private boolean matcher(String value_key_pair, Map<String, String> map)
     {
-        boolean match = false;
         String[] split = value_key_pair.split("=");
         String key = split[0];
         String value = split[1];
-        match = (value.equals(map.get(key)));
-        if (!match)
-        {
-            System.out.println(key + "@" + value + "::" + map.get(key));
-        }
+        boolean match = (value.equals(map.get(key)));
         return match;
     }
 

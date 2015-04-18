@@ -33,13 +33,7 @@ public class RuntimeUtils
             Reader reader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String temp;
-            StringBuilder stringBuilder = new StringBuilder("");
-            while((temp = bufferedReader.readLine())!= null)
-            {
-                stringBuilder.append(temp);
-            }
-            stringBuilder.trimToSize();
-            result = stringBuilder.toString();
+            while((temp = bufferedReader.readLine())!= null) result += temp;
         }
         catch (IOException e)
         {
