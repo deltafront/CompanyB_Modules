@@ -68,18 +68,18 @@ public class DefaultSessionUtils
         Validate.notNull(session);
         if(setMaxInterval)
         {
-            session.setMaxInactiveInterval(defaultSessionAttributes.maxInterval);
+            session.setMaxInactiveInterval(defaultSessionAttributes.getMaxInterval());
         }
         session.setAttribute(defaultSessionAttribute,defaultSessionAttributeValue);
         LOGGER.trace(String.format("Setting Session Value '%s' to %s. " +
                 "Initializing new session? %b Setting max interval to %d? %b",
-                defaultSessionAttribute,defaultSessionAttributeValue,initializeIfNoSession,defaultSessionAttributes.maxInterval,
+                defaultSessionAttribute,defaultSessionAttributeValue,initializeIfNoSession,defaultSessionAttributes.getMaxInterval(),
                 setMaxInterval));
         return true;
     }
 
     private void verifySessionAttribute(String sessionAttribute)
     {
-        Validate.isTrue(defaultSessionAttributes.defaultSessionAttributeNames.contains(sessionAttribute));
+        Validate.isTrue(defaultSessionAttributes.getDefaultSessionAttributeNames().contains(sessionAttribute));
     }
 }

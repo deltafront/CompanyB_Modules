@@ -1,5 +1,7 @@
 package companyB.http.session;
 
+import org.apache.commons.lang3.Validate;
+
 import java.util.List;
 
 /**
@@ -9,15 +11,50 @@ import java.util.List;
  */
 public class DefaultSessionAttributes
 {
-    /**
-     * All of the attribute names that this session is supposed to contain.
-     */
-    public List<String>defaultSessionAttributeNames;
-    /**
-     * Max interval for this session.
-     */
-    public Integer maxInterval = -1;
+    private final List<String>defaultSessionAttributeNames;
 
+    private Integer maxInterval = -1;
+
+    public DefaultSessionAttributes(List<String> defaultSessionAttributeNames)
+    {
+        Validate.notNull(defaultSessionAttributeNames);
+        this.defaultSessionAttributeNames = defaultSessionAttributeNames;
+    }
+
+    /**
+     * Sets the max interval time for this session.
+     * @param maxInterval Max interval time.
+     * @return This instance of DefaultSessionAttributes with the new max interval.
+     * @since 1.1
+     */
+    public DefaultSessionAttributes withMaxInterval(Integer maxInterval)
+    {
+        Validate.notNull(maxInterval);
+        this.maxInterval = maxInterval;
+        return this;
+    }
+    /**
+     * @return All of the attribute names that this session is supposed to contain.
+     * @since 1.1
+     */
+    public List<String> getDefaultSessionAttributeNames()
+    {
+        return defaultSessionAttributeNames;
+    }
+
+    /**
+     * @return Max interval for this session.
+     * @since 1.1
+     */
+    public Integer getMaxInterval()
+    {
+        return maxInterval;
+    }
+
+    /**
+     * @return Max interval for this session.
+     * @since 1.1
+     */
     public String toString()
     {
         StringBuilder stringBuilder = new StringBuilder(String.format("Max interval: %s",maxInterval));
@@ -32,4 +69,5 @@ public class DefaultSessionAttributes
         stringBuilder.trimToSize();
         return stringBuilder.toString();
     }
+
 }
