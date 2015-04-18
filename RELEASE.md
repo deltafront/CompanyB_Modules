@@ -10,7 +10,7 @@
     *   [card](https://trello.com/c/U1jDDfxd/29-1-1-1-switch-all-common-utility-classes-from-abstract-to-beans)
 *   Implemented ISO-8601 Simple Date Formatter
     *   [card](https://trello.com/c/kvi9st1N/1-1-1-0-implement-default-simpledateformatter-that-returns-date-string-in-iso-8601-format)
-# 1.1.1
+# 1.1.1 (2015-04-17)
 *   Fixed all failing tests
     *   [card](https://trello.com/c/VmbfZ7TH/22-1-1-1-fix-failing-tests)
 *   Ability to deploy to Tomcat instance
@@ -19,3 +19,4 @@
     *   [card](https://trello.com/c/FDK2TynQ/31-1-1-1-common-error-messages-in-validate-statements)
 *   General Code Cleanup
     *   [card](https://trello.com/c/rrMkCO6n/35-1-1-1-code-cleanup)
+# 1.1.2
