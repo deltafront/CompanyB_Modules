@@ -20,3 +20,5 @@
 *   General Code Cleanup
     *   [card](https://trello.com/c/rrMkCO6n/35-1-1-1-code-cleanup)
 # 1.1.2
+*   Removed warnings in code via addressing or suppressing
+    *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
