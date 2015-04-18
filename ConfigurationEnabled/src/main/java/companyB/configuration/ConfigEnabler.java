@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ConfigEnabler
 {
-    private Map<String,String> mapping;
+    private final Map<String,String> mapping;
     private static Map<String,Map<String,String>> property_mappings;
     private final static Logger LOGGER = LoggerFactory.getLogger(ConfigEnabler.class);
     static
