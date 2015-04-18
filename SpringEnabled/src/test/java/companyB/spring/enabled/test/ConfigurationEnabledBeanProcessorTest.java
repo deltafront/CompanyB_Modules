@@ -22,36 +22,15 @@ public class ConfigurationEnabledBeanProcessorTest
 {
     public void testPostProcessBeforeInitialization()
     {
-        boolean passed = false;
-        File file = new File("config.properties");
-        try
-        {
-            String out = "foo.int=42\nfoo.bool=true\nbar.int=43\nbar.bool=false";
-            Writer writer = new FileWriter(file);
-            writer.write(out);
-            writer.close();
-            TestClass testClass = new TestClass();
-            testClass = (TestClass)new ConfigurationEnabledBeanProcessor().postProcessBeforeInitialization(testClass, "testClass");
-            assertNotNull(testClass);
-            assertNotNull(testClass.configEnabler_1);
-            assertNotNull(testClass.configEnabler_2);
-            passed = testClass.callAll();
-        }
-        catch (IOException e)
-        {
-            passed = false;
-        }
-        finally
-        {
-            if(file.exists())
-            {
-                file.deleteOnExit();
-            }
-        }
-        assertTrue(passed);
+        performTestDecoration(false);
+
     }
-    @Test(expectedExceptions = NullPointerException.class)
+
     public void testPostProcessAfterInitialization()
+    {
+        performTestDecoration(true);
+    }
+    private void performTestDecoration(boolean processAfterInitialization)
     {
         File file = new File("config.properties");
         try
@@ -61,15 +40,32 @@ public class ConfigurationEnabledBeanProcessorTest
             writer.write(out);
             writer.close();
             TestClass testClass = new TestClass();
-            testClass = (TestClass)new ConfigurationEnabledBeanProcessor().postProcessAfterInitialization(testClass, "testClass");
+            testClass = processAfterInitialization ?
+                    (TestClass)new ConfigurationEnabledBeanProcessor().
+                            postProcessAfterInitialization(testClass, "testClass"):
+                    (TestClass)new ConfigurationEnabledBeanProcessor().
+                            postProcessBeforeInitialization(testClass, "testClass");
             assertNotNull(testClass);
-            assertNull(testClass.configEnabler_1);
-            assertNull(testClass.configEnabler_2);
+            if(processAfterInitialization)
+            {
+                assertNull(testClass.configEnabler_1);
+                assertNull(testClass.configEnabler_2);
+            }
+            else
+            {
+                assertNotNull(testClass.configEnabler_1);
+                assertNotNull(testClass.configEnabler_2);
+            }
             testClass.callAll();
-            fail("Null pointer Exception expected - Configuration has not been correctly decorated.");
+        }
+        catch (NullPointerException e)
+        {
+            if(processAfterInitialization) assertTrue(true);
         }
         catch (IOException e)
-        {}
+        {
+            fail(e.getMessage());
+        }
         finally
         {
             if(file.exists())
