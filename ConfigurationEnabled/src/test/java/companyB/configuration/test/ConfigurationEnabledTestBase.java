@@ -20,12 +20,7 @@ public class ConfigurationEnabledTestBase
                 {"this is a string",true,42,42L,42,42.00D,42,42.00,42.00F};
         final String[] families  = {"family1", "family2"};
         for (String family : families)
-        {
-            for(int i = 0; i < properties.length; i++)
-            {
-                values.put(String.format("%s.%s",family,properties[i]),vals[i]);
-            }
-        }
+            for(int i = 0; i < properties.length; i++) values.put(String.format("%s.%s",family,properties[i]),vals[i]);
         return values;
     }
 

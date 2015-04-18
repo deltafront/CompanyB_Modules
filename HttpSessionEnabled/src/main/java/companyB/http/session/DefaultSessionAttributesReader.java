@@ -73,16 +73,9 @@ public class DefaultSessionAttributesReader
             final String[]splits = line.split("=");
             maxInterval = Integer.parseInt(splits[0]);
             attributes = splits[1].contains(",") ? splits[1].split(",") : new String[]{splits[1]};
-
         }
-        else if (line.contains(","))
-        {
-            attributes = line.split(",");
-        }
-        else
-        {
-            attributes = new String[]{line};
-        }
+        else if (line.contains(",")) attributes = line.split(",");
+        else attributes = new String[]{line};
         Collections.addAll(attributeList, attributes);
         DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes(attributeList);
         defaultSessionAttributes = defaultSessionAttributes.withMaxInterval(maxInterval);

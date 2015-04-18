@@ -42,10 +42,7 @@ public class DefaultSessionUtils
         final HttpSession session = request.getSession();
         Validate.notNull(session);
         final Object value = session.getAttribute(sessionAttribute);
-        if(remove)
-        {
-            session.removeAttribute(sessionAttribute);
-        }
+        if(remove) session.removeAttribute(sessionAttribute);
         LOGGER.trace(String.format("Returning value of '%s' to client: %s (removed? %b)",sessionAttribute,value,remove));
         return value;
     }
@@ -66,10 +63,7 @@ public class DefaultSessionUtils
         verifySessionAttribute(defaultSessionAttribute);
         final HttpSession session = initializeIfNoSession ? request.getSession(true) : request.getSession();
         Validate.notNull(session);
-        if(setMaxInterval)
-        {
-            session.setMaxInactiveInterval(defaultSessionAttributes.getMaxInterval());
-        }
+        if(setMaxInterval) session.setMaxInactiveInterval(defaultSessionAttributes.getMaxInterval());
         session.setAttribute(defaultSessionAttribute,defaultSessionAttributeValue);
         LOGGER.trace(String.format("Setting Session Value '%s' to %s. " +
                 "Initializing new session? %b Setting max interval to %d? %b",

@@ -57,17 +57,12 @@ public class DefaultSessionAttributes
      */
     public String toString()
     {
-        StringBuilder stringBuilder = new StringBuilder(String.format("Max interval: %s",maxInterval));
-        stringBuilder.append("\nAttribute names:");
+        String out= String.format("Max interval: %s",maxInterval);
+        out += "\nAttribute names:";
         if(null != defaultSessionAttributeNames)
-        {
             for(String name : defaultSessionAttributeNames)
-            {
-                stringBuilder.append(String.format("\n\t%s",name));
-            }
-        }
-        stringBuilder.trimToSize();
-        return stringBuilder.toString();
+                out += String.format("\n\t%s",name);
+        return out;
     }
 
 }
