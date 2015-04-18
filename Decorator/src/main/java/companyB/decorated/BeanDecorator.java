@@ -19,7 +19,7 @@ import java.util.Properties;
 public class BeanDecorator
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(BeanDecorator.class);
-    private Converter converter;
+    private final Converter converter;
 
     public BeanDecorator()
     {
@@ -114,10 +114,9 @@ public class BeanDecorator
      */
     public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {
-        T out = instance;
         try
         {
-            Field[] fields = out.getClass().getDeclaredFields();
+            Field[] fields = instance.getClass().getDeclaredFields();
             for (Field field : fields)
             {
                 field.setAccessible(true);
@@ -131,7 +130,7 @@ public class BeanDecorator
                     Object coerced = coerce(value,field.getType());
                     String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
                     LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
-                    if(null != coerced && 0 != String.valueOf(coerced).length()) field.set(out,coerced);
+                    if(null != coerced && 0 != String.valueOf(coerced).length()) field.set(instance,coerced);
                 }
             }
         }
@@ -139,7 +138,7 @@ public class BeanDecorator
         {
             LOGGER.error(e.getMessage(), e);
         }
-        return out;
+        return instance;
     }
     private String getName(Field field, Decorated decorated)
     {

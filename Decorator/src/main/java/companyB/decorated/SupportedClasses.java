@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class SupportedClasses
 {
-    private static Class[] _supported = new Class[]
+    private static final Class[] _supported = new Class[]
      {   Long.class,long.class,String.class, Integer.class, int.class,
      short.class,Short.class, Double.class, double.class,
      Boolean.class, boolean.class, Byte.class, byte.class,
      char.class, Character.class, BigDecimal.class, BigInteger.class
      };
-    public static List<Class>supportedClasses;
+    public static final List<Class>supportedClasses;
     static
     {
         supportedClasses = new LinkedList<>();
