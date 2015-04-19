@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Utilities for accessing default session attributes.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class DefaultSessionUtils extends UtilityBase
 {
@@ -18,7 +18,7 @@ public class DefaultSessionUtils extends UtilityBase
     /**
      * Default constructor.
      * @param defaultSessionAttributes Container holding all default session attributes.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultSessionUtils(DefaultSessionAttributes defaultSessionAttributes)
     {
@@ -32,7 +32,7 @@ public class DefaultSessionUtils extends UtilityBase
      * @param sessionAttribute Session attribute to get.
      * @param remove if this is True, then the attribute will be removed from the session.
      * @return Value of session attribute.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Object getDefaultSessionAttribute(HttpServletRequest request, String sessionAttribute, boolean remove)
     {
@@ -53,6 +53,7 @@ public class DefaultSessionUtils extends UtilityBase
      * @param initializeIfNoSession If true, if there is no session present, one will be initialized.
      * @param setMaxInterval If this is true, the max interval session value will be set.
      * @return True if set, false if not set (because this is not a valid default session attribute).
+     * @since 1.0.0
      */
     public boolean setDefaultSessionAttribute(HttpServletRequest request, String defaultSessionAttribute,
                                               Object defaultSessionAttributeValue, boolean initializeIfNoSession,
