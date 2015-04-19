@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 /**
  * Contains utility methods.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0
+ * @since 1.0.0
  */
 public class CookieUtils extends UtilityBase
 {
@@ -19,7 +19,7 @@ public class CookieUtils extends UtilityBase
      * Prints this cookie to String.
      * @param cookie Cookie to be printed.
      * @return String representation of Cookie.
-     * @since 1.0
+     * @since 1.0.0
      */
     @SuppressWarnings("ConstantConditions")
     public String cookieToString(Cookie cookie)

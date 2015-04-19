@@ -12,7 +12,7 @@ import java.util.*;
  * Contains methods for (1) setting default cookies within an HttpServletResponse, and (2) getting any default cookie values from
  * an HttpServletRequest.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class DefaultCookieUtils extends UtilityBase
 {
@@ -23,7 +23,7 @@ public class DefaultCookieUtils extends UtilityBase
     /**
      * Default constructor.
      * @param defaultCookies - List of default cookies that need to be either set in a response or fetched from a request.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultCookieUtils(List<DefaultCookie>defaultCookies)
     {
@@ -39,7 +39,7 @@ public class DefaultCookieUtils extends UtilityBase
      * Sets all of the default cookies with their values in the response.
      * @param response HttpServletResponse in which all of the default cookies are to be set.
      * @return Number of cookies that have been set.
-     * @since 1.0
+     * @since 1.0.0
      */
     public int setDefaultCookies(HttpServletResponse response)
     {
@@ -63,7 +63,7 @@ public class DefaultCookieUtils extends UtilityBase
      * @param value Value to set the Default cookie to.
      * @param response HttpServletResponse in which the default cookie value is to be set.
      * @return true if the cookie has been set.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean setDefaultCookieValue(String name, String value, HttpServletResponse response)
     {
@@ -92,7 +92,7 @@ public class DefaultCookieUtils extends UtilityBase
      * Gets all of the presently set default cookies from the request.
      * @param request HttpServletRequest to get cookies from.
      * @return List of all of the presently set default cookies from the request.
-     * @since 1.0
+     * @since 1.0.0
      */
     public List<Cookie> getDefaultCookies(HttpServletRequest request)
     {
@@ -119,7 +119,7 @@ public class DefaultCookieUtils extends UtilityBase
      * @param name Name of the default cookie to get.
      * @param request HttpServletRequest to get cookies from.
      * @return Cookie from request, or null if it is not present.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Cookie getDefaultCookie(String name, HttpServletRequest request)
     {
