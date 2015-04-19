@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * Decorates the fields of a class that are annotated with the @Decorated annotation. See the documentation for supported types.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class BeanDecorator
 {
@@ -36,7 +36,7 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T decorate(Class<T> typeOf, String propertiesFileName) throws UnsupportedTypeException
     {
@@ -60,7 +60,7 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated field are of a type that is not supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T decorate(T instance, String propertiesFileName) throws UnsupportedTypeException
     {
@@ -88,7 +88,7 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T decorate(Class<T>typeOf, Properties properties) throws UnsupportedTypeException
     {
@@ -113,7 +113,7 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {

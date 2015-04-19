@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Master list of all of the supported classes.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class SupportedClasses
 {
@@ -32,7 +32,7 @@ public class SupportedClasses
 
     /**
      * @return String containing all of the currently supported classes.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getSupportedClassesList()
     {
