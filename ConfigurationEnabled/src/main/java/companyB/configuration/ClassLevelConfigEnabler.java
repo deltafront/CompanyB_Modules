@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  * This class decorates an instance of a class that has ConfigEnabler fields annotated with the ConfigEnabled annotation.
  * @see companyB.configuration.ConfigEnabled
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class ClassLevelConfigEnabler
 {
@@ -19,7 +19,7 @@ public class ClassLevelConfigEnabler
      * Decorates instance of a class that has ConfigEnabler fields annotated with the ConfigEnabled annotation. All annotated
      * instances will be injected with the correct ConfigEnabler contexts.
      * @param instance instance to be decorated.
-     * @since 1.0
+     * @since 1.0.0
      */
     public void decorate(Object instance)
     {
