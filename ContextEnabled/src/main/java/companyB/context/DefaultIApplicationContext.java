@@ -12,7 +12,7 @@ import java.util.*;
  * HashMap.
  *
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
 public class DefaultIApplicationContext implements I_ApplicationContext
@@ -27,7 +27,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
 
     /**
      * Default constructor for class. All instances of this class share the same thread-safe mapping.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultIApplicationContext()
     {
@@ -38,7 +38,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     /**
      * All instances of this class share the same thread-safe mapping.
      * @param classArgsContainerList List of ClassArgsConstructors
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultIApplicationContext(List<ClassArgsContainer> classArgsContainerList)
     {
