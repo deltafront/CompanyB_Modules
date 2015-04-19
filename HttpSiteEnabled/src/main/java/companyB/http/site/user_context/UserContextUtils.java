@@ -1,9 +1,8 @@
 package companyB.http.site.user_context;
 
 import com.google.gson.Gson;
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,10 +11,8 @@ import javax.servlet.http.HttpSession;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public class UserContextUtils
+public class UserContextUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserContextUtils.class);
-
     /**
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.

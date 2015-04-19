@@ -1,8 +1,7 @@
 package companyB.http.cookie;
 
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import java.lang.reflect.InvocationTargetException;
@@ -13,9 +12,8 @@ import java.lang.reflect.Method;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 1.0
  */
-public class CookieUtils
+public class CookieUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CookieUtils.class);
 
     /**
      * Prints this cookie to String.

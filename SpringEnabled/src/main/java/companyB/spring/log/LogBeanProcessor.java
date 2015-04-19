@@ -1,6 +1,6 @@
 package companyB.spring.log;
 
-import companyB.spring.utils.BeanProcessingUtils;
+import companyB.common.utils.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,16 +17,16 @@ public class LogBeanProcessor implements BeanPostProcessor
     public Object postProcessBeforeInitialization(Object o, String s) throws BeansException
     {
 
-        final BeanProcessingUtils beanProcessingUtils = new BeanProcessingUtils();
-        Field[]fields = beanProcessingUtils.getFields(o);
+        final FieldUtils fieldUtils = new FieldUtils();
+        Field[]fields = fieldUtils.getFields(o);
         for(Field field : fields)
         {
-            Log log = beanProcessingUtils.getAnnotation(Log.class,field);
+            Log log = fieldUtils.getAnnotation(Log.class,field);
             if(field.getType().equals(Logger.class) && null != log)
             {
                 String name = getName(log,o);
                 Logger logger = LoggerFactory.getLogger(name);
-                beanProcessingUtils.setField(field,o,logger);
+                fieldUtils.setField(field,o,logger);
             }
         }
         return o;

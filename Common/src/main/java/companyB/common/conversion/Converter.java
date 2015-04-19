@@ -33,7 +33,7 @@ import java.util.List;
  * </ul>
  *
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
 @SuppressWarnings("ALL")
 public class Converter
@@ -55,19 +55,19 @@ public class Converter
     /**
      * All supported classes.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<Class> supportedClasses;
     /**
      * String values which constitute a boolean value of 'true'.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<String> trueValues;
     /**
      * String values which constitute a boolean value of 'false'.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<String> falseValues;
     /**
@@ -82,8 +82,7 @@ public class Converter
      * <li>short</li>
      * <li><double/li>
      * </ul>
-     *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<Class> numberClasses;
 
@@ -114,10 +113,9 @@ public class Converter
 
     /**
      * Returns whether or not the indicated class is supported.
-     *
      * @param c Class to be evaluated.
      * @return Whether or not the indicated class is supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isSupported(Class c)
     {
@@ -127,7 +125,7 @@ public class Converter
     /**
      * @param c Class to be evaluated.
      * @return If class represents a number type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isNumberType(Class c)
     {
@@ -137,7 +135,7 @@ public class Converter
     /**
      * @param c Class to be evaluated.
      * @return Is either a BigDecimal or BigInteger.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isBigType(Class c)
     {
@@ -147,7 +145,7 @@ public class Converter
     /**
      * @param c Class to be evaluated.
      * @return If class represents a Boolean type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isBoolean(Class c)
     {
@@ -157,7 +155,7 @@ public class Converter
     /**
      * @param c Class to be evaluated.
      * @return If class represents a Byte type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isByte(Class c)
     {
@@ -167,7 +165,7 @@ public class Converter
     /**
      * @param c Class to be evaluated.
      * @return If the class represents a Character type or is a string.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isCharOrString(Class c)
     {
@@ -179,7 +177,7 @@ public class Converter
     /**
      * @param value String value to be converted.
      * @return Byte representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Byte convertToByte(String value)
     {
@@ -192,7 +190,7 @@ public class Converter
      * @param value     String value to be converted.
      * @param classType Class type to be returned  - either Character or String.
      * @return String or Character representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToStringOrChar(String value, Class<T> classType)
     {
@@ -206,7 +204,7 @@ public class Converter
      * @param value     String value to be converted.
      * @param classType Class type to be returned  - either BigDecimal or BigInteger.
      * @return Either BigDecimal or BigInteger representaion.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToBig(String value, Class<T> classType)
     {
@@ -221,7 +219,7 @@ public class Converter
      * @param value     String value to be converted.
      * @param classType Numeric Class type.
      * @return Numeric representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToNumber(String value, Class<T> classType)
     {
@@ -252,7 +250,7 @@ public class Converter
     /**
      * @param value String value to be converted.
      * @return Boolean representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Boolean convertToBoolean(String value)
     {

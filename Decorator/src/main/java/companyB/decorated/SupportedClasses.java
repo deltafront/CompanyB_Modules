@@ -1,5 +1,8 @@
 package companyB.decorated;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
@@ -13,6 +16,7 @@ import java.util.List;
  */
 public class SupportedClasses
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger(SupportedClasses.class);
     private static final Class[] _supported = new Class[]
      {   Long.class,long.class,String.class, Integer.class, int.class,
      short.class,Short.class, Double.class, double.class,
@@ -37,6 +41,7 @@ public class SupportedClasses
         int end = out.lastIndexOf(",");
         out = out.substring(0,end);
         out += "]";
+        LOGGER.trace(String.format("Returning list of supported classes:\n%s",out));
         return out;
     }
 }

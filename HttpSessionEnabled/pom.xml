@@ -18,6 +18,11 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>companyB</groupId>
+            <artifactId>Common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

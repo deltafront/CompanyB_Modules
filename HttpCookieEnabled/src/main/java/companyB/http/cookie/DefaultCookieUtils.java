@@ -1,8 +1,7 @@
 package companyB.http.cookie;
 
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +14,8 @@ import java.util.*;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public class DefaultCookieUtils
+public class DefaultCookieUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultCookieUtils.class);
     private final List<DefaultCookie>defaultCookies;
     private final Set<String>defaultCookieNames;
     private final CookieUtils cookieUtils;

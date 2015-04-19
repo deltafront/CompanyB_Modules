@@ -1,6 +1,7 @@
 package companyB.decorated;
 
 import companyB.common.conversion.Converter;
+import companyB.common.utils.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +21,12 @@ public class BeanDecorator
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(BeanDecorator.class);
     private final Converter converter;
+    private final FieldUtils fieldUtils;
 
     public BeanDecorator()
     {
         this.converter = new Converter();
+        this.fieldUtils = new FieldUtils();
     }
 
     /**
@@ -114,29 +117,22 @@ public class BeanDecorator
      */
     public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {
-        try
+        Field[] fields = fieldUtils.getFields(instance);
+        for (Field field : fields)
         {
-            Field[] fields = instance.getClass().getDeclaredFields();
-            for (Field field : fields)
-            {
                 field.setAccessible(true);
-                Decorated decorated = field.getAnnotation(Decorated.class);
-                if(null != decorated)
-                {
-                    String name = getName(field,decorated);
-                    LOGGER.debug(String.format("Resolved Name: %s",name));
-                    String value = getValue(name,decorated,properties);
-                    LOGGER.debug(String.format("Resolved Value: %s",value));
-                    Object coerced = coerce(value,field.getType());
-                    String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
-                    LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
-                    if(null != coerced && 0 != String.valueOf(coerced).length()) field.set(instance,coerced);
-                }
+            Decorated decorated = field.getAnnotation(Decorated.class);
+            if(null != decorated)
+            {
+                String name = getName(field,decorated);
+                LOGGER.debug(String.format("Resolved Name: %s",name));
+                String value = getValue(name,decorated,properties);
+                LOGGER.debug(String.format("Resolved Value: %s",value));
+                Object coerced = coerce(value,field.getType());
+                String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
+                LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
+                if(null != coerced && 0 != String.valueOf(coerced).length()) fieldUtils.setField(field, instance, coerced);
             }
-        }
-        catch (IllegalAccessException e)
-        {
-            LOGGER.error(e.getMessage(), e);
         }
         return instance;
     }

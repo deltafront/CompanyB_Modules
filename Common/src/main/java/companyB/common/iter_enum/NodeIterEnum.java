@@ -9,7 +9,7 @@ import java.util.Iterator;
  *
  * @param <E>
  * @author C.A. Burrell deltafront@gmail.com
- * @version 1.0
+ * @version 1.0.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
 public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
@@ -24,7 +24,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return true if there are more elements to return
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean hasMoreElements()
     {
@@ -33,7 +33,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return the next element in the order to which they were added to the list (FiFo)
-     * @since 1.0
+     * @since 1.0.0
      */
     public E nextElement()
     {
@@ -42,7 +42,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return true if there are more elements to return
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean hasNext()
     {
@@ -51,7 +51,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return the next element in the order to which they were added to the list (FiFo)
-     * @since 1.0
+     * @since 1.0.0
      */
     public E next()
     {
@@ -62,7 +62,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      * Adds an element to the list
      *
      * @param in element that is added
-     * @since 1.0
+     * @since 1.0.0
      */
     public void add(E in)
     {
@@ -80,7 +80,7 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      * Removes next element from consideration.
      * @throws java.lang.IllegalStateException If at least one call to 'next' has not been made prior to the current
      * invocation of this method.
-     * @since 1.0
+     * @since 1.0.0
      */
     public void remove()
     {

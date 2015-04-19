@@ -1,26 +1,21 @@
 package companyB.common.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.util.Arrays;
 
 /**
  * Provides a one-step utility for executing simple commands.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
-public class RuntimeUtils
+public class RuntimeUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RuntimeUtils.class);
-
 
     /**
      * Executes command and returns the result.
      * @param commandArgs Command line arguments
      * @return String result of Execution
-     * @since 1.0
+     * @since 1.0.0
      */
     public String executeCommand(String... commandArgs)
     {

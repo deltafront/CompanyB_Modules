@@ -1,10 +1,9 @@
 package companyB.http.site;
 
 import companyB.common.utils.RuntimeUtils;
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,10 +13,8 @@ import java.net.UnknownHostException;
  * @author Charles Burrell (deltafront@gmail.com).
  * @version 1.0
  */
-public class SiteUtils
+public class SiteUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(SiteUtils.class);
-
     /**
      * Provides host name. It does so in the following order:
      * - It gets the host name attached to the local Inet Address
@@ -66,6 +63,4 @@ public class SiteUtils
         }
         return inetAddress;
     }
-
-
 }

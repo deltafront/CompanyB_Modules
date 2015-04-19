@@ -1,8 +1,7 @@
 package companyB.http.session;
 
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,10 +11,9 @@ import javax.servlet.http.HttpSession;
  * @author Charles Burrell (deltafront@gmail.com)
  * @version 1.0
  */
-public class DefaultSessionUtils
+public class DefaultSessionUtils extends UtilityBase
 {
     private final DefaultSessionAttributes defaultSessionAttributes;
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultSessionUtils.class);
 
     /**
      * Default constructor.

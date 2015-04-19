@@ -9,10 +9,10 @@ import java.util.List;
  * Splits Collection into a List of Lists.
  *
  * @author C.A. Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
-public class CollectionsSplitter
+public class CollectionsSplitter extends UtilityBase
 {
     public enum optimization_strategy
     {
@@ -29,16 +29,20 @@ public class CollectionsSplitter
      *                   containing <strong>at most</strong> split_num items.
      * @param strategy   one of optimization_strategy.number_of_lists | optimization_strategy.number_of_items
      * @return list of lists.
-     * @since 1.0
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
-        if (collection == null)return new LinkedList<>();
+        if(null != collection) LOGGER.trace(String.format("Size of collection:\t%d\nSplit Number:\t%d\nStrategy:\t%s",
+                collection.size(), split_num,strategy.name()));
+        if (null == collection)return new LinkedList<>();//TODO - should parameterize this so that list or set can be returned
         int num = (split_num == 0 || split_num > collection.size())
                 ? collection.size() : split_num;
-        return (strategy == optimization_strategy.number_of_items)
+        List<List>lists =  (strategy == optimization_strategy.number_of_items)
                 ? number_of_items(collection, num) : number_of_lists(collection, num);
+        LOGGER.trace(String.format("Returning new list of %d elements.",lists.size()));
+        return lists;
     }
 
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
@@ -54,6 +58,7 @@ public class CollectionsSplitter
             list.get(count).add(iter.next());
             count++;
         }
+        LOGGER.trace(String.format("Returning a master list that contains %d lists.",list.size()));
         return list;
     }
 
@@ -77,6 +82,8 @@ public class CollectionsSplitter
             }
         }
         if (_list.size() > 0) list.add(_list);
+        LOGGER.trace(String.format("Returning a master list of %d lists in which each list contains at least %d elements.",
+                list.size(),num));
         return list;
     }
 }

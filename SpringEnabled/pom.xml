@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>companyB</groupId>
+            <artifactId>Common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>companyB</groupId>
             <artifactId>ConfigurationEnabled</artifactId>
             <version>${configuration.enabled.version}</version>
         </dependency>

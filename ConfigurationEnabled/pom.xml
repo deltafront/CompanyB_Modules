@@ -13,4 +13,12 @@
     <name>ConfigurationEnabled</name>
     <url>http://maven.apache.org</url>
 
+    <dependencies>
+        <dependency>
+            <groupId>companyB</groupId>
+            <artifactId>Common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
  */
 public class FieldUtils extends UtilityBase
 {
+    //TODO - document and test me!
     public Field[]getFields(Object instance)
     {
         Validate.notNull(instance);
@@ -23,7 +24,7 @@ public class FieldUtils extends UtilityBase
     public <T extends Annotation> T getAnnotation(Class<T>annotationClass, Field field)
     {
         T out = field.getAnnotation(annotationClass);
-        LOGGER.trace(String.format("Annotation '%s' found on field '%s'?",
+        LOGGER.trace(String.format("Annotation '%s' found on field '%s'? %b",
                 annotationClass.getCanonicalName(),field.getName(),null != out));
         return out;
     }

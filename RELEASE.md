@@ -24,5 +24,5 @@
     *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
 *   Updated README and POMS to include correct visioning
     *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies_
-*   Updated readme's to include correct maven and logging dependencies.
-    *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies)
+*   Including logging statements in all utility classes.
+    *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
