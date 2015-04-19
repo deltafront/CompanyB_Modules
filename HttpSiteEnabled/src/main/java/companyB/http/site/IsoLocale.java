@@ -3,11 +3,11 @@ package companyB.http.site;
 /**
  * Listing of all currently supported ISO 3166.1 Alpha-2 countries mapped to their ISO 3166.1 Alpha-2 designation.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public enum IsoLocale
 {
-    /** @since 1.0 */
+    /** @since 1.0.0 */
     Afghanistan("AF"),
     Åland_Islands("AX"),
     Albania("AL"),

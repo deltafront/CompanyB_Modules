@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Container for activities that a user has performed on the site.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class UserContext
 {
@@ -25,7 +25,7 @@ public class UserContext
     /**
      * Default constructor.
      * @param userId Unique userId
-     * @since 1.0
+     * @since 1.0.0
      */
     public UserContext(final String userId)
     {
@@ -37,7 +37,7 @@ public class UserContext
     /**
      * Adds an activity to this UserContext.
      * @param context Context that contains data concerning activity to be added.
-     * @since 1.0
+     * @since 1.0.0
      */
     public void addActivity(Context context)
     {
@@ -51,7 +51,7 @@ public class UserContext
 
     /**
      * @return UserId.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getUserId()
     {
@@ -60,7 +60,7 @@ public class UserContext
 
     /**
      * @return All activities associated with this user.
-     * @since 1.0
+     * @since 1.0.0
      */
     public List<UserActivity> getUserActivities()
     {
@@ -70,7 +70,7 @@ public class UserContext
     /**
      * Records the current user activity.
      * @author Charles Burrell (deltafront@gmail.com)
-     * @version 1.0
+     * @version 1.0.0
      */
     public static class UserActivity
     {
@@ -80,24 +80,13 @@ public class UserContext
         private final Long duration;
 
         /**
-         * Default constructor.
-         * @param pageId  - ID of the page.
-         * @param visited When page was visited.
-         * @param operation Operation performed / in progress.
-         * @param duration Duration of stay on the page.
+         * @param context Context that contains data concerning activity to be added.
          * @since 1.1.1
          */
-        public UserActivity(String pageId, Timestamp visited, String operation, Long duration)
-        {
-            this.pageId = pageId;
-            this.visited = visited;
-            this.operation = operation;
-            this.duration = duration;
-        }
-
         public UserActivity(Context context)
         {
-            this.duration = context.getOperationStart().getTime() - context.getOperationEnd().getTime();
+            Validate.notNull(context);
+            this.duration = context.getOperationEnd().getTime() - context.getOperationStart().getTime();
             this.pageId = context.getPageId();
             this.operation = context.getOperation();
             this.visited = context.getOperationStart();

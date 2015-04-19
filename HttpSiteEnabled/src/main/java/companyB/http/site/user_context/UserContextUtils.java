@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Utility for wrapping / unwrapping User Contexts from Http Sessions.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @version 1.0.0
  */
 public class UserContextUtils extends UtilityBase
 {
@@ -17,7 +17,7 @@ public class UserContextUtils extends UtilityBase
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.
      * @param userContext UserContext to wrap into session.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T extends UserContext> void wrapContext(HttpSession session, final T userContext)
     {
@@ -31,7 +31,7 @@ public class UserContextUtils extends UtilityBase
     /**
      * @param session Session that context is to be unwrapped from.
      * @return UserContext from HttpSession.
-     * @since 1.0
+     * @since 1.0.0
      */
     public UserContext unwrapContext(HttpSession session)
     {

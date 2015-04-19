@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Utility for wrapping / unwrapping Contexts from Http Sessions.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class ContextUtils extends UtilityBase
 {
@@ -17,7 +17,7 @@ public class ContextUtils extends UtilityBase
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.
      * @param context Context to wrap into session.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T extends Context> void wrapContext(HttpSession session, final T context)
     {
@@ -32,7 +32,7 @@ public class ContextUtils extends UtilityBase
      * @param contextAttributeName Name that this context is to be keyed to when it has been wrapped in an HttpSession.
      * @param session Session that this context has been wrapped in.
      * @return Context from Session, or null if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public <T extends Context> T unwrapContext(String contextAttributeName, HttpSession session)

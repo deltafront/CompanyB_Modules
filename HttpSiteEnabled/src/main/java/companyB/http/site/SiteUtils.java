@@ -11,10 +11,12 @@ import java.net.UnknownHostException;
 /**
  * Provides host name and IP address.
  * @author Charles Burrell (deltafront@gmail.com).
- * @version 1.0
+ * @since 1.0.0
  */
 public class SiteUtils extends UtilityBase
 {
+    @SuppressWarnings("unused")
+    private boolean throwException;
     /**
      * Provides host name. It does so in the following order:
      * - It gets the host name attached to the local Inet Address
@@ -22,24 +24,26 @@ public class SiteUtils extends UtilityBase
      * - If above is null and application is hosted on a  Linux-based box, it gets the 'HOSTNAME' entry
      * - If above is null, it executes the 'hostname' command
      * @return Hostname or null if it cannot be found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getHostName()
     {
         final RuntimeUtils runtimeUtils = new RuntimeUtils();
         InetAddress inetAddress = getLocalInetAddress();
         Validate.notNull(inetAddress);
-        String hostname = inetAddress.getHostName();
-        if (StringUtils.isBlank(hostname)) hostname = System.getenv("COMPUTERNAME");
-        if (StringUtils.isBlank(hostname)) hostname = System.getenv("HOSTNAME");
-        if(StringUtils.isBlank(hostname)) hostname = runtimeUtils.executeCommand("hostname");
+        String inetAddressHostName = inetAddress.getHostName();
+        String systemComputerHostName = System.getenv("COMPUTERNAME");
+        String systemHostName = System.getenv("HOSTNAME");
+        String runtimeHostName = runtimeUtils.executeCommand("hostname");
+        String hostname = getFirstNonBlankString(inetAddressHostName,systemComputerHostName,
+                systemHostName,runtimeHostName);
         LOGGER.debug(String.format("Returning hostname '%s'.", hostname));
         return hostname;
     }
 
     /**
      * @return Local IP Address.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getLocalIpAddress()
     {
@@ -50,17 +54,32 @@ public class SiteUtils extends UtilityBase
         return ipAddress;
 
     }
-    private static InetAddress getLocalInetAddress()
+    private InetAddress getLocalInetAddress()
     {
         InetAddress inetAddress = null;
         try
         {
             inetAddress = InetAddress.getLocalHost();
+            if(throwException)throw new UnknownHostException("UnknownHostException thrown for test purposes.");
         }
         catch (UnknownHostException e)
         {
            LOGGER.error(e.getMessage(),e);
         }
         return inetAddress;
+    }
+
+    private String getFirstNonBlankString(String...strings)
+    {
+        String nonBlank = null;
+        for(String string : strings)
+        {
+            if(StringUtils.isNotBlank(string) && null == nonBlank)
+            {
+                nonBlank = string;
+            }
+        }
+        LOGGER.trace(String.format("Returning first non-blank value: %s",nonBlank));
+        return nonBlank;
     }
 }

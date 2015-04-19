@@ -6,7 +6,7 @@ import org.apache.commons.lang3.Validate;
 /**
  * Holds information for the site as a whole.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class Site
 {
@@ -25,7 +25,7 @@ public class Site
      * @param primaryLang Primary Language that is supported by this site.
      * @param supportedLangs All languages that are supported by this site.
      * @param locale Primary Locale for this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Site(String siteName, String siteId, IsoLang primaryLang, IsoLang[] supportedLangs, IsoLocale locale)
     {
@@ -48,7 +48,7 @@ public class Site
 
     /**
      * @return Name of the site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getSiteName()
     {
@@ -57,7 +57,7 @@ public class Site
 
     /**
      * @return Unique Id for the site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getSiteId()
     {
@@ -66,7 +66,7 @@ public class Site
 
     /**
      * @return Primary Language supported by this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLang getPrimaryLang()
     {
@@ -75,7 +75,7 @@ public class Site
 
     /**
      * @return Locale of this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLocale getLocale()
     {
@@ -84,7 +84,7 @@ public class Site
 
     /**
      * @return Host name of site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getHostName()
     {
@@ -93,7 +93,7 @@ public class Site
 
     /**
      * @return IP Address of site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getHostIpAddress()
     {
@@ -102,7 +102,7 @@ public class Site
 
     /**
      * @return All languages supported by this site, including the primary.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLang[] getSupportedLangs()
     {
