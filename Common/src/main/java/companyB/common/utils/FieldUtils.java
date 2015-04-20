@@ -21,6 +21,20 @@ public class FieldUtils extends UtilityBase
                 fields.length,instance.getClass().getCanonicalName()));
         return fields;
     }
+    public Field getField(String fieldName, Object instance)
+    {
+        Field field = null;
+        try
+        {
+            field = instance.getClass().getDeclaredField(fieldName);
+        }
+        catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        return field;
+
+    }
     public <T extends Annotation> T getAnnotation(Class<T>annotationClass, Field field)
     {
         T out = field.getAnnotation(annotationClass);

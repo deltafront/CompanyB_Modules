@@ -26,3 +26,5 @@
     *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies_
 *   Including logging statements in all utility classes.
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
+*   Included correct versioning in class comments
+    *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
