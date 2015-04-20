@@ -1,24 +1,23 @@
 package companyB.http.site.context;
 
 import com.google.gson.Gson;
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpSession;
 
 /**
  * Utility for wrapping / unwrapping Contexts from Http Sessions.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
-public class ContextUtils
+public class ContextUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ContextUtils.class);
     /**
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.
      * @param context Context to wrap into session.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T extends Context> void wrapContext(HttpSession session, final T context)
     {
@@ -33,8 +32,9 @@ public class ContextUtils
      * @param contextAttributeName Name that this context is to be keyed to when it has been wrapped in an HttpSession.
      * @param session Session that this context has been wrapped in.
      * @return Context from Session, or null if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public <T extends Context> T unwrapContext(String contextAttributeName, HttpSession session)
     {
         Context context = null;

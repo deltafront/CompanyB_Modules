@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import static junit.framework.TestCase.assertNotNull;
 
-@Test(groups = {"unit","iso","http.session.enabled"})
+@Test(groups = {"unit","iso","http.site.enabled"})
 public class IsoTest
 {
 

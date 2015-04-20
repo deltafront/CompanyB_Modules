@@ -1,8 +1,7 @@
 package companyB.http.session;
 
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,17 +9,16 @@ import javax.servlet.http.HttpSession;
 /**
  * Utilities for accessing default session attributes.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
-public class DefaultSessionUtils
+public class DefaultSessionUtils extends UtilityBase
 {
     private final DefaultSessionAttributes defaultSessionAttributes;
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultSessionUtils.class);
 
     /**
      * Default constructor.
      * @param defaultSessionAttributes Container holding all default session attributes.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultSessionUtils(DefaultSessionAttributes defaultSessionAttributes)
     {
@@ -34,7 +32,7 @@ public class DefaultSessionUtils
      * @param sessionAttribute Session attribute to get.
      * @param remove if this is True, then the attribute will be removed from the session.
      * @return Value of session attribute.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Object getDefaultSessionAttribute(HttpServletRequest request, String sessionAttribute, boolean remove)
     {
@@ -55,6 +53,7 @@ public class DefaultSessionUtils
      * @param initializeIfNoSession If true, if there is no session present, one will be initialized.
      * @param setMaxInterval If this is true, the max interval session value will be set.
      * @return True if set, false if not set (because this is not a valid default session attribute).
+     * @since 1.0.0
      */
     public boolean setDefaultSessionAttribute(HttpServletRequest request, String defaultSessionAttribute,
                                               Object defaultSessionAttributeValue, boolean initializeIfNoSession,

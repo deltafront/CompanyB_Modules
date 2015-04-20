@@ -12,8 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-
 public class CookieReaderTestBase extends TestBase
 {
     protected String name = "foo";

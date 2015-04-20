@@ -7,21 +7,21 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Custom Junit Assert methods
- *
  * @author C.A. Burrell (deltafront@gmail.com)
+ * @version 1.0
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "UnusedDeclaration"})
 public final class CustomAsserts
 {
-    private CustomAsserts()
-    {
-    }
+    CustomAsserts()
+    {}
 
     /**
      * Fails if the supplied class does not implement the interface
      *
      * @param interface_class          Class representing the interface
      * @param interface_implementation Class representing the class that is implementing the interface
+     * @since 1.0
      */
     public static void assertInstanceOf(Class interface_class, Class interface_implementation)
     {
@@ -53,6 +53,7 @@ public final class CustomAsserts
      *
      * @param interface_class          Class representing the interface
      * @param interface_implementation Class representing the class that is NOT implementing the interface
+     *  @since 1.0
      */
     public static void assertNotInstanceOf(Class interface_class, Class interface_implementation)
     {
@@ -84,6 +85,7 @@ public final class CustomAsserts
      *
      * @param class_name Expected String name
      * @param clasz      Class for comparison
+     * @since 1.0
      */
     public static void assertClassNameEquals(String class_name, Class clasz)
     {
@@ -92,8 +94,8 @@ public final class CustomAsserts
 
     /**
      * Determines if this string is null or a set of empty quotes
-     *
-     * @param string
+     * @param string String to be evaluated.
+     * @since 1.0
      */
     public static void assertEmptyString(String string)
     {
@@ -105,8 +107,8 @@ public final class CustomAsserts
 
     /**
      * Determines if this string is neither null nor a set of empty quotes
-     *
-     * @param string
+     * @param string String to be evaluated.
+     * @since 1.0
      */
     public static void assertNotEmptyString(String string)
     {

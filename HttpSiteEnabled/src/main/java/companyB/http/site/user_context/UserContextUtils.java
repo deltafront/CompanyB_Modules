@@ -1,26 +1,23 @@
 package companyB.http.site.user_context;
 
 import com.google.gson.Gson;
+import companyB.common.utils.UtilityBase;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 
 /**
  * Utility for wrapping / unwrapping User Contexts from Http Sessions.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @version 1.0.0
  */
-public class UserContextUtils
+public class UserContextUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserContextUtils.class);
-
     /**
      * Wraps this context in an HttpSession.
      * @param session Session that this context is to be wrapped in.
      * @param userContext UserContext to wrap into session.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T extends UserContext> void wrapContext(HttpSession session, final T userContext)
     {
@@ -34,7 +31,7 @@ public class UserContextUtils
     /**
      * @param session Session that context is to be unwrapped from.
      * @return UserContext from HttpSession.
-     * @since 1.0
+     * @since 1.0.0
      */
     public UserContext unwrapContext(HttpSession session)
     {

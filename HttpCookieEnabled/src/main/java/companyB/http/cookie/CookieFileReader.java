@@ -37,7 +37,7 @@ import java.util.List;
  *      </li>
  * </ol>
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class CookieFileReader
 {
@@ -47,8 +47,9 @@ public class CookieFileReader
      * Reads the cookie definitions from the file.
      * @param filename filename to read the cookie definitions from.
      * @return List of DefaultCookies.
-     * @since 1.0
+     * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public List<DefaultCookie> readCookiesFromFile(String filename)
     {
         Validate.notEmpty(filename,"Filename must be provided.");

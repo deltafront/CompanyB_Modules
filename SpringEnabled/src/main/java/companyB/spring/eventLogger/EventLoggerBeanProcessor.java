@@ -4,7 +4,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * Created by Charles Burrell (deltafront@gmail.com).
+ * Spring based processor for Auto-injecting EventLogger fields.
+ * @author Charles Burrell (deltafront@gmail.com)
+ * @see org.springframework.beans.factory.config.BeanPostProcessor
+ * @since 1..0
  */
 public class EventLoggerBeanProcessor implements BeanPostProcessor
 {

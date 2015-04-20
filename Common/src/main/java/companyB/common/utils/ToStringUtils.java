@@ -6,17 +6,17 @@ import java.util.Set;
 /**
  * Provides custom representations of Iterables and Maps.
  * @author Charles Burell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
-public class ToStringUtils
+public class ToStringUtils extends UtilityBase
 {
     /**
      * Writes out an iterable instance to a string.
      * @param iterable Iterable to be converted to string representation.
      * @param <E> Type parameter
      * @return String representation of Iterable.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <E> String iterableToString(Iterable<E> iterable)
     {
@@ -32,7 +32,9 @@ public class ToStringUtils
         }
         if(result.contains(","))
             result = result.substring(0,result.lastIndexOf(","));
-        return String.format("%s]",result);
+        result = String.format("%s]",result);
+        LOGGER.trace(String.format("Returning string representation of iterable\n%s",result));
+        return result;
     }
 
     /**
@@ -41,7 +43,7 @@ public class ToStringUtils
      * @param <Key> Type Parameter.
      * @param <Value> Type Parameter.
      * @return String representation of Map instance.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <Key,Value> String mapToString(Map<Key, Value> map)
     {
@@ -59,6 +61,8 @@ public class ToStringUtils
         }
         if(out.contains(","))
             out = out.substring(0,out.lastIndexOf(","));
-        return String.format("%s}",out);
+        out = String.format("%s}",out);
+        LOGGER.trace(String.format("Returning string representation of map\n%s",out));
+        return out;
     }
 }

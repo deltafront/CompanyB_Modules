@@ -16,6 +16,7 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings({"UnnecessaryBoxing", "BooleanConstructorCall"})
 @Test(groups = {"unit","default.application.context","context.enabled"})
 public class DefaultIApplicationContextTest extends TestBase
 {

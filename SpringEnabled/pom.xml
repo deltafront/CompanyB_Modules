@@ -3,7 +3,7 @@
     <parent>
         <artifactId>core</artifactId>
         <groupId>companyB</groupId>
-        <version>1.1.0</version>
+        <version>1.1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,6 +13,11 @@
     <url>http://maven.apache.org</url>
 
     <dependencies>
+        <dependency>
+            <groupId>companyB</groupId>
+            <artifactId>Common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
         <dependency>
             <groupId>companyB</groupId>
             <artifactId>ConfigurationEnabled</artifactId>

@@ -31,7 +31,7 @@ public class ListSplitterTest
     
     public void TwoItemsSet()
     {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         set.add("one");
         set.add("two");
         List<List> lists = collectionsSplitter.split(set, 2, CollectionsSplitter.optimization_strategy.number_of_lists);
@@ -42,7 +42,7 @@ public class ListSplitterTest
     
     public void SplitNumSet()
     {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (int i = 0; i < 1000; i++) set.add("Object" + i);
         List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
         assertEquals(42, lists.size());
@@ -55,7 +55,7 @@ public class ListSplitterTest
     
     public void EvenNumSet()
     {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (int i = 0; i < 84; i++) set.add("Object" + i);
         List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
         assertEquals(42, lists.size());
@@ -65,7 +65,7 @@ public class ListSplitterTest
     
     public void ItemsPerListManyLists()
     {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (int i = 0; i < 1002; i++) set.add("Object" + i);
         List<List> lists = collectionsSplitter.split(set, 10, CollectionsSplitter.optimization_strategy.number_of_items);
         assertEquals(101, lists.size());
@@ -80,7 +80,7 @@ public class ListSplitterTest
     
     public void ItemsPerListOneList()
     {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (int i = 0; i < 1002; i++)set.add("Object" + i);
         List<List> lists = collectionsSplitter.split(set, 1002, CollectionsSplitter.optimization_strategy.number_of_items);
         assertEquals(1, lists.size());
