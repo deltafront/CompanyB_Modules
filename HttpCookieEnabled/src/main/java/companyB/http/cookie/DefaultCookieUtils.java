@@ -1,7 +1,7 @@
 package companyB.http.cookie;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import companyB.common.utils.UtilityBase;
+import org.apache.commons.lang3.Validate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,37 +12,38 @@ import java.util.*;
  * Contains methods for (1) setting default cookies within an HttpServletResponse, and (2) getting any default cookie values from
  * an HttpServletRequest.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
-public class DefaultCookieUtils
+public class DefaultCookieUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultCookieUtils.class);
-    private List<DefaultCookie>defaultCookies;
-    private Set<String>defaultCookieNames;
+    private final List<DefaultCookie>defaultCookies;
+    private final Set<String>defaultCookieNames;
+    private final CookieUtils cookieUtils;
 
     /**
      * Default constructor.
      * @param defaultCookies - List of default cookies that need to be either set in a response or fetched from a request.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultCookieUtils(List<DefaultCookie>defaultCookies)
     {
+        Validate.notNull(defaultCookies,"List of default cookies must be supplied.");
         this.defaultCookies = defaultCookies;
         defaultCookieNames = new HashSet<>();
-        for(DefaultCookie defaultCookie : this.defaultCookies)
-        {
+        for(final DefaultCookie defaultCookie : this.defaultCookies)
             defaultCookieNames.add(defaultCookie.getCookie().getName());
-        }
+        this.cookieUtils = new CookieUtils();
     }
 
     /**
      * Sets all of the default cookies with their values in the response.
      * @param response HttpServletResponse in which all of the default cookies are to be set.
      * @return Number of cookies that have been set.
-     * @since 1.0
+     * @since 1.0.0
      */
     public int setDefaultCookies(HttpServletResponse response)
     {
+        Validate.notNull(response,"Response is required.");
         int counter = 0;
         for(final DefaultCookie defaultCookie : defaultCookies)
         {
@@ -50,7 +51,7 @@ public class DefaultCookieUtils
             response.addCookie(cookie);
             counter++;
             LOGGER.trace(String.format("Added cookie %d of %d to request:\n%s",
-                    counter, defaultCookies.size(),Utils.cookieToString(cookie)));
+                    counter, defaultCookies.size(), cookieUtils.cookieToString(cookie)));
         }
         LOGGER.debug(String.format("Number of cookies set: %d",counter));
         return counter;
@@ -62,10 +63,11 @@ public class DefaultCookieUtils
      * @param value Value to set the Default cookie to.
      * @param response HttpServletResponse in which the default cookie value is to be set.
      * @return true if the cookie has been set.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean setDefaultCookieValue(String name, String value, HttpServletResponse response)
     {
+        Validate.notNull(response,"Response is required.");
         boolean isSet = false;
         if(validateDefaultCookieName(name))
         {
@@ -76,7 +78,7 @@ public class DefaultCookieUtils
                 {
                     cookie.setValue(value);
                     response.addCookie(cookie);
-                    LOGGER.trace(String.format("Adding Default cookie to response:\n%s",Utils.cookieToString(cookie)));
+                    LOGGER.trace(String.format("Adding Default cookie to response:\n%s", cookieUtils.cookieToString(cookie)));
                     isSet = true;
                 }
             }
@@ -90,7 +92,7 @@ public class DefaultCookieUtils
      * Gets all of the presently set default cookies from the request.
      * @param request HttpServletRequest to get cookies from.
      * @return List of all of the presently set default cookies from the request.
-     * @since 1.0
+     * @since 1.0.0
      */
     public List<Cookie> getDefaultCookies(HttpServletRequest request)
     {
@@ -105,7 +107,7 @@ public class DefaultCookieUtils
             {
                 final Cookie cookie = cookieMap.get(name);
                 cookies.add(cookieMap.get(name));
-                LOGGER.trace(String.format("Adding cookie to list:\n%s",Utils.cookieToString(cookie)));
+                LOGGER.trace(String.format("Adding cookie to list:\n%s", cookieUtils.cookieToString(cookie)));
             }
         }
         LOGGER.debug(String.format("Returning %d cookies.", cookies.size()));
@@ -117,16 +119,13 @@ public class DefaultCookieUtils
      * @param name Name of the default cookie to get.
      * @param request HttpServletRequest to get cookies from.
      * @return Cookie from request, or null if it is not present.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Cookie getDefaultCookie(String name, HttpServletRequest request)
     {
         Cookie cookie = null;
         final Map<String,Cookie> cookieMap = getCookieMap(request);
-        if(validateDefaultCookieName(name) && validateDefaultCookieIsPresent(name,cookieMap))
-        {
-            cookie = cookieMap.get(name);
-        }
+        if(validateDefaultCookieName(name) && validateDefaultCookieIsPresent(name,cookieMap)) cookie = cookieMap.get(name);
         LOGGER.debug(String.format("Cookie %s present? %b",name, null != cookie));
         return cookie;
     }
@@ -154,7 +153,7 @@ public class DefaultCookieUtils
             for(final Cookie cookie : cookies)
             {
                 cookieMap.put(cookie.getName(),cookie);
-                LOGGER.trace(String.format("Adding cookie to mapping: %s",Utils.cookieToString(cookie)));
+                LOGGER.trace(String.format("Adding cookie to mapping: %s", cookieUtils.cookieToString(cookie)));
             }
         }
         return cookieMap;

@@ -58,6 +58,6 @@ All logging is done via SLF4J. You will need to provide your own runtime impleme
     <dependency>
         <groupId>companyB</groupId>
         <artifactId>Decorator</artifactId>
-        <version>1.0</version>
+        <version>${decorator.version}</version>
     </dependency>
 ```

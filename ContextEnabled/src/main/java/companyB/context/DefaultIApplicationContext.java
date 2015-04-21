@@ -12,52 +12,52 @@ import java.util.*;
  * HashMap.
  *
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
 public class DefaultIApplicationContext implements I_ApplicationContext
 {
     protected final static Logger LOGGER = LoggerFactory.getLogger(DefaultIApplicationContext.class);
     protected static Map<String, Object> mapping;
-
+    protected final FactoryUtils factoryUtils;
     static
     {
-        if (null == mapping)
-        {
-            mapping = Collections.synchronizedMap(new HashMap<String, Object>());
-        }
+        if (null == mapping) mapping = Collections.synchronizedMap(new HashMap<String, Object>());
     }
 
     /**
      * Default constructor for class. All instances of this class share the same thread-safe mapping.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultIApplicationContext()
     {
         super();
+        this.factoryUtils = new FactoryUtils();
     }
 
     /**
      * All instances of this class share the same thread-safe mapping.
      * @param classArgsContainerList List of ClassArgsConstructors
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultIApplicationContext(List<ClassArgsContainer> classArgsContainerList)
     {
+        this();
         for (ClassArgsContainer container : classArgsContainerList)
         {
             Class c = container.get_Class();
             String id = container.getId();
             Object[] args = container.getArgs();
-            Validate.notNull(c);
-            Validate.notBlank(id);
-            Object instance = FactoryUtils.getInstance(c, args);
+            Validate.notNull(c,"Container is null.");
+            Validate.notBlank(id,"Id required.");
+            Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
             LOGGER.trace(String.format("Instantiated instance of '%s' (number of args: %d).",
                     c.getCanonicalName(), args.length));
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public <Value> boolean associate(String key, Value value)
     {
@@ -89,14 +89,10 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     @Override
     public <T> T getInstance(Class<T> c, Object[] args, String id)
     {
-        if (!mapping.containsKey(id))
-        {
-            mapping.put(id, FactoryUtils.getInstance(c, args));
-        }
+        if (!mapping.containsKey(id)) mapping.put(id, factoryUtils.getInstance(c, args));
         T out = (T) mapping.get(id);
         LOGGER.trace(String.format("Instance of %s returned? %b", c.getCanonicalName(), null != out));
         return out;
-
     }
 
     @Override
@@ -104,11 +100,4 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     {
         mapping.clear();
     }
-
-    /**
-     * @return Singleton instance of DefaultApplicationContext.
-     * @since 1.0
-     */
-
 }
-

@@ -1,5 +1,6 @@
 package companyB.http.session;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +16,9 @@ import java.util.List;
  * - If maxInterval is not to be defined:
  * foo,bar,one,two
  * Created by Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
-public abstract class DefaultSessionAttributesReader
+public class DefaultSessionAttributesReader
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(DefaultSessionAttributesReader.class);
 
@@ -25,11 +26,12 @@ public abstract class DefaultSessionAttributesReader
      * Reads default session attributes from a file.
      * @param filename path to default session attributes file.
      * @return DefaultSessionAttributes object.
-     * @since 1.0
+     * @since 1.0.0
      */
-    public static DefaultSessionAttributes readDefaultSessionAttributes(String filename)
+    public DefaultSessionAttributes readDefaultSessionAttributes(String filename)
     {
-        DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
+        Validate.notBlank(filename);
+        DefaultSessionAttributes defaultSessionAttributes = null;
         final File file = new File(filename);
         LOGGER.trace(String.format("Reading attributes from %s",file.getAbsolutePath()));
         try
@@ -40,6 +42,7 @@ public abstract class DefaultSessionAttributesReader
             while((temp = bufferedReader.readLine())!= null)
             {
                 defaultSessionAttributes = getDefaultSessionAttributes(temp);
+                LOGGER.trace(defaultSessionAttributes.toString());
             }
             bufferedReader.close();
             reader.close();
@@ -48,7 +51,7 @@ public abstract class DefaultSessionAttributesReader
         {
             LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace(defaultSessionAttributes.toString());
+
         return defaultSessionAttributes;
     }
 
@@ -56,32 +59,26 @@ public abstract class DefaultSessionAttributesReader
      * Reads default session attributes from a line. Useful if the default session attributes are stored in a properties file.
      * @param line Line containing the default session attributes.
      * @return DefaultSessionAttributes object.
-     * @since 1.0
+     * @since 1.0.0
      */
-    public static DefaultSessionAttributes getDefaultSessionAttributes(String line)
+    public DefaultSessionAttributes getDefaultSessionAttributes(String line)
     {
+        Validate.notBlank(line);
         LOGGER.trace(String.format("Getting DefaultSessionAttributes from line:\n%s",line));
-        final DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes();
         final List<String> attributeList = new LinkedList<>();
-        defaultSessionAttributes.maxInterval = -1;
+        Integer maxInterval = -1;
         String[]attributes;
         if(line.contains("="))
         {
             final String[]splits = line.split("=");
-            defaultSessionAttributes.maxInterval = Integer.parseInt(splits[0]);
+            maxInterval = Integer.parseInt(splits[0]);
             attributes = splits[1].contains(",") ? splits[1].split(",") : new String[]{splits[1]};
-
         }
-        else if (line.contains(","))
-        {
-            attributes = line.split(",");
-        }
-        else
-        {
-            attributes = new String[]{line};
-        }
+        else if (line.contains(",")) attributes = line.split(",");
+        else attributes = new String[]{line};
         Collections.addAll(attributeList, attributes);
-        defaultSessionAttributes.defaultSessionAttributeNames = attributeList;
+        DefaultSessionAttributes defaultSessionAttributes = new DefaultSessionAttributes(attributeList);
+        defaultSessionAttributes = defaultSessionAttributes.withMaxInterval(maxInterval);
         LOGGER.trace(defaultSessionAttributes.toString());
         return defaultSessionAttributes;
     }

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Annotation that indicates that a ConfigEnabler field should be decorated with the ClassLevelConfigEnabler.
  * @see companyB.configuration.ConfigEnabler
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  *
  */
 @Target(ElementType.FIELD)
@@ -18,13 +18,13 @@ public @interface ConfigEnabled
 {
     /**
      * @return Filename of the configuration properties file.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String filename();
 
     /**
      * @return Contextual family.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String family();
 }

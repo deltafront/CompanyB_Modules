@@ -11,9 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Container for activities that a user has performed on the site.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class UserContext
 {
@@ -25,10 +25,11 @@ public class UserContext
     /**
      * Default constructor.
      * @param userId Unique userId
-     * @since 1.0
+     * @since 1.0.0
      */
     public UserContext(final String userId)
     {
+        Validate.notBlank(userId,"UserId is required.");
         this.userId = userId;
         this.userActivities = new LinkedList<>();
     }
@@ -36,16 +37,13 @@ public class UserContext
     /**
      * Adds an activity to this UserContext.
      * @param context Context that contains data concerning activity to be added.
-     * @since 1.0
+     * @since 1.0.0
      */
     public void addActivity(Context context)
     {
-        UserActivity activity = new UserActivity();
-        Validate.notNull(context);
-        activity.pageId = context.getPageId();
-        activity.operation = context.getOperation();
-        activity.duration = context.getOperationStart().getTime() - context.getOperationEnd().getTime();
-        activity.visited = context.getOperationStart();
+        Validate.notNull(context,"Context is required to add activity to.");
+
+        UserActivity activity = new UserActivity(context);
         this.userActivities.add(activity);
         LOGGER.trace(String.format("Added User activity to userId '%s'\n%s", userId, new Gson().toJson(activity)));
     }
@@ -53,7 +51,7 @@ public class UserContext
 
     /**
      * @return UserId.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getUserId()
     {
@@ -62,18 +60,72 @@ public class UserContext
 
     /**
      * @return All activities associated with this user.
-     * @since 1.0
+     * @since 1.0.0
      */
     public List<UserActivity> getUserActivities()
     {
         return userActivities;
     }
 
+    /**
+     * Records the current user activity.
+     * @author Charles Burrell (deltafront@gmail.com)
+     * @version 1.0.0
+     */
     public static class UserActivity
     {
-        public String pageId;
-        public Timestamp visited;
-        public String operation;
-        public Long duration;
+        private final String pageId;
+        private final Timestamp visited;
+        private final String operation;
+        private final Long duration;
+
+        /**
+         * @param context Context that contains data concerning activity to be added.
+         * @since 1.1.1
+         */
+        public UserActivity(Context context)
+        {
+            Validate.notNull(context);
+            this.duration = context.getOperationEnd().getTime() - context.getOperationStart().getTime();
+            this.pageId = context.getPageId();
+            this.operation = context.getOperation();
+            this.visited = context.getOperationStart();
+        }
+
+        /**
+         * @return ID of the page.
+         * @since 1.1.1
+         */
+        public String getPageId()
+        {
+            return pageId;
+        }
+
+        /**
+         * @return When page was visited.
+         * @since 1.1.1
+         */
+        public Timestamp getVisited()
+        {
+            return visited;
+        }
+
+        /**
+         * @return Operation performed / in progress.
+         * @since 1.1.1
+         */
+        public String getOperation()
+        {
+            return operation;
+        }
+
+        /**
+         * @return Duration of stay on the page.
+         * @since 1.1.1
+         */
+        public Long getDuration()
+        {
+            return duration;
+        }
     }
 }

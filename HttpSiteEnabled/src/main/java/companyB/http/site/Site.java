@@ -6,7 +6,7 @@ import org.apache.commons.lang3.Validate;
 /**
  * Holds information for the site as a whole.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class Site
 {
@@ -25,29 +25,30 @@ public class Site
      * @param primaryLang Primary Language that is supported by this site.
      * @param supportedLangs All languages that are supported by this site.
      * @param locale Primary Locale for this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Site(String siteName, String siteId, IsoLang primaryLang, IsoLang[] supportedLangs, IsoLocale locale)
     {
-        Validate.notNull(primaryLang);
-        Validate.notNull(locale);
-        Validate.notBlank(siteName);
-        Validate.notBlank(siteId);
+        Validate.notNull(primaryLang,"Primary Lang is required.");
+        Validate.notNull(locale,"Locale is required.");
+        Validate.notBlank(siteName,"Site name is required.");
+        Validate.notBlank(siteId,"Site ID is required.");
         this.siteName = siteName;
         this.siteId = siteId;
         this.primaryLang = primaryLang;
         this.locale = locale;
-        this.hostName = SiteUtils.getHostName();
-        this.hostIpAddress = SiteUtils.getLocalIpAddress();
+        SiteUtils siteUtils = new SiteUtils();
+        this.hostName = siteUtils.getHostName();
+        this.hostIpAddress = siteUtils.getLocalIpAddress();
         this.supportedLangs = (null == supportedLangs) ? new IsoLang[0] : supportedLangs;
-        Validate.notNull(this.supportedLangs);
-        Validate.notBlank(hostName);
-        Validate.notBlank(hostIpAddress);
+        Validate.notNull(this.supportedLangs,"Supported languages are null after processing!");
+        Validate.notBlank(this.hostName,"Host name is null after processing!");
+        Validate.notBlank(this.hostIpAddress,"Host IP Address is null after processing!");
     }
 
     /**
      * @return Name of the site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getSiteName()
     {
@@ -56,7 +57,7 @@ public class Site
 
     /**
      * @return Unique Id for the site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getSiteId()
     {
@@ -65,7 +66,7 @@ public class Site
 
     /**
      * @return Primary Language supported by this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLang getPrimaryLang()
     {
@@ -74,7 +75,7 @@ public class Site
 
     /**
      * @return Locale of this site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLocale getLocale()
     {
@@ -83,7 +84,7 @@ public class Site
 
     /**
      * @return Host name of site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getHostName()
     {
@@ -92,7 +93,7 @@ public class Site
 
     /**
      * @return IP Address of site.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getHostIpAddress()
     {
@@ -101,15 +102,12 @@ public class Site
 
     /**
      * @return All languages supported by this site, including the primary.
-     * @since 1.0
+     * @since 1.0.0
      */
     public IsoLang[] getSupportedLangs()
     {
         IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-        for(int i = 0; i < this.supportedLangs.length; i++)
-        {
-            isoLangs[i] = this.supportedLangs[i];
-        }
+        System.arraycopy(this.supportedLangs, 0, isoLangs, 0, this.supportedLangs.length);
         isoLangs[this.supportedLangs.length] = primaryLang;
         return isoLangs;
     }

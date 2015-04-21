@@ -4,43 +4,40 @@ import companyB.http.session.DefaultSessionAttributes;
 import companyB.http.session.DefaultSessionUtils;
 import org.easymock.EasyMock;
 import org.easymock.IMocksControl;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
+import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
+@Test(groups = {"unit","default.session.utils","http.session.enabled"})
 public class DefaultSessionUtilsTest
 {
     private HttpServletRequest request;
     private HttpSession session;
-    private DefaultSessionAttributes sessionAttributes;
     private String attributeName = "foo";
     private Object attributeValue = 42;
     private DefaultSessionUtils sessionUtils;
 
 
-    @Test
+    @BeforeMethod
+    public void before()
+    {
+        List<String> defaultSessionAttributeNames = new LinkedList<>();
+        defaultSessionAttributeNames.add(attributeName);
+        DefaultSessionAttributes sessionAttributes = new DefaultSessionAttributes(defaultSessionAttributeNames);
+        sessionAttributes = sessionAttributes.withMaxInterval(100);
+        sessionUtils = new DefaultSessionUtils(sessionAttributes);
+    }
     public void getValidAttributeRemoveFalse()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -56,18 +53,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void getValidAttributeRemoveTrue()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -91,18 +82,12 @@ public class DefaultSessionUtilsTest
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = {IllegalArgumentException.class})
     public void getInvalidAttribute()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -117,18 +102,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = {IllegalArgumentException.class})
     public void setInvalidAttribute()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -141,18 +120,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test(expected = NullPointerException.class)
+    @Test(expectedExceptions = {NullPointerException.class})
     public void setValidAttributeNoSessionNotSettingSession()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -167,18 +140,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeNoSessionSettingSession()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -193,18 +160,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeSessionSettingMaxInterval()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 
@@ -219,18 +180,12 @@ public class DefaultSessionUtilsTest
             control.verify();
         }
     }
-    @Test
+
     public void setValidAttributeSessionNotSettingMaxInterval()
     {
         IMocksControl control = EasyMock.createNiceControl();
         try
         {
-            sessionAttributes = new DefaultSessionAttributes();
-            sessionAttributes.maxInterval = 100;
-            sessionAttributes.defaultSessionAttributeNames = new LinkedList<>();
-            sessionAttributes.defaultSessionAttributeNames.add(attributeName);
-            sessionUtils = new DefaultSessionUtils(sessionAttributes);
-
             request = control.createMock(HttpServletRequest.class);
             session = control.createMock(HttpSession.class);
 

@@ -3,7 +3,8 @@ package companyB.http.session.test;
 import companyB.http.session.DefaultSessionAttributes;
 import companyB.http.session.DefaultSessionAttributesReader;
 import junit.framework.TestCase;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,59 +12,63 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
+@SuppressWarnings("ConstantConditions")
+@Test(groups = {"unit","default.session.attributes","http.session.enabled"})
 public class DefaultSessionAttributesReaderTest
 {
     private DefaultSessionAttributes defaultSessionAttributes;
     private String filename;
+    private DefaultSessionAttributesReader defaultSessionAttributesReader;
 
-    @Test
+    @BeforeMethod
+    public void before()
+    {
+        defaultSessionAttributesReader = new DefaultSessionAttributesReader();
+    }
+
+
     public void invalidFile()
     {
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
-        assertNotNull(defaultSessionAttributes);
-        assertNotNull(defaultSessionAttributes.maxInterval);
-        assertNull(defaultSessionAttributes.defaultSessionAttributeNames);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes("foo.props");
+        assertNull(defaultSessionAttributes);
     }
-    @Test
+
     public void noMaxIntervalSingleArg()
     {
         String[]args = new String[]{"foo"};
         Integer maxInterval = null;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
-    @Test
+
     public void noMaxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = null;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
 
-    @Test
+
     public void maxIntervalSingleArg()
     {
         String[]args = new String[]{"foo"};
         Integer maxInterval = 42;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
-    @Test
+
     public void maxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = 42;
         filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = DefaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
         verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
     }
     private String writeFile(Integer maxInterval, String...attributes)
@@ -103,9 +108,9 @@ public class DefaultSessionAttributesReaderTest
     private void verifyDefaultSessionAttributes(DefaultSessionAttributes defaultSessionAttributes, Integer maxInterval, String...attributes)
     {
         assertNotNull(defaultSessionAttributes);
-        List<String>names = defaultSessionAttributes.defaultSessionAttributeNames;
+        List<String>names = defaultSessionAttributes.getDefaultSessionAttributeNames();
         assertNotNull(names);
-        Integer fromInstance = defaultSessionAttributes.maxInterval;
+        Integer fromInstance = defaultSessionAttributes.getMaxInterval();
         assertNotNull(fromInstance);
         if(null == maxInterval)
         {

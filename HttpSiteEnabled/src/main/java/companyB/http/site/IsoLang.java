@@ -3,11 +3,11 @@ package companyB.http.site;
 /**
  * A Listing of all of the current ISO 639.1 supported languages mapped to their respective ISO 639.1 designations.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public enum IsoLang
 {
-    /** @since  1.0 */
+    /** @since  1.0.0 */
     Afar("AA"),
     Abkhazian("AB"),
     Afrikaans("AF"),
@@ -150,7 +150,7 @@ public enum IsoLang
     Zhuang("ZA"),
     Chinese("ZH"),
     Zulu("ZU");
-    public String abbr;
+    public final String abbr;
 
     private IsoLang(String abbr)
     {

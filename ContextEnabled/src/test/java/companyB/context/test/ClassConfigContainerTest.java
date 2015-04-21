@@ -1,8 +1,8 @@
 package companyB.context.test;
 
 import companyB.context.ClassArgsContainer;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -14,6 +14,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by Charles Burrell (deltafront@gmail.com).
  */
+@Test(groups = {"unit","class.config.container","context.enabled"})
 public class ClassConfigContainerTest
 {
     private Object[]argsArray = {42,"foo",false};
@@ -21,26 +22,26 @@ public class ClassConfigContainerTest
     String fqcn = TestObject.class.getCanonicalName();
     String id = "test.object";
 
-    @Before
+    @BeforeMethod
     public void before()
     {
         argsList = new LinkedList<>();
         Collections.addAll(argsList,argsArray);
     }
 
-    @Test
+
     public void withList() throws ClassNotFoundException
     {
         ClassArgsContainer classArgsContainer = new ClassArgsContainer(fqcn,argsList,id);
         assertNotNull(classArgsContainer);
     }
-    @Test
+
     public void withArray() throws ClassNotFoundException
     {
         ClassArgsContainer classArgsContainer = new ClassArgsContainer(fqcn,argsArray,id);
         assertNotNull(classArgsContainer);
     }
-    @Test(expected = ClassNotFoundException.class)
+    @Test(expectedExceptions = {ClassNotFoundException.class})
     public void withInvalidClassName() throws ClassNotFoundException
     {
         new ClassArgsContainer("foo",argsArray,id);

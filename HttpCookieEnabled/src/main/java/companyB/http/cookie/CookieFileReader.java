@@ -37,9 +37,9 @@ import java.util.List;
  *      </li>
  * </ol>
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
-public abstract class CookieFileReader
+public class CookieFileReader
 {
     private final static Logger LOGGER = LoggerFactory.getLogger(CookieFileReader.class);
 
@@ -47,10 +47,13 @@ public abstract class CookieFileReader
      * Reads the cookie definitions from the file.
      * @param filename filename to read the cookie definitions from.
      * @return List of DefaultCookies.
-     * @since 1.0
+     * @since 1.0.0
      */
-    public static List<DefaultCookie> readCookiesFromFile(String filename)
+    @SuppressWarnings("unchecked")
+    public List<DefaultCookie> readCookiesFromFile(String filename)
     {
+        Validate.notEmpty(filename,"Filename must be provided.");
+        final CookieUtils cookieUtils = new CookieUtils();
         final List<DefaultCookie> defaultCookies = new LinkedList<>();
         try
         {
@@ -60,9 +63,7 @@ public abstract class CookieFileReader
             {
                 if (0 != line.indexOf("#"))
                 {
-                    System.out.println(line);
                     final String[] vals = line.split(",");
-                    System.out.println(vals.length);
                     Validate.isTrue(9 == vals.length);
 
                     final String name = vals[0];
@@ -81,7 +82,7 @@ public abstract class CookieFileReader
                     validateVersion(str_version);
 
 
-                    Cookie cookie = new Cookie(name, value);
+                    final Cookie cookie = new Cookie(name, value);
                     cookie.setDomain(domain);
                     cookie.setPath(path);
                     cookie.setComment(comment);
@@ -91,7 +92,7 @@ public abstract class CookieFileReader
 
                     defaultCookies.add(new DefaultCookie(cookie,true));
                     LOGGER.trace(String.format("Read cookie line from file '%s'\n%s",
-                            file.getAbsoluteFile(),Utils.cookieToString(cookie)));
+                            file.getAbsoluteFile(), cookieUtils.cookieToString(cookie)));
 
                 }
             }
@@ -104,7 +105,7 @@ public abstract class CookieFileReader
         return defaultCookies;
     }
 
-    private static void validateStringValues(String name, String value, String domain, String path,String comment)
+    private void validateStringValues(String name, String value, String domain, String path,String comment)
     {
         Validate.notBlank(name);
         Validate.notBlank(value);
@@ -112,34 +113,34 @@ public abstract class CookieFileReader
         Validate.notBlank(path);
         Validate.notBlank(comment);
     }
-    private static void validateBooleanValues(String secure, String httpOnly)
+    private void validateBooleanValues(String secure, String httpOnly)
     {
         Validate.notBlank(secure);
         verifyBoolean(secure);
         Validate.notBlank(httpOnly);
         verifyBoolean(httpOnly);
     }
-    private static void validateIntegerValues(String maxAge, String version)
+    private void validateIntegerValues(String maxAge, String version)
     {
         Validate.notBlank(maxAge);
         Validate.notBlank(version);
     }
-    private static void setBooleanValues(Cookie cookie, String secure, String httpOnly)
+    private void setBooleanValues(Cookie cookie, String secure, String httpOnly)
     {
         cookie.setHttpOnly(Boolean.valueOf(httpOnly));
         cookie.setSecure(Boolean.valueOf(secure));
     }
-    private static void setIntegerValues(Cookie cookie,String maxAge, String version)
+    private void setIntegerValues(Cookie cookie,String maxAge, String version)
     {
         cookie.setVersion(Integer.valueOf(version));
         cookie.setMaxAge(Integer.valueOf(maxAge));
     }
 
-    private static void validateVersion(String str_version)
+    private void validateVersion(String str_version)
     {
         Validate.isTrue( "0".equals(str_version) || "1".equals(str_version));
     }
-    private static void verifyBoolean(String bool)
+    private void verifyBoolean(String bool)
     {
         Validate.isTrue("false".equals(bool.toLowerCase()) || "true".equals(bool.toLowerCase()));
     }

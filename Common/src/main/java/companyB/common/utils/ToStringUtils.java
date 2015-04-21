@@ -6,37 +6,35 @@ import java.util.Set;
 /**
  * Provides custom representations of Iterables and Maps.
  * @author Charles Burell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
 @SuppressWarnings("PMD.UselessParentheses")
-public abstract class ToStringUtils
+public class ToStringUtils extends UtilityBase
 {
     /**
      * Writes out an iterable instance to a string.
      * @param iterable Iterable to be converted to string representation.
      * @param <E> Type parameter
      * @return String representation of Iterable.
-     * @since 1.0
+     * @since 1.0.0
      */
-    public static<E> String iterableToString(Iterable<E> iterable)
+    public <E> String iterableToString(Iterable<E> iterable)
     {
-        StringBuilder stringBuilder = new StringBuilder("[");
+        String result = ("[");
         if(null != iterable)
         {
             for( E out : iterable)
             {
                 String temp = (out instanceof Iterable) ? iterableToString((Iterable)out) :
                         (out instanceof Map) ? mapToString((Map)out) : String.valueOf(out);
-                stringBuilder.append(String.format("%s,",temp));
+                result += (String.format("%s,",temp));
             }
         }
-        stringBuilder.trimToSize();
-        String out = stringBuilder.toString();
-        if(out.contains(","))
-        {
-            out = out.substring(0,out.lastIndexOf(","));
-        }
-        return String.format("%s]",out);
+        if(result.contains(","))
+            result = result.substring(0,result.lastIndexOf(","));
+        result = String.format("%s]",result);
+        LOGGER.trace(String.format("Returning string representation of iterable\n%s",result));
+        return result;
     }
 
     /**
@@ -45,11 +43,11 @@ public abstract class ToStringUtils
      * @param <Key> Type Parameter.
      * @param <Value> Type Parameter.
      * @return String representation of Map instance.
-     * @since 1.0
+     * @since 1.0.0
      */
-    public static<Key,Value> String mapToString(Map<Key, Value> map)
+    public <Key,Value> String mapToString(Map<Key, Value> map)
     {
-        StringBuilder stringBuilder = new StringBuilder("{");
+        String out  = ("{");
         if(null != map)
         {
             Set<Key>keys = map.keySet();
@@ -58,15 +56,13 @@ public abstract class ToStringUtils
                 Value value = map.get(key);
                 String temp = (value instanceof Iterable) ? iterableToString((Iterable)value) :
                         (value instanceof Map) ? mapToString((Map)value) : String.valueOf(value);
-                stringBuilder.append(String.format("%s:%s,",key,temp));
+                out += (String.format("%s:%s,",key,temp));
             }
         }
-        stringBuilder.trimToSize();
-        String out = stringBuilder.toString();
         if(out.contains(","))
-        {
             out = out.substring(0,out.lastIndexOf(","));
-        }
-        return String.format("%s}",out);
+        out = String.format("%s}",out);
+        LOGGER.trace(String.format("Returning string representation of map\n%s",out));
+        return out;
     }
 }

@@ -40,6 +40,6 @@ All logging is done via SLF4J. You will need to provide your own runtime impleme
     <dependency>
         <groupId>companyB</groupId>
         <artifactId>Common</artifactId>
-        <version>1.0</version>
+        <version>${common.version}</version>
     </dependency>
 ```

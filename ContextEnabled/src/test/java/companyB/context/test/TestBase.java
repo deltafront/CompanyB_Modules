@@ -25,7 +25,6 @@ public class TestBase
                         break;
                     }
                 }
-                System.out.println(testObject.toString());
                 assertTrue(String.format("Did not find value %s in test object!",arg),found);
             }
             catch (IllegalAccessException e)

@@ -25,43 +25,42 @@ import java.util.Map;
  * Due to the key behavior in each of the cases above, it is recommended that only <strong>absolute paths</strong> are specified, and <strong>not</strong> classpath
  resources!
  @author Charles Burrell (deltafront@gmail.com)
- @version 1.0
+ @since 1.0.0
  */
 public class ConfigEnabler
 {
-    private Map<String,String> mapping;
+    private final Map<String,String> mapping;
     private static Map<String,Map<String,String>> property_mappings;
     private final static Logger LOGGER = LoggerFactory.getLogger(ConfigEnabler.class);
     static
     {
-        if(null == property_mappings)
-        {
-            property_mappings = new HashMap<>();
-        }
+        if(null == property_mappings) property_mappings = new HashMap<>();
     }
 
     /**
      * Default constructor.
      * @param filename Name of properties file to be loaded. This should be an absolute path, and not simply a classpath resource.
      * @param family Contextual family.
-     * @since 1.0
+     * @since 1.0.0
      */
     public ConfigEnabler(String filename, String family)
     {
-        Validate.notNull(filename);
-        Validate.notNull(family);
+        Validate.notNull(filename,"Properties File Name required.");
+        Validate.notNull(family,"Contextual Family required.");
+        final CustomPropertiesReader customPropertiesReader = new CustomPropertiesReader();
+        final CustomMapper customMapper = new CustomMapper();
         if(!property_mappings.containsKey(filename))
         {
-            Map<String,String>props = CustomPropertiesReader.read(filename);
+            Map<String,String>props = customPropertiesReader.read(filename);
             property_mappings.put(filename,props);
             LOGGER.trace(String.format("Hashing all properties for properties file '%s'.",filename));
         }
         Map<String,String>properties = property_mappings.get(filename);
-        Validate.notEmpty(properties);
-        Map<String,Map<String,String>>mappings = CustomMapper.getMappings(properties);
-        Validate.notEmpty(mappings);
+        Validate.notEmpty(properties,"Properties contain no elements.");
+        Map<String,Map<String,String>>mappings = customMapper.getMappings(properties);
+        Validate.notEmpty(mappings,"Mappings are empty.");
         mapping = mappings.get(family);
-        Validate.notEmpty(mappings);
+        Validate.notEmpty(mappings,"Mappings are empty.");
     }
 
     /**
@@ -69,11 +68,11 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Object getValue(String key, Object defaultValue)
     {
-        Validate.notNull(defaultValue);
+        Validate.notNull(defaultValue,"Default value must be supplied.");
         LOGGER.trace(String.format("Getting value for key '%s' [default = '%s']",key,defaultValue));
         Object value;
         try
@@ -93,23 +92,19 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a String, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getString(String key, String defaultValue)
     {
         String value = String.valueOf(getValue(key,defaultValue));
-        if(0 == value.length())
-        {
-            value = null;
-        }
-        return value;
+        return (0 == value.length()) ? null : value;
     }
     /**
      * Gets the property's value as a Boolean.
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a Boolean, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Boolean getBoolean(String key, Boolean defaultValue)
     {
@@ -120,7 +115,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a Long, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Long getLong(String key, Long defaultValue)
     {
@@ -131,7 +126,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as an Integer, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Integer getInteger(String key, Integer defaultValue)
     {
@@ -142,7 +137,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a Short, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Short getShort(String key, Short defaultValue)
     {
@@ -153,7 +148,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a Double, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Double getDouble(String key, Double defaultValue)
     {
@@ -164,7 +159,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a Float, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Float getFloat(String key, Float defaultValue)
     {
@@ -175,7 +170,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a BigDecimal, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public BigDecimal getBigDecimal(String key, BigDecimal defaultValue)
     {
@@ -186,7 +181,7 @@ public class ConfigEnabler
      * @param key Property value to get.
      * @param defaultValue Default value to return in case property is not found. 'Null' is not a valid default value.
      * @return Contextual family value from properties file as a BigInteger, or default if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public BigInteger getBigInteger(String key, BigInteger defaultValue)
     {
@@ -196,7 +191,7 @@ public class ConfigEnabler
      * Gets the property's value as an Integer.
      * @param key Property value to get.
      * @return Contextual family value from properties file as an Integer, or '0' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Integer getInteger(String key)
     {
@@ -206,7 +201,7 @@ public class ConfigEnabler
      * Gets the property's value as a String.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a String, or 'null' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getString(String key)
     {
@@ -216,7 +211,7 @@ public class ConfigEnabler
      * Gets the property's value as a Boolean.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a String, or 'false' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Boolean getBoolean(String key)
     {
@@ -226,7 +221,7 @@ public class ConfigEnabler
      * Gets the property's value as a Long.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a Long, or '0L' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Long getLong(String key)
     {
@@ -236,7 +231,7 @@ public class ConfigEnabler
      * Gets the property's value as a Short.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a Short, or '0' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Short getShort(String key)
     {
@@ -246,7 +241,7 @@ public class ConfigEnabler
      * Gets the property's value as a Double.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a Double, or '0.0D' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Double getDouble(String key)
     {
@@ -256,7 +251,7 @@ public class ConfigEnabler
      * Gets the property's value as a Long.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a Long, or '0' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Float getFloat(String key)
     {
@@ -266,7 +261,7 @@ public class ConfigEnabler
      * Gets the property's value as a BigDecimal.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a BigDecimal, or '0.0' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public BigDecimal getBigDecimal(String key)
     {
@@ -276,7 +271,7 @@ public class ConfigEnabler
      * Gets the property's value as a BigInteger.
      * @param key Property value to get.
      * @return Contextual family value from properties file as a BigInteger, or '0' if not found.
-     * @since 1.0
+     * @since 1.0.0
      */
     public BigInteger getBigInteger(String key)
     {

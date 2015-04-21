@@ -3,7 +3,7 @@ package companyB.context.test;
 import companyB.context.ClassArgsContainer;
 import companyB.context.DefaultIApplicationContext;
 import companyB.context.I_ApplicationContext;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,10 +16,10 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings({"UnnecessaryBoxing", "BooleanConstructorCall"})
+@Test(groups = {"unit","default.application.context","context.enabled"})
 public class DefaultIApplicationContextTest extends TestBase
 {
-
-    @Test
     public void twoInstances()
     {
         I_ApplicationContext one = new DefaultIApplicationContext();
@@ -40,7 +40,7 @@ public class DefaultIApplicationContextTest extends TestBase
             two.clear();
         }
     }
-    @Test
+
     public void associateAndGet()
     {
         I_ApplicationContext applicationContext = new DefaultIApplicationContext();
@@ -65,7 +65,7 @@ public class DefaultIApplicationContextTest extends TestBase
         }
     }
 
-    @Test
+
     public void getInstance()
     {
         I_ApplicationContext applicationContext = new DefaultIApplicationContext();
@@ -128,7 +128,7 @@ public class DefaultIApplicationContextTest extends TestBase
             applicationContext.clear();
         }
     }
-    @Test
+
     public void withContainers() throws ClassNotFoundException
     {
         String fqcn = TestObject.class.getCanonicalName();

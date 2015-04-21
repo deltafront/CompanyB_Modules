@@ -1,8 +1,8 @@
 package companyB.configuration.test;
 
 import companyB.configuration.ConfigEnabler;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @SuppressWarnings("ConstantConditions")
+@Test(groups = {"unit","config.enabler","configuration.enabled"})
 public class ConfigEnablerTest extends ConfigurationEnabledTestBase
 {
     private String family;
@@ -21,7 +22,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
     private Object value;
     private String path;
 
-    @Before
+    @BeforeMethod
     public void before()
     {
         family = "foo1";
@@ -29,7 +30,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
     }
 
 
-    @Test
     public void integerNoDefaultValidFamily()
     {
         key = String.format("%s.intValue",family);
@@ -41,7 +41,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void integerNoDefaultInValidFamily()
     {
         key = String.format("%s.intValue",family);
@@ -54,7 +53,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void integerNoDefaultInValidName()
     {
         key = String.format("%s.intValue",family);
@@ -67,7 +65,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void integerDefaultValidFamily()
     {
         key = String.format("%s.intValue",family);
@@ -79,7 +76,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void integerDefaultInValidFamily()
     {
         key = String.format("%s.intValue",family);
@@ -92,7 +88,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(new Integer(100),out);
     }
 
-    @Test
     public void bigIntegerNoDefaultValidFamily()
     {
         key = String.format("%s.bigIntValue",family);
@@ -104,7 +99,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void bigIntegerNoDefaultInValidFamily()
     {
         key = String.format("%s.bigIntValue",family);
@@ -117,7 +111,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void bigIntegerNoDefaultInValidName()
     {
         key = String.format("%s.bigIntValue",family);
@@ -130,7 +123,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void bigIntegerDefaultValidFamily()
     {
         BigInteger def = new BigInteger("100");
@@ -143,7 +135,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void bigIntegerDefaultInValidFamily()
     {
         BigInteger def = new BigInteger("100");
@@ -157,7 +148,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(def,out);
     }
 
-    @Test
     public void longNoDefaultValidFamily()
     {
         key = String.format("%s.longValue",family);
@@ -169,7 +159,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void longNoDefaultInValidFamily()
     {
         Long def = 0L;
@@ -182,7 +171,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void longNoDefaultInValidName()
     {
         Long def = 0L;
@@ -195,7 +183,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
     public void longDefaultValidFamily()
     {
         key = String.format("%s.longValue",family);
@@ -208,7 +195,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
     public void longDefaultInValidFamily()
     {
         key = String.format("%s.longValue",family);
@@ -222,7 +208,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(def,out);
     }
 
-    @Test
+
     public void shortNoDefaultValidFamily()
     {
         key = String.format("%s.shortValue",family);
@@ -235,7 +221,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(value,out);
     }
 
-    @Test
+
     public void shortNoDefaultInValidFamily()
     {
         Short def = 0;
@@ -248,7 +234,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void shortNoDefaultInValidName()
     {
         Short def = 0;
@@ -261,7 +247,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void shortDefaultValidFamily()
     {
         short def = 100;
@@ -274,7 +260,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void shortDefaultInValidFamily()
     {
         short def = 100;
@@ -288,7 +274,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(new Short(def),out);
     }
 
-    @Test
+
     public void stringNoDefaultValidFamily()
     {
         key = String.format("%s.stringValue",family);
@@ -300,7 +286,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void stringNoDefaultInValidFamily()
     {
         key = String.format("%s.stringValue",family);
@@ -311,7 +297,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         String out = configEnabler.getString("stringValue");
         assertNull(out);
     }
-    @Test
+
     public void stringNoDefaultInValidName()
     {
         key = String.format("%s.stringValue",family);
@@ -322,7 +308,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         String out = configEnabler.getString("");
         assertNull(out);
     }
-    @Test
+
     public void stringDefaultValidFamily()
     {
         String def = "default value";
@@ -335,7 +321,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void stringDefaultInValidFamily()
     {
         String def = "default value";
@@ -349,7 +335,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(def,out);
     }
 
-    @Test
+
     public void floatNoDefaultValidFamily()
     {
         key = String.format("%s.floatValue",family);
@@ -361,7 +347,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void floatNoDefaultInValidFamily()
     {
         Float def = 0.0F;
@@ -374,7 +360,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void floatNoDefaultInValidName()
     {
         Float def = 0.0F;
@@ -387,7 +373,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void floatDefaultValidFamily()
     {
         Float def = Float.intBitsToFloat(42);
@@ -400,7 +386,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void floatDefaultInValidFamily()
     {
         Float def = Float.intBitsToFloat(42);
@@ -414,7 +400,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(def,out);
     }
 
-    @Test
+
     public void doubleNoDefaultValidFamily()
     {
         key = String.format("%s.doubleValue",family);
@@ -426,7 +412,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void doubleNoDefaultInValidFamily()
     {
         Double def = 0.0D;
@@ -439,7 +425,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void doubleNoDefaultInValidName()
     {
         Double def = 0.0D;
@@ -452,7 +438,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void doubleDefaultValidFamily()
     {
         Double def = 100.00D;
@@ -465,7 +451,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void doubleDefaultInValidFamily()
     {
         Double def = 100.00D;
@@ -479,7 +465,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertEquals(def,out);
     }
 
-    @Test
+
     public void bigDecimalNoDefaultValidFamily()
     {
         key = String.format("%s.bigDecimalValue",family);
@@ -491,7 +477,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(((BigDecimal)value).doubleValue(),out.doubleValue(),0);
     }
-    @Test
+
     public void bigDecimalNoDefaultInValidFamily()
     {
         BigDecimal def = new BigDecimal(0.0);
@@ -504,7 +490,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def.doubleValue(),out.doubleValue(),0);
     }
-    @Test
+
     public void bigDecimalNoDefaultInValidName()
     {
         BigDecimal def = new BigDecimal(0.0);
@@ -517,7 +503,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def.doubleValue(),out.doubleValue(),0);
     }
-    @Test
+
     public void bigDecimalDefaultValidFamily()
     {
         BigDecimal def = new BigDecimal(BigDecimal.TEN.doubleValue());
@@ -530,7 +516,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(((BigDecimal)value).doubleValue(),out.doubleValue(),0);
     }
-    @Test
+
     public void bigDecimalDefaultInValidFamily()
     {
         BigDecimal def = new BigDecimal(BigDecimal.ROUND_DOWN);
@@ -545,7 +531,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
     }
 
 
-    @Test
+
     public void booleanNoDefaultValidFamily()
     {
         key = String.format("%s.booleanValue",family);
@@ -557,7 +543,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void booleanNoDefaultInValidFamily()
     {
         Boolean def = false;
@@ -570,7 +556,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void booleanNoDefaultInValidName()
     {
         Boolean def = false;
@@ -583,7 +569,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(def,out);
     }
-    @Test
+
     public void booleanDefaultValidFamily()
     {
         Boolean def = false;
@@ -596,7 +582,7 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         assertNotNull(out);
         assertEquals(value,out);
     }
-    @Test
+
     public void booleanDefaultInValidFamily()
     {
         Boolean def = false;

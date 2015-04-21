@@ -70,6 +70,6 @@ Most messages are being logged to trace or debug, except for in the case where e
     <dependency>
         <groupId>companyB</groupId>
         <artifactId>HttpCookieEnabled</artifactId>
-        <version>1.0</version>
+        <version>${http.cookie.enabled.version}</version>
     </dependency>
 ```

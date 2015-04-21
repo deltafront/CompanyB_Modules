@@ -1,7 +1,7 @@
 package companyB.http.cookie;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import companyB.common.utils.UtilityBase;
+import org.apache.commons.lang3.Validate;
 
 import javax.servlet.http.Cookie;
 import java.lang.reflect.InvocationTargetException;
@@ -10,14 +10,22 @@ import java.lang.reflect.Method;
 /**
  * Contains utility methods.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0
+ * @since 1.0.0
  */
-public abstract class Utils
+public class CookieUtils extends UtilityBase
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Utils.class);
-    public static String cookieToString(Cookie cookie)
+
+    /**
+     * Prints this cookie to String.
+     * @param cookie Cookie to be printed.
+     * @return String representation of Cookie.
+     * @since 1.0.0
+     */
+    @SuppressWarnings("ConstantConditions")
+    public String cookieToString(Cookie cookie)
     {
-        StringBuilder stringBuilder = new StringBuilder("");
+        Validate.notNull(cookie,"Cookie must be supplied.");
+        String out = "";
         Method[]methods = cookie.getClass().getMethods();
         for(Method method : methods)
         {
@@ -30,9 +38,8 @@ public abstract class Utils
                     Object[]args = null;
                     Object obj_value = method.invoke(cookie,args);
                     if(null != obj_value)
-                    {
-                        stringBuilder.append(String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value)));
-                    }
+                        out += String.format("\n%s = %s",name.replace(replacement,""),String.valueOf(obj_value));
+
                 }
                 catch (InvocationTargetException | IllegalAccessException e)
                 {
@@ -40,7 +47,6 @@ public abstract class Utils
                 }
             }
         }
-        stringBuilder.trimToSize();
-        return stringBuilder.toString();
+        return out;
     }
 }
