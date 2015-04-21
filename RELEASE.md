@@ -28,3 +28,9 @@
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
 *   Included correct versioning in class comments
     *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
+
+# 2.0.0
+*   Created SiteResolver interface with default implementation
+    *   [card](https://trello.com/c/De09BZpN/24-2-1-0-create-site-resolver-interface-that-accepts-a-hostname-port-combination-and-returns-the-site-object)
+*   Implemented Filters for cookies that meet / fail to meet certain criteria
+    *   [card](https://trello.com/c/c3DImpXm/16-2-0-create-filter-for-ejecting-bad-cookies)
