@@ -29,4 +29,14 @@ public class TestBase
         }
         return defaultCookies;
     }
+    @SuppressWarnings("all")
+    protected String writeBytes(int size)
+    {
+        byte[]b = new byte[size];
+        for(int i = 0; i < size; i++)
+        {
+            b[i] = 0101;
+        }
+        return new String(b);
+    }
 }

@@ -1,10 +1,7 @@
 package companyB.http.cookie.test;
 
 import companyB.http.cookie.filter.CookieFilter;
-import companyB.http.cookie.filter.impl.CookieDomainPatternFilter;
-import companyB.http.cookie.filter.impl.CookieValueSizeFilter;
-import companyB.http.cookie.filter.impl.InvalidDomainCookieFilter;
-import companyB.http.cookie.filter.impl.ValidDomainCookieFilter;
+import companyB.http.cookie.filter.impl.*;
 import org.junit.Test;
 
 import javax.servlet.http.Cookie;
@@ -13,10 +10,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
-public class CookieFilterTest
+public class CookieFilterTest extends TestBase
 {
     @Test
     public void testDomainPatternFilter()
@@ -87,14 +81,26 @@ public class CookieFilterTest
         assertNotNull(fromFilter);
         assertEquals(10,fromFilter.size());
     }
-
-    private String writeBytes(int size)
+    @Test
+    public void testCookieNamesFilter()
     {
-        byte[]b = new byte[size];
-        for(int i = 0; i < size; i++)
+
+        Cookie[]cookies = new Cookie[100];
+        for(int i = 0; i < 100; i++)
         {
-            b[i] = 0101;
+            String name =   (i%10 ==0) ?    "ten"   :
+                            (i%5==0) ?      "five"  :
+                            (i%3==0) ?      "three" :
+                            (i%2==0) ?      "two"   :
+                             "none";
+            String value = (i%10==0) ? writeBytes(1000) : writeBytes(500);
+            Cookie cookie = new Cookie(name,value);
+            cookie.setDomain(String.format("%s.com",name));
+            cookies[i] = cookie;
         }
-        return new String(b);
+        CookieFilter filter = new CookieNamesFilter("ten","five","three","two");
+        List<Cookie>fromFilter = filter.filter(cookies);
+        assertNotNull(fromFilter);
+        assertEquals(74,fromFilter.size());
     }
 }

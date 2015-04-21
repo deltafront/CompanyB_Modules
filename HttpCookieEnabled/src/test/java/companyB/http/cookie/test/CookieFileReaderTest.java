@@ -1,6 +1,12 @@
 package companyB.http.cookie.test;
 
+import companyB.http.cookie.CookieFileReader;
 import org.testng.annotations.Test;
+
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 @Test(groups = {"unit","cookie.file.reader","http.cookie.enabled"})
 public class CookieFileReaderTest extends CookieReaderTestBase
@@ -84,5 +90,13 @@ public class CookieFileReaderTest extends CookieReaderTestBase
     {
         httpOnly = "no";
         doTest(false);
+    }
+
+    public void invalidFile()
+    {
+        CookieFileReader cookieFileReader =  new CookieFileReader();
+        List list = cookieFileReader.readCookiesFromFile("foo");
+        assertNotNull(list);
+        assertEquals(0,list.size());
     }
 }

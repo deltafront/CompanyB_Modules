@@ -10,7 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Charles Burrell (deltafront@gmail.com).
+ * Filters cookies from HttpServlet requests.
+ * @author Charles Burrell (deltafront@gmail.com)
+ * @since 2.0.0
  */
 public class CookieFilterer
 {
@@ -21,6 +23,11 @@ public class CookieFilterer
         this.cookieFilters = cookieFilters;
     }
 
+    /**
+     * Filters out all of the cookies that meet specific criteria.
+     * @param request HttpServletRequest that contains the cookies.
+     * @return List of all cookies that are still valid after being filtered.
+     */
     public List<Cookie>processCookies(HttpServletRequest request)
     {
         List<Cookie>cookies = new LinkedList<>();
