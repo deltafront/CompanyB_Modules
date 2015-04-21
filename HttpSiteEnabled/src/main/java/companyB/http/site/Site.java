@@ -1,6 +1,7 @@
 package companyB.http.site;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -106,10 +107,36 @@ public class Site
      */
     public IsoLang[] getSupportedLangs()
     {
-        IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-        System.arraycopy(this.supportedLangs, 0, isoLangs, 0, this.supportedLangs.length);
-        isoLangs[this.supportedLangs.length] = primaryLang;
-        return isoLangs;
+        if(!ArrayUtils.contains(this.supportedLangs,primaryLang))
+        {
+            IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
+            System.arraycopy(this.supportedLangs, 0, isoLangs, 0, this.supportedLangs.length);
+            isoLangs[this.supportedLangs.length] = primaryLang;
+            return isoLangs;
+        }
+        else return this.supportedLangs;
+    }
+
+    /**
+     * Returns the path to the desired resource file. This is assuming that the resource file's name follows a format
+     * such as 'foo/test_EN_US.properties'.
+     * @param resourceDir Directory in which resource is located.
+     * @param prefix Prefix for the resource file.
+     * @param language Language for the resource file.
+     * @param locale Locale for the resource file.
+     * @return Path to the desired properties file.
+     * @since 2.0.0
+     */
+    public String getResourcePropertiesFileName(String resourceDir,String prefix,IsoLang language, IsoLocale locale)
+    {
+        Validate.notNull(resourceDir);
+        Validate.notBlank(prefix);
+        Validate.notNull(language);
+        Validate.notNull(locale);
+        if('/' !=resourceDir.charAt(resourceDir.length() -1))resourceDir += "/";
+        if(!ArrayUtils.contains(supportedLangs,language))return null;
+        if(!this.locale.equals(locale))return null;
+        return String.format("%s%s_%s_%s.properties",resourceDir,prefix,language.name(),locale.name());
     }
 
     @Override

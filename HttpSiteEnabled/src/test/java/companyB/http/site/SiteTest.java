@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 @Test(groups = {"unit","site","http.site.enabled"})
 public class SiteTest
@@ -40,12 +41,16 @@ public class SiteTest
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[0],isoLocale);
         validateSite(site);
-
     }
 
     public void nonEmptyLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
+        validateSite(site);
+    }
+    public void nonEmptyLangsIncludesPrimary()
+    {
+        Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{primaryIsoLang,IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
         validateSite(site);
     }
 
@@ -55,11 +60,46 @@ public class SiteTest
         validateSite(site);
     }
 
-
     public void allLangs()
     {
         Site site = new Site(name,id,primaryIsoLang,isoLangs,isoLocale);
         validateSite(site);
+    }
+
+    public void getResourceFileHappyPathIncludesTrailingSlash()
+    {
+        Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{primaryIsoLang,IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
+        String dir = "/foo/";
+        String filename = "test";
+        String fromSite = site.getResourcePropertiesFileName(dir,filename,primaryIsoLang,isoLocale);
+        assertNotNull(fromSite);
+        assertEquals(String.format("%s%s_%s_%s.properties", dir, filename, primaryIsoLang.name(), isoLocale.name()), fromSite);
+    }
+
+    public void getResourceFileHappyPathDoesNotIncludeTrailingSlash()
+    {
+        Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{primaryIsoLang,IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
+        String dir = "/foo";
+        String filename = "test";
+        String fromSite = site.getResourcePropertiesFileName(dir,filename,primaryIsoLang,isoLocale);
+        assertNotNull(fromSite);
+        assertEquals(String.format("%s/%s_%s_%s.properties", dir, filename, primaryIsoLang.name(), isoLocale.name()), fromSite);
+    }
+    public void getResourceFileInvalidLocale()
+    {
+        Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{primaryIsoLang,IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
+        String dir = "/foo";
+        String filename = "test";
+        String fromSite = site.getResourcePropertiesFileName(dir,filename,primaryIsoLang,IsoLocale.Afghanistan);
+        assertNull(fromSite);
+    }
+    public void getResourceFileInvalidLanguage()
+    {
+        Site site = new Site(name,id,primaryIsoLang,new IsoLang[]{primaryIsoLang,IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},isoLocale);
+        String dir = "/foo";
+        String filename = "test";
+        String fromSite = site.getResourcePropertiesFileName(dir,filename,IsoLang.Arabic,isoLocale);
+        assertNull(fromSite);
     }
     private void validateSite(Site site)
     {
