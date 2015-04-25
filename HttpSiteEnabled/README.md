@@ -10,7 +10,7 @@ that are to be made available globally within the context of a web application. 
 ## Usage
   * Create a new Site reference:
 ```java
-    Site site = new Site("main","123",IsoLang.English,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},IsoLocale.UnitedStates);
+    Site site = new Site("main","123",IsoLanguage.English,new IsoLanguage[]{IsoLanguage.Abkhazian,IsoLanguage.Afan_Oromo,IsoLanguage.Afrikaans},IsoLocale.UnitedStates);
 ```
   * For each operation on a page, create a new Context and associate it with the current session:
 ```java
@@ -31,6 +31,25 @@ that are to be made available globally within the context of a web application. 
     UserContextUtils.wrapUserContext(request.getSession());
 ```
 
+## SiteResolver
+Site resolvers are a way to get the data related to a Site from an external source.
+This capability is specified via implementations of `SiteResolver`:
+```java
+public interface SiteResolver
+    {
+        public Site resolveSite(String host,Integer port);
+    }
+```
+The primary method, `resolveSite`, takes two parameters:
+*   **host** - Host / cluster on which the site is being run.
+*   **port** - Port that the WebApp container for this. This can be a null value.
+
+The default implementation of `SiteResolver`, `DefaultSiteResolver`, returns a Site with the following characteristics:
+*   **siteName** - Concatenation of the machine's host name and specified port.
+*   **siteId**  - '0'.
+*   **primaryLanguage** - 'EN'(English).
+*   **supportedLanguages** - 'EN'(English).
+*   **locale** - 'US' (United States).
 
 ## Logging
 SLF4J is being used as a facade for logging; a runtime implementation will need to be provided.

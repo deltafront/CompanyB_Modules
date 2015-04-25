@@ -24,9 +24,9 @@ public class DefaultSiteResolverTest
         assertNotNull(site);
         assertEquals(String.format("%s%s",host,port),site.getSiteName());
         assertEquals("0",site.getSiteId());
-        assertEquals(IsoLang.English,site.getPrimaryLang());
-        assertEquals(1,site.getSupportedLangs().length);
-        assertEquals(IsoLang.English,site.getSupportedLangs()[0]);
+        assertEquals(IsoLanguage.English,site.getPrimaryLanguage());
+        assertEquals(1,site.getSupportedLanguages().length);
+        assertEquals(IsoLanguage.English,site.getSupportedLanguages()[0]);
         assertEquals(IsoLocale.United_States,site.getLocale());
         assertNotNull(site.toString());
     }
@@ -35,11 +35,11 @@ public class DefaultSiteResolverTest
         String host = "localhost";
         Site site = siteResolver.resolveSite(host,null);
         assertNotNull(site);
-        assertEquals(host,site.getSiteName());
+        assertEquals(host, site.getSiteName());
         assertEquals("0",site.getSiteId());
-        assertEquals(IsoLang.English,site.getPrimaryLang());
-        assertEquals(1,site.getSupportedLangs().length);
-        assertEquals(IsoLang.English,site.getSupportedLangs()[0]);
+        assertEquals(IsoLanguage.English,site.getPrimaryLanguage());
+        assertEquals(1,site.getSupportedLanguages().length);
+        assertEquals(IsoLanguage.English,site.getSupportedLanguages()[0]);
         assertEquals(IsoLocale.United_States,site.getLocale());
         assertNotNull(site.toString());
     }

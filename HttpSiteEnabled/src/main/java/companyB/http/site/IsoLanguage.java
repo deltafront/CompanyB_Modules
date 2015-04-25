@@ -5,7 +5,7 @@ package companyB.http.site;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 1.0.0
  */
-public enum IsoLang
+public enum IsoLanguage
 {
     /** @since  1.0.0 */
     Afar("AA"),
@@ -152,7 +152,7 @@ public enum IsoLang
     Zulu("ZU");
     public final String abbr;
 
-    private IsoLang(String abbr)
+    private IsoLanguage(String abbr)
     {
         this.abbr = abbr;
     }

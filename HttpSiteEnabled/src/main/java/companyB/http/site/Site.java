@@ -13,8 +13,8 @@ public class Site
 {
     private final String siteName;
     private final String siteId;
-    private final IsoLang primaryLang;
-    private final IsoLang[] supportedLangs;
+    private final IsoLanguage primaryLanguage;
+    private final IsoLanguage[] supportedLanguages;
     private final IsoLocale locale;
     private final String hostName;
     private final String hostIpAddress;
@@ -23,26 +23,26 @@ public class Site
      * Default constructor.
      * @param siteName Name of the site.
      * @param siteId Unique Id for the site.
-     * @param primaryLang Primary Language that is supported by this site.
-     * @param supportedLangs All languages that are supported by this site.
+     * @param primaryLanguage Primary Language that is supported by this site.
+     * @param supportedLanguages All languages that are supported by this site.
      * @param locale Primary Locale for this site.
      * @since 1.0.0
      */
-    public Site(String siteName, String siteId, IsoLang primaryLang, IsoLang[] supportedLangs, IsoLocale locale)
+    public Site(String siteName, String siteId, IsoLanguage primaryLanguage, IsoLanguage[] supportedLanguages, IsoLocale locale)
     {
-        Validate.notNull(primaryLang,"Primary Lang is required.");
+        Validate.notNull(primaryLanguage,"Primary Lang is required.");
         Validate.notNull(locale,"Locale is required.");
         Validate.notBlank(siteName,"Site name is required.");
         Validate.notBlank(siteId,"Site ID is required.");
         this.siteName = siteName;
         this.siteId = siteId;
-        this.primaryLang = primaryLang;
+        this.primaryLanguage = primaryLanguage;
         this.locale = locale;
         SiteUtils siteUtils = new SiteUtils();
         this.hostName = siteUtils.getHostName();
         this.hostIpAddress = siteUtils.getLocalIpAddress();
-        this.supportedLangs = (null == supportedLangs) ? new IsoLang[0] : supportedLangs;
-        Validate.notNull(this.supportedLangs,"Supported languages are null after processing!");
+        this.supportedLanguages = (null == supportedLanguages) ? new IsoLanguage[0] : supportedLanguages;
+        Validate.notNull(this.supportedLanguages,"Supported languages are null after processing!");
         Validate.notBlank(this.hostName,"Host name is null after processing!");
         Validate.notBlank(this.hostIpAddress,"Host IP Address is null after processing!");
     }
@@ -69,9 +69,9 @@ public class Site
      * @return Primary Language supported by this site.
      * @since 1.0.0
      */
-    public IsoLang getPrimaryLang()
+    public IsoLanguage getPrimaryLanguage()
     {
-        return primaryLang;
+        return primaryLanguage;
     }
 
     /**
@@ -105,16 +105,16 @@ public class Site
      * @return All languages supported by this site, including the primary.
      * @since 1.0.0
      */
-    public IsoLang[] getSupportedLangs()
+    public IsoLanguage[] getSupportedLanguages()
     {
-        if(!ArrayUtils.contains(this.supportedLangs,primaryLang))
+        if(!ArrayUtils.contains(this.supportedLanguages, primaryLanguage))
         {
-            IsoLang[]isoLangs = new IsoLang[this.supportedLangs.length +1];
-            System.arraycopy(this.supportedLangs, 0, isoLangs, 0, this.supportedLangs.length);
-            isoLangs[this.supportedLangs.length] = primaryLang;
-            return isoLangs;
+            IsoLanguage[] isoLanguages = new IsoLanguage[this.supportedLanguages.length +1];
+            System.arraycopy(this.supportedLanguages, 0, isoLanguages, 0, this.supportedLanguages.length);
+            isoLanguages[this.supportedLanguages.length] = primaryLanguage;
+            return isoLanguages;
         }
-        else return this.supportedLangs;
+        else return this.supportedLanguages;
     }
 
     /**
@@ -127,14 +127,14 @@ public class Site
      * @return Path to the desired properties file.
      * @since 2.0.0
      */
-    public String getResourcePropertiesFileName(String resourceDir,String prefix,IsoLang language, IsoLocale locale)
+    public String getResourcePropertiesFileName(String resourceDir,String prefix,IsoLanguage language, IsoLocale locale)
     {
         Validate.notNull(resourceDir);
         Validate.notBlank(prefix);
         Validate.notNull(language);
         Validate.notNull(locale);
         if('/' !=resourceDir.charAt(resourceDir.length() -1))resourceDir += "/";
-        if(!ArrayUtils.contains(supportedLangs,language))return null;
+        if(!ArrayUtils.contains(supportedLanguages,language))return null;
         if(!this.locale.equals(locale))return null;
         return String.format("%s%s_%s_%s.properties",resourceDir,prefix,language.name(),locale.name());
     }

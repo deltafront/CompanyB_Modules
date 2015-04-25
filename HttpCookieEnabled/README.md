@@ -60,7 +60,23 @@ The Cookie Definition file must have at least two lines:
     VII. version - This value must be  either '0' or '1'
     VIII. comment
     IX. httpOnly - This value must be either 'true' or 'false' (case insensitive).
-    
+## Filters
+Cookies can be filtered via various attributes.  This filtering is defined via the `CookieFilter` interface:
+```java
+    public interface CookieFilter
+    {
+        public List<Cookie>filter(Cookie[]cookies);
+    }
+```
+Currently, this module ships with five default implementations of `CookieFilter`:
+*   **CookieDomainPatternFilter** - Filters Cookies based on pattern matching their domain.
+*   **CookieNameFilter** - Filters Cookies based on their name.
+*   **CookieValueSizeFilter** - Filters Cookies based on the size of their value.
+*   **InvalidDomainFilter** - Filters out all cookies that match a list of invalid domains.
+*   **ValidDomainFilter** - Filters out all cookies that do **not** match a list of valid domains.
+
+These filters can be chained together for use via tha `CookieFilterer` class.
+
 ## Logging
 SLF4J is being used as a facade for logging; a runtime implementation will need to be provided.
 Most messages are being logged to trace or debug, except for in the case where exceptions have been thrown.

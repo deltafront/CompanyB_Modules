@@ -1,6 +1,6 @@
 package companyB.http.site.context;
 
-import companyB.http.site.IsoLang;
+import companyB.http.site.IsoLanguage;
 import companyB.http.site.IsoLocale;
 import companyB.http.site.Site;
 import org.easymock.EasyMock;
@@ -113,7 +113,7 @@ public class ContextUtilsTest
 
     private Context setUpContext()
     {
-        Site site = new Site("Foo","123", IsoLang.English, null, IsoLocale.United_States);
+        Site site = new Site("Foo","123", IsoLanguage.English, null, IsoLocale.United_States);
         Context context = new Context("index.html","login",site,"TestContext");
         context.setObject("foo","bar");
         return context;

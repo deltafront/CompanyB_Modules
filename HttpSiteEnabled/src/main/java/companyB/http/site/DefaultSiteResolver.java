@@ -15,6 +15,6 @@ public class DefaultSiteResolver implements SiteResolver
     {
         Validate.notEmpty(host);
         String strPort = (null == port) ? "" : String.valueOf(port);
-        return new Site(String.format("%s%s",host,strPort),"0",IsoLang.English,null,IsoLocale.United_States);
+        return new Site(String.format("%s%s",host,strPort),"0", IsoLanguage.English,null,IsoLocale.United_States);
     }
 }

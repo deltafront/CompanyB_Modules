@@ -1,6 +1,6 @@
 package companyB.http.site.user_context;
 
-import companyB.http.site.IsoLang;
+import companyB.http.site.IsoLanguage;
 import companyB.http.site.IsoLocale;
 import companyB.http.site.Site;
 import companyB.http.site.context.Context;
@@ -86,7 +86,7 @@ public class UserContextUtilsTest
     }
     private UserContext setUpContext()
     {
-        Site site = new Site("Foo","123", IsoLang.English, null, IsoLocale.United_States);
+        Site site = new Site("Foo","123", IsoLanguage.English, null, IsoLocale.United_States);
         Context context = new Context("index.html","login",site,"TestContext");
         context.endOp();
         UserContext userContext = new UserContext("test.user");

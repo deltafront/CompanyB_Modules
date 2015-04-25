@@ -10,9 +10,9 @@ public class IsoTest
 
     public void testIsoLangNonEmpty()
     {
-        IsoLang[]isoLangs = IsoLang.values();
-        for(IsoLang isoLang : isoLangs)
-            assertNotNull(String.format("No abbreviation for IsoLang '%s'.",isoLang),isoLang.abbr);
+        IsoLanguage[] isoLanguages = IsoLanguage.values();
+        for(IsoLanguage isoLanguage : isoLanguages)
+            assertNotNull(String.format("No abbreviation for IsoLanguage '%s'.", isoLanguage), isoLanguage.abbr);
     }
 
     public void testIsoLocaleNonEmpty()
