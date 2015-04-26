@@ -16,7 +16,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.easymock.EasyMock.anyObject;
 import static org.junit.Assert.assertNull;
 
-@Test(groups = {"unit","user.context.utils","http.session.enabled"})
+@Test(groups = {"unit","user.context.utils","http.site.enabled"})
 public class UserContextUtilsTest
 {
 
@@ -53,7 +53,7 @@ public class UserContextUtilsTest
 
         UserContext fromSession = userContextUtils.unwrapContext(session);
         assertNotNull(fromSession);
-        assertEquals(userContext.getUserId(),fromSession.getUserId());
+        assertEquals(userContext.getUserId(), fromSession.getUserId());
         assertNotNull(fromSession.getUserActivities());
         assertEquals(userContext.getUserActivities(),fromSession.getUserActivities());
         control.verify();

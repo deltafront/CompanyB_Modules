@@ -90,7 +90,7 @@ resources!
 ```xml
     <dependency>
         <groupId>ConfigurationEnabled</groupId>
-        <artifactId>Decorator</artifactId>
-        <version>1.0</version>
+        <artifactId>ConfigurationEnabled</artifactId>
+        <version>${configuration.enabled.version}</version>
     </dependency>
 ```

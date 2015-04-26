@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Container for configuration-based DefaultApplicationContext instantiation.
  * @author Charles Burrell
- * @version 1.0
+ * @since 1.0.0
  */
 public class ClassArgsContainer
 {
@@ -23,6 +23,7 @@ public class ClassArgsContainer
      * @param fqcn Fully Qualified Class Name.
      * @param args List of arguments to be provided to the constructor for instantiation.
      * @param id ID that this instance is to be keyed to.
+     * @since 1.0.0
      */
     public ClassArgsContainer(String fqcn, List<Object> args, String id) throws ClassNotFoundException
     {
@@ -33,6 +34,7 @@ public class ClassArgsContainer
      * @param fqcn Fully Qualified Class Name.
      * @param args List of arguments to be provided to the constructor for instantiation.
      * @param id ID that this instance is to be keyed to.
+     * @since 1.0.0
      */
     public ClassArgsContainer(String fqcn, Object[] args, String id) throws ClassNotFoundException
     {
@@ -51,6 +53,7 @@ public class ClassArgsContainer
 
     /**
      * @return Class associated with this container.
+     * @since 1.0.0
      */
     public Class get_Class()
     {
@@ -58,6 +61,7 @@ public class ClassArgsContainer
     }
     /**
      * @return Args needed to instantiate class.
+     * @since 1.0.0
      */
     public Object[] getArgs()
     {
@@ -65,6 +69,7 @@ public class ClassArgsContainer
     }
     /**
      * @return ID of this instance.
+     * @since 1.0.0
      */
     public String getId()
     {

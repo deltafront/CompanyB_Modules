@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Container that holds applicable data concerning the current context.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class Context
 {
@@ -32,6 +32,7 @@ public class Context
      * @param operation Operation that is being performed.
      * @param site Site object that contains data concerning the site as a whole.
      * @param contextAttributeName Name that this context is to be keyed to when it is wrapped in an HttpSession.
+     * @since 1.0.0
      */
     public Context(String pageId, String operation, Site site, String contextAttributeName)
     {
@@ -51,7 +52,7 @@ public class Context
      * Ends the current operation. This is a one-time process, meaning that for any given context its' operation can
      * only be ended once.
      * @return Timestamp of when current operation has been ended.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Timestamp endOp()
     {
@@ -65,7 +66,7 @@ public class Context
 
     /**
      * @return pageId.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getPageId()
     {
@@ -73,7 +74,7 @@ public class Context
     }
     /**
      * @return Current operation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getOperation()
     {
@@ -81,7 +82,7 @@ public class Context
     }
     /**
      * @return Start time of current operation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Timestamp getOperationStart()
     {
@@ -89,7 +90,7 @@ public class Context
     }
     /**
      * @return End time of current operation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Timestamp getOperationEnd()
     {
@@ -97,7 +98,7 @@ public class Context
     }
     /**
      * @return Duration of operation covered by context.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Long getDuration()
     {
@@ -106,7 +107,7 @@ public class Context
 
     /**
      * @return Site attached to context.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Site getSite()
     {
@@ -115,7 +116,7 @@ public class Context
 
     /**
      * @return Name that this context is keyed to in the session.
-     * @since 1.0
+     * @since 1.0.0
      */
     public String getContextAttributeName()
     {
@@ -126,7 +127,7 @@ public class Context
      * Associates an object reference with this context.
      * @param key Key to associate object reference with.
      * @param object Object to be associated.
-     * @since 1.0
+     * @since 1.0.0
      */
     public void setObject(String key, Object object)
     {
@@ -139,7 +140,7 @@ public class Context
      * @param key Key that is associated with reference.
      * @param <T> Type parameter.
      * @return Object associated with reference.
-     * @since 1.0
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public <T>T get(String key)
@@ -149,7 +150,7 @@ public class Context
 
     /**
      * @return Listing of all keys in mapping.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Set<String>getReferences()
     {

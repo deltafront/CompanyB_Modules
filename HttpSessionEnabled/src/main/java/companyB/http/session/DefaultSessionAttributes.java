@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Container for Default Session Attributes.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class DefaultSessionAttributes
 {
@@ -25,7 +25,7 @@ public class DefaultSessionAttributes
      * Sets the max interval time for this session.
      * @param maxInterval Max interval time.
      * @return This instance of DefaultSessionAttributes with the new max interval.
-     * @since 1.1
+     * @since 1.1.0
      */
     public DefaultSessionAttributes withMaxInterval(Integer maxInterval)
     {
@@ -35,7 +35,7 @@ public class DefaultSessionAttributes
     }
     /**
      * @return All of the attribute names that this session is supposed to contain.
-     * @since 1.1
+     * @since 1.1.0
      */
     public List<String> getDefaultSessionAttributeNames()
     {
@@ -44,7 +44,7 @@ public class DefaultSessionAttributes
 
     /**
      * @return Max interval for this session.
-     * @since 1.1
+     * @since 1.1.0
      */
     public Integer getMaxInterval()
     {
@@ -53,15 +53,14 @@ public class DefaultSessionAttributes
 
     /**
      * @return Max interval for this session.
-     * @since 1.1
+     * @since 1.1.0
      */
     public String toString()
     {
         String out= String.format("Max interval: %s",maxInterval);
         out += "\nAttribute names:";
-        if(null != defaultSessionAttributeNames)
-            for(String name : defaultSessionAttributeNames)
-                out += String.format("\n\t%s",name);
+        for(String name : defaultSessionAttributeNames)
+            out += String.format("\n\t%s",name);
         return out;
     }
 

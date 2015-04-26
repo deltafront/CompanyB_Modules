@@ -16,7 +16,7 @@ import java.util.List;
  * - If maxInterval is not to be defined:
  * foo,bar,one,two
  * Created by Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class DefaultSessionAttributesReader
 {
@@ -26,7 +26,7 @@ public class DefaultSessionAttributesReader
      * Reads default session attributes from a file.
      * @param filename path to default session attributes file.
      * @return DefaultSessionAttributes object.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultSessionAttributes readDefaultSessionAttributes(String filename)
     {
@@ -59,7 +59,7 @@ public class DefaultSessionAttributesReader
      * Reads default session attributes from a line. Useful if the default session attributes are stored in a properties file.
      * @param line Line containing the default session attributes.
      * @return DefaultSessionAttributes object.
-     * @since 1.0
+     * @since 1.0.0
      */
     public DefaultSessionAttributes getDefaultSessionAttributes(String line)
     {

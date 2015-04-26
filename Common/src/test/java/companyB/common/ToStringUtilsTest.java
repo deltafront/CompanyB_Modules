@@ -16,13 +16,6 @@ import static org.junit.Assert.assertNotNull;
 public class ToStringUtilsTest
 {
     private ToStringUtils toStringUtils;
-    private String basicList = "[0,1,2,3,4,5,6,7,8,9]";
-    private String listOfList = "[[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4]]";
-    private String listOfMap = "[{this:that},{this:that},{this:that},{this:that},{this:that}]";
-
-    private String basicMap = "{0:0,1:1,2:2,3:3,4:4}";
-    private String mapOfList = "{0:[],1:[0],2:[0,1],3:[0,1,2],4:[0,1,2,3]}";
-    private String mapOfMap = "{0:{},1:{0:0},2:{0:0,1:1},3:{0:0,1:1,2:2},4:{0:0,1:1,2:2,3:3}}";
 
     @BeforeMethod
     public void before()
@@ -34,6 +27,7 @@ public class ToStringUtilsTest
         List<Integer> iterable = getIntegers(10);
         String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
+        String basicList = "[0,1,2,3,4,5,6,7,8,9]";
         assertEquals(basicList,out);
     }
 
@@ -42,6 +36,7 @@ public class ToStringUtilsTest
         List<List<Integer>> iterable = getLists();
         String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
+        String listOfList = "[[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4],[0,1,2,3,4]]";
         assertEquals(listOfList,out);
     }
 
@@ -50,6 +45,7 @@ public class ToStringUtilsTest
         List<Map<String, String>> iterable = getMaps();
         String out = toStringUtils.iterableToString(iterable);
         assertNotNull(out);
+        String listOfMap = "[{this:that},{this:that},{this:that},{this:that},{this:that}]";
         assertEquals(listOfMap,out);
     }
 
@@ -58,6 +54,7 @@ public class ToStringUtilsTest
         Map<Integer, Integer> map = getIntegerIntegerMap();
         String out = toStringUtils.mapToString(map);
         assertNotNull(out);
+        String basicMap = "{0:0,1:1,2:2,3:3,4:4}";
         assertEquals(basicMap,out);
     }
 
@@ -66,6 +63,7 @@ public class ToStringUtilsTest
         Map<Integer, List<Integer>> map = getIntegerListMap();
         String out = toStringUtils.mapToString(map);
         assertNotNull(out);
+        String mapOfList = "{0:[],1:[0],2:[0,1],3:[0,1,2],4:[0,1,2,3]}";
         assertEquals(mapOfList,out);
     }
 
@@ -74,6 +72,7 @@ public class ToStringUtilsTest
         Map<Integer, Map<Integer, Integer>> map = getIntegerMapMap();
         String out = toStringUtils.mapToString(map);
         assertNotNull(out);
+        String mapOfMap = "{0:{},1:{0:0},2:{0:0,1:1},3:{0:0,1:1,2:2},4:{0:0,1:1,2:2,3:3}}";
         assertEquals(mapOfMap,out);
     }
 

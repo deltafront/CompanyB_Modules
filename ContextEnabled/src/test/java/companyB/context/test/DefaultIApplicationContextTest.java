@@ -16,6 +16,7 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings({"UnnecessaryBoxing", "BooleanConstructorCall"})
 @Test(groups = {"unit","default.application.context","context.enabled"})
 public class DefaultIApplicationContextTest extends TestBase
 {
@@ -65,6 +66,7 @@ public class DefaultIApplicationContextTest extends TestBase
     }
 
 
+    @SuppressWarnings("UnusedAssignment")
     public void getInstance()
     {
         I_ApplicationContext applicationContext = new DefaultIApplicationContext();
@@ -80,6 +82,7 @@ public class DefaultIApplicationContextTest extends TestBase
 
             TestObject null_to = applicationContext.getInstance(TestObject.class,null_args,"null");
             TestObject no_to = applicationContext.getInstance(TestObject.class,no_args,"no");
+            no_to = applicationContext.getInstance(TestObject.class,no_args,"no");
             TestObject testObject_a = applicationContext.getInstance(TestObject.class,args_a,"a");
             TestObject testObject_b = applicationContext.getInstance(TestObject.class,args_b,"b");
             TestObject testObject_c = applicationContext.getInstance(TestObject.class,args_c,"c");

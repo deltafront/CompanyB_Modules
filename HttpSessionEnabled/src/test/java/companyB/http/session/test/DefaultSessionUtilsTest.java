@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.*;
 
 @Test(groups = {"unit","default.session.utils","http.session.enabled"})
@@ -21,7 +19,6 @@ public class DefaultSessionUtilsTest
 {
     private HttpServletRequest request;
     private HttpSession session;
-    private DefaultSessionAttributes sessionAttributes;
     private String attributeName = "foo";
     private Object attributeValue = 42;
     private DefaultSessionUtils sessionUtils;
@@ -32,7 +29,7 @@ public class DefaultSessionUtilsTest
     {
         List<String> defaultSessionAttributeNames = new LinkedList<>();
         defaultSessionAttributeNames.add(attributeName);
-        sessionAttributes = new DefaultSessionAttributes(defaultSessionAttributeNames);
+        DefaultSessionAttributes sessionAttributes = new DefaultSessionAttributes(defaultSessionAttributeNames);
         sessionAttributes = sessionAttributes.withMaxInterval(100);
         sessionUtils = new DefaultSessionUtils(sessionAttributes);
     }

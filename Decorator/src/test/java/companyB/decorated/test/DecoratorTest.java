@@ -92,6 +92,7 @@ public class DecoratorTest
     }
 
 
+    @SuppressWarnings("ConstantConditions")
     public void booleanVal() throws UnsupportedTypeException
     {
         Boolean value = true;
@@ -107,6 +108,7 @@ public class DecoratorTest
         assertEquals(value,testClass.charVal);
     }
 
+    @SuppressWarnings("OctalInteger")
     public void byteVal() throws UnsupportedTypeException
     {
         Byte value = 0101;
@@ -161,7 +163,7 @@ public class DecoratorTest
         String value = "value";
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
-        StaticMemberTestClass staticMemberTestClass = beanDecorator.decorate(StaticMemberTestClass.class,properties);
+        beanDecorator.decorate(StaticMemberTestClass.class,properties);
         assertNull(StaticMemberTestClass.stringVal);
     }
 

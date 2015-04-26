@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Charles Burrell (deltafront@gmail.com).
+ * Annotation for SLF4J log fields.
+ * @author Charles Burrell (deltafront@gmail.com)
+ * @since 1.0
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

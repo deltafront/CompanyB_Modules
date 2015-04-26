@@ -83,9 +83,8 @@ class TestClass
     @ConfigEnabled(filename = "config.properties", family = "bar")
     public ConfigEnabler configEnabler_2;
 
-    public boolean callAll()
+    public void callAll()
     {
-        boolean allPresent = true;
         List<Object> objects = new LinkedList<>();
         objects.add(configEnabler_1.getInteger("int"));
         objects.add(configEnabler_1.getBoolean("bool"));
@@ -95,10 +94,8 @@ class TestClass
         {
             if(null == object)
             {
-                allPresent = false;
                 break;
             }
         }
-        return allPresent;
     }
 }

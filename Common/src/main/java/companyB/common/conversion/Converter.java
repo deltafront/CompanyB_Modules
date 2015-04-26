@@ -1,5 +1,6 @@
 package companyB.common.conversion;
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * </ul>
  *
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  1.0.0
  */
 @SuppressWarnings("ALL")
 public class Converter
@@ -55,19 +56,19 @@ public class Converter
     /**
      * All supported classes.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<Class> supportedClasses;
     /**
      * String values which constitute a boolean value of 'true'.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<String> trueValues;
     /**
      * String values which constitute a boolean value of 'false'.
      *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<String> falseValues;
     /**
@@ -82,107 +83,107 @@ public class Converter
      * <li>short</li>
      * <li><double/li>
      * </ul>
-     *
-     * @since 1.0
+     * @since 1.0.0
      */
     public static List<Class> numberClasses;
 
     static
     {
 
-        if (null == supportedClasses)
-        {
-            supportedClasses = new LinkedList<>();
-            Collections.addAll(supportedClasses, _supported);
-        }
-        if (null == trueValues)
-        {
-            trueValues = new LinkedList<>();
-            Collections.addAll(trueValues, _true);
-        }
-        if (null == falseValues)
-        {
-            falseValues = new LinkedList<>();
-            Collections.addAll(falseValues, _false);
-        }
-        if (null == numberClasses)
-        {
-            numberClasses = new LinkedList<>();
-            Collections.addAll(numberClasses, _numbers);
-        }
+        supportedClasses = new LinkedList<>();
+        Collections.addAll(supportedClasses, _supported);
+        trueValues = new LinkedList<>();
+        Collections.addAll(trueValues, _true);
+        falseValues = new LinkedList<>();
+        Collections.addAll(falseValues, _false);
+        numberClasses = new LinkedList<>();
+        Collections.addAll(numberClasses, _numbers);
     }
 
     /**
      * Returns whether or not the indicated class is supported.
-     *
      * @param c Class to be evaluated.
      * @return Whether or not the indicated class is supported.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isSupported(Class c)
     {
+        Validate.notNull(c,"Class is required.");
         return supportedClasses.contains(c);
     }
 
     /**
      * @param c Class to be evaluated.
      * @return If class represents a number type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isNumberType(Class c)
     {
+        Validate.notNull(c,"Class is required.");
         return numberClasses.contains(c);
     }
 
     /**
      * @param c Class to be evaluated.
      * @return Is either a BigDecimal or BigInteger.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isBigType(Class c)
     {
-        return BigDecimal.class.equals(c) || BigInteger.class.equals(c);
+        Validate.notNull(c,"Class is required.");
+        if (BigDecimal.class.equals(c))return true;
+        if (BigInteger.class.equals(c))return true;
+        return false;
     }
 
     /**
      * @param c Class to be evaluated.
      * @return If class represents a Boolean type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isBoolean(Class c)
     {
-        return boolean.class.equals(c) || Boolean.class.equals(c);
+        Validate.notNull(c,"Class is required.");
+        if(boolean.class.equals(c))return true;
+        if(Boolean.class.equals(c))return true;
+        return false;
     }
 
     /**
      * @param c Class to be evaluated.
      * @return If class represents a Byte type.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isByte(Class c)
     {
-        return byte.class.equals(c) || Byte.class.equals(c);
+        Validate.notNull(c,"Class is required.");
+        if(byte.class.equals(c))return true;
+        if(Byte.class.equals(c))return true;
+        return false;
     }
 
     /**
      * @param c Class to be evaluated.
      * @return If the class represents a Character type or is a string.
-     * @since 1.0
+     * @since 1.0.0
      */
     public boolean isCharOrString(Class c)
     {
-        return char.class.equals(c) ||
-                Character.class.equals(c) ||
-                String.class.equals(c);
+        Validate.notNull(c,"Class is required.");
+        if (char.class.equals(c))return true;
+        if (Character.class.equals(c))return true;
+        if(String.class.equals(c))return true;
+        return false;
     }
 
     /**
      * @param value String value to be converted.
      * @return Byte representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Byte convertToByte(String value)
     {
+        Validate.notNull(value,"Value is required.");
         Byte out = Byte.parseByte(value);
         logOut(out);
         return out;
@@ -192,27 +193,33 @@ public class Converter
      * @param value     String value to be converted.
      * @param classType Class type to be returned  - either Character or String.
      * @return String or Character representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToStringOrChar(String value, Class<T> classType)
     {
-        Object out = char.class.equals(classType) || Character.class.equals(classType) ?
-                new Character(value.charAt(0)) : value;
+        Validate.notNull(value,"Class is required.");
+        Validate.notNull(classType,"Class type is required.");
+        Object out = null;
+        if(char.class.equals(classType))out = new Character(value.charAt(0));
+        if(Character.class.equals(classType))out = new Character(value.charAt(0));
+        if(String.class.equals(classType))out = value;
         logOut(out);
-        return (T) out;
+        return (T)out;
     }
 
     /**
      * @param value     String value to be converted.
      * @param classType Class type to be returned  - either BigDecimal or BigInteger.
      * @return Either BigDecimal or BigInteger representaion.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToBig(String value, Class<T> classType)
     {
-        Object out = BigDecimal.class.equals(classType) ? new BigDecimal(value) :
-                (BigInteger.class.equals(classType)) ? new BigInteger(value) :
-                        null;
+        Validate.notNull(value,"Class is required.");
+        Validate.notNull(classType,"Class type is required.");
+        Object out = null;
+        if(BigDecimal.class.equals(classType))out = new BigDecimal(value);
+        if(BigInteger.class.equals(classType))out = new BigInteger(value);
         logOut(out);
         return (T) out;
     }
@@ -221,30 +228,17 @@ public class Converter
      * @param value     String value to be converted.
      * @param classType Numeric Class type.
      * @return Numeric representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public <T> T convertToNumber(String value, Class<T> classType)
     {
+        Validate.notNull(value,"Class is required.");
+        Validate.notNull(classType,"Class type is required.");
         Object out = value;
-        if (null != value)
-        {
-            if (long.class.equals(classType) || Long.class.equals(classType))
-            {
-                out = Long.parseLong(value);
-            }
-            else if (short.class.equals(classType) || Short.class.equals(classType))
-            {
-                out = Short.parseShort(value);
-            }
-            else if (double.class.equals(classType) || Double.class.equals(classType))
-            {
-                out = Double.parseDouble(value);
-            }
-            else if (int.class.equals(classType) || Integer.class.equals(classType))
-            {
-                out = Integer.parseInt(value);
-            }
-        }
+        if (long.class.equals(classType) || Long.class.equals(classType)) out = Long.parseLong(value);
+        if (short.class.equals(classType) || Short.class.equals(classType)) out = Short.parseShort(value);
+        if (double.class.equals(classType) || Double.class.equals(classType)) out = Double.parseDouble(value);
+        if (int.class.equals(classType) || Integer.class.equals(classType)) out = Integer.parseInt(value);
         logOut(out);
         return (T) out;
     }
@@ -252,27 +246,32 @@ public class Converter
     /**
      * @param value String value to be converted.
      * @return Boolean representation.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Boolean convertToBoolean(String value)
     {
+        Validate.notNull(value,"Class is required.");
         Boolean out = null;
-        if (trueValues.contains(value.toLowerCase()))
-        {
-            out = Boolean.TRUE;
-        }
-        else if (falseValues.contains(value.toLowerCase()))
-        {
-            out = Boolean.FALSE;
-        }
+        if (trueValues.contains(value.toLowerCase()))out = Boolean.TRUE;
+        if (falseValues.contains(value.toLowerCase()))out = Boolean.FALSE;
         logOut(out);
         return out;
     }
 
     private void logOut(Object out)
     {
-        String outToString = (null == out) ? "" : String.valueOf(out);
-        String className = (null == out) ? "Null" : out.getClass().getCanonicalName();
+        String outToString = coercePossibleNullStringValue(out);
+        String className = coercePossibleNullClassName(out);
         LOGGER.debug(String.format("Returning value %s [%s].", outToString, className));
+    }
+    private String coercePossibleNullStringValue(Object object)
+    {
+        if(null!=object)return String.valueOf(object);
+        return "null";
+    }
+    private String coercePossibleNullClassName(Object object)
+    {
+        if(null != object)return object.getClass().getCanonicalName();
+        return "null";
     }
 }

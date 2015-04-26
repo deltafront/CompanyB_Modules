@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class generates family mappings from a configuration file.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 1.0.0
  */
 public class CustomMapper
 {
@@ -21,7 +21,7 @@ public class CustomMapper
      *  Returns a mapping of Family mappings based on the properties provided.
      * @param properties Key=Value parings from java properties file.
      * @return Family mappings from the properties mapping.
-     * @since 1.0
+     * @since 1.0.0
      */
     public Map<String,Map<String,String>>getMappings(Map<String,String> properties)
     {

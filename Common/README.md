@@ -32,6 +32,9 @@ This class converts Strings representations into various supported datatypes.
 ### NodeIterEnum
 This class implements both `java.util.Iterator` and `java.util.Enumeration`. Internally, it is a primitive node-based singly linked list.
 
+### GUID
+This Serializable class facilitates the creation of simple Globally Unique Identifiers.
+
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
 
@@ -40,6 +43,6 @@ All logging is done via SLF4J. You will need to provide your own runtime impleme
     <dependency>
         <groupId>companyB</groupId>
         <artifactId>Common</artifactId>
-        <version>1.0</version>
+        <version>${common.version}</version>
     </dependency>
 ```

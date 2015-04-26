@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
+@SuppressWarnings("BooleanConstructorCall")
 @Test(groups = {"unit","factory.utils","common"})
 public class FactoryUtilsTest
 {
@@ -27,16 +28,6 @@ public class FactoryUtilsTest
     }
 
     private String valid_class_name = test.class.getCanonicalName();
-    private Class[] primitives = new Class[]
-            {
-                    int.class,long.class,short.class,double.class,byte.class,char.class,boolean.class,
-                    Integer.class, Long.class, Short.class,Double.class,Byte.class,Character.class,Boolean.class
-            };
-    private Class[] pClasses = new Class[]{int.class,long.class,short.class,double.class,byte.class,char.class,boolean.class};
-    private Class[] bClasses = new Class[]{Integer.class, Long.class, Short.class,Double.class,Byte.class,Character.class,Boolean.class};
-    private Object[]objects = new Object[]{Integer.MAX_VALUE,Long.MAX_VALUE,Short.MAX_VALUE,Double.MAX_VALUE,Byte.MAX_VALUE,Character.MAX_VALUE,
-            Boolean.TRUE};
-
     
     public void testLoadObjectTrue()
     {
@@ -150,6 +141,7 @@ public class FactoryUtilsTest
         }
     }
     
+    @SuppressWarnings({"UnnecessaryBoxing", "BooleanConstructorCall"})
     public void instantiateOneArgsTrueBoxed()
     {
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
@@ -178,6 +170,7 @@ public class FactoryUtilsTest
         assertNull(testObject);
     }
     
+    @SuppressWarnings("UnnecessaryBoxing")
     public void instantiateThreeArgsTrueBoxed()
     {
         Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
@@ -205,6 +198,7 @@ public class FactoryUtilsTest
     }
 
     
+    @SuppressWarnings("AssertEqualsBetweenInconvertibleTypes")
     public void withGenericInterface()
     {
         LinkedList<String> list = new LinkedList<>();
@@ -226,7 +220,7 @@ public class FactoryUtilsTest
         TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
         assertNotNull(testObject);
         Iterable<Boolean>booleanIterable = testObject.booleanIterable;
-        for(Boolean fromList : booleanIterable)
+        for(Boolean ignored : booleanIterable)
         {
             fail("ClassCastException Expected.");
         }

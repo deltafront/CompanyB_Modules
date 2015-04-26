@@ -139,8 +139,7 @@ public class PropertiesUtilsTest
         String[] split = value_key_pair.split("=");
         String key = split[0];
         String value = split[1];
-        boolean match = (value.equals(map.get(key)));
-        return match;
+        return  value.equals(map.get(key));
     }
 
     private static void writeToFile(String[] inputs, String filename)

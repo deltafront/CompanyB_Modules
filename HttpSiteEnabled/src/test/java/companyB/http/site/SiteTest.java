@@ -8,7 +8,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertNotNull;
 
-@Test(groups = {"unit","site","http.session.enabled"})
+@Test(groups = {"unit","site","http.site.enabled"})
 public class SiteTest
 {
     private IsoLang primaryIsoLang;

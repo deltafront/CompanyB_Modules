@@ -10,7 +10,7 @@
     *   [card](https://trello.com/c/U1jDDfxd/29-1-1-1-switch-all-common-utility-classes-from-abstract-to-beans)
 *   Implemented ISO-8601 Simple Date Formatter
     *   [card](https://trello.com/c/kvi9st1N/1-1-1-0-implement-default-simpledateformatter-that-returns-date-string-in-iso-8601-format)
-# 1.1.1
+# 1.1.1 (2015-04-17)
 *   Fixed all failing tests
     *   [card](https://trello.com/c/VmbfZ7TH/22-1-1-1-fix-failing-tests)
 *   Ability to deploy to Tomcat instance
@@ -19,3 +19,30 @@
     *   [card](https://trello.com/c/FDK2TynQ/31-1-1-1-common-error-messages-in-validate-statements)
 *   General Code Cleanup
     *   [card](https://trello.com/c/rrMkCO6n/35-1-1-1-code-cleanup)
+# 1.1.2 (2015-04-19)
+*   Removed warnings in code via addressing or suppressing
+    *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
+*   Updated README and POMS to include correct visioning
+    *   [card](https://trello.com/c/ohKnMA0W/38-1-1-2-update-readme-s-to-include-maven-declarations-and-logging-dependancies_
+*   Including logging statements in all utility classes.
+    *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
+*   Included correct versioning in class comments
+    *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
+# 1.2.0 (2105-04-25)
+*   Documented `companyB.common.utils.FieldUtils`
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
+*   Provided test cases for `companyB.common.utils.FieldUtils`
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
+*   Increased code coverage for the following modules:
+    *   Common
+    *   ConfigurationEnabled
+    *   ContextEnabled
+    *   Decorator
+    *   HttpCookieEnabled
+    *   HttpSessionEnabled
+# 1.2.1 (2015-04-26)
+*   GUID class in Common
+*   Removed reference to JMock in Common
+    *   [card](https://trello.com/c/5adpgRDb/39-1-2-1-switch-to-easymock-in-common)
+*   Enable the specifying of testing groups from the command line
+    *   [card](https://trello.com/c/1RiSTkSF/20-1-2-1-enable-passing-of-test-groups-from-command-line)

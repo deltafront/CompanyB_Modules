@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 
+@SuppressWarnings("ConstantConditions")
 @Test(groups = {"unit","default.session.attributes","http.session.enabled"})
 public class DefaultSessionAttributesReaderTest
 {
