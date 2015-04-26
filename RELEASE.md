@@ -46,3 +46,8 @@
     *   [card](https://trello.com/c/5adpgRDb/39-1-2-1-switch-to-easymock-in-common)
 *   Enable the specifying of testing groups from the command line
     *   [card](https://trello.com/c/1RiSTkSF/20-1-2-1-enable-passing-of-test-groups-from-command-line)
+# 2.0.0 ()
+*   Included FlywayEnabled module
+    *   [card](https://trello.com/c/tiiouco9/18-2-0-include-flywayenabled)
+*   Included EventLogger module
+    *   [card](https://trello.com/c/XY3PugLH/17-2-0-include-eventlogger)
