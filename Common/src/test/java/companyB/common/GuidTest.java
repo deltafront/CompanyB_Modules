@@ -8,9 +8,6 @@ import java.io.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
 @Test(groups = {"unit","guid"})
 public class GuidTest
 {

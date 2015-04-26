@@ -31,6 +31,14 @@ Jacoco code coverage is executed during the builds. The following targets are su
 * **Instruction** - 80%
 * **Branch** - 80%
 
+## Specifying test groups to execute
+By default, the following test groups are executed during the build:
+*   **Unit** - `unit`
+*   **Integration** - `integration`
+This behavior can be overridden by specifying the following via the command line:
+*   **Unit** - -Dunit.test.groups=`{specify unit test groups here}`
+*   **Integration** - -Dintegration.test.groups=`{specify integration test groups here}`
+
 ## Versioning
 The following format will be used for versioning:
 *Major*.*Minor*.*Point*
