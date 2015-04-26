@@ -40,3 +40,7 @@
     *   Decorator
     *   HttpCookieEnabled
     *   HttpSessionEnabled
+# 1.2.1 ()
+*   GUID class in Common
+*   Removed reference to JMock in Common
+    *   [card](https://trello.com/c/5adpgRDb/39-1-2-1-switch-to-easymock-in-common)

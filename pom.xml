@@ -5,7 +5,7 @@
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <modules>
         <module>Common</module>
         <module>ConfigurationEnabled</module>
@@ -18,7 +18,7 @@
     </modules>
 
     <properties>
-        <master.version>1.1.2</master.version>
+        <master.version>1.2.1</master.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <common.version>${master.version}</common.version>
         <decorator.version>${master.version}</decorator.version>
