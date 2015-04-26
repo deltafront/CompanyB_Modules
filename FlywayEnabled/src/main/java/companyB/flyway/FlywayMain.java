@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Main class that acts as a container for a constructed instance of FlyWay.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 public class FlywayMain
 {
@@ -23,7 +23,7 @@ public class FlywayMain
      * Default Constructor.
      * @param flywayProperties FlywayProperties object containing all of the information needed to create a connection
      *                         to the underlying database.
-     * @since 1.0
+     * @since 2.0.0
      */
     public FlywayMain(FlywayProperties flywayProperties)
     {
@@ -54,7 +54,7 @@ public class FlywayMain
     /**
      * Performs the migration.
      * @return Number of scripts migrated.
-     * @since 1.0
+     * @since 2.0.0
      */
     public int migrate()
     {
@@ -63,7 +63,7 @@ public class FlywayMain
 
     /**
      * Cleans underlying DB schema.
-     * @since 1.0
+     * @since 2.0.0
      */
     public void clean()
     {
@@ -72,7 +72,7 @@ public class FlywayMain
 
     /**
      * Performs validation on the underlying schema.
-     * @since 1.0
+     * @since 2.0.0
      */
     public void validate()
     {
@@ -81,7 +81,7 @@ public class FlywayMain
 
     /**
      * @return All information regarding the current migration.
-     * @since 1.0
+     * @since 2.0.0
      */
     public MigrationInfo[] info()
     {

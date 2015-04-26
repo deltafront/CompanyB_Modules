@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 /**
  * Represents a single event code.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  2.0.0
  */
 public class EventCode
 {
@@ -16,7 +16,7 @@ public class EventCode
      * Default constructor.
      * @param name Name of this event.
      * @param code Code assigned to this event
-     * @since 1.0
+     * @since 2.0.0
      */
     public EventCode(String name, Integer code)
     {
@@ -28,7 +28,7 @@ public class EventCode
 
     /**
      * @return Name of this event.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String getName()
     {
@@ -37,7 +37,7 @@ public class EventCode
 
     /**
      * @return Code for this event.
-     * @since 1.0
+     * @since 2.0.0
      */
     public Integer getCode()
     {

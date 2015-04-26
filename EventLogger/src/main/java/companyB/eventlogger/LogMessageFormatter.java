@@ -5,7 +5,7 @@ import java.util.Properties;
 /**
  * Defines contract for formatting log messages. Concrete implementations should define custom formatting for the log messages.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 @SuppressWarnings("PMD")
 public interface LogMessageFormatter
@@ -16,7 +16,7 @@ public interface LogMessageFormatter
      * @param message Message to be included.
      * @param attributes Properties that contain various attributes to be logged.
      * @return Formatted log message
-     * @since 1.0
+     * @since 2.0.0
      */
     public String formatLogMessage(EventCode eventCode, String message, Properties attributes);
 }

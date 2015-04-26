@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 /**
  * Container for FlyWay connection details.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version  1.0
+ * @since 2.0.0
  */
 public class FlywayProperties
 {
@@ -23,7 +23,7 @@ public class FlywayProperties
      * @param jdcbUrl - JDBC URL. Can not be blank.
      * @param driverClassName - Fully qualified class name of the JDBC Connection Driver. Can not be blank.
      * @param locations - Locations of the migration scripts. If this is omitted or is empty, the default db.migration at db/db.migration will be used.
-     * @since 1.0
+     * @since 2.0.0
      */
     public FlywayProperties(String jdbcUserName, String jdbcPassword, String jdcbUrl, String driverClassName, String[] locations)
     {
@@ -40,7 +40,7 @@ public class FlywayProperties
 
     /**
      * @return JDBC username.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String getJdbcUserName()
     {
@@ -49,7 +49,7 @@ public class FlywayProperties
 
     /**
      * @return JDBC username.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String getJdbcPassword()
     {
@@ -58,7 +58,7 @@ public class FlywayProperties
 
     /**
      * @return JDBC URL.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String getJdcbUrl()
     {
@@ -67,7 +67,7 @@ public class FlywayProperties
 
     /**
      * @return Fully qualified class name of the JDBC Connection Driver.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String getDriverClassName()
     {
@@ -76,7 +76,7 @@ public class FlywayProperties
 
     /**
      * @return Locations of the migration scripts.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String[] getLocations()
     {

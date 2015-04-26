@@ -16,6 +16,7 @@
         <module>HttpSiteEnabled</module>
         <module>EventLogger</module>
         <module>FlywayEnabled</module>
+        <module>EncryptionEnabled</module>
         <module>SpringEnabled</module>
     </modules>
 
@@ -33,6 +34,7 @@
         <flyway.enabled.version>${master.version}</flyway.enabled.version>
         <event.logger.version>${master.version}</event.logger.version>
         <spring.enabled.version>${master.version}</spring.enabled.version>
+        <encryption.enabled.version>${master.version}</encryption.enabled.version>
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>

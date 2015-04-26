@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to mark an EventLogger field as being eligible for decoration.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

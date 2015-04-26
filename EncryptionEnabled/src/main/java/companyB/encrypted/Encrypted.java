@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to designate a String that is to be encrypted.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -82,6 +82,7 @@ public @interface Encrypted
          * Encrypts string via command pattern.
          * @param in String to be encrypted.
          * @return Encrypted String.
+         * @since 2.0.0
          */
         public abstract String encrypt(String in);
     }

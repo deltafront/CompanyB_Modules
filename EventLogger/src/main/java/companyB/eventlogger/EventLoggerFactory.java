@@ -11,7 +11,7 @@ import java.util.Hashtable;
 /**
  * Class responsible for providing singleton instances of EventLoggers to external clients.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 public abstract class EventLoggerFactory
 {
@@ -29,7 +29,7 @@ public abstract class EventLoggerFactory
     /**
      * @param name Name of Event Logger to get.
      * @return Singleton instance of Event Logger.
-     * @since 1.0
+     * @since 2.0.0
      */
     public static EventLogger getEventLogger(String name)
     {
@@ -40,7 +40,7 @@ public abstract class EventLoggerFactory
     /**
      * @param c Class to bind EventLogger to.
      * @return Singleton instance of Event Logger.
-     * @since 1.0
+     * @since 2.0.0
      */
     public static EventLogger getEventLogger(Class c)
     {
@@ -51,7 +51,7 @@ public abstract class EventLoggerFactory
      * @param instance Instance of class to bind EventLogger to. Internally, the event logger is bound to the string representation
      *                 of the instance's hash code.
      * @return Singleton instance of Event Logger.
-     * @since 1.0
+     * @since 2.0.0
      */
     public static EventLogger getEventLogger(Object instance)
     {

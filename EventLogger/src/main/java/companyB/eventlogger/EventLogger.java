@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Logs event to underlying slf4j Facade.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since 2.0.0
  */
 public class EventLogger
 {
@@ -48,6 +48,7 @@ public class EventLogger
     /**
      * @param logMessageFormatter Implementation of LogMessageFormatter to be used.
      * @return Instance of EventLogger using specified LogMessageFormatter.
+     * @since 2.0.0
      */
     public EventLogger withLogMessageFormatter(LogMessageFormatter logMessageFormatter)
     {
@@ -62,6 +63,7 @@ public class EventLogger
      * @param message Message to be logged.
      * @param throwable Throwable to attach to message, can be null.
      * @param attributes Attributes to attach to this message, can be null.
+     * @since 2.0.0
      */
     public void trace(EventCode eventCode, String message, Throwable throwable, Properties attributes)
     {
@@ -73,6 +75,7 @@ public class EventLogger
      * @param message Message to be logged.
      * @param throwable Throwable to attach to message, can be null.
      * @param attributes Attributes to attach to this message, can be null.
+     * @since 2.0.0
      */
     public void warn(EventCode eventCode, String message, Throwable throwable, Properties attributes)
     {
@@ -84,6 +87,7 @@ public class EventLogger
      * @param message Message to be logged.
      * @param throwable Throwable to attach to message, can be null.
      * @param attributes Attributes to attach to this message, can be null.
+     * @since 2.0.0
      */
     public void debug(EventCode eventCode, String message, Throwable throwable, Properties attributes)
     {
@@ -95,6 +99,7 @@ public class EventLogger
      * @param message Message to be logged.
      * @param throwable Throwable to attach to message, can be null.
      * @param attributes Attributes to attach to this message, can be null.
+     * @since 2.0.0
      */
     public void info(EventCode eventCode, String message, Throwable throwable, Properties attributes)
     {
@@ -106,6 +111,7 @@ public class EventLogger
      * @param message Message to be logged.
      * @param throwable Throwable to attach to message, can be null.
      * @param attributes Attributes to attach to this message, can be null.
+     * @since 2.0.0
      */
     public void error(EventCode eventCode, String message, Throwable throwable, Properties attributes)
     {
@@ -114,6 +120,7 @@ public class EventLogger
 
     /**
      * @return Current state of this EventLogger, which is the level of the last message logged.
+     * @since 2.0.0
      */
     public State getState()
     {
@@ -122,6 +129,7 @@ public class EventLogger
 
     /**
      * @return Name of this EventLogger.
+     * @since 2.0.0
      */
     public String getName()
     {
@@ -130,6 +138,7 @@ public class EventLogger
 
     /**
      * @return Last message logged by this EventLogger.
+     * @since 2.0.0
      */
     public String getLastMessage()
     {
@@ -138,6 +147,7 @@ public class EventLogger
 
     /**
      * @return LogMessageFormatter used by this EventLogger.
+     * @since 2.0.0
      */
     public LogMessageFormatter getLogMessageFormatter()
     {

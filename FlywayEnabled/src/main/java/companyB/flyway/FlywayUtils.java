@@ -1,19 +1,20 @@
 package companyB.flyway;
 
+import companyB.common.utils.UtilityBase;
 import org.flywaydb.core.api.MigrationInfo;
 
 /**
  * Utility class for interacting with various aspects of the Flyway system.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version  1.0
+ * @version  2.0.0
  */
-public class FlywayUtils
+public class FlywayUtils extends UtilityBase
 {
     /**
      * Converts the MigrationInfo array into a string.
      * @param migrationInfos Array of MigrationInfo.
      * @return String representation of MigrationInfo array.
-     * @since 1.0
+     * @since 2.0.0
      */
     public String migrationInfoToString(MigrationInfo[]migrationInfos)
     {
@@ -28,6 +29,7 @@ public class FlywayUtils
             migrationInfoString += String.format("\n\t\tState: %s", migrationInfo.getState().getDisplayName());
             migrationInfoString += String.format("\n\t\tType: %s", migrationInfo.getType());
         }
+        LOGGER.trace(String.format("Returning migration info string:\n%s",migrationInfoString));
         return migrationInfoString;
     }
 }

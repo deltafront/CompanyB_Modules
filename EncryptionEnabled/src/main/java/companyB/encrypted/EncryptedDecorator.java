@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 /**
  * Performs the decoration of Encrypted Fields.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0
+ * @since  2.0.0
  */
 public class EncryptedDecorator
 {
@@ -21,7 +21,7 @@ public class EncryptedDecorator
      * @param c Class to be decorated.
      * @param <T> Type parameter.
      * @return Decorated instance of class.
-     * @since 1.0
+     * @since 2.0.0
      */
     public static <T> T decorate(Class<T> c)
     {
@@ -42,7 +42,7 @@ public class EncryptedDecorator
      * @param instance Instance to be decorated.
      * @param <T> Type parameter.
      * @return Decorated instance.
-     * @since 1.0
+     * @since 2.0.0
      */
     public static <T> T decorate(T instance)
     {
