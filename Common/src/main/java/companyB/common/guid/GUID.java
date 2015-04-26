@@ -1,13 +1,12 @@
 package companyB.common.guid;
 
 import java.io.Serializable;
-import java.util.Random;
 import java.util.UUID;
 
 /**
  * Class for creating simple Globally unique identifiers.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 2.0
+ * @since  1.2.1
  */
 public class GUID implements Serializable
 {
@@ -16,7 +15,7 @@ public class GUID implements Serializable
 
     /**
      * @param guid Value of Guid.
-     * @since 2.0
+     * @since 1.2.1
      */
     public GUID(Long guid)
     {
@@ -25,18 +24,16 @@ public class GUID implements Serializable
 
     /**
      * No-args constructor needed for Serialization.
-     * @since 2.0
+     * @since 1.2.1
      */
     public GUID()
     {
-        this.guid = new Random().nextBoolean() ?
-                UUID.randomUUID().getLeastSignificantBits():
-                UUID.randomUUID().getMostSignificantBits();
+        this.guid = UUID.randomUUID().getMostSignificantBits();
     }
 
     /**
      * @return Read-only copy value of GUID.
-     * @since 2.0
+     * @since 1.2.1
      */
     public Long getGuid()
     {

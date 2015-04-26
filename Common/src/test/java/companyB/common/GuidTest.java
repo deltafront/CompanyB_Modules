@@ -1,7 +1,7 @@
 package companyB.common;
 
 import companyB.common.guid.GUID;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.*;
 
@@ -11,15 +11,14 @@ import static junit.framework.TestCase.assertNotNull;
 /**
  * Created by Charles Burrell (deltafront@gmail.com).
  */
+@Test(groups = {"unit","guid"})
 public class GuidTest
 {
-    @Test
     public void noArgs()
     {
         GUID guid = new GUID();
         serDeser(guid);
     }
-    @Test
     public void withArgs()
     {
         GUID guid = new GUID(42L);
