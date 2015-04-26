@@ -2,3 +2,4 @@
 **/.idea
 **/*.iml
 **/target
+git_tagger.py
