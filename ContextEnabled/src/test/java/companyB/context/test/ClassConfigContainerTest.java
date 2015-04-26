@@ -11,9 +11,6 @@ import java.util.List;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
 @Test(groups = {"unit","class.config.container","context.enabled"})
 public class ClassConfigContainerTest
 {

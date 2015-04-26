@@ -69,11 +69,6 @@ public class CookieFileReaderTest extends CookieReaderTestBase
         doTest(false);
     }
 
-    public void validVersion1()
-    {
-        version = "1";
-        doTest(true);
-    }
     public void invalidVersion()
     {
         version = "2";
