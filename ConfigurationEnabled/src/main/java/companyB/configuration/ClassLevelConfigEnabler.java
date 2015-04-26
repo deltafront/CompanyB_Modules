@@ -13,8 +13,6 @@ import java.lang.reflect.Field;
  */
 public class ClassLevelConfigEnabler
 {
-    private static final FieldUtils fieldUtils  = new FieldUtils();
-
     /**
      * Decorates instance of a class that has ConfigEnabler fields annotated with the ConfigEnabled annotation. All annotated
      * instances will be injected with the correct ConfigEnabler contexts.
@@ -23,6 +21,7 @@ public class ClassLevelConfigEnabler
      */
     public void decorate(Object instance)
     {
+        FieldUtils fieldUtils  = new FieldUtils();
         Validate.notNull(instance,"Instance not provided.");
         Field[]fields = fieldUtils.getFields(instance);
         for(Field field : fields)

@@ -2,6 +2,7 @@ package companyB.decorated;
 
 import companyB.common.conversion.Converter;
 import companyB.common.utils.FieldUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,8 @@ public class BeanDecorator
      */
     public <T> T decorate(Class<T> typeOf, String propertiesFileName) throws UnsupportedTypeException
     {
+        Validate.notNull(typeOf,"Type of class to be decorated is required.");
+        Validate.notBlank(propertiesFileName,"Properties File Name is required.");
         T out = null;
         try
         {
@@ -64,6 +67,8 @@ public class BeanDecorator
      */
     public <T> T decorate(T instance, String propertiesFileName) throws UnsupportedTypeException
     {
+        Validate.notNull(instance,"Instance of class to be decorated is required.");
+        Validate.notBlank(propertiesFileName,"Properties File Name is required.");
         T out = null;
         Properties properties = new Properties();
         File file = new File(propertiesFileName);
@@ -92,6 +97,8 @@ public class BeanDecorator
      */
     public <T> T decorate(Class<T>typeOf, Properties properties) throws UnsupportedTypeException
     {
+        Validate.notNull(typeOf,"Type of class to be decorated is required.");
+        Validate.notNull(properties,"Properties are required.");
         T out = null;
         try
         {
@@ -117,10 +124,12 @@ public class BeanDecorator
      */
     public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {
+        Validate.notNull(instance,"Instance of class to be decorated is required.");
+        Validate.notNull(properties,"Properties are required.");
         Field[] fields = fieldUtils.getFields(instance);
         for (Field field : fields)
         {
-                field.setAccessible(true);
+            field.setAccessible(true);
             Decorated decorated = field.getAnnotation(Decorated.class);
             if(null != decorated)
             {
@@ -154,15 +163,13 @@ public class BeanDecorator
         {
             if(converter.isNumberType(objectClassTypeClass))
                 out = converter.convertToNumber(value, objectClassTypeClass);
-            else if (converter.isBoolean(objectClassTypeClass))
+            if (converter.isBoolean(objectClassTypeClass))
                 out = converter.convertToBoolean(value);
-            else if (objectClassTypeClass.equals(char.class) || objectClassTypeClass.equals(Character.class))
-                out = value.charAt(0);
-            else if (converter.isBigType(objectClassTypeClass))
+            if (converter.isBigType(objectClassTypeClass))
                 out = converter.convertToBig(value, objectClassTypeClass);
-            else if (converter.isByte(objectClassTypeClass))
+            if (converter.isByte(objectClassTypeClass))
                 out = converter.convertToByte(value);
-            else if(converter.isCharOrString(objectClassTypeClass))
+            if(converter.isCharOrString(objectClassTypeClass))
                 out = converter.convertToStringOrChar(value, objectClassTypeClass);
         }
         return out;

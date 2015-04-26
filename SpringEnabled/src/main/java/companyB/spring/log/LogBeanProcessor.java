@@ -24,12 +24,15 @@ public class LogBeanProcessor implements BeanPostProcessor
         Field[]fields = fieldUtils.getFields(o);
         for(Field field : fields)
         {
-            Log log = fieldUtils.getAnnotation(Log.class,field);
-            if(field.getType().equals(Logger.class) && null != log)
+            if(Logger.class.equals(field.getType()))
             {
-                String name = getName(log,o);
-                Logger logger = LoggerFactory.getLogger(name);
-                fieldUtils.setField(field,o,logger);
+                Log log = fieldUtils.getAnnotation(Log.class,field);
+                if(null != log)
+                {
+                    String name = getName(log,o);
+                    Logger logger = LoggerFactory.getLogger(name);
+                    fieldUtils.setField(field,o,logger);
+                }
             }
         }
         return o;

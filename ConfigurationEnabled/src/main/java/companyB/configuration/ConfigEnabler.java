@@ -30,12 +30,8 @@ import java.util.Map;
 public class ConfigEnabler
 {
     private final Map<String,String> mapping;
-    private static Map<String,Map<String,String>> property_mappings;
+    private static Map<String,Map<String,String>> property_mappings = new HashMap<>();
     private final static Logger LOGGER = LoggerFactory.getLogger(ConfigEnabler.class);
-    static
-    {
-        if(null == property_mappings) property_mappings = new HashMap<>();
-    }
 
     /**
      * Default constructor.

@@ -64,7 +64,7 @@ public class CookieFileReader
                 if (0 != line.indexOf("#"))
                 {
                     final String[] vals = line.split(",");
-                    Validate.isTrue(9 == vals.length);
+                    Validate.isTrue(9 == vals.length,String.format("Expected 9 elements, got %d.",vals.length));
 
                     final String name = vals[0];
                     final String value = vals[1];
@@ -107,23 +107,23 @@ public class CookieFileReader
 
     private void validateStringValues(String name, String value, String domain, String path,String comment)
     {
-        Validate.notBlank(name);
-        Validate.notBlank(value);
-        Validate.notBlank(domain);
-        Validate.notBlank(path);
-        Validate.notBlank(comment);
+        Validate.notBlank(name,"Name must be provided.");
+        Validate.notBlank(value,"Value must be provided.");
+        Validate.notBlank(domain,"Domain must be provided.");
+        Validate.notBlank(path,"Path must be provided.");
+        Validate.notBlank(comment,"Comment must be provided.");
     }
     private void validateBooleanValues(String secure, String httpOnly)
     {
-        Validate.notBlank(secure);
+        Validate.notBlank(secure,"Secure must be provided.");
         verifyBoolean(secure);
-        Validate.notBlank(httpOnly);
+        Validate.notBlank(httpOnly,"HttpOnly must be provided.");
         verifyBoolean(httpOnly);
     }
     private void validateIntegerValues(String maxAge, String version)
     {
-        Validate.notBlank(maxAge);
-        Validate.notBlank(version);
+        Validate.notBlank(maxAge,"Max Age must be provided.");
+        Validate.notBlank(version,"Version must be provided.");
     }
     private void setBooleanValues(Cookie cookie, String secure, String httpOnly)
     {
@@ -138,10 +138,11 @@ public class CookieFileReader
 
     private void validateVersion(String str_version)
     {
-        Validate.isTrue( "0".equals(str_version) || "1".equals(str_version));
+        Validate.isTrue("0".equals(str_version) || "1".equals(str_version),"Version must be either 0 or 1.");
     }
     private void verifyBoolean(String bool)
     {
-        Validate.isTrue("false".equals(bool.toLowerCase()) || "true".equals(bool.toLowerCase()));
+        Validate.isTrue("false".equals(bool.toLowerCase()) || "true".equals(bool.toLowerCase()),
+                "Value must be either true or false.");
     }
 }

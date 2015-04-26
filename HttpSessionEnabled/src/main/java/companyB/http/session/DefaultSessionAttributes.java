@@ -59,9 +59,8 @@ public class DefaultSessionAttributes
     {
         String out= String.format("Max interval: %s",maxInterval);
         out += "\nAttribute names:";
-        if(null != defaultSessionAttributeNames)
-            for(String name : defaultSessionAttributeNames)
-                out += String.format("\n\t%s",name);
+        for(String name : defaultSessionAttributeNames)
+            out += String.format("\n\t%s",name);
         return out;
     }
 

@@ -66,6 +66,7 @@ public class DefaultIApplicationContextTest extends TestBase
     }
 
 
+    @SuppressWarnings("UnusedAssignment")
     public void getInstance()
     {
         I_ApplicationContext applicationContext = new DefaultIApplicationContext();
@@ -81,6 +82,7 @@ public class DefaultIApplicationContextTest extends TestBase
 
             TestObject null_to = applicationContext.getInstance(TestObject.class,null_args,"null");
             TestObject no_to = applicationContext.getInstance(TestObject.class,no_args,"no");
+            no_to = applicationContext.getInstance(TestObject.class,no_args,"no");
             TestObject testObject_a = applicationContext.getInstance(TestObject.class,args_a,"a");
             TestObject testObject_b = applicationContext.getInstance(TestObject.class,args_b,"b");
             TestObject testObject_c = applicationContext.getInstance(TestObject.class,args_c,"c");

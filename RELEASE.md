@@ -19,7 +19,7 @@
     *   [card](https://trello.com/c/FDK2TynQ/31-1-1-1-common-error-messages-in-validate-statements)
 *   General Code Cleanup
     *   [card](https://trello.com/c/rrMkCO6n/35-1-1-1-code-cleanup)
-# 1.1.2
+# 1.1.2 (2015-04-19)
 *   Removed warnings in code via addressing or suppressing
     *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
 *   Updated README and POMS to include correct visioning
@@ -28,3 +28,15 @@
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
 *   Included correct versioning in class comments
     *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
+# 1.2.0 (2105-04-25)
+*   Documented `companyB.common.utils.FieldUtils`
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
+*   Provided test cases for `companyB.common.utils.FieldUtils`
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
+*   Increased code coverage for the following modules:
+    *   Common
+    *   ConfigurationEnabled
+    *   ContextEnabled
+    *   Decorator
+    *   HttpCookieEnabled
+    *   HttpSessionEnabled
