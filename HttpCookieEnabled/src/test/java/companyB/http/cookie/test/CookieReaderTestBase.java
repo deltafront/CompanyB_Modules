@@ -24,6 +24,7 @@ public class CookieReaderTestBase extends TestBase
     protected String comment = "This is a test cookie.";
     protected String httpOnly = "true";
     protected String[]boolVals = {"true","false","TRUE","FALSE"};
+    protected boolean deleteFileAfterWriting = false;
 
     protected String writeCookieFile()
     {
@@ -48,9 +49,11 @@ public class CookieReaderTestBase extends TestBase
         }
         return filename;
     }
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     protected void doTest(boolean cookiesExpected)
     {
         String filename = writeCookieFile();
+        if(deleteFileAfterWriting)new File(filename).delete();
         try
         {
             Thread.sleep(100);
@@ -59,14 +62,21 @@ public class CookieReaderTestBase extends TestBase
             assertNotNull(defaultCookies);
             if(cookiesExpected)
             {
-                assertFalse(defaultCookies.isEmpty());
-                for(DefaultCookie defaultCookie : defaultCookies) verifyDefaultCookie(defaultCookie);
+                if(deleteFileAfterWriting)
+                {
+                    assertTrue(defaultCookies.isEmpty());
+                }
+                else
+                {
+                    assertFalse(defaultCookies.isEmpty());
+                    for(DefaultCookie defaultCookie : defaultCookies) verifyDefaultCookie(defaultCookie);
+                }
             }
             else fail("Illegal Argument Exception should have been thrown.");
         }
         catch (IllegalArgumentException | InterruptedException e)
         {
-            if(cookiesExpected) fail("This exception should not have been thrown.");
+            if(cookiesExpected) fail("This exception should not have been thrown:" + e.getMessage());
         }
     }
     private void verifyDefaultCookie(DefaultCookie defaultCookie)

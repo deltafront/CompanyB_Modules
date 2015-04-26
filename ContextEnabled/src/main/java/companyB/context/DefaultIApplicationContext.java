@@ -18,12 +18,9 @@ import java.util.*;
 public class DefaultIApplicationContext implements I_ApplicationContext
 {
     protected final static Logger LOGGER = LoggerFactory.getLogger(DefaultIApplicationContext.class);
-    protected static Map<String, Object> mapping;
+    protected static Map<String, Object> mapping = Collections.synchronizedMap(new HashMap<String, Object>());
     protected final FactoryUtils factoryUtils;
-    static
-    {
-        if (null == mapping) mapping = Collections.synchronizedMap(new HashMap<String, Object>());
-    }
+
 
     /**
      * Default constructor for class. All instances of this class share the same thread-safe mapping.

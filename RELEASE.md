@@ -28,8 +28,15 @@
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
 *   Included correct versioning in class comments
     *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
-# 1.2.0 ()
+# 1.2.0 (2105-04-25)
 *   Documented `companyB.common.utils.FieldUtils`
-    *   [card]()
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
 *   Provided test cases for `companyB.common.utils.FieldUtils`
-    *   [card]()
+    *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
+*   Increased code coverage for the following modules:
+    *   Common
+    *   ConfigurationEnabled
+    *   ContextEnabled
+    *   Decorator
+    *   HttpCookieEnabled
+    *   HttpSessionEnabled

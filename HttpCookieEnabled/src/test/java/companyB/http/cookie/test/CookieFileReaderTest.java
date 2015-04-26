@@ -1,11 +1,27 @@
 package companyB.http.cookie.test;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Test(groups = {"unit","cookie.file.reader","http.cookie.enabled"})
 public class CookieFileReaderTest extends CookieReaderTestBase
 {
 
+    @BeforeMethod
+    public void before()
+    {
+         name = "foo";
+         value = "bar";
+         domain = "companyB";
+         maxAge = "10";
+         path = "./local";
+         secure = "true";
+         version = "0";
+         comment = "This is a test cookie.";
+         httpOnly = "true";
+         boolVals = new String[]{"true","false","TRUE","FALSE"};
+        deleteFileAfterWriting = false;
+    }
     public void allValues()
     {
         doTest(true);
@@ -52,15 +68,18 @@ public class CookieFileReaderTest extends CookieReaderTestBase
         version = "";
         doTest(false);
     }
-    
+
+    public void validVersion1()
+    {
+        version = "1";
+        doTest(true);
+    }
     public void invalidVersion()
     {
         version = "2";
         doTest(false);
     }
 
-
-    
     public void missingSecure()
     {
         secure = "";
@@ -79,10 +98,14 @@ public class CookieFileReaderTest extends CookieReaderTestBase
         doTest(false);
     }
 
-    
     public void invalidHttpOnly()
     {
         httpOnly = "no";
         doTest(false);
+    }
+    public void missingFile()
+    {
+        deleteFileAfterWriting = true;
+        doTest(true);
     }
 }
