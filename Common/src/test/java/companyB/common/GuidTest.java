@@ -45,4 +45,13 @@ public class GuidTest
         }
     }
 
+    public void getHashedGuid()
+    {
+        GUID guid = new GUID();
+        for(int i =0; i < 1000; i++)
+        {
+            assertNotNull(guid.getHashedGuid());
+        }
+    }
+
 }
