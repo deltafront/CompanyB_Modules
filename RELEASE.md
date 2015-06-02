@@ -55,3 +55,5 @@
 *   Added getting string version of GUID (hashed and unhashed)
 *   Included EventLogger
     *   [card](https://trello.com/c/8vyBhM6F/27-eventlogger-2-0-implement-postbeanprocessor-postprocessbeforeinitialization)
+*   Added Http-based utilities in `Common`.
+    *   [card](https://trello.com/c/GaYCINQW/46-common-2-0-add-httpservletutils)

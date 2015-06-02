@@ -38,6 +38,10 @@ This Serializable class facilitates the creation of simple Globally Unique Ident
 ### ServletRequestUtils
 This class contains convenience methods for dealing with Servlet Requests. Presently, the only method in this class is `getRequestBody(request)`.
 
+### ServletResponseUtils
+This class contains convenience methods for dealing with Servlet Responses. Presently, the only method in this class is `writeResponse(response, message, flush)`.
+
+
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
 
