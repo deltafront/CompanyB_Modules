@@ -18,19 +18,20 @@ searched by applications such as Splunk. This module consists of four distinct p
 2. Get an EventLogger from the EventLoggerFactory:
     i. Binding to a class:
         ```java
-            EventLogger logger = EventLoggerFactory.getEventLogger(Foo.class);
+            EventLoggerFactory factory = new EventLoggerFactory();
+            EventLogger logger = factory.getEventLogger(Foo.class);
         ```
     ii. Binding to a name:
     ```java
-        EventLogger logger = EventLoggerFactory.getEventLogger("Foo");
+        EventLogger logger = factory.getEventLogger("Foo");
     ```
     iii. Binding to a specific instance:
     ```java
-        EventLogger logger = EventLoggerFactory.getEventLogger(this);
+        EventLogger logger = factory.getEventLogger(this);
     ```
 3. (Optional) Add an implementation of LogMessageFormatter:
     ```java
-        EventLogger logger = EventLoggerFactory.getEventLogger(this).withFormatter(new CustomMessageFormatter());
+        EventLogger logger = factory.getEventLogger(this).withFormatter(new CustomMessageFormatter());
     ```
 If this step is skipped, an instance of DefaultLogMessageFormatter will be used.
 4.  Use this logger to log messages:
@@ -40,7 +41,7 @@ If this step is skipped, an instance of DefaultLogMessageFormatter will be used.
     You can optionally supply properties and a throwable to the message to be logged. 
 
 ### Decoration
-Optionally, you can use the EventLoggerFactory.decorate() method in conjunction with the @EventLog annotation to decorate
+Optionally, you can use the EventLoggerFactory.decorate() method in conjunction with the `@EventLog` annotation to decorate
 fields within your classes / instances with instances of EventLogger:
 1.  Decorate your field:
     ```java
@@ -51,8 +52,13 @@ fields within your classes / instances with instances of EventLogger:
     ```java
         Foo foo = EventLoggerFactory.decorate(Foo.class);
         // -or-
-        Foo foo = EvengLoggerFactory.decorate(new Foo());
+        Foo foo = EventLoggerFactory.decorate(new Foo());
      ```
+The `@EventLog` supports two optional parameters:
+*   **name**(String)  - The name of the EventLogger. If this is not supplied, then the canonical class name is used.
+*   **logMessageFormatter**(Class) - Class that implements LogMessageFormatter.
+    If this is not supplied then an instance of DefaultLogMessageFormatter is constructed and attached to the EventLogger.
+    If this **is** supplied, then the implementing class is required to have a single no-args publicly accessible constructor.
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
 
@@ -60,7 +66,7 @@ All logging is done via SLF4J. You will need to provide your own runtime impleme
 ```xml
     <dependency>
         <groupId>companyB</groupId>
-        <artifactId>FlywayEnabled</artifactId>
+        <artifactId>EventLogger</artifactId>
         <version>${event.logger.version}</version>
     </dependency>
 ```
