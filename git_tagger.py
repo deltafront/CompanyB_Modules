@@ -11,16 +11,19 @@ def main(tag_name):
 
 
 def switch_to_master():
+	print("Checking out master branch.")
     print call(['git', 'checkout', 'master'])
 
 
 def tag_release(tag_name):
     def commit_message():
         return "Tagging RELEASE %s. Consult release notes for more details." % tag_name
+    print("Creating tag '%s'." % tag_name)
     print call(['git', 'tag', '-a', tag_name, '-m', commit_message()])
 
 
 def push_tag(tag_name):
+	print("Pushing out tag '%s'." % tag_name)
     print call(['git', 'push', 'origin', tag_name])
 
 if __name__ == "__main__":
