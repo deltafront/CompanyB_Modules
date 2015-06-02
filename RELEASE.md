@@ -51,3 +51,7 @@
     *   [card](https://trello.com/c/tiiouco9/18-2-0-include-flywayenabled)
 *   Included EventLogger module
     *   [card](https://trello.com/c/XY3PugLH/17-2-0-include-eventlogger)
+*   Included EncryptionEnabled
+*   Added getting string version of GUID (hashed and unhashed)
+*   Included EventLogger
+    *   [card](https://trello.com/c/8vyBhM6F/27-eventlogger-2-0-implement-postbeanprocessor-postprocessbeforeinitialization)
