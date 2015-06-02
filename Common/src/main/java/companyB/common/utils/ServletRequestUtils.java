@@ -20,7 +20,7 @@ public class ServletRequestUtils extends UtilityBase
         String result = "";
         try
         {
-            BufferedReader bufferedReader = request.getReader();
+            final BufferedReader bufferedReader = request.getReader();
             String temp;
             while(null !=(temp = bufferedReader.readLine()))
             {
