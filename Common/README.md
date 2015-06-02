@@ -35,6 +35,9 @@ This class implements both `java.util.Iterator` and `java.util.Enumeration`. Int
 ### GUID
 This Serializable class facilitates the creation of simple Globally Unique Identifiers.
 
+### ServletRequestUtils
+This class contains convenience methods for dealing with Servlet Requests. Presently, the only method in this class is `getRequestBody(request)`.
+
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
 
