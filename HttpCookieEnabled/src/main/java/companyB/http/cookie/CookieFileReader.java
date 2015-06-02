@@ -87,7 +87,7 @@ public class CookieFileReader
                     cookie.setPath(path);
                     cookie.setComment(comment);
 
-                    setBooleanValues(cookie,str_secure,str_httpOnly);
+                    setBooleanValues(cookie,str_secure);
                     setIntegerValues(cookie,str_maxAge,str_version);
 
                     defaultCookies.add(new DefaultCookie(cookie,true));
@@ -125,9 +125,8 @@ public class CookieFileReader
         Validate.notBlank(maxAge,"Max Age must be provided.");
         Validate.notBlank(version,"Version must be provided.");
     }
-    private void setBooleanValues(Cookie cookie, String secure, String httpOnly)
+    private void setBooleanValues(Cookie cookie, String secure)
     {
-        cookie.setHttpOnly(Boolean.valueOf(httpOnly));
         cookie.setSecure(Boolean.valueOf(secure));
     }
     private void setIntegerValues(Cookie cookie,String maxAge, String version)

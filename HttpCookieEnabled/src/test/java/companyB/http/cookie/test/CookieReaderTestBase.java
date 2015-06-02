@@ -96,7 +96,5 @@ public class CookieReaderTestBase extends TestBase
         else assertEquals(Integer.parseInt(maxAge),cookie.getMaxAge());
         if("".equals(secure)) assertEquals(false,cookie.getSecure());
         else assertEquals(Boolean.parseBoolean(secure),cookie.getSecure());
-        if("".equals(httpOnly)) assertEquals(false,cookie.isHttpOnly());
-        else assertEquals(Boolean.parseBoolean(httpOnly),cookie.isHttpOnly());
     }
 }
