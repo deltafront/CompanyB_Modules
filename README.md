@@ -14,6 +14,8 @@ The following modules are currently available:
 * [**HttpSessionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSessionEnabled) - This module is designed to remove some of the boilerplate code around setting session attributes that are required in order for a certain web application to function.
 * [**HttpSiteEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSiteEnabled) - This module is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities that are to be made available globally within the context of a web application.
 * [**SpringEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/SpringEnabled) - By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications. Post-processing annotations and default bean definitions are also available through this module.
+* [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for using the [Java Flyway DB migration](http://flywaydb.org/) framework.
+* [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
 
 ## Contributing
 ### Become a contributor

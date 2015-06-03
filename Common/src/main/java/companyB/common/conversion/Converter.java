@@ -235,10 +235,10 @@ public class Converter
         Validate.notNull(value,"Class is required.");
         Validate.notNull(classType,"Class type is required.");
         Object out = value;
-        if (long.class.equals(classType) || Long.class.equals(classType)) out = Long.parseLong(value);
-        if (short.class.equals(classType) || Short.class.equals(classType)) out = Short.parseShort(value);
-        if (double.class.equals(classType) || Double.class.equals(classType)) out = Double.parseDouble(value);
-        if (int.class.equals(classType) || Integer.class.equals(classType)) out = Integer.parseInt(value);
+        out = getLong(value, classType, out);
+        out = getShort(value, classType, out);
+        out = getDouble(value, classType, out);
+        out = getInteger(value, classType, out);
         logOut(out);
         return (T) out;
     }
@@ -273,5 +273,28 @@ public class Converter
     {
         if(null != object)return object.getClass().getCanonicalName();
         return "null";
+    }
+    private <T> Object getInteger(String value, Class<T> classType, Object out)
+    {
+        if (int.class.equals(classType) || Integer.class.equals(classType)) out = Integer.parseInt(value);
+        return out;
+    }
+
+    private <T> Object getDouble(String value, Class<T> classType, Object out)
+    {
+        if (double.class.equals(classType) || Double.class.equals(classType)) out = Double.parseDouble(value);
+        return out;
+    }
+
+    private <T> Object getShort(String value, Class<T> classType, Object out)
+    {
+        if (short.class.equals(classType) || Short.class.equals(classType)) out = Short.parseShort(value);
+        return out;
+    }
+
+    private <T> Object getLong(String value, Class<T> classType, Object out)
+    {
+        if (long.class.equals(classType) || Long.class.equals(classType)) out = Long.parseLong(value);
+        return out;
     }
 }

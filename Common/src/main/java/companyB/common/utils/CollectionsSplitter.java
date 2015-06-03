@@ -36,7 +36,7 @@ public class CollectionsSplitter extends UtilityBase
     {
         if(null != collection) LOGGER.trace(String.format("Size of collection:\t%d\nSplit Number:\t%d\nStrategy:\t%s",
                 collection.size(), split_num,strategy.name()));
-        if (null == collection)return new LinkedList<>();//TODO - should parameterize this so that list or set can be returned
+        if (null == collection)return new LinkedList<>();
         int num = (split_num == 0 || split_num > collection.size())
                 ? collection.size() : split_num;
         List<List>lists =  (strategy == optimization_strategy.number_of_items)
