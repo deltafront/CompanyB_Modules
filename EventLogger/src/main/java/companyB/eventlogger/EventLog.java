@@ -16,4 +16,5 @@ public @interface EventLog
 {
     /* Optional name of this logger. Default name is the class name. */
     public String name() default "";
+    public Class logMessageFormatter() default DefaultLotMessageFormatter.class;
 }

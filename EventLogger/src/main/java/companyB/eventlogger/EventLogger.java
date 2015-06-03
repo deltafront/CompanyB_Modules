@@ -162,29 +162,54 @@ public class EventLogger
         switch (state)
         {
             case TRACE:
-                if(null == throwable) logger.trace(this.lastMessage);
-                else logger.trace(this.lastMessage,throwable);
+                logTrace(throwable);
                 break;
             case INFO:
-                if(null == throwable) logger.info(lastMessage);
-                else logger.info(lastMessage, throwable);
+                logInfo(throwable);
                 break;
             case DEBUG:
-                if(null == throwable) logger.debug(lastMessage);
-                else logger.debug(lastMessage, throwable);
+                logDebug(throwable);
                 break;
             case WARN:
-                if(null == throwable) logger.warn(lastMessage);
-                else logger.warn(lastMessage, throwable);
+                logWarn(throwable);
                 break;
             case ERROR:
-                if(null == throwable) logger.error(lastMessage);
-                else logger.error(lastMessage, throwable);
+                logError(throwable);
                 break;
             case INIT:
             default:
                 break;
         }
+    }
+
+    private void logError(Throwable throwable)
+    {
+        if(null == throwable) logger.error(lastMessage);
+        else logger.error(lastMessage, throwable);
+    }
+
+    private void logWarn(Throwable throwable)
+    {
+        if(null == throwable) logger.warn(lastMessage);
+        else logger.warn(lastMessage, throwable);
+    }
+
+    private void logDebug(Throwable throwable)
+    {
+        if(null == throwable) logger.debug(lastMessage);
+        else logger.debug(lastMessage, throwable);
+    }
+
+    private void logInfo(Throwable throwable)
+    {
+        if(null == throwable) logger.info(lastMessage);
+        else logger.info(lastMessage, throwable);
+    }
+
+    private void logTrace(Throwable throwable)
+    {
+        if(null == throwable) logger.trace(this.lastMessage);
+        else logger.trace(this.lastMessage,throwable);
     }
 
 

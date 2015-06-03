@@ -7,14 +7,14 @@ import java.util.Properties;
 /**
  * Default implementation of LogMessageFactory. Messages will be formatted to look like "Event=TestEventCode (42) {this=that,message=this is a test message}".
  * @author Charles Burrell (deltafront@gmail.com)
- * @since  2.0.0
+ * @since 2.0.0
  */
 public class DefaultLotMessageFormatter implements LogMessageFormatter
 {
     @Override
     public String formatLogMessage(EventCode eventCode, String message, Properties attributes)
     {
-        if(null == attributes) attributes = new Properties();
+        Validate.notNull(attributes,"Attributes are required!");
         Validate.notNull(eventCode,"Event Code is required.");
         Validate.notNull(message,"Message for this event is required.");
         String attributesMessage = "{";

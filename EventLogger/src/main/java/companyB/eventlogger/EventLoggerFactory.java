@@ -13,25 +13,17 @@ import java.util.Hashtable;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 2.0.0
  */
-public abstract class EventLoggerFactory
+public class EventLoggerFactory
 {
-    private static Hashtable<Object, EventLogger> loggerMapping;
+    private static Hashtable<Object, EventLogger> loggerMapping = new Hashtable<>();;
     private final static Logger LOGGER = LoggerFactory.getLogger(EventLoggerFactory.class);
-
-    static
-    {
-        if (null == loggerMapping)
-        {
-            loggerMapping = new Hashtable<>();
-        }
-    }
 
     /**
      * @param name Name of Event Logger to get.
      * @return Singleton instance of Event Logger.
      * @since 2.0.0
      */
-    public static EventLogger getEventLogger(String name)
+    public EventLogger getEventLogger(String name)
     {
         Validate.notBlank(name,"Event Logger name is required.");
         return getLogger(name);
@@ -42,7 +34,7 @@ public abstract class EventLoggerFactory
      * @return Singleton instance of Event Logger.
      * @since 2.0.0
      */
-    public static EventLogger getEventLogger(Class c)
+    public EventLogger getEventLogger(Class c)
     {
         Validate.notNull(c,"Logger class that EventLogger is to be bound to is required.");
         return getLogger(c.getCanonicalName());
@@ -53,7 +45,7 @@ public abstract class EventLoggerFactory
      * @return Singleton instance of Event Logger.
      * @since 2.0.0
      */
-    public static EventLogger getEventLogger(Object instance)
+    public EventLogger getEventLogger(Object instance)
     {
         Validate.notNull(instance,"Instance of class for EventLogger to be bound to is required.");
         return getLogger(String.valueOf(instance.hashCode()));
@@ -65,7 +57,7 @@ public abstract class EventLoggerFactory
      * @param <T> Type parameter.
      * @return Decorated instance of class with EventLogger field decorated with an instance of EventLogger.
      */
-    public static <T>T decorate(Class<T> c)
+    public <T>T decorate(Class<T> c)
     {
         T out = null;
         try
@@ -84,7 +76,7 @@ public abstract class EventLoggerFactory
      * @param <T> Type parameter.
      * @return Decorated instance.
      */
-    public static <T> T decorate(T instance)
+    public <T> T decorate(T instance)
     {
         Validate.notNull(instance,"Instance of Object that Event Logger is to be bound to is required.");
         try
@@ -98,12 +90,12 @@ public abstract class EventLoggerFactory
                     EventLog eventLog = field.getAnnotation(EventLog.class);
                     if(null != eventLog)
                     {
-                        String key = StringUtils.isNotBlank(eventLog.name()) ? eventLog.name() : instance.getClass().getCanonicalName();
-                        EventLogger eventLogger = getLogger(key);
+                        String key = getName(eventLog,instance);
+                        LogMessageFormatter logMessageFormatter = getLogMessageFormatter(eventLog);
+                        EventLogger eventLogger = getLogger(key).withLogMessageFormatter(logMessageFormatter);
                         field.set(instance,eventLogger);
                         LOGGER.trace(String.format("Decorated field %s.%s (key=%s) with instance of EventLogger",
                                 instance.getClass().getCanonicalName(),field.getName(),key));
-                        break;
                     }
                 }
             }
@@ -115,7 +107,7 @@ public abstract class EventLoggerFactory
         return instance;
     }
 
-    private static EventLogger getLogger(String key)
+    private EventLogger getLogger(String key)
     {
         Validate.notNull(key,"EventLogger mapping key is required.");
         if (!loggerMapping.containsKey(key))
@@ -125,5 +117,30 @@ public abstract class EventLoggerFactory
         }
         LOGGER.trace(String.format("Returning instance of EventLogger bound to key '%s'.",key));
         return loggerMapping.get(key);
+    }
+    private String getName(EventLog eventLog, Object instance)
+    {
+        if (StringUtils.isEmpty(eventLog.name())) return instance.getClass().getCanonicalName();
+        else return eventLog.name();
+    }
+    @SuppressWarnings("unchecked")
+    private <T extends LogMessageFormatter> T getLogMessageFormatter(EventLog eventLog)
+    {
+        Class logMessageFormatClass = eventLog.logMessageFormatter();
+        LogMessageFormatter out = new DefaultLotMessageFormatter();
+        try
+        {
+            if (null != logMessageFormatClass)
+            {
+                out = (LogMessageFormatter)logMessageFormatClass.newInstance();
+            }
+
+        }
+        catch (InstantiationException | IllegalAccessException e)
+        {
+            LOGGER.error(e.getMessage(), e);
+        }
+        LOGGER.trace(String.format("Returning instance of %s.",out.getClass().getCanonicalName()));
+        return (T)out;
     }
 }
