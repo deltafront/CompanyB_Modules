@@ -1,5 +1,6 @@
 # 1.0.0 (2015-03-28)
 *   Initial Release
+
 # 1.1.0 (2015-04-10)
 *   Switched from JUnit to TestNG
     *   [card](https://trello.com/c/quibF3jl/2-1-1-0-switch-to-testng-in-core-pom)
@@ -10,6 +11,7 @@
     *   [card](https://trello.com/c/U1jDDfxd/29-1-1-1-switch-all-common-utility-classes-from-abstract-to-beans)
 *   Implemented ISO-8601 Simple Date Formatter
     *   [card](https://trello.com/c/kvi9st1N/1-1-1-0-implement-default-simpledateformatter-that-returns-date-string-in-iso-8601-format)
+
 # 1.1.1 (2015-04-17)
 *   Fixed all failing tests
     *   [card](https://trello.com/c/VmbfZ7TH/22-1-1-1-fix-failing-tests)
@@ -19,6 +21,7 @@
     *   [card](https://trello.com/c/FDK2TynQ/31-1-1-1-common-error-messages-in-validate-statements)
 *   General Code Cleanup
     *   [card](https://trello.com/c/rrMkCO6n/35-1-1-1-code-cleanup)
+
 # 1.1.2 (2015-04-19)
 *   Removed warnings in code via addressing or suppressing
     *   [card](https://trello.com/c/Udkrgt1S/37-2-0-1-remove-warnings-either-via-fix-or-supression)
@@ -28,6 +31,7 @@
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
 *   Included correct versioning in class comments
     *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
+
 # 1.2.0 (2105-04-25)
 *   Documented `companyB.common.utils.FieldUtils`
     *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
@@ -40,12 +44,14 @@
     *   Decorator
     *   HttpCookieEnabled
     *   HttpSessionEnabled
+
 # 1.2.1 (2015-04-26)
 *   GUID class in Common
 *   Removed reference to JMock in Common
     *   [card](https://trello.com/c/5adpgRDb/39-1-2-1-switch-to-easymock-in-common)
 *   Enable the specifying of testing groups from the command line
     *   [card](https://trello.com/c/1RiSTkSF/20-1-2-1-enable-passing-of-test-groups-from-command-line)
+
 # 2.0.0 (2015-06-06)
 *   Included FlywayEnabled module
     *   [card](https://trello.com/c/tiiouco9/18-2-0-include-flywayenabled)
