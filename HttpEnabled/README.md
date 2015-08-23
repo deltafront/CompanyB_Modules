@@ -1,11 +1,16 @@
-# HttpCookieEnabled
+# HttpEnabled
 
 ## Concept
-This module is designed to remove some of the boilerplate code around setting cookies that are required in order for a 
-certain web application to function. This module is designed so that all of the required cookies are defined in a configuration
-file and loaded at runtime via the application. 
+This module is meant to facilitate easier web application design by encapsulating much of the boilerplate code for dealing with Cookies and Sessions into reusable methods.
 
-## Usage
+### companyB.http.cookie
+
+#### Concept
+This package is designed to remove some of the boilerplate code around setting cookies that are required in order for a
+certain web application to function. This package is designed so that all of the required cookies are defined in a configuration
+file and loaded at runtime via the application.
+
+#### Usage
 1. First, you will need to make sure that there exists at least one text file that contains values for the cookie(s) that are required to be set. This text file has to have the following header (See section [Cookie Definition file] below for more information on each of the fields):
 
  ```
@@ -41,8 +46,8 @@ Default Cookie values from an instance of HttpServletRequest:
     ```
 Both of these operations could very easily be accomplished from within a Filter or a Servlet.
 Once these values are loaded into Cookies, they can be updated at anytime before they are inserted into the response.
-    
-## Cookie Definition file
+
+#### Cookie Definition file
 The Cookie Definition file must have at least two lines:
 
 1. Header line
@@ -51,7 +56,7 @@ The Cookie Definition file must have at least two lines:
  #name,value,domain,maxAge,path,secure,version,comment,httpOnly
  ```
 2. At least one line that has the following information in this exact order:
-    I. name 
+    I. name
     II. value
     III. domain
     IV. maxAge - This value must be a valid integer
@@ -61,7 +66,7 @@ The Cookie Definition file must have at least two lines:
     VIII. comment
     IX. httpOnly - This value must be either 'true' or 'false' (case insensitive).
 
-## Caching
+#### Caching
 For certain cookies it may be desirable to store the values in an external cache and write the key as the value into the cookie itself.
 This holds true for cookie values that are of non-trivial length (anything over 2k) and  / or containing non-ASCII characters. To this end,
 a CookieReader and CookieWriter class has been provided that can be injected with an implantation of [ExternalCache](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpCacheEnabled).
@@ -79,6 +84,64 @@ Implementations of ExternalCache are passed in via the single-arg constructor of
     CookieReader reader = new CookieReader(cache);
 ```
 
+### companyB.http.session
+
+#### Concept
+This  package allows you to define and access attributes that should be present in every session.
+
+#### Usage
+* Create a Session Definition file.The file must contain one line adhering to the following:
+  * If maxInterval is to be defined:
+  ```
+    42=foo,bar,one,two
+  ```
+  * If maxInterval is not to be defined:
+  ```
+    foo,bar,one,two
+   ```
+* Read this file:
+```java
+    DefaultSessionAttributes defaultSessionAttributes= DefaultSessionAttributesReader.readDefaultSessionAttributes("foo.properties");
+```
+* Use the utils to set and get these attributes:
+```java
+    DefaultSessionUtils utils = new DefaultSessionUtils(defaultSessionAttributes);
+    utils.setDefaultSessionAttribute(request, "foo",42,true,true);
+    Object value = utils.getDefaultSessionAttribute(request,"foo",false);
+```
+# companyB.http.site
+
+## Concept
+This package is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities
+that are to be made available globally within the context of a web application. This is done via three discreet concepts:
+  1. Site - Information about the site as a whole.
+  2. Context - Information about a particular operation within the site, usually bound to a specific page.
+  3. UserContext - Container for activities that a user has performed on the site.
+
+## Usage
+  * Create a new Site reference:
+```java
+    Site site = new Site("main","123",IsoLang.English,new IsoLang[]{IsoLang.Abkhazian,IsoLang.Afan_Oromo,IsoLang.Afrikaans},IsoLocale.UnitedStates);
+```
+  * For each operation on a page, create a new Context and associate it with the current session:
+```java
+    Context context = new Context("login.html", "register", site, "myLogin");
+    ContextUtils.wrapContext(request.getSession(),context);
+```
+  * When the operation is ended, get the context from the session and end the operation:
+```java
+    context = ContextUtils.unwrapContext(request.getSession(), "myLogin");
+    context.endOp();
+```
+  * To start or continue a record of User Activity, use the UserContext:
+```java
+    UserContext userContext = new UserContext("user:foo");
+    //or if the userContext exists already
+    //userContext = UserContextUtils.unwrapUserContext(request.getSession());
+    userContext.addActivity(context);
+    UserContextUtils.wrapUserContext(request.getSession());
+```
+
 ## Logging
 SLF4J is being used as a facade for logging; a runtime implementation will need to be provided.
 Most messages are being logged to trace or debug, except for in the case where exceptions have been thrown.
@@ -87,7 +150,7 @@ Most messages are being logged to trace or debug, except for in the case where e
 ```xml
     <dependency>
         <groupId>companyB</groupId>
-        <artifactId>HttpCookieEnabled</artifactId>
-        <version>${http.cookie.enabled.version}</version>
+        <artifactId>HttpEnabled</artifactId>
+        <version>${http.enabled.version}</version>
     </dependency>
 ```

@@ -41,6 +41,8 @@ This class contains convenience methods for dealing with Servlet Requests. Prese
 ### ServletResponseUtils
 This class contains convenience methods for dealing with Servlet Responses. Presently, the only method in this class is `writeResponse(response, message, flush)`.
 
+###Query Mapper
+This class takes a Http Query String and returns a mapping of all of its elements.
 
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
