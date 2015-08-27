@@ -15,7 +15,9 @@ The following modules are currently available:
 * [**HttpSiteEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSiteEnabled) - This module is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities that are to be made available globally within the context of a web application.
 * [**SpringEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/SpringEnabled) - By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications. Post-processing annotations and default bean definitions are also available through this module.
 * [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for using the [Java Flyway DB migration](http://flywaydb.org/) framework.
-* [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
+* [**EventLogger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
+* [**EncryptionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/EncryptionEnabled) - This module provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
+
 
 ## Contributing
 ### Become a contributor
@@ -41,9 +43,17 @@ This behavior can be overridden by specifying the following via the command line
 *   **Unit** - -Dunit.test.groups=`{specify unit test groups here}`
 *   **Integration** - -Dintegration.test.groups=`{specify integration test groups here}`
 
+## Specifying test groups to exclude
+By default, the following test groups are excluded during the testing phases of the build:
+*   **Experimental tests** - `experimental`
+*   **Failing tests** - `failing`
+This behavior can be overridden by specifying the following via the command line:
+*   -Dexcluded.test.groups=`{specify groups here}`
+This option is the same for both unit and integration tests.
+
 ## Versioning
 The following format will be used for versioning:
 *Major*.*Minor*.*Point*
 * **Major** - These releases will comprise new functionalities, modules and significant issue resolutions.
 * **Minor** - These releases will comprise minor new features and bugfixes
-* **Point** - These releases will comprise mainly documentation and dependency updates.
+* **Point** - These releases will comprise revised / new documentation and dependency updates.

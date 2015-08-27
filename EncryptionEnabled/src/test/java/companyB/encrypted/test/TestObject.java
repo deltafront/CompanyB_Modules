@@ -1,6 +1,7 @@
 package companyB.encrypted.test;
 
 import companyB.encrypted.Encrypted;
+import companyB.encrypted.EncryptedWrapper;
 
 public class TestObject
 {
@@ -19,4 +20,6 @@ public class TestObject
     @Encrypted(algorithm = Encrypted.algorithms.SHA512)
     String sha512= "sha512";
     String notEncrypted = "notEncrypted";
+    @Encrypted
+    private EncryptedWrapper stringEncryptedWrapper = new EncryptedWrapper("stringEncryptedWrapper");
 }

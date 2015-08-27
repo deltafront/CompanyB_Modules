@@ -14,7 +14,7 @@ This module provides an easy way to mark String fields as being Encrypted and en
     ```java
         Foo foo = EncryptedDecorator.decorate(new Foo("this");
     ```
-
+*   You can also decorate your fields with an instance of EncryptedWrapper, and then pass them through the decorator. Doing this will allow you to encrypt the String value of any object.
 ## Caveats
 *   Only Strings are supported at this time.
 *   Only non-static, non-final fields are supported.
