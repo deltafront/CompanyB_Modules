@@ -28,7 +28,7 @@
     *   [card](https://trello.com/c/DK2BsxYa/36-1-1-2-include-logging-statements-in-all-utility-classes)
 *   Included correct versioning in class comments
     *   [card](https://trello.com/c/AxTW35h0/40-1-1-2-correct-versioning-numbers-in-class-comments)
-# 1.2.0 (PrinceCharming) (2105-04-25)
+< 1.2.0 (PrinceCharming) (2105-04-25)
 *   Documented `companyB.common.utils.FieldUtils`
     *   [card](https://trello.com/c/s6PI3ccs/41-1-2-0-document-and-test-fieldutils)
 *   Provided test cases for `companyB.common.utils.FieldUtils`
@@ -57,7 +57,7 @@
     *   [card](https://trello.com/c/8vyBhM6F/27-eventlogger-2-0-implement-postbeanprocessor-postprocessbeforeinitialization)
 *   Added Http-based utilities in `Common`.
     *   [card](https://trello.com/c/GaYCINQW/46-common-2-0-add-httpservletutils)
-# 2.1.0 (??)
+# 2.1.0 (GoodStuff)(2015-08-30)
 *   Included CacheEnabled
     *   [card](https://trello.com/c/pCl6zPFW/43-2-2-0-create-interface-for-storing-cookie-values-keyed-on-a-unique-identifier)
 *   Naming convention for releases
