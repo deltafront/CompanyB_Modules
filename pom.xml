@@ -7,18 +7,20 @@
     <packaging>pom</packaging>
     <version>2.0.0</version>
     <modules>
+        <!--Common *always* goes on top!! -->
         <module>Common</module>
         <module>ConfigurationEnabled</module>
-        <module>HttpCookieEnabled</module>
         <module>Decorator</module>
         <module>ContextEnabled</module>
-        <module>HttpSessionEnabled</module>
-        <module>HttpSiteEnabled</module>
         <module>EventLogger</module>
         <module>FlywayEnabled</module>
         <module>EncryptionEnabled</module>
-        <module>SpringEnabled</module>
         <module>CacheEnabled</module>
+        <module>HttpCookieEnabled</module>
+        <module>HttpSessionEnabled</module>
+        <module>HttpSiteEnabled</module>
+        <!--Spring *always* goes on the bottom!! -->
+        <module>SpringEnabled</module>
     </modules>
 
     <properties>
