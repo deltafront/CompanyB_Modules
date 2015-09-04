@@ -41,8 +41,11 @@ public class DefaultSessionAttributesReader
             String temp;
             while((temp = bufferedReader.readLine())!= null)
             {
-                defaultSessionAttributes = getDefaultSessionAttributes(temp);
-                LOGGER.trace(defaultSessionAttributes.toString());
+                if(temp.charAt(0) != '#')
+                {
+                    defaultSessionAttributes = getDefaultSessionAttributes(temp);
+                    LOGGER.trace(defaultSessionAttributes.toString());
+                }
             }
             bufferedReader.close();
             reader.close();

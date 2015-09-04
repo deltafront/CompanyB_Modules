@@ -59,7 +59,9 @@ public class EncryptedDecorator
                     {
                         final Object fromClass = field.get(instance);
                         Validate.notNull(fromClass);
-                        final String encryptedValue = encrypted.algorithm().encrypt(String.valueOf(fromClass));
+                        final String encryptedValue = fromClass instanceof EncryptedWrapper ?
+                                encrypted.algorithm().encrypt(((EncryptedWrapper)fromClass).getValue()) :
+                                encrypted.algorithm().encrypt(String.valueOf(fromClass));
                         field.set(instance,encryptedValue);
                         LOGGER.trace(String.format("Encrypting value on field %s using algorithm %s.",
                                 field.getName(), encrypted.algorithm().name()));

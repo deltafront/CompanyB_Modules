@@ -1,5 +1,6 @@
 package companyB.common.utils;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,4 +12,5 @@ import org.slf4j.LoggerFactory;
 public class UtilityBase
 {
     protected final static Logger LOGGER = LoggerFactory.getLogger(UtilityBase.class);
+    protected final Gson GSON = new Gson();
 }

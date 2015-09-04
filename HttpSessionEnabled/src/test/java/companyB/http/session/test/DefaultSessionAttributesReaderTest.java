@@ -39,18 +39,14 @@ public class DefaultSessionAttributesReaderTest
     {
         String[]args = new String[]{"foo"};
         Integer maxInterval = null;
-        filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
-        verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
+        runTest(args, maxInterval);
     }
 
     public void noMaxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = null;
-        filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
-        verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
+        runTest(args, maxInterval);
     }
 
 
@@ -58,20 +54,27 @@ public class DefaultSessionAttributesReaderTest
     {
         String[]args = new String[]{"foo"};
         Integer maxInterval = 42;
-        filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
-        verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
+        runTest(args, maxInterval);
     }
 
     public void maxIntervalMultipleArgs()
     {
         String[]args = new String[]{"foo","bar","bat"};
         Integer maxInterval = 42;
-        filename = writeFile(maxInterval,args);
-        defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
-        verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
+        runTest(args, maxInterval);
     }
-    private String writeFile(Integer maxInterval, String...attributes)
+
+    private void runTest(String[] args, Integer maxInterval)
+    {
+        for(boolean prepend : new boolean[]{true, false})
+        {
+            filename = writeFile(maxInterval,prepend, args);
+            defaultSessionAttributes = defaultSessionAttributesReader.readDefaultSessionAttributes(filename);
+            verifyDefaultSessionAttributes(defaultSessionAttributes,maxInterval,args);
+        }
+    }
+
+    private String writeFile(Integer maxInterval, boolean prependComment, String...attributes)
     {
         String filename = null;
         try
@@ -93,6 +96,7 @@ public class DefaultSessionAttributesReaderTest
             }
             File file = File.createTempFile("temp","properties");
             Writer writer = new FileWriter(file);
+            if(prependComment)writer.write("#This is a commented line\n");
             writer.write(out);
             writer.close();
             file.deleteOnExit();
