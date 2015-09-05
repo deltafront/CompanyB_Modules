@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by chburrell on 5/5/15.
+ * Base classes for external caches.
+ * @author Charles A. Burrell (deltafront@gmail.com)
+ * @since 2.1.0
  */
 public abstract class AbstractExternalCache
 {

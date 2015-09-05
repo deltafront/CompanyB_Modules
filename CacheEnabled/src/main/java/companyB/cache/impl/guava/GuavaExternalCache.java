@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Implementation of ExternalCache that uses Google Guava default cache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.2.0
+ * @since 2.1.0
  */
 public class GuavaExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -22,7 +22,7 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
      * limit is about to be reached, the cache will evict items based on when they were last accessed.
      * @param name Name of the cache. Required.
      * @param maxSize Maximum size of cache. Required. Must be an integer greater that '0'.
-     * @since 2.2.0
+     * @since 2.1.0
      */
     public GuavaExternalCache(String name, Integer maxSize)
     {

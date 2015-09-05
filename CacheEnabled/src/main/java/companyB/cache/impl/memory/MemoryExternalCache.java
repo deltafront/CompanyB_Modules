@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Memory-based implementation of ExternalCache. This cache is backed by an internal hash map.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.2.0
+ * @since 2.1.0
  */
 public class MemoryExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -20,7 +20,7 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     /**
      * Using this constructor will set the initial load to the highest Integer value permissible.
      * @param name Name of the cache. Required.
-     * @since 2.2.0
+     * @since 2.1.0
      */
     public MemoryExternalCache(String name)
     {

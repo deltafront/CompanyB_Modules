@@ -5,9 +5,9 @@
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0</version>
+    <version>2.1.1</version>
     <modules>
-        <!--Common *always* goes on top!! -->
+        
         <module>Common</module>
         <module>ConfigurationEnabled</module>
         <module>Decorator</module>
@@ -19,7 +19,7 @@
         <module>HttpCookieEnabled</module>
         <module>HttpSessionEnabled</module>
         <module>HttpSiteEnabled</module>
-        <!--Spring *always* goes on the bottom!! -->
+        
         <module>SpringEnabled</module>
     </modules>
 

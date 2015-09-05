@@ -4,7 +4,7 @@ import sys
 
 __author__ = 'charlie'
 
-perform_push = False
+perform_push = True
 
 
 def main(tag_name):
