@@ -8,10 +8,11 @@ from os import listdir
 
 
 def main(version):
+    ET.register_namespace("", "http://maven.apache.org/POM/4.0.0")
     root_pom = "pom.xml"
-    parent_pom_xml = get_pom_elements(root_pom).getroot()
-    parent_version = get_version(parent_pom_xml)
-    modules = get_modules(parent_pom_xml)
+    parent_pom_xml = get_pom_elements(root_pom)
+    parent_version = get_version(parent_pom_xml.getroot())
+    modules = get_modules(parent_pom_xml.getroot())
     directories = get_dirs()
     for directory in directories:
         path = "./%s/pom.xml" % directory
@@ -19,6 +20,16 @@ def main(version):
         if module_pom_xml is not None:
             changed_xml = change_parent_version(module_pom_xml, version)
             write_pom(changed_xml, path)
+    changed_parent_xml = change_parent_pom_version(parent_pom_xml, version)
+    write_pom(changed_parent_xml, root_pom)
+
+
+
+def change_parent_pom_version(xml, version):
+    version_element = xml.getroot().find(".//version")
+    version_element.text = version
+    return xml
+
 
 
 def change_parent_version(module_xml, version):
