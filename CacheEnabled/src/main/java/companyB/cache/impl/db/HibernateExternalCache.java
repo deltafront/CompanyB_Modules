@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * Hibernate-based implementation of ExternalCache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.2.0
+ * @since 2.1.0
  */
 public class HibernateExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -26,7 +26,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
     /**
      * Uses Hibernate file configuration values from hibernate.cgf.xml file on the classpath.
      * @param name Name of this cache.
-     * @since 2.2.0
+     * @since 2.1.0
      */
     public HibernateExternalCache(String name)
     {
@@ -37,7 +37,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
      * Allows the configuration object to be passed in via the constructor.
      * @param name Name of this cache.
      * @param configuration Configurations to use.
-     * @since 2.2.0
+     * @since 2.1.0
      */
     public HibernateExternalCache(String name, Configuration configuration)
     {

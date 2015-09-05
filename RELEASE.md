@@ -69,3 +69,12 @@
 *   Added Failsafe plugin for Integration tests
 *   Fixed session reader so that lines beginning with `#` are ignored.
     *   [card](https://trello.com/c/J9K0u7Wi/45-httpsessionenabled-2-1-fix-reader-so-that-comment-lines-starting-with-are-ignored)
+# 2.1.1 (LoveShack) (2015-09-04)
+*   Included Python script that changes versions for all project POMs
+    *   [card](https://trello.com/c/8UyBJUrr/52-2-1-2-python-script-for-auto-advancing-versions-in-pom)
+*   Modified tagging Python script to include notes from this file for current release.
+    *   [card](https://trello.com/c/abiiMGcD/51-2-1-1-improve-messaging-for-git-tagging)
+*   Key / Value for ExternalCache implements Serializable
+    *   [card](https://trello.com/c/gmuf9vjC/54-2-1-1-cacheenabled-key-value-on-externalcache-should-implement-serializable)
+*   Fixed documentation for CacheEnabled to reflect correct version.
+    *   [card](https://trello.com/c/ILD0SWsG/53-2-1-1-fix-cacheenabled-javadoc-to-reflect-correct-version)
