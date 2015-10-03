@@ -1,0 +1,5 @@
+mvn -N versions:set -DnewVersion=2.1.2
+mvn clean install
+mvn -N versions:update-child-modules
+mvn clean install
+python git_tagger.py 2.1.2

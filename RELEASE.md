@@ -78,3 +78,15 @@
     *   [card](https://trello.com/c/gmuf9vjC/54-2-1-1-cacheenabled-key-value-on-externalcache-should-implement-serializable)
 *   Fixed documentation for CacheEnabled to reflect correct version.
     *   [card](https://trello.com/c/ILD0SWsG/53-2-1-1-fix-cacheenabled-javadoc-to-reflect-correct-version)
+# 2.1.2 (CosmicThing)
+*   Fixed bug with git tagger script
+*   Include Maven Enforcer plugin to enforce language level, maven version and no scala inclusion
+    *   [card](https://trello.com/c/SrZwkJLv/60-core-pom-include-maven-enforcer-plugin)
+*   Clearer names for POM Properties
+    *   [card](https://trello.com/c/aw6IZInK/59-core-pom-clearer-names-for-properties)
+*   Properties for plugin congfigurations moved to top of POM
+    *   [card](https://trello.com/c/BxiUJOuX/58-core-pom-move-plugin-config-values-to-top-as-property-driven-values)
+*   Including Maven Enforcer Plugin
+    *   [card](https://trello.com/c/SrZwkJLv/60-core-pom-include-maven-enforcer-plugin)
+*   Including Maven Versions Plugin
+    *   [card](https://trello.com/c/3YHkJhx5/62-core-pom-replace-python-versions-script-with-maven-versions-plugin)

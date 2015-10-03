@@ -20,15 +20,16 @@ def switch_to_master():
 
 
 def tag_release(tag_name):
+    formatted_tag = "%s_%s" % (tag_name, get_date())
     def commit_message():
-        message = "Tagging RELEASE %s. Consult release notes for more details." % tag_name
+        message = "Tagging RELEASE %s. Consult release notes for more details." % formatted_tag
         message += "\n%s" % get_release_message(tag_name)
         return message
     commit_message = commit_message()
     print("Commit message is: %s" % commit_message)
     if perform_push:
-        print("Creating tag '%s'." % tag_name)
-        print(call(['git', 'tag', '-a', tag_name, '-m', commit_message]))
+        print("Creating tag '%s'." % formatted_tag)
+        print(call(['git', 'tag', '-a', formatted_tag, '-m', commit_message]))
 
 
 def push_tag(tag_name):
@@ -66,10 +67,10 @@ def open_release_notes():
 
 
 def get_release_message_string(lines):
-    out = ""
-    for line in lines:
-        out += "\t%s\n" % strip_git_link(line)
-    return out
+	out = ""
+	for line in lines:
+		out += "\t%s\n" % strip_git_link(line)
+	return out
 
 
 def strip_git_link(line):
