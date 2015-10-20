@@ -16,10 +16,6 @@
         <module>FlywayEnabled</module>
         <module>EncryptionEnabled</module>
         <module>CacheEnabled</module>
-        <module>HttpCookieEnabled</module>
-        <module>HttpSessionEnabled</module>
-        <module>HttpSiteEnabled</module>
-
         <module>SpringEnabled</module>
     </modules>
 
@@ -30,18 +26,17 @@
         <module.decorator.version>${master.version}</module.decorator.version>
         <module.data.access.version>${master.version}</module.data.access.version>
         <module.spring.enabled.version>${master.version}</module.spring.enabled.version>
-        <module.http.site.enabled.version>${master.version}</module.http.site.enabled.version>
-        <module.http.cookie.enabled.version>${master.version}</module.http.cookie.enabled.version>
-        <module.http.session.enbled.version>${master.version}</module.http.session.enbled.version>
         <module.cache.enabled.version>${master.version}</module.cache.enabled.version>
         <module.configuration.enabled.version>${master.version}</module.configuration.enabled.version>
         <module.flyway.enabled.version>${master.version}</module.flyway.enabled.version>
         <module.event.logger.version>${master.version}</module.event.logger.version>
         <module.encryption.enabled.version>${master.version}</module.encryption.enabled.version>
+
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
         <excluded.test.groups>experimental, failing</excluded.test.groups>
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+
         <tomcat7.dir>${env.USER}/tomcat/7.0.61</tomcat7.dir>
         <tomcat.server.name>TomcatServer</tomcat.server.name>
 
@@ -55,8 +50,10 @@
         <plugin.jar.version>2.6</plugin.jar.version>
         <plugin.compliler.version>3.2</plugin.compliler.version>
         <plugin.release.version>2.5.2</plugin.release.version>
+
         <java.source.version>1.7</java.source.version>
         <java.target.version>1.7</java.target.version>
+
         <enforced.java.version>1.7.0</enforced.java.version>
         <enforced.maven.version>3.1.1</enforced.maven.version>
         <enforced.ban.latest>false</enforced.ban.latest>
