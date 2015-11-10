@@ -2,7 +2,7 @@
     <parent>
         <artifactId>core</artifactId>
         <groupId>companyB</groupId>
-        <version>2.1.1</version>
+        <version>2.1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,17 +16,17 @@
         <dependency>
             <groupId>companyB</groupId>
             <artifactId>Common</artifactId>
-            <version>${common.version}</version>
+            <version>${module.common.version}</version>
         </dependency>
         <dependency>
             <groupId>companyB</groupId>
             <artifactId>EventLogger</artifactId>
-            <version>${event.logger.version}</version>
+            <version>${module.event.logger.version}</version>
         </dependency>
         <dependency>
             <groupId>companyB</groupId>
             <artifactId>ConfigurationEnabled</artifactId>
-            <version>${configuration.enabled.version}</version>
+            <version>${module.configuration.enabled.version}</version>
             
         </dependency>
         <dependency>

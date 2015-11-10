@@ -10,19 +10,12 @@ The following modules are currently available:
 * [**ConfigurationEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ConfigurationEnabled) - This module allows several identically named properties to exist in the same property file delineated only by a contextual family.
 * [**ContextEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ContextEnabled)- This module is meant to provide the interface for (and default implantation of) a thread-safe application context that can be shared between classes running within a single application.
 * [**Decorator**](https://github.com/deltafront/CompanyB_Modules/tree/master/Decorator) - This module provides one with the ability to decorate particular class fields directly using standard reflection.
-* [**HttpCookieEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpCookieEnabled) - This module is designed to remove some of the boilerplate code around setting cookies that are required in order for a certain web application to function.
-* [**HttpSessionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSessionEnabled) - This module is designed to remove some of the boilerplate code around setting session attributes that are required in order for a certain web application to function.
-* [**HttpSiteEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/HttpSiteEnabled) - This module is designed to remove some of the boilerplate code around getting and setting various attributes and capabilities that are to be made available globally within the context of a web application.
 * [**SpringEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/SpringEnabled) - By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications. Post-processing annotations and default bean definitions are also available through this module.
 * [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for using the [Java Flyway DB migration](http://flywaydb.org/) framework.
-<<<<<<< HEAD
 * [**EventLogger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
 * [**EncryptionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/EncryptionEnabled) - This module provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
-
-=======
 * [**Event Logger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
 * [**Encryption Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/EncryptionEnabled) - This module provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
->>>>>>> 106869d85a3687c6140dabef15dd1486ea59af34
 
 ## Contributing
 ### Become a contributor
