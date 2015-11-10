@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Declare all arguments first -->
+    <util:list id="args.1">
+        <value type="java.lang.Integer">42</value>
+        <value type="java.lang.String">foo</value>
+        <value type="boolean">false</value>
+    </util:list>
+
+    <util:list id="args.2">
+        <value type="java.lang.String">bar</value>
+    </util:list>
+
+    <!-- Initialize your containers -->
+    <bean id="container.1" class="companyB.common.test.context.ClassArgsContainer">
+        <constructor-arg index="0" value="companyB.context.test.TestBase"/>
+        <constructor-arg index="1" ref="args.1"/>
+        <constructor-arg index="2" value="test.object.1"/>
+    </bean>
+
+    <bean id="container.2" class="companyB.common.test.context.ClassArgsContainer">
+        <constructor-arg index="0" value="companyB.context.test.TestBase"/>
+        <constructor-arg index="1" ref="args.2"/>
+        <constructor-arg index="2" value="test.object.2"/>
+    </bean>
+
+
+    <!-- Add your containers to a list -->
+    <util:list id="containers">
+        <ref bean="container.1"/>
+        <ref bean="container.2"/>
+    </util:list>
+
+    <!-- Add your containers to the context -->
+    <bean id="context" class="companyB.common.test.context.DefaultIApplicationContext">
+        <constructor-arg index="0" ref="containers"/>
+    </bean>
+
+</beans>

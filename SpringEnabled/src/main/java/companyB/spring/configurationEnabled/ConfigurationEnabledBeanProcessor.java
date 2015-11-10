@@ -1,6 +1,6 @@
 package companyB.spring.configurationEnabled;
 
-import companyB.configuration.ClassLevelConfigEnabler;
+import companyB.common.configuration.ClassLevelConfigEnabler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

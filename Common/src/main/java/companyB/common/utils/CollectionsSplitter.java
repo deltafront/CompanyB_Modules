@@ -1,9 +1,9 @@
 package companyB.common.utils;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Splits Collection into a List of Lists.
@@ -49,14 +49,14 @@ public class CollectionsSplitter extends UtilityBase
     private List<List> number_of_lists(Collection collection, int num)
     {
         List<List> list = new LinkedList<>();
-        for (int i = 0; i < num; i++)list.add(new LinkedList());
+        IntStream.range(0,num).forEach(i->list.add(new LinkedList()));
         int count = 0;
-        Iterator iter = collection.iterator();
-        while (iter.hasNext())
+        for(Object next : collection)
         {
             if (count == num)count = 0;
-            list.get(count).add(iter.next());
+            list.get(count).add(next);
             count++;
+
         }
         LOGGER.trace(String.format("Returning a master list that contains %d lists.",list.size()));
         return list;
@@ -67,12 +67,11 @@ public class CollectionsSplitter extends UtilityBase
     private List<List> number_of_items(Collection collection, int num)
     {
         List<List> list = new LinkedList<>();
-        Iterator iter = collection.iterator();
         int count = 0;
         List _list = new LinkedList();
-        while (iter.hasNext())
+        for(Object next : collection)
         {
-            _list.add(iter.next());
+            _list.add(next);
             count++;
             if (count == num)
             {

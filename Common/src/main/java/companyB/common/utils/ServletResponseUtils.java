@@ -24,15 +24,10 @@ public class ServletResponseUtils extends UtilityBase
     {
         Validate.notNull(response, "ServletResponse must be provided!");
         if(null == message)message  = "";
-        try
+        try(OutputStream outputStream  = response.getOutputStream())
         {
-            OutputStream outputStream  = response.getOutputStream();
             outputStream.write(message.getBytes());
-            if(flush)
-            {
-                outputStream.flush();
-                outputStream.close();
-            }
+            if(flush)outputStream.flush();
             LOGGER.trace(String.format("Message written to client:\n%s", message));
         }
         catch (IOException e)

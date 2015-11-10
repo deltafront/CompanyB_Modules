@@ -26,7 +26,7 @@ public class ServletRequestUtils extends UtilityBase
             {
                 result += temp;
             }
-            if(null != result && 0 == result.length())result = null;
+            if(0 == result.length())result = null;
         }
         catch (IOException e)
         {

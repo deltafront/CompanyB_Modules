@@ -8,7 +8,7 @@ import java.util.Set;
  * @author Charles Burell (deltafront@gmail.com)
  * @since  1.0.0
  */
-@SuppressWarnings("PMD.UselessParentheses")
+@SuppressWarnings({"PMD.UselessParentheses", "unchecked"})
 public class ToStringUtils extends UtilityBase
 {
     /**
