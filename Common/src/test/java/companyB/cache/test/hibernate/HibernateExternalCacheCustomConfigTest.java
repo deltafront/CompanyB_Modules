@@ -1,8 +1,8 @@
 package companyB.cache.test.hibernate;
 
 import companyB.cache.test.ExternalCacheTestBase;
-import companyB.common.cache.impl.db.CacheEntry;
-import companyB.common.cache.impl.db.HibernateExternalCache;
+import companyB.cache.impl.db.CacheEntry;
+import companyB.cache.impl.db.HibernateExternalCache;
 import org.hibernate.cfg.Configuration;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

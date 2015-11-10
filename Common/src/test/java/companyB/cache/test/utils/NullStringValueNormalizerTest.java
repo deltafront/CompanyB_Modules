@@ -1,6 +1,6 @@
 package companyB.cache.test.utils;
 
-import companyB.common.cache.utils.NullStringValueNormalizer;
+import companyB.cache.utils.NullStringValueNormalizer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

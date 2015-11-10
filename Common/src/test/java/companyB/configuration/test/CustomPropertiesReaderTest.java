@@ -1,7 +1,7 @@
 package companyB.configuration.test;
 
-import companyB.common.configuration.ConfigEnabler;
-import companyB.common.configuration.CustomPropertiesReader;
+import companyB.configuration.ConfigEnabler;
+import companyB.configuration.CustomPropertiesReader;
 import org.testng.annotations.Test;
 
 import java.io.File;

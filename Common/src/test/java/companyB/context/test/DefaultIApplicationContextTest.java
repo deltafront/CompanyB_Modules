@@ -1,8 +1,8 @@
 package companyB.context.test;
 
-import companyB.common.test.context.ClassArgsContainer;
-import companyB.common.test.context.DefaultIApplicationContext;
-import companyB.common.test.context.I_ApplicationContext;
+import companyB.context.ClassArgsContainer;
+import companyB.context.DefaultIApplicationContext;
+import companyB.context.I_ApplicationContext;
 import org.testng.annotations.Test;
 
 import java.util.Collections;

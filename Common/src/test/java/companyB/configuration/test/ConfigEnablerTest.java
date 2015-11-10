@@ -1,6 +1,6 @@
 package companyB.configuration.test;
 
-import companyB.common.configuration.ConfigEnabler;
+import companyB.configuration.ConfigEnabler;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -1,6 +1,6 @@
 package companyB.configuration.test;
 
-import companyB.common.configuration.ConfigEnabler;
+import companyB.configuration.ConfigEnabler;
 
 import java.io.*;
 import java.util.HashMap;

@@ -16,13 +16,13 @@
     </util:list>
 
     <!-- Initialize your containers -->
-    <bean id="container.1" class="companyB.common.test.context.ClassArgsContainer">
+    <bean id="container.1" class="companyB.context.ClassArgsContainer">
         <constructor-arg index="0" value="companyB.context.test.TestBase"/>
         <constructor-arg index="1" ref="args.1"/>
         <constructor-arg index="2" value="test.object.1"/>
     </bean>
 
-    <bean id="container.2" class="companyB.common.test.context.ClassArgsContainer">
+    <bean id="container.2" class="companyB.context.ClassArgsContainer">
         <constructor-arg index="0" value="companyB.context.test.TestBase"/>
         <constructor-arg index="1" ref="args.2"/>
         <constructor-arg index="2" value="test.object.2"/>
@@ -36,7 +36,7 @@
     </util:list>
 
     <!-- Add your containers to the context -->
-    <bean id="context" class="companyB.common.test.context.DefaultIApplicationContext">
+    <bean id="context" class="companyB.context.DefaultIApplicationContext">
         <constructor-arg index="0" ref="containers"/>
     </bean>
 

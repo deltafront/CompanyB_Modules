@@ -1,7 +1,7 @@
 package companyB.cache.test.memory;
 
 import companyB.cache.test.ExternalCacheTestBase;
-import companyB.common.cache.impl.memory.MemoryExternalCache;
+import companyB.cache.impl.memory.MemoryExternalCache;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

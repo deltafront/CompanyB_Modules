@@ -1,7 +1,7 @@
 package companyB.cache.test.guava;
 
 import companyB.cache.test.ExternalCacheTestBase;
-import companyB.common.cache.impl.guava.GuavaExternalCache;
+import companyB.cache.impl.guava.GuavaExternalCache;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

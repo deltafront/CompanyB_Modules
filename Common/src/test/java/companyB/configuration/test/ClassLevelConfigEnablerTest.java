@@ -1,8 +1,8 @@
 package companyB.configuration.test;
 
-import companyB.common.configuration.ClassLevelConfigEnabler;
-import companyB.common.configuration.ConfigEnabled;
-import companyB.common.configuration.ConfigEnabler;
+import companyB.configuration.ClassLevelConfigEnabler;
+import companyB.configuration.ConfigEnabled;
+import companyB.configuration.ConfigEnabler;
 import org.testng.annotations.Test;
 
 import java.io.File;

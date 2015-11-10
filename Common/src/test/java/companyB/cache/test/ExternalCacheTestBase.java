@@ -1,6 +1,6 @@
 package companyB.cache.test;
 
-import companyB.common.cache.ExternalCache;
+import companyB.cache.ExternalCache;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

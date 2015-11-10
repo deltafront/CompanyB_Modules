@@ -9,7 +9,6 @@
     <modules>
 
         <module>Common</module>
-        <module>Decorator</module>
         <module>EventLogger</module>
         <module>FlywayEnabled</module>
         <module>EncryptionEnabled</module>
@@ -20,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <master.version>${version}</master.version>
         <module.common.version>${master.version}</module.common.version>
-        <module.decorator.version>${master.version}</module.decorator.version>
         <module.data.access.version>${master.version}</module.data.access.version>
         <module.spring.enabled.version>${master.version}</module.spring.enabled.version>
         <module.flyway.enabled.version>${master.version}</module.flyway.enabled.version>

@@ -1,6 +1,6 @@
 package companyB.context.test;
 
-import companyB.common.test.context.ClassArgsContainer;
+import companyB.context.ClassArgsContainer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

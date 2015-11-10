@@ -1,7 +1,7 @@
 package companyB.spring.enabled.test;
 
-import companyB.common.configuration.ConfigEnabled;
-import companyB.common.configuration.ConfigEnabler;
+import companyB.configuration.ConfigEnabled;
+import companyB.configuration.ConfigEnabler;
 import companyB.spring.configurationEnabled.ConfigurationEnabledBeanProcessor;
 import org.testng.annotations.Test;
 
