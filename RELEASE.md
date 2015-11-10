@@ -90,3 +90,6 @@
     *   [card](https://trello.com/c/SrZwkJLv/60-core-pom-include-maven-enforcer-plugin)
 *   Including Maven Versions Plugin
     *   [card](https://trello.com/c/3YHkJhx5/62-core-pom-replace-python-versions-script-with-maven-versions-plugin)
+# 2.2.0 (Funplex)
+*   Removed all Http-specific modules
+    *   [card](https://trello.com/c/DxWFOjgT/64-core-pom-2-2-0-depricate-httpcookieenabled-and-httpsessionenabled-modules)
