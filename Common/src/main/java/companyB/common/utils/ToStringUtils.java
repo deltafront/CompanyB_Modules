@@ -1,7 +1,6 @@
 package companyB.common.utils;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Provides custom representations of Iterables and Maps.
@@ -20,19 +19,7 @@ public class ToStringUtils extends UtilityBase
      */
     public <E> String iterableToString(Iterable<E> iterable)
     {
-        String result = ("[");
-        if(null != iterable)
-        {
-            for( E out : iterable)
-            {
-                String temp = (out instanceof Iterable) ? iterableToString((Iterable)out) :
-                        (out instanceof Map) ? mapToString((Map)out) : String.valueOf(out);
-                result += (String.format("%s,",temp));
-            }
-        }
-        if(result.contains(","))
-            result = result.substring(0,result.lastIndexOf(","));
-        result = String.format("%s]",result);
+        String result = (null != iterable) ? GSON.toJson(iterable): "[]";
         LOGGER.trace(String.format("Returning string representation of iterable\n%s",result));
         return result;
     }
@@ -47,21 +34,7 @@ public class ToStringUtils extends UtilityBase
      */
     public <Key,Value> String mapToString(Map<Key, Value> map)
     {
-        String out  = ("{");
-        if(null != map)
-        {
-            Set<Key>keys = map.keySet();
-            for(Key key : keys)
-            {
-                Value value = map.get(key);
-                String temp = (value instanceof Iterable) ? iterableToString((Iterable)value) :
-                        (value instanceof Map) ? mapToString((Map)value) : String.valueOf(value);
-                out += (String.format("%s:%s,",key,temp));
-            }
-        }
-        if(out.contains(","))
-            out = out.substring(0,out.lastIndexOf(","));
-        out = String.format("%s}",out);
+        String out  =(null != map) ?  GSON.toJson(map) : "{}";
         LOGGER.trace(String.format("Returning string representation of map\n%s",out));
         return out;
     }

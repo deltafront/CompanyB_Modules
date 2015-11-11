@@ -62,7 +62,7 @@ This module comes with three implementations:
 ## Common
 
 ### Purpose
-This module contains reusable components for consumption by other modules and applications.
+This package contains reusable components for consumption by other modules and applications.
 
 ### Utilities
 The following utility classes are available via this module. For each of the following modules, consult the JavaDocs
@@ -287,6 +287,26 @@ The following scenarios are not supported by this module:
 *   Abstract classes
 *   Fields that are final
 
+## Encrypted
+
+### Purpose
+This package provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
+
+### Usage
+*   Decorate the string fields in your class that you want to  have encrypted:
+    ```java
+        @Encrypted(algorithm = Encrypted.algorithms.MD2) //if algorithm is not supplied, default is 'md5'.
+        private String foo;
+     ```
+     At some point, whether via the constructor or a setter method, the value for this field must be supplied.
+*   Run the enclosing object instance through the decorator:
+    ```java
+        Foo foo = EncryptedDecorator.decorate(new Foo("this");
+    ```
+*   You can also decorate your fields with an instance of EncryptedWrapper, and then pass them through the decorator. Doing this will allow you to encrypt the String value of any object.
+### Caveats
+*   Only Strings are supported at this time.
+*   Only non-static, non-final fields are supported.
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.
 

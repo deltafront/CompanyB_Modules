@@ -25,15 +25,21 @@ public class ClassLevelConfigEnabler
         Validate.notNull(instance,"Instance not provided.");
         Field[]fields = fieldUtils.getFields(instance);
         for(Field field : fields)
-        {
-            ConfigEnabled configEnabled = fieldUtils.getAnnotation(ConfigEnabled.class,field);
-            if(ConfigEnabler.class.equals(field.getType()) && null != configEnabled)
-            {
-                String filename = configEnabled.filename();
-                String family = configEnabled.family();
-                ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
-                fieldUtils.setField(field,instance,configEnabler);
-            }
-        }
+            processFields(instance, fieldUtils, field);
+    }
+
+    private void processFields(Object instance, FieldUtils fieldUtils, Field field)
+    {
+        ConfigEnabled configEnabled = fieldUtils.getAnnotation(ConfigEnabled.class,field);
+        if(ConfigEnabler.class.equals(field.getType()) && null != configEnabled)
+            setConfigEnabledField(instance, fieldUtils, field, configEnabled);
+    }
+
+    private void setConfigEnabledField(Object instance, FieldUtils fieldUtils, Field field, ConfigEnabled configEnabled)
+    {
+        String filename = configEnabled.filename();
+        String family = configEnabled.family();
+        ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
+        fieldUtils.setField(field,instance,configEnabler);
     }
 }

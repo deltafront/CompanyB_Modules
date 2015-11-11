@@ -171,9 +171,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
     {
         String props = "";
         for(String key : properties.stringPropertyNames())
-        {
             props += String.format("\t%s=>%s",key,properties.getProperty(key));
-        }
         return props;
     }
 

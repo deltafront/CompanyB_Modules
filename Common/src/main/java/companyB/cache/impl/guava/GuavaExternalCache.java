@@ -62,11 +62,7 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     public String retrieve(String key)
     {
         String value = cache.getIfPresent(key);
-        if(!StringUtils.isBlank(value))
-        {
-            value = normalizer.dirtyNullStringValue(cache.getIfPresent(key));
-            LOGGER.trace(String.format("Returning value %s for key %s.",value,key));
-        }
+        if(!StringUtils.isBlank(value)) value = getEncryptedString(key);
         else LOGGER.trace(String.format("No value found for key %s.",key));
         return value;
     }
@@ -82,19 +78,28 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     public String remove(String key)
     {
         String value = cache.getIfPresent(key);
-        if(null != value)
-        {
-            value = normalizer.dirtyNullStringValue(value);
-            LOGGER.trace(String.format("Returning and removing value %s for key %s.",value,key));
-            cache.invalidate(key);
-        }
+        if(null != value) value = removeAndGetValue(key, value);
         else LOGGER.trace(String.format("No value found for key %s.",key));
         return value;
     }
 
+    private String removeAndGetValue(String key, String value)
+    {
+        value = normalizer.dirtyNullStringValue(value);
+        LOGGER.trace(String.format("Returning and removing value %s for key %s.",value,key));
+        cache.invalidate(key);
+        return value;
+    }
     @Override
     public String getName()
     {
         return name;
+    }
+    private String getEncryptedString(String key)
+    {
+        String value;
+        value = normalizer.dirtyNullStringValue(cache.getIfPresent(key));
+        LOGGER.trace(String.format("Returning value %s for key %s.",value,key));
+        return value;
     }
 }
