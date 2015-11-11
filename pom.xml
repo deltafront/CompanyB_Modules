@@ -9,9 +9,7 @@
     <modules>
 
         <module>Common</module>
-        <module>EventLogger</module>
         <module>FlywayEnabled</module>
-        <module>EncryptionEnabled</module>
         <module>SpringEnabled</module>
     </modules>
 
@@ -19,11 +17,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <master.version>${version}</master.version>
         <module.common.version>${master.version}</module.common.version>
-        <module.data.access.version>${master.version}</module.data.access.version>
         <module.spring.enabled.version>${master.version}</module.spring.enabled.version>
         <module.flyway.enabled.version>${master.version}</module.flyway.enabled.version>
-        <module.event.logger.version>${master.version}</module.event.logger.version>
-        <module.encryption.enabled.version>${master.version}</module.encryption.enabled.version>
 
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>

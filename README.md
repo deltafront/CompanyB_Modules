@@ -7,9 +7,6 @@ These modules represent reusable components that can be used in Java application
 The following modules are currently available:
 
 * [**Common**](https://github.com/deltafront/CompanyB_Modules/tree/master/Common) - This module contains reusable components for consumption by other modules and applications.
-* [**ConfigurationEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ConfigurationEnabled) - This module allows several identically named properties to exist in the same property file delineated only by a contextual family.
-* [**ContextEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/ContextEnabled)- This module is meant to provide the interface for (and default implantation of) a thread-safe application context that can be shared between classes running within a single application.
-* [**Decorator**](https://github.com/deltafront/CompanyB_Modules/tree/master/Decorator) - This module provides one with the ability to decorate particular class fields directly using standard reflection.
 * [**SpringEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/SpringEnabled) - By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications. Post-processing annotations and default bean definitions are also available through this module.
 * [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for using the [Java Flyway DB migration](http://flywaydb.org/) framework.
 * [**EventLogger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
