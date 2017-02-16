@@ -55,7 +55,7 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         Validate.notBlank(key,"Key must be provided.");
         cache.put(key,normalizer.cleanNullStringValue(value));
-        LOGGER.trace(String.format("Associated %s=>%s in cache.",key,value));
+        LOGGER.trace("Associated {}=>{} in cache.",key,value);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         String value = cache.getIfPresent(key);
         if(!StringUtils.isBlank(value)) value = getEncryptedString(key);
-        else LOGGER.trace(String.format("No value found for key %s.",key));
+        else LOGGER.trace("No value found for key {}.",key);
         return value;
     }
 
@@ -79,16 +79,16 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         String value = cache.getIfPresent(key);
         if(null != value) value = removeAndGetValue(key, value);
-        else LOGGER.trace(String.format("No value found for key %s.",key));
+        else LOGGER.trace("No value found for key {}.",key);
         return value;
     }
 
     private String removeAndGetValue(String key, String value)
     {
-        value = normalizer.dirtyNullStringValue(value);
-        LOGGER.trace(String.format("Returning and removing value %s for key %s.",value,key));
+        final String val = normalizer.dirtyNullStringValue(value);
+        LOGGER.trace("Returning and removing value {} for key {}.",val,key);
         cache.invalidate(key);
-        return value;
+        return val;
     }
     @Override
     public String getName()
@@ -97,9 +97,8 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     }
     private String getEncryptedString(String key)
     {
-        String value;
-        value = normalizer.dirtyNullStringValue(cache.getIfPresent(key));
-        LOGGER.trace(String.format("Returning value %s for key %s.",value,key));
+        final String value = normalizer.dirtyNullStringValue(cache.getIfPresent(key));
+        LOGGER.trace("Returning value {} for key {}.",value,key);
         return value;
     }
 }

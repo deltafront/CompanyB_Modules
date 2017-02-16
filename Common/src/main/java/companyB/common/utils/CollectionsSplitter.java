@@ -3,6 +3,8 @@ package companyB.common.utils;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
 /**
@@ -16,7 +18,13 @@ public class CollectionsSplitter extends UtilityBase
 {
     public enum optimization_strategy
     {
-        number_of_lists, number_of_items
+        number_of_lists(CollectionsSplitter::number_of_lists),
+        number_of_items(CollectionsSplitter::number_of_items);
+        private optimization_strategy(BiFunction<Collection,Integer, List<List>> function)
+        {
+            this.biFunction = function;
+        }
+        BiFunction<Collection, Integer, List<List>>biFunction;
     }
 
     /**
@@ -34,55 +42,56 @@ public class CollectionsSplitter extends UtilityBase
     @SuppressWarnings("unchecked")
     public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
-        if(null != collection) LOGGER.trace(String.format("Size of collection:\t%d\nSplit Number:\t%d\nStrategy:\t%s",
-                collection.size(), split_num,strategy.name()));
-        if (null == collection)return new LinkedList<>();
-        int num = (split_num == 0 || split_num > collection.size())
-                ? collection.size() : split_num;
-        List<List>lists =  (strategy == optimization_strategy.number_of_items)
-                ? number_of_items(collection, num) : number_of_lists(collection, num);
-        LOGGER.trace(String.format("Returning new list of %d elements.",lists.size()));
+        if(null != collection) LOGGER.trace("Size of collection:\t{}\nSplit Number:\t{}\nStrategy:\t{}",
+                collection.size(), split_num,strategy.name());
+        final int num = (null != collection) ?
+                (split_num == 0 || split_num > collection.size())
+                ? collection.size() : split_num : -1;
+        final List<List>lists = (null != collection) ?
+                strategy.biFunction.apply(collection,num) :
+                new LinkedList<>();
+        LOGGER.trace("Returning new list of {} elements.",lists.size());
         return lists;
     }
 
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
-    private List<List> number_of_lists(Collection collection, int num)
+    private static List<List> number_of_lists(Collection collection, int num)
     {
-        List<List> list = new LinkedList<>();
+        final List<List> list = new LinkedList<>();
         IntStream.range(0,num).forEach(i->list.add(new LinkedList()));
-        int count = 0;
-        for(Object next : collection)
-        {
-            if (count == num)count = 0;
-            list.get(count).add(next);
-            count++;
-
-        }
-        LOGGER.trace(String.format("Returning a master list that contains %d lists.",list.size()));
+        final AtomicInteger count = new AtomicInteger(0);
+       collection.forEach((next)->
+       {
+           if (count.get() == num)count.getAndSet(0);
+           list.get(count.get()).add(next);
+           count.getAndIncrement();
+       });
+        LOGGER.trace("Returning a master list that contains {} lists.",list.size());
         return list;
     }
 
     //helper methods
     @SuppressWarnings("unchecked")
-    private List<List> number_of_items(Collection collection, int num)
+    private static List<List> number_of_items(Collection collection, int num)
     {
         List<List> list = new LinkedList<>();
-        int count = 0;
-        List _list = new LinkedList();
-        for(Object next : collection)
-        {
+        final AtomicInteger count = new AtomicInteger(0);
+        final List _list = new LinkedList();
+        collection.forEach((next) ->{
             _list.add(next);
-            count++;
-            if (count == num)
+            count.incrementAndGet();
+            if (count.get() == num)
             {
-                count = 0;
-                list.add(_list);
-                _list = new LinkedList();
+                count.getAndSet(0);
+                final List inner = new LinkedList<>();
+                inner.addAll(_list);
+                list.add(inner);
+                _list.clear();
             }
-        }
+        });
         if (_list.size() > 0) list.add(_list);
-        LOGGER.trace(String.format("Returning a master list of %d lists in which each list contains at least %d elements.",
-                list.size(),num));
+        LOGGER.trace("Returning a master list of {} lists in which each list contains at least {} elements.",
+                list.size(),num);
         return list;
     }
 }

@@ -1,7 +1,6 @@
 package companyB.common.utils;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Provides custom representations of Iterables and Maps.
@@ -20,21 +19,23 @@ public class ToStringUtils extends UtilityBase
      */
     public <E> String iterableToString(Iterable<E> iterable)
     {
-        String result = ("[");
+        final StringBuilder result = new StringBuilder("[");
         if(null != iterable)
         {
-            for( E out : iterable)
-            {
-                String temp = (out instanceof Iterable) ? iterableToString((Iterable)out) :
-                        (out instanceof Map) ? mapToString((Map)out) : String.valueOf(out);
-                result += (String.format("%s,",temp));
-            }
+            iterable.forEach((out)->{
+                String temp = getString(out);
+                result.append(String.format("%s,",temp));
+            });
         }
-        if(result.contains(","))
-            result = result.substring(0,result.lastIndexOf(","));
-        result = String.format("%s]",result);
-        LOGGER.trace(String.format("Returning string representation of iterable\n%s",result));
-        return result;
+        final String output = stripLastComma(result,"]");
+        LOGGER.trace("Returning string representation of iterable\n{}",output);
+        return output;
+    }
+
+    private <E> String getString(E out)
+    {
+        return (out instanceof Iterable) ? iterableToString((Iterable)out) :
+                            (out instanceof Map) ? mapToString((Map)out) : String.valueOf(out);
     }
 
     /**
@@ -47,22 +48,25 @@ public class ToStringUtils extends UtilityBase
      */
     public <Key,Value> String mapToString(Map<Key, Value> map)
     {
-        String out  = ("{");
+        final StringBuilder out = new StringBuilder("{");
         if(null != map)
         {
-            Set<Key>keys = map.keySet();
-            for(Key key : keys)
-            {
+            map.keySet().forEach((key)->{
+
                 Value value = map.get(key);
-                String temp = (value instanceof Iterable) ? iterableToString((Iterable)value) :
-                        (value instanceof Map) ? mapToString((Map)value) : String.valueOf(value);
-                out += (String.format("%s:%s,",key,temp));
-            }
+                String temp = getString((value));
+                out.append(String.format("%s:%s,",key,temp));
+            });
         }
-        if(out.contains(","))
-            out = out.substring(0,out.lastIndexOf(","));
-        out = String.format("%s}",out);
-        LOGGER.trace(String.format("Returning string representation of map\n%s",out));
-        return out;
+        final String output = stripLastComma(out, "}");
+        LOGGER.trace("Returning string representation of map\n{}",output);
+        return output;
+    }
+    private String stripLastComma(StringBuilder stringBuffer, String finalAppend)
+    {
+        String output = stringBuffer.toString();
+        if (output.contains(","))
+            output= output.substring(0,output.lastIndexOf(","));
+        return String.format("%s%s",output,finalAppend);
     }
 }

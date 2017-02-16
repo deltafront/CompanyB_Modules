@@ -25,7 +25,7 @@ public class GuavaUtils extends UtilityBase
     public  <Key,Value>Cache<Key,Value> getExpireAfterAccessCache(Long duration, TimeUnit timeUnit)
     {
         validateTimeExpiry(duration, timeUnit);
-        LOGGER.trace(String.format("All entries will expire %d %s(s) after last write or access.",duration,timeUnit.name()));
+        LOGGER.trace("All entries will expire {} {}(s) after last write or access.",duration,timeUnit.name());
         return CacheBuilder.newBuilder().expireAfterAccess(duration,timeUnit).build();
     }
 
@@ -40,7 +40,7 @@ public class GuavaUtils extends UtilityBase
     public  <Key,Value> Cache<Key,Value> getExpireAfterWriteCache(Long duration, TimeUnit timeUnit)
     {
         validateTimeExpiry(duration, timeUnit);
-        LOGGER.trace(String.format("All entries will expire %d %s(s) after last write.",duration,timeUnit.name()));
+        LOGGER.trace("All entries will expire {} {}(s) after last write.",duration,timeUnit.name());
         return CacheBuilder.newBuilder().expireAfterWrite(duration, timeUnit).build();
     }
 
@@ -54,7 +54,7 @@ public class GuavaUtils extends UtilityBase
     public  <Key,Value> Cache<Key,Value> getMaxSizeCache(Integer maxSize)
     {
         validateMaxSizeInfo(maxSize);
-        LOGGER.trace(String.format("Maximum size of cache is '%d' item(s).",maxSize));
+        LOGGER.trace("Maximum size of cache is '{}' item(s).",maxSize);
         return CacheBuilder.newBuilder().maximumSize(maxSize).build();
     }
     private void validateMaxSizeInfo(Integer maxSize)

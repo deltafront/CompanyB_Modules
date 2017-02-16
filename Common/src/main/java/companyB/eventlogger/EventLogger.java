@@ -161,10 +161,10 @@ public class EventLogger
     {
         this.state = state;
         this.lastMessage = logMessageFormatter.formatLogMessage(eventCode,message,attributes);
-        String method_name  = state.name().toLowerCase();
+        final String method_name  = state.name().toLowerCase();
         try
         {
-            Method method = (null == throwable) ?
+            final Method method = (null == throwable) ?
                     logger.getClass().getMethod(method_name,String.class) :
                     logger.getClass().getMethod(method_name,String.class,Throwable.class);
             if (null == throwable) method.invoke(logger,lastMessage);

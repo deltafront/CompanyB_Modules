@@ -8,11 +8,6 @@ The following modules are currently available:
 
 * [**Common**](https://github.com/deltafront/CompanyB_Modules/tree/master/Common) - This module contains reusable components for consumption by other modules and applications.
 * [**SpringEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/SpringEnabled) - By importing this module, you get a pre-built set of dependencies suitable for building most Spring-based applications. Post-processing annotations and default bean definitions are also available through this module.
-* [**Flyway Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/FlywayEnabled) - This module provides a single point of contact for using the [Java Flyway DB migration](http://flywaydb.org/) framework.
-* [**EventLogger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
-* [**EncryptionEnabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/EncryptionEnabled) - This module provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
-* [**Event Logger**](https://github.com/deltafront/CompanyB_Modules/tree/master/EventLogger) - This module provides a single point of contact for logging specific events or even just plain messages in a unified format. This makes it possible to develop logging messages that can be written company-wide and easily indexed and searched by applications such as Splunk.
-* [**Encryption Enabled**](https://github.com/deltafront/CompanyB_Modules/tree/master/EncryptionEnabled) - This module provides an easy way to mark String fields as being Encrypted and encrypt them using the decorator pattern.
 
 ## Contributing
 ### Become a contributor

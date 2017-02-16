@@ -20,9 +20,9 @@ public class FieldUtils extends UtilityBase
     public Field[]getFields(Object instance)
     {
         Validate.notNull(instance);
-        Field[]fields = instance.getClass().getDeclaredFields();
-        LOGGER.trace(String.format("Returning %d fields from instance of %s.",
-                fields.length,instance.getClass().getCanonicalName()));
+        final Field[]fields = instance.getClass().getDeclaredFields();
+        LOGGER.trace("Returning {} fields from instance of {}.",
+                fields.length,instance.getClass().getCanonicalName());
         return fields;
     }
 
@@ -38,7 +38,7 @@ public class FieldUtils extends UtilityBase
         try
         {
             field = instance.getClass().getDeclaredField(fieldName);
-            LOGGER.trace(String.format("Returning field %s.%s.",instance.getClass().getCanonicalName(),fieldName));
+            LOGGER.trace("Returning field {}.{}.",instance.getClass().getCanonicalName(),fieldName);
         }
         catch (NoSuchFieldException e)
         {
@@ -58,9 +58,9 @@ public class FieldUtils extends UtilityBase
     public <T extends Annotation> T getAnnotation(Class<T>annotationClass, Field field)
     {
         field.setAccessible(true);
-        T out = field.getAnnotation(annotationClass);
-        LOGGER.trace(String.format("Annotation '%s' found on field '%s'? %b",
-                annotationClass.getCanonicalName(),field.getName(),null != out));
+        final T out = field.getAnnotation(annotationClass);
+        LOGGER.trace("Annotation '{}' found on field '{}'? {}",
+                annotationClass.getCanonicalName(),field.getName(),null != out);
         return out;
     }
 
@@ -74,7 +74,7 @@ public class FieldUtils extends UtilityBase
     {
         Validate.notNull(instance,"Valid instance must be provided.");
         Validate.notBlank(fieldName,"Field name must be provided.");
-        Field field = getField(fieldName,instance);
+        final Field field = getField(fieldName,instance);
         Validate.notNull(field,String.format("Field '%s.%s' does not exist.",
                 instance.getClass().getCanonicalName(),fieldName));
         setField(field,instance,value);
@@ -92,8 +92,8 @@ public class FieldUtils extends UtilityBase
         {
             field.setAccessible(true);
             field.set(instance, value);
-            LOGGER.trace(String.format("%s.%s set to %s.",
-                    instance.getClass().getCanonicalName(),field.getName(),String.valueOf(value)));
+            LOGGER.trace("{}.{} set to {}.",
+                    instance.getClass().getCanonicalName(),field.getName(),String.valueOf(value));
         }
         catch (IllegalAccessException e)
         {
@@ -110,7 +110,7 @@ public class FieldUtils extends UtilityBase
     {
         Validate.notNull(instance,"Valid instance must be provided.");
         Validate.notBlank(fieldName,"Field name must be provided.");
-        Field field = getField(fieldName,instance);
+        final Field field = getField(fieldName,instance);
         Validate.notNull(field,String.format("Field %s.%s does not exist.",
                 instance.getClass().getCanonicalName(),fieldName));
         return getFieldValue(field,instance);
@@ -129,8 +129,8 @@ public class FieldUtils extends UtilityBase
         {
             field.setAccessible(true);
             out = (T)field.get(instance);
-            LOGGER.trace(String.format("%s.%s returned value of '%s'.",
-                    instance.getClass().getCanonicalName(),field.getName(),String.valueOf(out)));
+            LOGGER.trace("{}.{} returned value of '{}'.",
+                    instance.getClass().getCanonicalName(),field.getName(),String.valueOf(out));
         }
         catch (IllegalAccessException e)
         {

@@ -18,9 +18,8 @@ public class ServletRequestUtils extends UtilityBase
     public String getBodyFromRequest(ServletRequest request )
     {
         String result = "";
-        try
+        try(final BufferedReader bufferedReader = request.getReader())
         {
-            final BufferedReader bufferedReader = request.getReader();
             String temp;
             while(null !=(temp = bufferedReader.readLine()))
             {
@@ -32,7 +31,7 @@ public class ServletRequestUtils extends UtilityBase
         {
             LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace(String.format("Returning result to client:\n%s", result));
+        LOGGER.trace("Returning result to client:\n{}", result);
         return result;
     }
 }

@@ -21,25 +21,25 @@ public class ClassLevelConfigEnabler
      */
     public void decorate(Object instance)
     {
-        FieldUtils fieldUtils  = new FieldUtils();
+       final FieldUtils fieldUtils  = new FieldUtils();
         Validate.notNull(instance,"Instance not provided.");
-        Field[]fields = fieldUtils.getFields(instance);
-        for(Field field : fields)
+        final Field[]fields = fieldUtils.getFields(instance);
+        for(final Field field : fields)
             processFields(instance, fieldUtils, field);
     }
 
     private void processFields(Object instance, FieldUtils fieldUtils, Field field)
     {
-        ConfigEnabled configEnabled = fieldUtils.getAnnotation(ConfigEnabled.class,field);
+        final ConfigEnabled configEnabled = fieldUtils.getAnnotation(ConfigEnabled.class,field);
         if(ConfigEnabler.class.equals(field.getType()) && null != configEnabled)
             setConfigEnabledField(instance, fieldUtils, field, configEnabled);
     }
 
     private void setConfigEnabledField(Object instance, FieldUtils fieldUtils, Field field, ConfigEnabled configEnabled)
     {
-        String filename = configEnabled.filename();
-        String family = configEnabled.family();
-        ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
+        final String filename = configEnabled.filename();
+        final String family = configEnabled.family();
+        final ConfigEnabler configEnabler = new ConfigEnabler(filename,family);
         fieldUtils.setField(field,instance,configEnabler);
     }
 }

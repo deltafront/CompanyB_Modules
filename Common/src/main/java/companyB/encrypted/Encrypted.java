@@ -6,6 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.function.Function;
 
 /**
  * Annotation used to designate a String that is to be encrypted.
@@ -29,61 +30,16 @@ public @interface Encrypted
     public enum algorithms
     {
 
-        MD2
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.md2Hex(in);
-                    }
-                },
-        MD5
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.md5Hex(in);
-                    }
-                },
-        SHA1
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.sha1Hex(in);
-                    }
-                },
-        SHA256
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.sha256Hex(in);
-                    }
-                },
-        SHA348
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.sha384Hex(in);
-                    }
-                },
-        SHA512
-                {
-                    @Override
-                    public String encrypt(String in)
-                    {
-                        return DigestUtils.sha512Hex(in);
-                    }
-                };
-
-        /**
-         * Encrypts string via command pattern.
-         * @param in String to be encrypted.
-         * @return Encrypted String.
-         * @since 2.0.0
-         */
-        public abstract String encrypt(String in);
+        MD2(DigestUtils::md2Hex),
+        MD5(DigestUtils::md5Hex),
+        SHA1(DigestUtils::sha1Hex),
+        SHA256(DigestUtils::sha256Hex),
+        SHA348(DigestUtils::sha384Hex),
+        SHA512(DigestUtils::sha512Hex);
+        public Function<String,String>encrypt;
+        private algorithms(Function<String,String> encrypt)
+        {
+            this.encrypt = encrypt;
+        }
     }
 }

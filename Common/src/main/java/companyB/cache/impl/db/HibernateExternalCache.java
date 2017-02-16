@@ -49,10 +49,10 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
     public void insert(String key, String value)
     {
         Validate.notBlank(key,"Key must be provided!");
-        value = normalizer.cleanNullStringValue(value);
+        final String newvalue = normalizer.cleanNullStringValue(value);
         String existing = retrieve(key);
         startSessionTransaction();
-        if(null != existing) doUpdate(key, value);
+        if(null != existing) doUpdate(key, newvalue);
         else doSave(key, value);
         transaction.commit();
         session.close();
@@ -66,7 +66,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
                 .setString("key",key)
                 .uniqueResult();
         value = normalizer.dirtyNullStringValue(value);
-        LOGGER.trace(String.format("Returning value for key '%s' : '%s'.",key,value));
+        LOGGER.trace("Returning value for key '{}' : '{}'.",key,value);
         session.close();
         return value;
     }
@@ -79,7 +79,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
         Integer cleared = query.executeUpdate();
         transaction.commit();
         session.close();
-        LOGGER.trace(String.format("%d Cache Entries deleted.",cleared));
+        LOGGER.trace("{} Cache Entries deleted.",cleared);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
         value = normalizer.dirtyNullStringValue(value);
         if(null != value)doRemove(key, value);
         session.close();
-        LOGGER.trace(String.format("Removed value for key '%s' ('%s')? %b",key,value,null != value));
+        LOGGER.trace("Removed value for key '{}' ('{}')? {}",key,value,null != value);
         return value;
     }
 
@@ -104,32 +104,32 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
     }
     private void doSave(String key, String value)
     {
-        Long id = (Long)session.save(new CacheEntry(key,value));
-        LOGGER.trace(String.format("ID for newly saved cache entry ('%s'=>'%s'): %d",key,value,id));
+        final Long id = (Long)session.save(new CacheEntry(key,value));
+        LOGGER.trace("ID for newly saved cache entry ('{}'=>'{}'): {}",key,value,id);
     }
 
     private void doUpdate(String key, String value)
     {
-        Integer updated = session.createQuery("UPDATE CacheEntry SET value = :value WHERE key = :key")
+        final Integer updated = session.createQuery("UPDATE CacheEntry SET value = :value WHERE key = :key")
                 .setString("value", value)
                 .setString("key", key)
                 .executeUpdate();
-        LOGGER.trace(String.format("%d items updated where '%s' = '%s'.",updated,key,value));
+        LOGGER.trace("{} items updated where '{}' = '{}'.",updated,key,value);
     }
     private void doRemove(String key, String value)
     {
-        Integer removed = session.createQuery("DELETE FROM CacheEntry WHERE key = :key AND value = :value")
+        final Integer removed = session.createQuery("DELETE FROM CacheEntry WHERE key = :key AND value = :value")
                 .setString("key",key)
                 .setString("value",value)
                 .executeUpdate();
-        LOGGER.trace(String.format("Number of items removed? %d",removed));
+        LOGGER.trace("Number of items removed? {}",removed);
         transaction.commit();
     }
     private void startSessionTransaction()
     {
-        Configuration configuration = getConfiguration();
-        StandardServiceRegistryBuilder builder = getStandardServiceRegistryBuilder(configuration);
-        SessionFactory sessionFactory = getSessionFactory(configuration, builder);
+        final Configuration configuration = getConfiguration();
+        final StandardServiceRegistryBuilder builder = getStandardServiceRegistryBuilder(configuration);
+        final SessionFactory sessionFactory = getSessionFactory(configuration, builder);
         openSession(sessionFactory);
         beginTransaction();
     }
@@ -150,7 +150,7 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
 
     private SessionFactory getSessionFactory(Configuration configuration, StandardServiceRegistryBuilder builder)
     {
-        SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
+        final SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
         Validate.notNull(sessionFactory, "Session Factory not created. Aborting.");
         LOGGER.trace("Session Factory created.");
         return sessionFactory;
@@ -158,26 +158,27 @@ public class HibernateExternalCache extends AbstractExternalCache implements Ext
 
     private StandardServiceRegistryBuilder getStandardServiceRegistryBuilder(Configuration configuration)
     {
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
+        final StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
-        Properties properties = configuration.getProperties();
-        String props = getPropertiesString(properties);
+        final Properties properties = configuration.getProperties();
+        final String props = getPropertiesString(properties);
         Validate.notNull(builder, "Null Standard Service Registry Builder returned. Aborting.");
-        LOGGER.trace(String.format("Standard Registry Builder built with values from configuration:\n%s",props));
+        LOGGER.trace("Standard Registry Builder built with values from configuration:\n{}",props);
         return builder;
     }
 
     private String getPropertiesString(Properties properties)
     {
-        String props = "";
-        for(String key : properties.stringPropertyNames())
-            props += String.format("\t%s=>%s",key,properties.getProperty(key));
-        return props;
+        final StringBuilder props = new StringBuilder("");
+        properties.stringPropertyNames().forEach((key) ->{
+            props.append(String.format("\t%s=>%s",key,properties.getProperty(key)));
+        });
+        return props.toString();
     }
 
     private Configuration getConfiguration()
     {
-        Configuration configuration =
+        final Configuration configuration =
                 (null == this.configuration) ?
                         new Configuration().configure() : this.configuration;
         Validate.notNull(configuration, "Null configuration returned. Aborting.");

@@ -1,5 +1,7 @@
 package companyB.common.utils;
 
+import org.apache.commons.lang3.Validate;
+
 import java.io.*;
 import java.util.Arrays;
 
@@ -20,13 +22,11 @@ public class RuntimeUtils extends UtilityBase
     public String executeCommand(String... commandArgs)
     {
         String result = null;
-        try
+        try(final InputStream inputStream = getProcess(commandArgs).getInputStream();
+            final Reader reader = new InputStreamReader(inputStream);
+            final BufferedReader bufferedReader = new BufferedReader(reader)
+        )
         {
-            Runtime runtime = Runtime.getRuntime();
-            Process process = runtime.exec(commandArgs);
-            InputStream inputStream = process.getInputStream();
-            Reader reader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
             String temp;
             while((temp = bufferedReader.readLine())!= null) result += temp;
         }
@@ -34,7 +34,22 @@ public class RuntimeUtils extends UtilityBase
         {
            LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace(String.format("Result of command '%s': '%s'.", Arrays.toString(commandArgs), result));
+        LOGGER.trace("Result of command '{}': '{}'.", Arrays.toString(commandArgs), result);
         return result;
+    }
+    private Process getProcess(String...commandArgs)
+    {
+        Process process = null;
+        try
+        {
+            final Runtime runtime = Runtime.getRuntime();
+            process = runtime.exec(commandArgs);
+        }
+        catch (IOException e)
+        {
+            LOGGER.error(e.getMessage(),e);
+        }
+        Validate.notNull(process,"Null Process returned by system runtime!");
+        return process;
     }
 }

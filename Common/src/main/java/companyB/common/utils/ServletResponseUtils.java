@@ -23,12 +23,13 @@ public class ServletResponseUtils extends UtilityBase
     public void writeResponse(ServletResponse response, String message, boolean flush)
     {
         Validate.notNull(response, "ServletResponse must be provided!");
-        if(null == message)message  = "";
-        try(OutputStream outputStream  = response.getOutputStream())
+        final String cleaned_message = (null == message) ?
+                "" : message;
+        try(final OutputStream outputStream  = response.getOutputStream())
         {
-            outputStream.write(message.getBytes());
+            outputStream.write(cleaned_message.getBytes());
             if(flush)outputStream.flush();
-            LOGGER.trace(String.format("Message written to client:\n%s", message));
+            LOGGER.trace("Message written to client:\n{}", cleaned_message);
         }
         catch (IOException e)
         {

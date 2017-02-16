@@ -35,7 +35,7 @@ public class CustomMapper
             final String value = properties.get(property);
             if(!mappings.containsKey(family))mappings.put(family, new HashMap<>());
             mappings.get(family).put(key,value);
-            LOGGER.trace(String.format("Associated key '%s' = '%s' (family: '%s')",key,value,family));
+            LOGGER.trace("Associated key '{}' = '{}' (family: '{}')",key,value,family);
         });
         return mappings;
     }

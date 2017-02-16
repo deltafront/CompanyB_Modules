@@ -68,12 +68,12 @@ public class BeanDecorator
     {
         Validate.notNull(instance,"Instance of class to be decorated is required.");
         Validate.notBlank(propertiesFileName,"Properties File Name is required.");
-        PropertiesUtils propertiesUtils = new PropertiesUtils();
-        Properties properties = new Properties();
-        Map<String,String>map= propertiesUtils.getProperties(propertiesFileName);
+        final PropertiesUtils propertiesUtils = new PropertiesUtils();
+        final Properties properties = new Properties();
+        final Map<String,String>map= propertiesUtils.getProperties(propertiesFileName);
         map.keySet().forEach(_key ->
         {
-            String key = String.valueOf(_key);
+            final String key = String.valueOf(_key);
             properties.setProperty(String.valueOf(key),map.get(key)) ;
         });
         return decorate(instance,properties);
@@ -119,8 +119,8 @@ public class BeanDecorator
     {
         Validate.notNull(instance,"Instance of class to be decorated is required.");
         Validate.notNull(properties,"Properties are required.");
-        Field[] fields = fieldUtils.getFields(instance);
-        for (Field field : fields)decorateField(instance, properties, field);
+        final Field[] fields = fieldUtils.getFields(instance);
+        for (final Field field : fields)decorateField(instance, properties, field);
         return instance;
     }
 
@@ -133,12 +133,12 @@ public class BeanDecorator
 
     private <T> void decorateField(T instance, Properties properties, Field field, Decorated decorated) throws UnsupportedTypeException
     {
-        String name = getName(field,decorated);
+        final String name = getName(field,decorated);
         LOGGER.debug(String.format("Resolved Name: %s",name));
-        String value = getValue(name,decorated,properties);
+        final String value = getValue(name,decorated,properties);
         LOGGER.debug(String.format("Resolved Value: %s",value));
-        Object coerced = coerce(value,field.getType());
-        String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
+        final Object coerced = coerce(value,field.getType());
+        final String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
         LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
         if(null != coerced && 0 != String.valueOf(coerced).length()) fieldUtils.setField(field, instance, coerced);
     }
@@ -163,16 +163,17 @@ public class BeanDecorator
 
     private Object getConvertedObject(String value, Class objectClassTypeClass, Object out)
     {
+        Object cleaned = out;
         if(converter.isNumberType(objectClassTypeClass))
-            out = converter.convertToNumber(value, objectClassTypeClass);
+            cleaned = converter.convertToNumber(value, objectClassTypeClass);
         if (converter.isBoolean(objectClassTypeClass))
-            out = converter.convertToBoolean(value);
+            cleaned = converter.convertToBoolean(value);
         if (converter.isBigType(objectClassTypeClass))
-            out = converter.convertToBig(value, objectClassTypeClass);
+            cleaned = converter.convertToBig(value, objectClassTypeClass);
         if (converter.isByte(objectClassTypeClass))
-            out = converter.convertToByte(value);
+            cleaned = converter.convertToByte(value);
         if(converter.isCharOrString(objectClassTypeClass))
-            out = converter.convertToStringOrChar(value, objectClassTypeClass);
-        return out;
+            cleaned = converter.convertToStringOrChar(value, objectClassTypeClass);
+        return cleaned;
     }
 }

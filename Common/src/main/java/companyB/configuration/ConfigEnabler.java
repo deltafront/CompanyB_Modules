@@ -47,13 +47,13 @@ public class ConfigEnabler
         final CustomMapper customMapper = new CustomMapper();
         if(!property_mappings.containsKey(filename))
         {
-            Map<String,String>props = customPropertiesReader.read(filename);
+            final Map<String,String>props = customPropertiesReader.read(filename);
             property_mappings.put(filename,props);
-            LOGGER.trace(String.format("Hashing all properties for properties file '%s'.",filename));
+            LOGGER.trace("Hashing all properties for properties file '{}'.",filename);
         }
-        Map<String,String>properties = property_mappings.get(filename);
+        final Map<String,String>properties = property_mappings.get(filename);
         Validate.notEmpty(properties,"Properties contain no elements.");
-        Map<String,Map<String,String>>mappings = customMapper.getMappings(properties);
+        final Map<String,Map<String,String>>mappings = customMapper.getMappings(properties);
         Validate.notEmpty(mappings,"Mappings are empty.");
         mapping = mappings.get(family);
         Validate.notEmpty(mappings,"Mappings are empty.");
@@ -69,7 +69,7 @@ public class ConfigEnabler
     public Object getValue(String key, Object defaultValue)
     {
         Validate.notNull(defaultValue,"Default value must be supplied.");
-        LOGGER.trace(String.format("Getting value for key '%s' [default = '%s']",key,defaultValue));
+        LOGGER.trace("Getting value for key '{}' [default = '{}']",key,defaultValue);
         Object value;
         try
         {
@@ -79,7 +79,7 @@ public class ConfigEnabler
         {
             value = defaultValue;
         }
-        LOGGER.debug(String.format("Returning value '%s' for key '%s'.",String.valueOf(value),key));
+        LOGGER.debug("Returning value '{}' for key '{}'.",String.valueOf(value),key);
         return value;
     }
 
@@ -92,7 +92,7 @@ public class ConfigEnabler
      */
     public String getString(String key, String defaultValue)
     {
-        String value = String.valueOf(getValue(key,defaultValue));
+        final String value = String.valueOf(getValue(key,defaultValue));
         return (0 == value.length()) ? null : value;
     }
     /**

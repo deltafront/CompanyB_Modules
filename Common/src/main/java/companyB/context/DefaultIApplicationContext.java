@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Default implementation of ApplicationContext. This implementation is meant to be thread-safe, backed by a Concurrent
@@ -42,44 +43,44 @@ public class DefaultIApplicationContext implements I_ApplicationContext
         this();
         for (ClassArgsContainer container : classArgsContainerList)
         {
-            Class c = container.get_Class();
-            String id = container.getId();
-            Object[] args = container.getArgs();
+            final Class c = container.get_Class();
+            final String id = container.getId();
+            final Object[] args = container.getArgs();
             Validate.notNull(c,"Container is null.");
             Validate.notBlank(id,"Id required.");
-            Object instance = factoryUtils.getInstance(c, args);
+            final Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
-            LOGGER.trace(String.format("Instantiated instance of '%s' (number of args: %d).",
-                    c.getCanonicalName(), args.length));
+            LOGGER.trace("Instantiated instance of '{}' (number of args: {}).",
+                    c.getCanonicalName(), args.length);
         }
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public <Value> boolean associate(String key, Value value)
+    public <Value> Boolean associate(String key, Value value)
     {
-        boolean inserted = false;
+        final AtomicBoolean inserted = new AtomicBoolean(false);
         if (!mapping.containsKey(key))
         {
             mapping.put(key, value);
-            inserted = true;
-            LOGGER.trace(String.format("Associating key %s with value %s ? %b.", key, String.valueOf(value), inserted));
+            inserted.getAndSet(true);
+            LOGGER.trace("Associating key {} with value {} ? {}.", key, String.valueOf(value), inserted);
         }
-        return inserted;
+        return inserted.get();
     }
 
     @Override
     public <Value> Value get(String key)
     {
         Value value = (Value) mapping.get(key);
-        LOGGER.trace(String.format("Returning value for key '%s' : [%s].", key, String.valueOf(value)));
+        LOGGER.trace("Returning value for key '{}' : [{}].", key, String.valueOf(value));
         return value;
     }
 
     @Override
     public Set<String> getKeys()
     {
-        LOGGER.trace(String.format("Returning %s keys.", mapping.keySet().size()));
+        LOGGER.trace("Returning {} keys.", mapping.keySet().size());
         return mapping.keySet();
     }
 
@@ -87,8 +88,8 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     public <T> T getInstance(Class<T> c, Object[] args, String id)
     {
         if (!mapping.containsKey(id)) mapping.put(id, factoryUtils.getInstance(c, args));
-        T out = (T) mapping.get(id);
-        LOGGER.trace(String.format("Instance of %s returned? %b", c.getCanonicalName(), null != out));
+        final T out = (T) mapping.get(id);
+        LOGGER.trace("Instance of %s returned? {}", c.getCanonicalName(), null != out);
         return out;
     }
 

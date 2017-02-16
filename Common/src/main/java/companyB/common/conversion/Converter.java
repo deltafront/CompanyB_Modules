@@ -131,9 +131,7 @@ public class Converter
     public boolean isBigType(Class c)
     {
         Validate.notNull(c,"Class is required.");
-        if (BigDecimal.class.equals(c))return true;
-        if (BigInteger.class.equals(c))return true;
-        return false;
+        return BigDecimal.class.equals(c) || BigInteger.class.equals(c);
     }
 
     /**
@@ -144,9 +142,7 @@ public class Converter
     public boolean isBoolean(Class c)
     {
         Validate.notNull(c,"Class is required.");
-        if(boolean.class.equals(c))return true;
-        if(Boolean.class.equals(c))return true;
-        return false;
+        return boolean.class.equals(c) || Boolean.class.equals(c);
     }
 
     /**
@@ -157,9 +153,7 @@ public class Converter
     public boolean isByte(Class c)
     {
         Validate.notNull(c,"Class is required.");
-        if(byte.class.equals(c))return true;
-        if(Byte.class.equals(c))return true;
-        return false;
+        return byte.class.equals(c) || Byte.class.equals(c);
     }
 
     /**
@@ -170,10 +164,9 @@ public class Converter
     public boolean isCharOrString(Class c)
     {
         Validate.notNull(c,"Class is required.");
-        if (char.class.equals(c))return true;
-        if (Character.class.equals(c))return true;
-        if(String.class.equals(c))return true;
-        return false;
+        return char.class.equals(c) ||
+                Character.class.equals(c) ||
+                String.class.equals(c);
     }
 
     /**
@@ -184,7 +177,7 @@ public class Converter
     public Byte convertToByte(String value)
     {
         Validate.notNull(value,"Value is required.");
-        Byte out = Byte.parseByte(value);
+        final Byte out = Byte.parseByte(value);
         logOut(out);
         return out;
     }
@@ -217,9 +210,10 @@ public class Converter
     {
         Validate.notNull(value,"Class is required.");
         Validate.notNull(classType,"Class type is required.");
-        Object out = null;
-        if(BigDecimal.class.equals(classType))out = new BigDecimal(value);
-        if(BigInteger.class.equals(classType))out = new BigInteger(value);
+        Object out = BigDecimal.class.equals(classType) ?
+                new BigDecimal(value) :
+                BigInteger.class.equals(classType) ?
+                        new BigInteger(value) : null;
         logOut(out);
         return (T) out;
     }
@@ -250,51 +244,58 @@ public class Converter
      */
     public Boolean convertToBoolean(String value)
     {
-        Validate.notNull(value,"Class is required.");
-        Boolean out = null;
-        if (trueValues.contains(value.toLowerCase()))out = Boolean.TRUE;
-        if (falseValues.contains(value.toLowerCase()))out = Boolean.FALSE;
+        Validate.notNull(value,"Value is required.");
+        final Boolean out = trueValues.contains(value.toLowerCase()) ?
+                Boolean.TRUE :
+                falseValues.contains(value.toLowerCase()) ?
+                        Boolean.FALSE : null;
         logOut(out);
         return out;
     }
 
     private void logOut(Object out)
     {
-        String outToString = coercePossibleNullStringValue(out);
-        String className = coercePossibleNullClassName(out);
-        LOGGER.debug(String.format("Returning value %s [%s].", outToString, className));
+        final String outToString = coercePossibleNullStringValue(out);
+        final String className = coercePossibleNullClassName(out);
+        LOGGER.debug("Returning value {} [{}].", outToString, className);
     }
     private String coercePossibleNullStringValue(Object object)
     {
-        if(null!=object)return String.valueOf(object);
-        return "null";
+        return (null!=object) ?
+                String.valueOf(object) :
+                "null";
     }
     private String coercePossibleNullClassName(Object object)
     {
-        if(null != object)return object.getClass().getCanonicalName();
-        return "null";
+        return (null != object) ?
+        object.getClass().getCanonicalName() :
+        "null";
     }
     private <T> Object getInteger(String value, Class<T> classType, Object out)
     {
-        if (int.class.equals(classType) || Integer.class.equals(classType)) out = Integer.parseInt(value);
-        return out;
+        return int.class.equals(classType) || Integer.class.equals(classType) ?
+                Integer.parseInt(value) :
+                out;
     }
 
     private <T> Object getDouble(String value, Class<T> classType, Object out)
     {
-        if (double.class.equals(classType) || Double.class.equals(classType)) out = Double.parseDouble(value);
-        return out;
+        return double.class.equals(classType) || Double.class.equals(classType) ?
+                Double.parseDouble(value) :
+                out;
     }
 
     private <T> Object getShort(String value, Class<T> classType, Object out)
     {
-        if (short.class.equals(classType) || Short.class.equals(classType)) out = Short.parseShort(value);
-        return out;
+        return  short.class.equals(classType) || Short.class.equals(classType) ?
+                Short.parseShort(value) :
+                out;
     }
 
     private <T> Object getLong(String value, Class<T> classType, Object out)
     {
-        if (long.class.equals(classType) || Long.class.equals(classType)) out = Long.parseLong(value);
-        return out;
+        return  long.class.equals(classType) || Long.class.equals(classType) ?
+                Long.parseLong(value) :
+                out;
     }
 }

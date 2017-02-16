@@ -55,8 +55,8 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     public String retrieve(String key)
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
-        String value = cache.get(key);
-        LOGGER.trace(String.format("Returning value %s associated with key %s.",key,value));
+        final String value = cache.get(key);
+        LOGGER.trace("Returning value {} associated with key {}.",key,value);
         return value;
     }
 
@@ -72,8 +72,8 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
         LOGGER.trace("Cache remove called.");
-        String value = cache.remove(key);
-        LOGGER.trace(String.format("Removing value %s associated with key %s.",value,key));
+        final String value = cache.remove(key);
+        LOGGER.trace("Removing value {} associated with key {}.",value,key);
         return value;
     }
 

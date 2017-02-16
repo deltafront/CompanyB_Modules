@@ -42,18 +42,18 @@ public class QueryMapper extends UtilityBase
     public Map<String,List<String>> mapRequestQuery(final String requestQuery)
     {
         String query = requestQuery;
-        Map<String,List<String>>mapping = new HashMap<>();
+        final Map<String,List<String>>mapping = new HashMap<>();
         if(query.contains("?"))query = query.replace("?","");
         while(query.contains("&&")) query = query.replace("&&","&");
         String[]keyValuePairs = getKeyValuePairs(query);
-        for(String keyValuePair : keyValuePairs)
+        for(final String keyValuePair : keyValuePairs)
         {
             key_value keyValue = getKeyValue(keyValuePair);
-            List<String>listing = getListing(keyValue.key,mapping);
+            final List<String>listing = getListing(keyValue.key,mapping);
             listing.add(keyValue.value);
             mapping.put(keyValue.key,listing);
-            LOGGER.trace(String.format("Added value '%s' to listing for key '%s'. Listing has %d elements."
-                    ,keyValue.value,keyValue.key,listing.size()));
+            LOGGER.trace("Added value '{}' to listing for key '{}'. Listing has {} elements."
+                    ,keyValue.value,keyValue.key,listing.size());
         }
         return mapping;
     }
@@ -70,7 +70,7 @@ public class QueryMapper extends UtilityBase
         if(mapping.containsKey(key)) return mapping.get(key);
         else
         {
-            List<String>listing = new LinkedList<>();
+            final List<String>listing = new LinkedList<>();
             mapping.put(key,listing);
             return getListing(key,mapping);
         }

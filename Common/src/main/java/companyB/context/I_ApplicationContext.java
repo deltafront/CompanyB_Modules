@@ -19,7 +19,7 @@ public interface I_ApplicationContext
      * @return True if value has been set.
      * @since 1.0.0
      */
-    public <Value> boolean associate(String key, Value value);
+    public <Value> Boolean associate(String key, Value value);
 
     /**
      * Gets the value associated with key in the present context.

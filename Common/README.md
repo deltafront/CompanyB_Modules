@@ -78,9 +78,6 @@ Instantiates classes; optionally provides singleton instances.
 #### Properties Utils
 Provides a simple wrapper for `java.util.Properties`. It allows a property to be retrieved using a single-line of code.
 
-#### Simple Regex Utils
-Contains utilities for evaluation of string content.
-
 #### ToStringUtils
 Provides custom representations of Iterables and Maps.
 

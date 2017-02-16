@@ -17,10 +17,11 @@ public class DefaultLogMessageFormatter implements LogMessageFormatter
         Validate.notNull(attributes,"Attributes are required!");
         Validate.notNull(eventCode,"Event Code is required.");
         Validate.notNull(message,"Message for this event is required.");
-        String attributesMessage = "{";
-        for(final String key : attributes.stringPropertyNames())
-            attributesMessage += String.format("%s=%s,",key,attributes.getProperty(key));
-        attributesMessage += String.format("message=%s}",message);
+        final StringBuilder attributesMessage = new StringBuilder("{");
+        attributes.stringPropertyNames().forEach((key)->{
+            attributesMessage.append(String.format("%s=%s,",key,attributes.getProperty(key)));
+        });
+        attributesMessage.append(String.format("message=%s}",message));
         return String.format("%s %s", eventCode.toString(),attributesMessage);
     }
 }

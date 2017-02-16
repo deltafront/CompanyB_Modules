@@ -85,40 +85,27 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
     public void remove()
     {
         if(!nextFlag)
-        {
             throw new IllegalStateException("A call to 'next' needs to be made before a call to remove.");
-        }
         if(hasMoreElements())
-        {
             _nextElement();
-        }
         nextFlag = false;
     }
 
     private E _nextElement()
     {
         nextFlag = true;
-        if (!hasMoreElements())
-        {
-            return null;
-        }
-        else
-        {
-            return _getUnMarkedNode(head);
-        }
+        return  (hasMoreElements()) ?
+                _getUnMarkedNode(head) :
+                null;
     }
 
     private E _getUnMarkedNode(node<E> _node)
     {
-        if (!_node.marked)
-        {
-            _node.marked = true;
-            return _node._this;
-        }
-        else
-        {
-            return _getUnMarkedNode(_node.next);
-        }
+        final E out = (_node.marked) ?
+                _getUnMarkedNode(_node.next) :
+                _node._this;
+        if (!_node.marked) _node.marked = true;
+        return out;
     }
 
     private boolean _hasUnmarkedNodes(node<E> _node)
@@ -141,13 +128,7 @@ class node<E>
 
     void addNext(E _next)
     {
-        if (next == null)
-        {
-            next = new node<>(_next);
-        }
-        else
-        {
-            next.addNext(_next);
-        }
+        if (next == null) next = new node<>(_next);
+        else next.addNext(_next);
     }
 }

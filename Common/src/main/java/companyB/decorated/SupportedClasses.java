@@ -36,12 +36,12 @@ public class SupportedClasses
      */
     public String getSupportedClassesList()
     {
-        String out = "[";
-        for(Class c : supportedClasses) out += String.format("%s,",c.getCanonicalName());
-        int end = out.lastIndexOf(",");
-        out = out.substring(0,end);
-        out += "]";
-        LOGGER.trace(String.format("Returning list of supported classes:\n%s",out));
-        return out;
+        final StringBuilder s = new StringBuilder("[");
+        for(final Class c : supportedClasses) s.append(String.format("%s,",c.getCanonicalName()));
+        int end = s.lastIndexOf(",");
+        s.append("]");
+        final String out = s.substring(0,end);
+        LOGGER.trace("Returning list of supported classes:\n{}]",out);
+        return out + "]";
     }
 }

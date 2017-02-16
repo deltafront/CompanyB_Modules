@@ -43,7 +43,7 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
         Validate.notBlank(key, "Non-blank key must be provided.");
         getConnection();
         connection.set(key, normalizer.cleanNullStringValue(value));
-        LOGGER.trace(String.format("Associating key %s with value %s.",key,value));
+        LOGGER.trace("Associating key {} with value {}.",key,value);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
         getConnection();
-        String value = normalizer.dirtyNullStringValue(connection.get(key));
-        LOGGER.trace(String.format("Returning value %s associated with key %s.",key,value));
+        final String value = normalizer.dirtyNullStringValue(connection.get(key));
+        LOGGER.trace("Returning value {} associated with key {}.",key,value);
         return value;
     }
 
@@ -70,9 +70,9 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
         Validate.notBlank(key,"Non-blank key must be provided.");
         LOGGER.trace("Cache remove called.");
         getConnection();
-        String value = normalizer.dirtyNullStringValue(connection.get(key));
-        Long removed = connection.del(key);
-        LOGGER.trace(String.format("Removing %d value's (%s) associated with key %s.",removed,value,key));
+        final String value = normalizer.dirtyNullStringValue(connection.get(key));
+        final Long removed = connection.del(key);
+        LOGGER.trace("Removing {} value's ({}) associated with key {}.",removed,value,key);
         return value;
     }
 
@@ -84,8 +84,8 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
     public String ping()
     {
         getConnection();
-        String out = connection.ping();
-        LOGGER.trace(String.format("Result of ping: %s",out));
+        final String out = connection.ping();
+        LOGGER.trace("Result of ping: {}",out);
         return out;
     }
 
