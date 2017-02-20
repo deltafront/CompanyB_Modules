@@ -1,7 +1,5 @@
 package companyB.jdbc;
 
-import companyB.common.utils.FactoryUtils;
-import companyB.common.utils.FieldUtils;
 import companyB.common.utils.UtilityBase;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -14,31 +12,19 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
- *
+ * This class will handle CRUD DB operations using SQL queries.
+ * For the time being, calling stored procedures is outside of the scope of this class.
  * @author C.A. Burrell deltafront@gmail.com
- * @since 3.0.0
+ * @since 2.3.0
  */
 public class JdbcUtils extends UtilityBase
 {
-    private final FieldUtils fieldUtils;
-    private final FactoryUtils factoryUtils;
     private final DataSource dataSource;
     private enum Operation
     {
         insert,update,query
     }
 
-
-    /**
-     * @param dataSource Datasource that will ultimately return a valid connection.
-     * @since 3.0.0
-     */
-    public JdbcUtils(DataSource dataSource)
-    {
-        this.dataSource = dataSource;
-        this.factoryUtils = new FactoryUtils();
-        this.fieldUtils = new FieldUtils();
-    }
 
     /**
      * @param jdbcUsername Username used to connect to a database.
@@ -55,8 +41,6 @@ public class JdbcUtils extends UtilityBase
         basicDataSource.setUrl(jdbcUrl);
         basicDataSource.setDriverClassName(jdbcDriverClass);
         this.dataSource = basicDataSource;
-        this.factoryUtils = new FactoryUtils();
-        this.fieldUtils = new FieldUtils();
     }
 
     /**
@@ -134,46 +118,6 @@ public class JdbcUtils extends UtilityBase
         LOGGER.debug(String.format("Number of rows updated: %d",updated));
         return updated;
     }
-
-    /**
-     * Executes Stored Procedure in Database.
-     * @param call Formatted call to be executed.
-     * @param callableParameters List of CallableParameters needed for the Stored Procedure.
-     * @return  A list containing all of the result mappings of the query. The first element of this list
-     *          will be any registered result parameters returned by the procedure.
-     */
-    public List<Map<String,Object>> executeCall(String call, CallableParameter...callableParameters)
-    {
-        List<Map<String,Object>>mappings = new LinkedList<>();
-        try(Connection connection = dataSource.getConnection();
-            CallableStatement callableStatement = connection.prepareCall(call))
-        {
-            final List<String>outs = new LinkedList<>();
-            final Map<String,Object> mapping = new HashMap<>();
-            IntStream.range(0,callableParameters.length).forEach(index ->
-            {
-                CallableParameter callableParameter = callableParameters[index];
-                setCall(callableStatement, callableParameter, outs);
-            });
-            if(callableStatement.execute())
-            {
-                outs.forEach(out_parameter ->
-                {
-                    Object value = getOutValue(callableStatement, out_parameter);
-                    mapping.put(out_parameter,value);
-                });
-                mappings.add(mapping);
-                mappings.addAll(mappingsFromResultSet(callableStatement.getResultSet()));
-            }
-        }
-        catch (SQLException e)
-        {
-            handleSqlException(e);
-        }
-        LOGGER.debug(String.format("Returning %s mappings.", mappings.size()));
-        return mappings;
-    }
-
 
     private<TargetClass> List<TargetClass> fromResultSet(ResultSet resultSet, ResultSetTransformer<TargetClass>resultSetTransformer)
     {
@@ -355,6 +299,7 @@ public class JdbcUtils extends UtilityBase
         }
         return (T)out;
     }
+
     private void handleSqlException(SQLException e)
     {
         final StringBuilder out = new StringBuilder(e.getMessage());

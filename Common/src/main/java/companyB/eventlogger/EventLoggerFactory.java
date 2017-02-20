@@ -94,8 +94,8 @@ public class EventLoggerFactory
                         LogMessageFormatter logMessageFormatter = getLogMessageFormatter(eventLog);
                         EventLogger eventLogger = getLogger(key).withLogMessageFormatter(logMessageFormatter);
                         field.set(instance,eventLogger);
-                        LOGGER.trace(String.format("Decorated field %s.%s (key=%s) with instance of EventLogger",
-                                instance.getClass().getCanonicalName(),field.getName(),key));
+                        LOGGER.trace("Decorated field {}.{} (key={}) with instance of EventLogger",
+                                instance.getClass().getCanonicalName(),field.getName(),key);
                     }
                 }
             }

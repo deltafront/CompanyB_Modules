@@ -29,7 +29,7 @@ public class EncryptedDecorator
         try
         {
             out = decorate(c.newInstance());
-            LOGGER.trace(String.format("Returning decorated instance of '%s'.",c.getCanonicalName()));
+            LOGGER.trace("Returning decorated instance of '{}'.",c.getCanonicalName());
         }
         catch (InstantiationException | IllegalAccessException  e)
         {
@@ -78,7 +78,7 @@ public class EncryptedDecorator
                 encrypted.algorithm().encrypt.apply(((EncryptedWrapper)fromClass).getValue()) :
                 encrypted.algorithm().encrypt.apply(String.valueOf(fromClass));
         field.set(instance,encryptedValue);
-        LOGGER.trace(String.format("Encrypting value on field %s using algorithm %s.",
-                field.getName(), encrypted.algorithm().name()));
+        LOGGER.trace("Encrypting value on field '{}' using algorithm '{}'.",
+                field.getName(), encrypted.algorithm().name());
     }
 }

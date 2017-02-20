@@ -134,12 +134,12 @@ public class BeanDecorator
     private <T> void decorateField(T instance, Properties properties, Field field, Decorated decorated) throws UnsupportedTypeException
     {
         final String name = getName(field,decorated);
-        LOGGER.debug(String.format("Resolved Name: %s",name));
+        LOGGER.debug("Resolved Name: {}",name);
         final String value = getValue(name,decorated,properties);
-        LOGGER.debug(String.format("Resolved Value: %s",value));
+        LOGGER.debug("Resolved Value: {}",value);
         final Object coerced = coerce(value,field.getType());
         final String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
-        LOGGER.debug(String.format("Coerced to %s [instance of %s]",String.valueOf(coerced),classType));
+        LOGGER.debug("Coerced to {} [instance of {}]",String.valueOf(coerced),classType);
         if(null != coerced && 0 != String.valueOf(coerced).length()) fieldUtils.setField(field, instance, coerced);
     }
 

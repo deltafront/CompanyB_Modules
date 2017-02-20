@@ -46,7 +46,7 @@ public class ClassArgsContainer
         }
         catch (ClassNotFoundException e)
         {
-            LOGGER.error(String.format("Class '%s' could not be found!",fqcn),e);
+            LOGGER.error("Class '{}' could not be found!\n{}",fqcn,e);
             throw e;
         }
     }

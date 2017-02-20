@@ -1,6 +1,5 @@
 package companyB.jdbc.test;
 
-import companyB.jdbc.CallableParameter;
 import companyB.jdbc.JdbcUtils;
 import companyB.jdbc.ResultSetTransformer;
 import org.testng.annotations.AfterMethod;
@@ -8,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -48,23 +46,20 @@ public class JdbcTest
             }
             return out;
         };
-        jdbcUtils = new JdbcUtils("sa", "", "jdbc:h2:~/test", "org.h2.Driver");
+        jdbcUtils = new JdbcUtils("sa", "", "jdbc:h2:~/test.db", "org.h2.Driver");
         final String createTable = "DROP TABLE IF EXISTS TEST;" +
                 "CREATE TABLE TEST(ID INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(250) NOT NULL UNIQUE);";
         final Integer result = jdbcUtils.update(createTable);
         assertNotNull(result);
         assertTrue("Result is -1!", result > -1L);
-        //final String allCapsAlias = "CREATE ALIAS IF NOT EXISTS allCaps FOR \"companyB.jdbc.test.JdbcH2TestSprocs.allCaps\";";
-        //jdbcUtils.update(allCapsAlias);
-
+        runUpdate(createTable);
     }
 
     @AfterMethod
     public void after()
     {
         final String dropTable = "DROP TABLE IF EXISTS TEST;";
-        final Integer result = jdbcUtils.update(dropTable);
-        assertTrue(result > -1L);
+        runUpdate(dropTable);
     }
 
     public void insertSqlHappyPath()
@@ -116,14 +111,13 @@ public class JdbcTest
     {
         doQuery(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
     }
-    public void simpleCall()
+
+    private void runUpdate(String sql)
     {
-        CallableParameter in_callableParameter = new CallableParameter("string", "string");
-        CallableParameter out_callableParameter = new CallableParameter("result", Types.VARCHAR);
-
+        final Integer result = jdbcUtils.update(sql);
+        assertNotNull(result);
+        assertTrue("Result is -1!", result > -1L);
     }
-
-
     private void doUpdate(Boolean runFailedCase, Boolean usePreparedStatement)
     {
         //insert first row
