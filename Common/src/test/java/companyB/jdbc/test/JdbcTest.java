@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -47,20 +48,20 @@ public class JdbcTest
             return out;
         };
         jdbcUtils = new JdbcUtils("sa", "", "jdbc:h2:~/test.db", "org.h2.Driver");
-        final String createTable = "DROP TABLE IF EXISTS TEST;" +
-                "CREATE TABLE TEST(ID INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(250) NOT NULL UNIQUE);";
-        final Integer result = jdbcUtils.update(createTable);
-        assertNotNull(result);
-        assertTrue("Result is -1!", result > -1L);
-        runUpdate(createTable);
+        final List<String> createStatements = new LinkedList<>();
+        createStatements.add("DROP TABLE IF EXISTS TEST;" +
+                "CREATE TABLE TEST(ID INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(250) NOT NULL UNIQUE);");
+        createStatements.forEach(this::runUpdate);
     }
 
     @AfterMethod
     public void after()
     {
-        final String dropTable = "DROP TABLE IF EXISTS TEST;";
-        runUpdate(dropTable);
+        final List<String>dropStatements = new LinkedList<>();
+        dropStatements.add("DROP TABLE IF EXISTS TEST;");
+        dropStatements.forEach(this::runUpdate);
     }
+
 
     public void insertSqlHappyPath()
     {
@@ -102,14 +103,23 @@ public class JdbcTest
         doUpdate(RUN_FAILED_CASE,USE_PREPARED_STATEMENT);
     }
 
-    public void querySql()
+    public void querySqlHappyPath()
     {
         doQuery(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
     }
 
-    public void queryPreparedStatement()
+    public void queryPreparedStatementHappyPath()
     {
         doQuery(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
+    }
+    public void querySqlFailure()
+    {
+        doQuery(SUCCESS_NOT_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
+    }
+
+    public void queryPreparedStatementFailure()
+    {
+        doQuery(SUCCESS_NOT_EXPECTED, USE_PREPARED_STATEMENT);
     }
 
     private void runUpdate(String sql)
@@ -172,12 +182,14 @@ public class JdbcTest
     {
         Long id = doInsert(true, usePreparedStatement);
         assertTrue(id > -1L);
+        final String tableName = (successExpected) ?
+                "TEST" : "FOO";
         final String sql = (usePreparedStatement) ?
-                "SELECT NAME, ID FROM TEST WHERE NAME=?" :
-                "SELECT NAME, ID FROM TEST WHERE NAME='FOO'";
+                "SELECT NAME, ID FROM {} WHERE NAME=?" :
+                "SELECT NAME, ID FROM {} WHERE NAME='FOO'";
         final List<TestObj> results = (usePreparedStatement) ?
-                jdbcUtils.query(sql, resultSetTransformer, "FOO") :
-                jdbcUtils.query(sql, resultSetTransformer);
+                jdbcUtils.query(sql.replace("{}",tableName), resultSetTransformer, "FOO") :
+                jdbcUtils.query(sql.replace("{}",tableName), resultSetTransformer);
         if (successExpected)
         {
             assertTrue(results.size() == 1);

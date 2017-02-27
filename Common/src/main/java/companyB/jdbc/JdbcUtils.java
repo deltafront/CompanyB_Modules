@@ -8,8 +8,6 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 /**
  * This class will handle CRUD DB operations using SQL queries.
@@ -20,6 +18,7 @@ import java.util.stream.IntStream;
 public class JdbcUtils extends UtilityBase
 {
     private final DataSource dataSource;
+    private final JdbcExceptionUtils jdbcExceptionUtils;
     private enum Operation
     {
         insert,update,query
@@ -41,6 +40,7 @@ public class JdbcUtils extends UtilityBase
         basicDataSource.setUrl(jdbcUrl);
         basicDataSource.setDriverClassName(jdbcDriverClass);
         this.dataSource = basicDataSource;
+        this.jdbcExceptionUtils = new JdbcExceptionUtils();
     }
 
     /**
@@ -128,44 +128,10 @@ public class JdbcUtils extends UtilityBase
         }
         catch (SQLException e)
         {
-            handleSqlException(e);
+            jdbcExceptionUtils.handleSqlException(e,LOGGER);
         }
         LOGGER.debug("Returning {} elements.", list.size());
         return list;
-    }
-
-    private List<Map<String,Object>> mappingsFromResultSet(ResultSet resultSet)
-    throws SQLException
-    {
-        final List<Map<String,Object>>mappings = new LinkedList<>();
-        final ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-        while (resultSet.next())mappings.add(mapFromResultSet(resultSet,resultSetMetaData));
-        LOGGER.trace(String.format("Returning %d mappings.", mappings.size()));
-        return mappings;
-    }
-
-    private Map<String,Object>mapFromResultSet(ResultSet resultSet, ResultSetMetaData resultSetMetaData)
-            throws SQLException
-    {
-        final Map<String,Object>mapping = new HashMap<>();IntStream.rangeClosed(1, resultSetMetaData.getColumnCount()).forEach(index ->
-            getResultSetObject(resultSet, resultSetMetaData, mapping, index));
-        LOGGER.trace(String.format("Returning mapping with %s elements.", mapping.size()));
-        return mapping;
-    }
-
-    private void getResultSetObject(ResultSet resultSet, ResultSetMetaData resultSetMetaData, Map<String, Object> mapping, int index)
-    {
-        try
-        {
-            final String name = resultSetMetaData.getColumnName(index);
-            final Object value = resultSet.getObject(name);
-            LOGGER.debug(String.format("Adding mapping: %s=%s", name,value));
-            mapping.put(name,value);
-        }
-        catch (SQLException e)
-        {
-            handleSqlException(e);
-        }
     }
 
     private Long getGeneratedKey(Statement statement) throws SQLException
@@ -192,63 +158,16 @@ public class JdbcUtils extends UtilityBase
     }
     private PreparedStatement prepareStatement(Connection connection, String sql, Boolean isInsert) throws SQLException
     {
-        return (isInsert) ?
+        return isInsert ?
                 connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) :
                 connection.prepareStatement(sql);
     }
-    private void doReplace(PreparedStatement statement, Object[] replacements)
+    private void doReplace(PreparedStatement statement, Object[] replacements) throws SQLException
     {
-        IntStream.range(0, replacements.length).forEach(index ->
-        {
-            final Object value = replacements[index];
-            replacePreparedStatement(statement,index+1,value);
-        });
-    }
-    private void replacePreparedStatement(PreparedStatement statement, Integer index, Object value)
-    {
-        try
-        {
-            statement.setObject(index,value);
-        }
-        catch (SQLException e)
-        {
-            handleSqlException(e);
-        }
-    }
-    private Object getOutValue(CallableStatement callableStatement, String out_parameter)
-    {
-        Object value = null;
-        try
-        {
-            value = callableStatement.getObject(out_parameter);
-        }
-        catch (SQLException e)
-        {
-            handleSqlException(e);
-        }
-        LOGGER.debug(String.format("Returning value for out parameter '%s' : %s'.",out_parameter,value));
-        return value;
-
+        for(int i = 0; i < replacements.length; i++)
+            statement.setObject(i +1,replacements[i]);
     }
 
-    private void  setCall(CallableStatement callableStatement, CallableParameter callableParameter,List<String>outs)
-    {
-        try
-        {
-            final CallableParameter.ParameterType parameterType = callableParameter.getParameterType();
-            if(CallableParameter.ParameterType.IN.equals(parameterType))
-                callableStatement.setObject(callableParameter.getName(), callableParameter.getValue());
-            else
-            {
-                callableStatement.registerOutParameter(callableParameter.getName(), callableParameter.getSqlType());
-                outs.add(callableParameter.getName());
-            }
-        }
-        catch (SQLException e)
-        {
-            handleSqlException(e);
-        }
-    }
     @SuppressWarnings("unchecked")
     private <T, TargetClass> T insertUpdateQuery(String sql, Operation operation, ResultSetTransformer<TargetClass>resultSetTransformer, Object...replacements)
     {
@@ -262,20 +181,19 @@ public class JdbcUtils extends UtilityBase
             switch (operation)
             {
                 case query:
-                    ResultSet resultSet = (isPreparedStatement) ?
+                    ResultSet resultSet = isPreparedStatement ?
                             ((PreparedStatement)statement).executeQuery() :
                             statement.executeQuery(sql);
                     out = fromResultSet(resultSet,resultSetTransformer);
                     break;
                 case update:
-                    out = (isPreparedStatement) ?
+                    out = isPreparedStatement ?
                             ((PreparedStatement)statement).executeUpdate() :
                             statement.executeUpdate(sql);
                     break;
                 case insert:
-                    Boolean inserted = (isPreparedStatement) ?
-                            ((PreparedStatement)statement).execute() :
-                            statement.execute(sql);
+                    if(isPreparedStatement) ((PreparedStatement)statement).execute();
+                    else statement.execute(sql);
                     out = getGeneratedKey(statement);
                     break;
             }
@@ -295,18 +213,9 @@ public class JdbcUtils extends UtilityBase
                     out = new LinkedList<HashMap<String,Object>>();
                     break;
             }
-            handleSqlException(e);
+            jdbcExceptionUtils.handleSqlException(e,LOGGER);
         }
         return (T)out;
-    }
-
-    private void handleSqlException(SQLException e)
-    {
-        final StringBuilder out = new StringBuilder(e.getMessage());
-        e.forEach(ex -> out.append(String.format("\n%s", ex.getMessage())));
-        out.trimToSize();
-        e.printStackTrace();
-        LOGGER.error(out.toString(),e);
     }
 
 }
