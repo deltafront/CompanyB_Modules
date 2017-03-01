@@ -11,7 +11,6 @@ import java.util.Iterator;
  * @author C.A. Burrell deltafront@gmail.com
  * @version 1.0.0
  */
-@SuppressWarnings("PMD.UselessParentheses")
 public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 {
     private node<E> head;
@@ -24,7 +23,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return true if there are more elements to return
-     * @since 1.0.0
      */
     public boolean hasMoreElements()
     {
@@ -33,7 +31,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return the next element in the order to which they were added to the list (FiFo)
-     * @since 1.0.0
      */
     public E nextElement()
     {
@@ -42,7 +39,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return true if there are more elements to return
-     * @since 1.0.0
      */
     public boolean hasNext()
     {
@@ -51,7 +47,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
 
     /**
      * @return the next element in the order to which they were added to the list (FiFo)
-     * @since 1.0.0
      */
     public E next()
     {
@@ -62,7 +57,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      * Adds an element to the list
      *
      * @param in element that is added
-     * @since 1.0.0
      */
     public void add(E in)
     {
@@ -80,7 +74,6 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
      * Removes next element from consideration.
      * @throws java.lang.IllegalStateException If at least one call to 'next' has not been made prior to the current
      * invocation of this method.
-     * @since 1.0.0
      */
     public void remove()
     {
@@ -94,14 +87,14 @@ public class NodeIterEnum<E> implements Enumeration<E>, Iterator<E>
     private E _nextElement()
     {
         nextFlag = true;
-        return  (hasMoreElements()) ?
+        return  hasMoreElements() ?
                 _getUnMarkedNode(head) :
                 null;
     }
 
     private E _getUnMarkedNode(node<E> _node)
     {
-        final E out = (_node.marked) ?
+        final E out = _node.marked ?
                 _getUnMarkedNode(_node.next) :
                 _node._this;
         if (!_node.marked) _node.marked = true;

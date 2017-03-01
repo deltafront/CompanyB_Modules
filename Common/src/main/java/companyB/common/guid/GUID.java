@@ -12,7 +12,7 @@ import java.util.function.Function;
 /**
  * Class for creating simple Globally unique identifiers.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since  1.2.1
+ * @version 1.0.0
  */
 public class GUID implements Serializable
 {
@@ -22,18 +22,15 @@ public class GUID implements Serializable
 
     /**
      * @param guid Value of Guid.
-     * @since 1.2.1
      */
     public GUID(Long guid)
     {
         this();
         this.guid = guid;
-
     }
 
     /**
      * No-args constructor needed for Serialization.
-     * @since 1.2.1
      */
     public GUID()
     {
@@ -48,25 +45,29 @@ public class GUID implements Serializable
 
     /**
      * @return Read-only copy value of GUID.
-     * @since 1.2.1
      */
     public Long getGuid()
     {
        return Long.valueOf(String.valueOf(guid));
     }
 
+    /**
+     * @return String representation of this GUID.
+     */
     public String getStringGuid()
     {
         return String.valueOf(guid);
     }
 
+    /**
+     * @return GUID that has been hashed using MD2, MD5, SHA1, SHA256, SHA384 or SHA512.
+     */
     public String getHashedGuid()
     {
-        final Integer upper = 6;
-        final Integer random = new Random(System.currentTimeMillis()).nextInt(upper);
+        final Integer random = new Random(System.currentTimeMillis()).nextInt(functionMap.size()+1);
         return functionMap.containsKey(random) ?
                functionMap.get(random).apply(getStringGuid()) :
-                DigestUtils.sha512Hex( getStringGuid());
+                DigestUtils.sha512Hex(getStringGuid());
     }
 
 }

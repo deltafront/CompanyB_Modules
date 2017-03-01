@@ -7,7 +7,12 @@ import org.testng.annotations.Test;
 
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.IntStream;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 @Test(groups = {"unit","node.iter.enum","common"})
@@ -20,7 +25,7 @@ public class NodeIterEnumTest
     private NodeIterEnum<String> nie;
 
     @BeforeMethod
-    public void setUp() throws Exception
+    public void before() throws Exception
     {
         nie = new NodeIterEnum<>();
         e_iter = nie;
@@ -30,7 +35,7 @@ public class NodeIterEnumTest
     }
 
     @AfterMethod
-    public void tearDown() throws Exception
+    public void after() throws Exception
     {
         iter_e = null;
         e_iter = null;
@@ -39,179 +44,156 @@ public class NodeIterEnumTest
         nie = null;
     }
 
-    public void testHasMoreElementsTrue()
+    public void hasMoreElementsTrue()
     {
         nie.add(test_string);
-        assertTrue(e_iter.hasMoreElements());
-        assertEquals(test_string, e_iter.nextElement());
+        assertThat(e_iter.hasMoreElements(),is(true));
+        assertThat(test_string,is(equalTo(e_iter.nextElement())));
     }
 
-    public void testHasMoreElementsTrueIterate()
+    public void hasMoreElementsTrueIterate()
     {
         nie.add(test_string);
         nie.add(fake_string);
         String next = e_iter.nextElement();
-        assertTrue(e_iter.hasMoreElements());
-        assertEquals(test_string, next);
+        assertThat(e_iter.hasMoreElements(),is(true));
+        assertThat(test_string,is(equalTo(next)));
     }
 
-    public void testHasMoreElementsFalse()
+    public void hasMoreElementsFalse()
     {
-        assertFalse(e_iter.hasMoreElements());
-        assertNull(e_iter.nextElement());
+        assertThat(e_iter.hasMoreElements(),is(false));
+        assertThat(e_iter.nextElement(),is(nullValue()));
     }
 
-    public void testHasMoreElementsFalseIterate()
+    public void hasMoreElementsFalseIterate()
     {
         nie.add(test_string);
         e_iter.nextElement();
-        assertFalse(e_iter.hasMoreElements());
+        assertThat(e_iter.hasMoreElements(),is(false));
     }
 
-    public void testNextElementTrue()
+    public void nextElementTrue()
     {
         nie.add(test_string);
         nie.add(fake_string);
-        assertEquals(e_iter.nextElement(), test_string);
-        assertEquals(e_iter.nextElement(), fake_string);
-        assertFalse(e_iter.hasMoreElements());
+        assertThat(e_iter.nextElement(), is(equalTo(test_string)));
+        assertThat(e_iter.nextElement(), is(equalTo(fake_string)));
+        assertThat(e_iter.hasMoreElements(),is(false));
     }
 
-    public void testNextElementFalse()
+    public void nextElementFalse()
     {
         nie.add(test_string);
-        assertFalse(e_iter.nextElement().equals(fake_string));
+        assertThat(e_iter.nextElement(), is(not(equalTo(fake_string))));
     }
 
-    public void testHasNextTrue()
+    public void hasNextTrue()
     {
         nie.add(test_string);
-        assertTrue(iter_e.hasNext());
+        assertThat(iter_e.hasNext(),is(true));
     }
 
-    public void testHasNextTrueIterate()
+    public void hasNextTrueIterate()
     {
         nie.add(test_string);
         nie.add(fake_string);
         iter_e.next();
-        assertTrue(iter_e.hasNext());
+        assertThat(iter_e.hasNext(),is(true));
     }
 
-    public void testHasNextFalse()
+    public void hasNextFalse()
     {
         assertFalse(iter_e.hasNext());
     }
 
-    public void testHasNextFalseIterate()
+    public void hasNextFalseIterate()
     {
         nie.add(test_string);
         nie.add(fake_string);
         iter_e.next();
         iter_e.next();
-        assertFalse(iter_e.hasNext());
+        assertThat(iter_e.hasNext(),is(false));
     }
 
-    public void testNextTrue()
+    public void nextTrue()
     {
         nie.add(test_string);
         nie.add(fake_string);
-        assertEquals(iter_e.next(), test_string);
-        assertEquals(iter_e.next(), fake_string);
+        assertThat(iter_e.next(), is(equalTo(test_string)));
+        assertThat(iter_e.next(), is(equalTo(fake_string)));
     }
 
-    public void testNextFalse()
+    public void nextFalse()
     {
         nie.add(test_string);
-        assertFalse(iter_e.next().equals(fake_string));
+        assertThat(iter_e.next(),is(not(equalTo(fake_string))));
     }
 
-    public void testAdd()
+    public void add()
     {
         nie.add(test_string);
-        assertTrue(iter_e.hasNext());
+        assertThat(iter_e.hasNext(),is(true));
     }
 
     public void loadIter()
     {
-        String[] strings = getStrings();
-        for (String string : strings)
-        {
-            nie.add(string);
-        }
-        int count = 0;
-        while (iter_e.hasNext())
-        {
-            assertEquals(strings[count], iter_e.next());
-            count++;
-        }
-        assertEquals(strings.length, count);
+        testStrings(true);
     }
 
     public void loadEnum()
     {
-        String[] strings = getStrings();
-        for (String string : strings)
-        {
-            nie.add(string);
-        }
-        int count = 0;
-        while (e_iter.hasMoreElements())
-        {
-            assertEquals(strings[count], e_iter.nextElement());
-            count++;
-        }
-        assertEquals(strings.length, count);
+        testStrings(false);
     }
-    public void testRemove()
+    public void remove()
     {
         nie.add(test_string);
         nie.add(fake_string);
 
         iter_e.next();
         iter_e.remove();
-        assertFalse(iter_e.hasNext());
-        assertNull(iter_e.next());
+        assertThat(iter_e.hasNext(),is(false));
+        assertThat(iter_e.next(),is(nullValue()));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
-    public void testRemoveNoInitialCallToNext()
+    public void removeNoInitialCallToNext()
     {
         nie.add(test_string);
         nie.add(fake_string);
-
         iter_e.remove();
         fail("IllegalStateException should have been thrown - 'next' was not called before 'remove'.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
-    public void testRemoveSubsequentCallToRemove()
+    public void removeSubsequentCallToRemove()
     {
         nie.add(test_string);
         nie.add(fake_string);
-
         iter_e.next();
         iter_e.remove();
         iter_e.remove();
         fail("IllegalStateException should have been thrown - 'next' was not called immediately before 'remove'.");
     }
 
-    public void testRemoveAfterAllGone()
+    public void removeAfterAllGone()
     {
         nie.add(test_string);
         iter_e.next();
         iter_e.remove();
-        assertFalse(iter_e.hasNext());
-        assertNull(iter_e.next());
+        assertThat(iter_e.hasNext(),is(false));
+        assertThat(iter_e.next(),is(nullValue()));
     }
 
-    private String[] getStrings()
+    private List<String> testStrings(Boolean testIterator)
     {
-        String[] strings = new String[1000];
-        for (int i = 0; i < 1000; i++)
-        {
-            String string = "String" + i;
-            strings[i] = string;
-        }
+        final List<String>strings = new LinkedList<>();
+        IntStream.range(0,1000).forEach((index)-> nie.add(String.format("String %s",index)));
+        IntStream.range(0,1000).forEach((index)->{
+            final String expected = String.format("String %s",index);
+            final String actual = testIterator ? iter_e.next() : e_iter.nextElement();
+            assertThat(expected, is(equalTo(actual)));
+        });
         return strings;
     }
 }

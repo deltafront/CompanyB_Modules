@@ -7,7 +7,6 @@ import java.util.Properties;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 2.0.0
  */
-@SuppressWarnings("PMD")
 public interface LogMessageFormatter
 {
     /**
@@ -18,5 +17,5 @@ public interface LogMessageFormatter
      * @return Formatted log message
      * @since 2.0.0
      */
-    public String formatLogMessage(EventCode eventCode, String message, Properties attributes);
+    String formatLogMessage(EventCode eventCode, String message, Properties attributes);
 }

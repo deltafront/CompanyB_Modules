@@ -8,12 +8,11 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 
-import static junit.framework.TestCase.assertNull;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+import static org.testng.Assert.*;
 
-@Test(groups = {"unit","common","field.utils"})
+@Test(groups = {"unit","common","utils","field.utils"})
 public class FieldUtilsTest
 {
 
@@ -29,68 +28,68 @@ public class FieldUtilsTest
 
     public void testGetValidField()
     {
-        assertNotNull(fieldUtils.getField("testfield",testclass));
+        assertThat(fieldUtils.getField("testfield",testclass),is(not(nullValue())));
     }
 
-    public void testGetInvalidField()
+    public void getInvalidField()
     {
-        assertNull(fieldUtils.getField("foo", testclass));
+        assertThat(fieldUtils.getField("foo", testclass),is(nullValue()));
     }
 
-    public void testGetValidAnnotation()
+    public void getValidAnnotation()
     {
-        Field field = fieldUtils.getField("testfield",testclass);
-        assertNotNull(fieldUtils.getField("testfield",testclass));
-        Foo foo = fieldUtils.getAnnotation(Foo.class,field);
-        assertNotNull(foo);
+        final Field field = fieldUtils.getField("testfield",testclass);
+        assertThat(fieldUtils.getField("testfield",testclass),is(not(nullValue())));
+        final Foo foo = fieldUtils.getAnnotation(Foo.class,field);
+        assertThat(foo,is(not(nullValue())));
     }
 
-    public void testGetInvalidAnnotation()
+    public void getInvalidAnnotation()
     {
-        Field field = fieldUtils.getField("testfield",testclass);
-        assertNotNull(fieldUtils.getField("testfield",testclass));
-        assertNull(fieldUtils.getAnnotation(Bar.class, field));
+        final Field field = fieldUtils.getField("testfield",testclass);
+        assertThat(fieldUtils.getField("testfield",testclass),is(not(nullValue())));
+        assertThat(fieldUtils.getAnnotation(Bar.class, field),is(nullValue()));
     }
 
-    public void testSetValidField()
+    public void setValidField()
     {
-        Object value = "foo";
+        final Object value = "foo";
         fieldUtils.setField("testfield",testclass,value);
-        Object fromClass = testclass.getTestfield();
-        assertNotNull(fromClass);
-        assertEquals(value,fromClass);
+        final Object fromClass = testclass.getTestfield();
+        assertThat(fromClass,is((not(nullValue()))));
+        assertThat(value,is(equalTo(fromClass)));
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void testSetInvalidField()
+    public void setInvalidField()
     {
-        Object value = "foo";
+        final Object value = "foo";
         fieldUtils.setField("foo",testclass,value);
         fail("Null pointer exception - field 'foo' does not exist.");
     }
 
-    public void testGetValidFieldValue()
+    public void getValidFieldValue()
     {
-        Object value = "foo";
+        final Object value = "foo";
         fieldUtils.setField("testfield",testclass,value);
-        Object fromUtils = fieldUtils.getFieldValue("testfield",testclass);
-        assertNotNull(fromUtils);
-        assertEquals(value,fromUtils);
+        final Object fromUtils = fieldUtils.getFieldValue("testfield",testclass);
+        assertThat(fromUtils,is(not(nullValue())));
+        assertThat(value,is(equalTo(fromUtils)));
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void testGetInValidFieldValue()
+    public void getInValidFieldValue()
     {
-        Object value = "foo";
+        final Object value = "foo";
         fieldUtils.setField("testfield",testclass,value);
         fieldUtils.getFieldValue("foo", testclass);
         fail("Null pointer exception - field 'foo' does not exist.");
     }
 
-    public void testGetFields()
+    public void getFields()
     {
-        Field[]fields = fieldUtils.getFields(testclass);
-        assertNotNull(fields);
+        final Field[]fields = fieldUtils.getFields(testclass);
+        assertThat(fields,is(not(nullValue())));
     }
 
     public static class testclass

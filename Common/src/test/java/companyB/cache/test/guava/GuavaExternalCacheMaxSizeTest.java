@@ -1,13 +1,13 @@
 package companyB.cache.test.guava;
 
-import companyB.cache.test.ExternalCacheTestBase;
 import companyB.cache.impl.guava.GuavaExternalCache;
+import companyB.cache.test.ExternalCacheTestBase;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @Test(groups = {"unit","http.cache.enabled","external.cache","guava.external.cache","guava.external.cache.expire.max.size"})
 @SuppressWarnings("unchecked")
@@ -23,15 +23,15 @@ public class GuavaExternalCacheMaxSizeTest extends ExternalCacheTestBase
     @AfterMethod
     public void after()
     {
-        externalCache.clear();
+        super.after();
     }
 
     public void testMaxSize()
     {
         externalCache.insert("foo","43");
-        String value = "43";
-        assertEquals(value,externalCache.retrieve("foo"));
+        final String value = "43";
+        assertThat(value,externalCache.retrieve("foo"),is(equalTo(value)));
         externalCache.insert("one","two");
-        assertNull(externalCache.retrieve("foo"));
+        assertThat(externalCache.retrieve("foo"),is(nullValue()));
     }
 }

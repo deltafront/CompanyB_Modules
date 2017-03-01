@@ -114,23 +114,13 @@ public class JdbcUtils extends UtilityBase
      */
     public Integer update(String sql, Object...replacements)
     {
-        Integer updated = insertUpdateQuery(sql,Operation.update,null,replacements);
-        LOGGER.debug(String.format("Number of rows updated: %d",updated));
-        return updated;
+        return insertUpdateQuery(sql,Operation.update,null,replacements);
     }
 
-    private<TargetClass> List<TargetClass> fromResultSet(ResultSet resultSet, ResultSetTransformer<TargetClass>resultSetTransformer)
+    private<TargetClass> List<TargetClass> fromResultSet(ResultSet resultSet, ResultSetTransformer<TargetClass>resultSetTransformer) throws SQLException
     {
         List<TargetClass>list = new LinkedList<>();
-        try
-        {
-            while(resultSet.next())list.add(resultSetTransformer.fromResultSet(resultSet));
-        }
-        catch (SQLException e)
-        {
-            jdbcExceptionUtils.handleSqlException(e,LOGGER);
-        }
-        LOGGER.debug("Returning {} elements.", list.size());
+        while(resultSet.next())list.add(resultSetTransformer.fromResultSet(resultSet));
         return list;
     }
 
@@ -146,21 +136,19 @@ public class JdbcUtils extends UtilityBase
         return key;
     }
 
-    private Statement getStatement(String sql, Connection connection, Object[] replacements, boolean isInsert) throws SQLException
+    private Statement getStatement(String sql, Connection connection, Object[] replacements) throws SQLException
     {
         return (0 == replacements.length) ?
                 statement(connection) :
-                prepareStatement(connection,sql,isInsert);
+                prepareStatement(connection,sql);
     }
     private Statement statement(Connection connection) throws SQLException
     {
         return connection.createStatement();
     }
-    private PreparedStatement prepareStatement(Connection connection, String sql, Boolean isInsert) throws SQLException
+    private PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException
     {
-        return isInsert ?
-                connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) :
-                connection.prepareStatement(sql);
+        return connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
     }
     private void doReplace(PreparedStatement statement, Object[] replacements) throws SQLException
     {
@@ -172,10 +160,10 @@ public class JdbcUtils extends UtilityBase
     private <T, TargetClass> T insertUpdateQuery(String sql, Operation operation, ResultSetTransformer<TargetClass>resultSetTransformer, Object...replacements)
     {
         Object out = null;
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = getStatement(sql, connection, replacements, false))
-
+        try
         {
+            Connection connection = dataSource.getConnection();
+            Statement statement = getStatement(sql, connection, replacements);
             Boolean isPreparedStatement = statement instanceof PreparedStatement;
             if(isPreparedStatement)doReplace((PreparedStatement) statement, replacements);
             switch (operation)
@@ -200,7 +188,6 @@ public class JdbcUtils extends UtilityBase
         }
         catch (SQLException e)
         {
-            System.out.println("Error is " + e.getMessage());
             switch (operation)
             {
                 case insert:

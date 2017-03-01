@@ -7,7 +7,13 @@ import org.testng.annotations.Test;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("unchecked")
@@ -23,76 +29,75 @@ public class ListSplitterTest
     }
 
     
-    public void NullSet()
+    public void nullSet()
     {
-        assertEquals(0, collectionsSplitter.split(null, 0, CollectionsSplitter.optimization_strategy.number_of_lists).size());
+        assertThat(collectionsSplitter.split(null, 0, CollectionsSplitter.optimization_strategy.number_of_lists).size(),is(equalTo(0)));
     }
 
     
-    public void TwoItemsSet()
+    public void twoItemsSet()
     {
-        Set<String> set = new LinkedHashSet<>();
+        final Set<String> set = new LinkedHashSet<>();
         set.add("one");
         set.add("two");
-        List<List> lists = collectionsSplitter.split(set, 2, CollectionsSplitter.optimization_strategy.number_of_lists);
-        assertEquals(2, lists.size());
-        for (List list : lists) assertEquals(1, list.size());
+        final List<List> lists = collectionsSplitter.split(set, 2, CollectionsSplitter.optimization_strategy.number_of_lists);
+        assertThat(lists.size(),is(equalTo(2)));
+        lists.forEach((list)-> assertThat(list.size(),is(equalTo(1))));
     }
 
     
-    public void SplitNumSet()
+    public void splitNumSet()
     {
-        Set<String> set = new LinkedHashSet<>();
-        for (int i = 0; i < 1000; i++) set.add("Object" + i);
-        List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
-        assertEquals(42, lists.size());
-        int size = (1000 / 42);
-        String message = "Expected list size of " + (size - 1) + "' or " + size + "' or '" + (size + 1) + "'. Got '";
-        for (List _list : lists)
-            assertTrue(message + _list.size() + "'", _list.size() == size || _list.size() == size + 1 || _list.size() == size - 1);
+        final Set<String> set = new LinkedHashSet<>();
+        IntStream.range(0,1000).forEach((index) -> set.add(String.format("Object %d",index)));
+        final List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
+        assertThat(lists.size(),is(equalTo(42)));
+        final int size = (1000 / 42);
+        lists.forEach((list)->{
+            assertThat(list.size(),is(anyOf(equalTo(size),equalTo(size +1),equalTo(size-1))));
+        });
+
     }
 
     
-    public void EvenNumSet()
+    public void evenNumSet()
     {
-        Set<String> set = new LinkedHashSet<>();
-        for (int i = 0; i < 84; i++) set.add("Object" + i);
-        List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
-        assertEquals(42, lists.size());
-        for (List list : lists) assertEquals(2, list.size());
+        final Set<String> set = new LinkedHashSet<>();
+        IntStream.range(0,84).forEach((index) -> set.add(String.format("Object %d",index)));
+        final List<List> lists = collectionsSplitter.split(set, 42, CollectionsSplitter.optimization_strategy.number_of_lists);
+        assertThat(lists.size(),is(equalTo(42)));
+        lists.forEach((list)-> assertThat(list.size(),is(equalTo(2))));
     }
 
     
-    public void ItemsPerListManyLists()
+    public void itemsPerListManyLists()
     {
-        Set<String> set = new LinkedHashSet<>();
-        for (int i = 0; i < 1002; i++) set.add("Object" + i);
-        List<List> lists = collectionsSplitter.split(set, 10, CollectionsSplitter.optimization_strategy.number_of_items);
-        assertEquals(101, lists.size());
-        for (int i = 0; i < lists.size(); i++)
-        {
-            List list = lists.get(i);
-            if (i != (lists.size() - 1)) assertEquals(10, list.size());
-            else assertEquals(2, list.size());
-        }
+        final Set<String> set = new LinkedHashSet<>();
+        IntStream.range(0,1002).forEach((index) -> set.add(String.format("Object %d",index)));
+        final List<List> lists = collectionsSplitter.split(set, 10, CollectionsSplitter.optimization_strategy.number_of_items);
+        assertThat(lists.size(),is(equalTo(101)));
+        IntStream.range(0,lists.size()).forEach((index ->{
+            final List list = lists.get(index);
+            final int num = (index!=lists.size()-1) ? 10 : 2;
+            assertThat(list.size(),is(equalTo(num)));
+        }));
     }
 
     
-    public void ItemsPerListOneList()
+    public void itemsPerListOneList()
     {
-        Set<String> set = new LinkedHashSet<>();
-        for (int i = 0; i < 1002; i++)set.add("Object" + i);
-        List<List> lists = collectionsSplitter.split(set, 1002, CollectionsSplitter.optimization_strategy.number_of_items);
-        assertEquals(1, lists.size());
-        for (List list : lists) assertEquals(1002, list.size());
-
+        final Set<String> set = new LinkedHashSet<>();
+        IntStream.range(0,1002).forEach((index) -> set.add(String.format("Object %d",index)));
+        final List<List> lists = collectionsSplitter.split(set, 1002, CollectionsSplitter.optimization_strategy.number_of_items);
+        assertThat(lists.size(),is(equalTo(1)));
+        lists.forEach((list)-> assertThat(list.size(),is(equalTo(1002))));
     }
 
     
     public void getOptimizationValues()
     {
-        for (CollectionsSplitter.optimization_strategy strategy : CollectionsSplitter.optimization_strategy.values())
-            assertNotNull(CollectionsSplitter.optimization_strategy.valueOf(strategy.name()));
+        for (final CollectionsSplitter.optimization_strategy strategy : CollectionsSplitter.optimization_strategy.values())
+            assertThat(CollectionsSplitter.optimization_strategy.valueOf(strategy.name()),is(not(nullValue())));
 
     }
 }

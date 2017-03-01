@@ -1,14 +1,11 @@
 package companyB.common.utils;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Produces a mapping of passed-in request query parameters.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.1.0
+ * @version 1.0.0
  */
 public class QueryMapper extends UtilityBase
 {
@@ -37,7 +34,6 @@ public class QueryMapper extends UtilityBase
      * request parameter can have more than a single value.
      * @param requestQuery request query to be mapped.
      * @return Mapping of request parameters.
-     * @since 2.1.0
      */
     public Map<String,List<String>> mapRequestQuery(final String requestQuery)
     {
@@ -45,21 +41,19 @@ public class QueryMapper extends UtilityBase
         final Map<String,List<String>>mapping = new HashMap<>();
         if(query.contains("?"))query = query.replace("?","");
         while(query.contains("&&")) query = query.replace("&&","&");
-        String[]keyValuePairs = getKeyValuePairs(query);
-        for(final String keyValuePair : keyValuePairs)
+        getKeyValuePairs(query).forEach((keyValuePair)->
         {
             key_value keyValue = getKeyValue(keyValuePair);
             final List<String>listing = getListing(keyValue.key,mapping);
             listing.add(keyValue.value);
             mapping.put(keyValue.key,listing);
-            LOGGER.trace("Added value '{}' to listing for key '{}'. Listing has {} elements."
-                    ,keyValue.value,keyValue.key,listing.size());
-        }
+        });
+
         return mapping;
     }
-    private String[]getKeyValuePairs(String requestQuery)
+    private List<String>getKeyValuePairs(String requestQuery)
     {
-        return requestQuery.split("&");
+        return Arrays.asList(requestQuery.split("&"));
     }
     private key_value getKeyValue(String keyValuePair)
     {

@@ -5,9 +5,9 @@ import java.util.Map;
 /**
  * Provides custom representations of Iterables and Maps.
  * @author Charles Burell (deltafront@gmail.com)
- * @since  1.0.0
+ * @version 1.0.0
  */
-@SuppressWarnings({"PMD.UselessParentheses", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public class ToStringUtils extends UtilityBase
 {
     /**
@@ -15,7 +15,6 @@ public class ToStringUtils extends UtilityBase
      * @param iterable Iterable to be converted to string representation.
      * @param <E> Type parameter
      * @return String representation of Iterable.
-     * @since 1.0.0
      */
     public <E> String iterableToString(Iterable<E> iterable)
     {
@@ -44,7 +43,6 @@ public class ToStringUtils extends UtilityBase
      * @param <Key> Type Parameter.
      * @param <Value> Type Parameter.
      * @return String representation of Map instance.
-     * @since 1.0.0
      */
     public <Key,Value> String mapToString(Map<Key, Value> map)
     {
@@ -58,9 +56,7 @@ public class ToStringUtils extends UtilityBase
                 out.append(String.format("%s:%s,",key,temp));
             });
         }
-        final String output = stripLastComma(out, "}");
-        LOGGER.trace("Returning string representation of map\n{}",output);
-        return output;
+        return stripLastComma(out, "}");
     }
     private String stripLastComma(StringBuilder stringBuffer, String finalAppend)
     {

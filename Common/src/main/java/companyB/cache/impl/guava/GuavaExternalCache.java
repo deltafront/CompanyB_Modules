@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Implementation of ExternalCache that uses Google Guava default cache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.1.0
+ * @version 1.0.0
  */
 public class GuavaExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -22,7 +22,6 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
      * limit is about to be reached, the cache will evict items based on when they were last accessed.
      * @param name Name of the cache. Required.
      * @param maxSize Maximum size of cache. Required. Must be an integer greater that '0'.
-     * @since 2.1.0
      */
     public GuavaExternalCache(String name, Integer maxSize)
     {
@@ -35,7 +34,6 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
      * @param timeUnit java.util.concurrent.TimeUnit
      * @param expireAfterWrite If this is set to true, then entries will be expired after their creation or replacement.
      *                         If this is set to false, then entries will  be expired after their creation or access.
-     * @since 2.2.0
      */
     public GuavaExternalCache(String name, Long duration, TimeUnit timeUnit, boolean expireAfterWrite)
     {
@@ -55,7 +53,6 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         Validate.notBlank(key,"Key must be provided.");
         cache.put(key,normalizer.cleanNullStringValue(value));
-        LOGGER.trace("Associated {}=>{} in cache.",key,value);
     }
 
     @Override
@@ -63,14 +60,12 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         String value = cache.getIfPresent(key);
         if(!StringUtils.isBlank(value)) value = getEncryptedString(key);
-        else LOGGER.trace("No value found for key {}.",key);
         return value;
     }
 
     @Override
     public void clear()
     {
-        LOGGER.trace("Clearing all entries in this cache.");
         cache.invalidateAll();
     }
 
@@ -79,14 +74,12 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         String value = cache.getIfPresent(key);
         if(null != value) value = removeAndGetValue(key, value);
-        else LOGGER.trace("No value found for key {}.",key);
         return value;
     }
 
     private String removeAndGetValue(String key, String value)
     {
         final String val = normalizer.dirtyNullStringValue(value);
-        LOGGER.trace("Returning and removing value {} for key {}.",val,key);
         cache.invalidate(key);
         return val;
     }
@@ -97,8 +90,6 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     }
     private String getEncryptedString(String key)
     {
-        final String value = normalizer.dirtyNullStringValue(cache.getIfPresent(key));
-        LOGGER.trace("Returning value {} for key {}.",value,key);
-        return value;
+        return normalizer.dirtyNullStringValue(cache.getIfPresent(key));
     }
 }

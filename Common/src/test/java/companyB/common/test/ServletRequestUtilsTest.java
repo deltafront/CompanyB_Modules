@@ -9,9 +9,10 @@ import org.testng.annotations.Test;
 import javax.servlet.ServletRequest;
 import java.io.*;
 
-import static org.testng.AssertJUnit.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@Test(groups = {"unit", "common", "http.servlet.request.utils"})
+@Test(groups = {"unit", "common", "http.servlet.request.utils","utils"})
 public class ServletRequestUtilsTest
 {
     private ServletRequest request;
@@ -30,9 +31,9 @@ public class ServletRequestUtilsTest
         try
         {
             setUpRequest("foo");
-            String result = servletRequestUtils.getBodyFromRequest(request);
-            assertNotNull(result);
-            assertEquals("foo", result);
+            final String result = servletRequestUtils.getBodyFromRequest(request);
+            assertThat(result,is(not(nullValue())));
+            assertThat(result,is(equalTo("foo")));
         }
         finally
         {
@@ -44,8 +45,8 @@ public class ServletRequestUtilsTest
         try
         {
             setUpRequest("");
-            String result = servletRequestUtils.getBodyFromRequest(request);
-            assertNull(result);
+            final String result = servletRequestUtils.getBodyFromRequest(request);
+            assertThat(result,is(nullValue()));
         }
         finally
         {
@@ -59,8 +60,8 @@ public class ServletRequestUtilsTest
         {
             EasyMock.expect(request.getReader()).andThrow(new IOException(""));
             control.replay();
-            String result = servletRequestUtils.getBodyFromRequest(request);
-            assertTrue(null == result || 0 == result.length());
+            final String result = servletRequestUtils.getBodyFromRequest(request);
+            assertThat(null == result || 0 == result.length(),is(true));
         }
         finally
         {
@@ -69,11 +70,10 @@ public class ServletRequestUtilsTest
     }
     private void setUpRequest(final String content)
     {
+        final InputStream inputStream  = new ByteArrayInputStream(content.getBytes());
+        final Reader reader =  new InputStreamReader(inputStream);
+        final BufferedReader bufferedReader = new BufferedReader(reader);
         request = control.createMock(ServletRequest.class);
-        InputStream inputStream  = new ByteArrayInputStream(content.getBytes());
-        Reader reader =  new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-
         try
         {
             EasyMock.expect(request.getReader()).andReturn(bufferedReader);
@@ -83,7 +83,5 @@ public class ServletRequestUtilsTest
         {
             e.printStackTrace();
         }
-
     }
-
 }

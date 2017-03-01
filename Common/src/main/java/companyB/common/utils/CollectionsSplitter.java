@@ -11,9 +11,8 @@ import java.util.stream.IntStream;
  * Splits Collection into a List of Lists.
  *
  * @author C.A. Burrell (deltafront@gmail.com)
- * @since  1.0.0
+ * @version 1.0.0
  */
-@SuppressWarnings("PMD.UselessParentheses")
 public class CollectionsSplitter extends UtilityBase
 {
     public enum optimization_strategy
@@ -37,21 +36,16 @@ public class CollectionsSplitter extends UtilityBase
      *                   containing <strong>at most</strong> split_num items.
      * @param strategy   one of optimization_strategy.number_of_lists | optimization_strategy.number_of_items
      * @return list of lists.
-     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
-        if(null != collection) LOGGER.trace("Size of collection:\t{}\nSplit Number:\t{}\nStrategy:\t{}",
-                collection.size(), split_num,strategy.name());
         final int num = (null != collection) ?
                 (split_num == 0 || split_num > collection.size())
                 ? collection.size() : split_num : -1;
-        final List<List>lists = (null != collection) ?
+        return  (null != collection) ?
                 strategy.biFunction.apply(collection,num) :
                 new LinkedList<>();
-        LOGGER.trace("Returning new list of {} elements.",lists.size());
-        return lists;
     }
 
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
@@ -66,7 +60,6 @@ public class CollectionsSplitter extends UtilityBase
            list.get(count.get()).add(next);
            count.getAndIncrement();
        });
-        LOGGER.trace("Returning a master list that contains {} lists.",list.size());
         return list;
     }
 
@@ -90,8 +83,6 @@ public class CollectionsSplitter extends UtilityBase
             }
         });
         if (_list.size() > 0) list.add(_list);
-        LOGGER.trace("Returning a master list of {} lists in which each list contains at least {} elements.",
-                list.size(),num);
         return list;
     }
 }

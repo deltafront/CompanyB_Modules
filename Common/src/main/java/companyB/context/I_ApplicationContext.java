@@ -7,7 +7,6 @@ import java.util.Set;
  * @author Charles Burrell (deltafront@gmail.com)
  * @since 1.0.0
  */
-@SuppressWarnings({"PMD.UnusedCode","PMD.UnusedModifier"})
 public interface I_ApplicationContext
 {
 
@@ -19,7 +18,7 @@ public interface I_ApplicationContext
      * @return True if value has been set.
      * @since 1.0.0
      */
-    public <Value> Boolean associate(String key, Value value);
+    <Value> Boolean associate(String key, Value value);
 
     /**
      * Gets the value associated with key in the present context.
@@ -28,14 +27,14 @@ public interface I_ApplicationContext
      * @return Value associated with key in the present context.
      * @since 1.0.0
      */
-    public <Value> Value get(String key);
+    <Value> Value get(String key);
 
     /**
      * Gets all of the keys associated with this application context.
      * @return All of the keys associated with this application context.
      * @since 1.0.0
      */
-    public Set<String> getKeys();
+    Set<String> getKeys();
 
     /**
      * Gets an instance of Class and associates it with the context.
@@ -46,12 +45,12 @@ public interface I_ApplicationContext
      * @return Instance of Class from the context
      * @since 1.0.0
      */
-    public <T>T getInstance(Class<T> c, Object[] args, String id);
+    <T>T getInstance(Class<T> c, Object[] args, String id);
 
     /**
      * Clears the existing application context's mapping. This is a very dangerous method to use in production, but
      * has been included for testability.
      * @since 1.0.0
      */
-    public void clear();
+    void clear();
 }

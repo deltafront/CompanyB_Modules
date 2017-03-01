@@ -6,7 +6,7 @@ import java.io.*;
 /**
  * Utility class for dealing with ServletRequests.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0
+ * @version 1.0.0
  */
 public class ServletRequestUtils extends UtilityBase
 {
@@ -18,20 +18,17 @@ public class ServletRequestUtils extends UtilityBase
     public String getBodyFromRequest(ServletRequest request )
     {
         String result = "";
-        try(final BufferedReader bufferedReader = request.getReader())
+        try(BufferedReader bufferedReader = request.getReader())
         {
             String temp;
-            while(null !=(temp = bufferedReader.readLine()))
-            {
-                result += temp;
-            }
+            while(null !=(temp = bufferedReader.readLine())) result += temp;
             if(0 == result.length())result = null;
+            bufferedReader.close();
         }
         catch (IOException e)
         {
             LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace("Returning result to client:\n{}", result);
         return result;
     }
 }

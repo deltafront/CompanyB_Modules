@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Memory-based implementation of ExternalCache. This cache is backed by an internal hash map.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.1.0
+ * @version 1.0.0
  */
 public class MemoryExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -20,16 +20,14 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     /**
      * Using this constructor will set the initial load to the highest Integer value permissible.
      * @param name Name of the cache. Required.
-     * @since 2.1.0
      */
     public MemoryExternalCache(String name)
     {
-        this(name,Integer.MAX_VALUE);
+        this(name,1000*1000);
     }
     /**
      * @param name Name of the cache. Required.
      * @param initialLoad - Initial load of the cache. Required.
-     * @since 2.2.0
      */
     public MemoryExternalCache(String name, Integer initialLoad)
     {
@@ -47,7 +45,6 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
         cache.put(key,value);
-        LOGGER.trace(String.format("Associating key %s with value %s.",key,String.valueOf(value)));
 
     }
 
@@ -55,15 +52,12 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     public String retrieve(String key)
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
-        final String value = cache.get(key);
-        LOGGER.trace("Returning value {} associated with key {}.",key,value);
-        return value;
+        return cache.get(key);
     }
 
     @Override
     public void clear()
     {
-        LOGGER.trace("Clearing cache.");
         cache.clear();
     }
 
@@ -71,10 +65,7 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     public String remove(String key)
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
-        LOGGER.trace("Cache remove called.");
-        final String value = cache.remove(key);
-        LOGGER.trace("Removing value {} associated with key {}.",value,key);
-        return value;
+        return cache.remove(key);
     }
 
     @Override

@@ -10,11 +10,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-@Test(groups = {"unit", "common", "servlet.response.utils"})
+@Test(groups = {"unit", "common", "servlet.response.utils","utils"})
 public class ServletResponseUtilsTest
 {
     private IMocksControl control;
@@ -53,10 +53,10 @@ public class ServletResponseUtilsTest
     {
         try
         {
-            String content = "foo";
+            final String content = "foo";
             responseUtils.writeResponse(response,content,true);
-            assertFalse(0==(outputContent.length()));
-            assertEquals(content,outputContent);
+            assertThat(outputContent.length(),is(equalTo(content.length())));
+            assertThat(content,is(equalTo(outputContent)));
         }
         finally
         {
@@ -69,7 +69,7 @@ public class ServletResponseUtilsTest
         try
         {
             responseUtils.writeResponse(response,null,false);
-            assertTrue(0 == outputContent.length());
+            assertThat(outputContent.length(),is(equalTo(0)));
         }
         finally
         {
@@ -85,9 +85,9 @@ public class ServletResponseUtilsTest
         control.replay();
         try
         {
-            String content = "foo";
+            final String content = "foo";
             responseUtils.writeResponse(response,content,true);
-            assertTrue(0 == outputContent.length());
+            assertThat(outputContent.length(),is(equalTo(0)));
         }
         finally
         {
@@ -95,9 +95,4 @@ public class ServletResponseUtilsTest
         }
 
     }
-
-
-
-
-
 }

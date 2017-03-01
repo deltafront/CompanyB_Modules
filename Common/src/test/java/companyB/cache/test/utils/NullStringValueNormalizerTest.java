@@ -4,9 +4,8 @@ import companyB.cache.utils.NullStringValueNormalizer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 @Test(groups = {"unit","http.cache.enabled","utils","null.string.value.normalizer"})
 public class NullStringValueNormalizerTest
@@ -21,26 +20,26 @@ public class NullStringValueNormalizerTest
 
     public void normalizerFromNull()
     {
-        assertEquals(NullStringValueNormalizer.NULL_STRING,normalizer.cleanNullStringValue(null));
+        assertThat(NullStringValueNormalizer.NULL_STRING,is(equalTo(normalizer.cleanNullStringValue(null))));
     }
     public void normalizerFromBlank()
     {
-        assertEquals(NullStringValueNormalizer.NULL_STRING,normalizer.cleanNullStringValue(""));
+        assertThat(NullStringValueNormalizer.NULL_STRING,is(equalTo(normalizer.cleanNullStringValue(""))));
     }
     public void normalizeFromNotNull()
     {
-        assertEquals("foo",normalizer.cleanNullStringValue("foo"));
+        assertThat("foo",is(equalTo(normalizer.cleanNullStringValue("foo"))));
     }
 
     public void normalizeToNull()
     {
-        assertNull(normalizer.dirtyNullStringValue(NullStringValueNormalizer.NULL_STRING));
+        assertThat(normalizer.dirtyNullStringValue(NullStringValueNormalizer.NULL_STRING),is(nullValue()));
     }
     public void normalizeToNotNull()
     {
         String value = normalizer.dirtyNullStringValue("foo");
-        assertNotNull(value);
-        assertEquals("foo",value);
+        assertThat(value,is(not(nullValue())));
+        assertThat("foo",is(equalTo(value)));
     }
 
 }

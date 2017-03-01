@@ -10,10 +10,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by chburrell on 2/22/17.
- */
-@Test(groups = {"unit","atomic"})
+@Test(groups = {"unit","common","utils","atomic"})
 public class AtomicOptionalTest
 {
 
@@ -70,5 +67,11 @@ public class AtomicOptionalTest
         final Optional<String>newActual = atomicOptional.get();
         assertThat(newActual.isPresent(),is(false));
         assertThat(Optional.empty(),is(equalTo(newActual)));
+    }
+    public void getAndSetUpdatedToNull()
+    {
+        final AtomicOptional<String>atomicOptional = new AtomicOptional<>(null);
+        final Optional<String>actual = atomicOptional.getAndSet("42");
+        assertThat(actual.isPresent(),is(false));
     }
 }

@@ -8,8 +8,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -24,10 +23,19 @@ public class ScramblerTest
     {
         final Scrambler scrambler = new Scrambler();
         final String scrambled = scrambler.getScrambledString();
-        System.out.println(scrambled);
         assertNotNull(scrambled);
         assureDashIsPresent(scrambled);
         assureThreeOrFourCharsAfterDash(scrambled);
+    }
+    public void testReset()
+    {
+        final Scrambler scrambler = new Scrambler();
+        String scrambled = scrambler.getScrambledString();
+        assertThat(scrambled,not(nullValue()));
+        scrambler.reset();
+        scrambled = scrambler.getScrambledString();
+        assertThat(scrambled,not(nullValue()));
+
     }
     private void assureDashIsPresent(String output)
     {

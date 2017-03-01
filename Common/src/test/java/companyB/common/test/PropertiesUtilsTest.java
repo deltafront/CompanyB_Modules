@@ -9,8 +9,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 @Test(groups = {"unit","properties.utils","common"})
@@ -43,76 +48,70 @@ public class PropertiesUtilsTest
 
     public void happyPath()
     {
-        assertEquals("1", propertiesUtils.getProperty(old_prop_file_name, "one"));
-        assertEquals("2", propertiesUtils.getProperty(old_prop_file_name, "two"));
-        assertEquals("3", propertiesUtils.getProperty(old_prop_file_name, "three"));
-        assertEquals("4", propertiesUtils.getProperty(old_prop_file_name, "four"));
-        assertEquals("10", propertiesUtils.getProperty(new_prop_file_name, "one"));
-        assertEquals("20", propertiesUtils.getProperty(new_prop_file_name, "two"));
-        assertEquals("30", propertiesUtils.getProperty(new_prop_file_name, "three"));
-        assertEquals("40", propertiesUtils.getProperty(new_prop_file_name, "four"));
-        assertEquals("1",propertiesUtils.getProperty(xml_prop_file,"one"));
-        assertEquals("2",propertiesUtils.getProperty(xml_prop_file,"two"));
-        assertEquals("3",propertiesUtils.getProperty(xml_prop_file,"three"));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, "one"),is(equalTo("1")));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, "two"),is(equalTo("2")));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, "three"),is(equalTo("3")));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, "four"),is(equalTo("4")));
+        assertThat(propertiesUtils.getProperty(new_prop_file_name, "one"),is(equalTo("10")));
+        assertThat(propertiesUtils.getProperty(new_prop_file_name, "two"),is(equalTo("20")));
+        assertThat(propertiesUtils.getProperty(new_prop_file_name, "three"),is(equalTo("30")));
+        assertThat(propertiesUtils.getProperty(new_prop_file_name, "four"),is(equalTo("40")));
+        assertThat(propertiesUtils.getProperty(xml_prop_file,"one"),is(equalTo("1")));
+        assertThat(propertiesUtils.getProperty(xml_prop_file,"two"),is(equalTo("2")));
+        assertThat(propertiesUtils.getProperty(xml_prop_file,"three"),is(equalTo("3")));
     }
 
     
     public void invalidProperty()
     {
-        assertNull(propertiesUtils.getProperty(old_prop_file_name, "five"));
-        assertFalse(propertiesUtils.getProperty(new_prop_file_name, "one").equals("1"));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, "five"),is(nullValue()));
+        assertThat(propertiesUtils.getProperty(new_prop_file_name, "one"),is(not(equalTo("1"))));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void invalidFile()
     {
-        assertNull(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"),is(nullValue()));
         fail("IllegalStateException expected - invalid file.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void nullFileName()
     {
-        assertNull(propertiesUtils.getProperty(null, "five"));
+        assertThat(propertiesUtils.getProperty(null, "five"),is(nullValue()));
         fail("IllegalStateException expected - null filename.");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void emptyStringName()
     {
-        assertNull(propertiesUtils.getProperty("", "five"));
+        assertThat(propertiesUtils.getProperty("", "five"),is(nullValue()));
         fail("IllegalStateException expected - empty string filename.");
     }
 
     
     public void nullProperty()
     {
-        assertNull(propertiesUtils.getProperty(old_prop_file_name, null));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, null),is(nullValue()));
     }
 
     
     public void emptyStringProperty()
     {
-        assertNull(propertiesUtils.getProperty(old_prop_file_name, ""));
+        assertThat(propertiesUtils.getProperty(old_prop_file_name, ""),is(nullValue()));
     }
 
     
     public void getPropertiesByPath()
     {
-        Map<String, String> props_old = propertiesUtils.getProperties(old_prop_file_name);
-        Map<String, String> props_new = propertiesUtils.getProperties(new_prop_file_name);
-        assertNotNull(props_old);
-        assertNotNull(props_new);
-        assertEquals(old_props.length, props_old.size());
-        assertEquals(new_props.length, props_new.size());
-        for (String key_value_pair : old_props)
-        {
-            assertTrue(matcher(key_value_pair, props_old));
-        }
-        for (String key_value_pair : new_props)
-        {
-            assertTrue(matcher(key_value_pair, props_new));
-        }
+        final Map<String, String> props_old = propertiesUtils.getProperties(old_prop_file_name);
+        final Map<String, String> props_new = propertiesUtils.getProperties(new_prop_file_name);
+        assertThat(props_old,is(not(nullValue())));
+        assertThat(props_new,is(not(nullValue())));
+        assertThat(old_props.length, is(equalTo(props_old.size())));
+        assertThat(new_props.length, is(equalTo(props_new.size())));
+        Arrays.asList(old_props).forEach((key_value_pair)->assertThat(matcher(key_value_pair, props_old),is(true)));
+        Arrays.asList(new_props).forEach((key_value_pair)->assertThat(matcher(key_value_pair, props_new),is(true)));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
@@ -136,25 +135,23 @@ public class PropertiesUtilsTest
 
     private boolean matcher(String value_key_pair, Map<String, String> map)
     {
-        String[] split = value_key_pair.split("=");
-        String key = split[0];
-        String value = split[1];
+        final String[] split = value_key_pair.split("=");
+        final String key = split[0];
+        final String value = split[1];
         return  value.equals(map.get(key));
     }
 
     private static void writeToFile(String[] inputs, String filename)
     {
-        try
+        final File file = new File(filename);
+        try(final FileWriter fw = new FileWriter(file);
+             final BufferedWriter bw = new BufferedWriter(fw);)
         {
-            File file = new File(filename);
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
             for (String input : inputs)
             {
                 bw.write(input);
                 bw.newLine();
             }
-            bw.close();
             file.deleteOnExit();
         }
         catch (IOException e)

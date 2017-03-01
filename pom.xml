@@ -44,6 +44,7 @@
         <enforced.ban.latest>false</enforced.ban.latest>
         <enforced.ban.snapshot>false</enforced.ban.snapshot>
         <enforced.ban.release>false</enforced.ban.release>
+        <test.ng.version>6.9.8</test.ng.version>
     </properties>
 
     <repositories>
@@ -74,8 +75,26 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.21</version>
+            <version>${test.ng.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.uncommons</groupId>
+            <artifactId>reportng</artifactId>
+            <version>1.1.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -121,11 +140,6 @@
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.3.5.Final</version>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
@@ -315,11 +329,11 @@
                         <properties>
                             <property>
                                 <name>usedefaultlisteners</name>
-                                <value>true</value>
+                                <value>false</value>
                             </property>
                             <property>
-                                <name>reporter</name>
-                                <value>listenReport.Reporter</value>
+                                <name>listener</name>
+                                <value>org.uncommons.reportng.HTMLReporter, org.uncommons.reportng.JUnitXMLReporter</value>
                             </property>
                         </properties>
                         <workingDirectory>target/</workingDirectory>

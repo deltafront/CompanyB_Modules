@@ -8,7 +8,7 @@ import redis.clients.jedis.Jedis;
 /**
  * Redis - based implementation of ExternalCache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.1.0
+ * @version 1.0.0
  */
 public class RedisExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -24,7 +24,6 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
      * @param port Port that Redis is listening on.
      * @param db Database to be used.
      * @param cacheName Name of this cache.
-     * @since 2.1.0
      */
     public RedisExternalCache(String host, Integer port, Integer db, String cacheName)
     {
@@ -43,7 +42,6 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
         Validate.notBlank(key, "Non-blank key must be provided.");
         getConnection();
         connection.set(key, normalizer.cleanNullStringValue(value));
-        LOGGER.trace("Associating key {} with value {}.",key,value);
     }
 
     @Override
@@ -51,15 +49,12 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
         getConnection();
-        final String value = normalizer.dirtyNullStringValue(connection.get(key));
-        LOGGER.trace("Returning value {} associated with key {}.",key,value);
-        return value;
+        return normalizer.dirtyNullStringValue(connection.get(key));
     }
 
     @Override
     public void clear()
     {
-        LOGGER.trace("Clearing cache.");
         getConnection();
         connection.flushDB();
     }
@@ -68,25 +63,20 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
     public String remove(String key)
     {
         Validate.notBlank(key,"Non-blank key must be provided.");
-        LOGGER.trace("Cache remove called.");
         getConnection();
         final String value = normalizer.dirtyNullStringValue(connection.get(key));
-        final Long removed = connection.del(key);
-        LOGGER.trace("Removing {} value's ({}) associated with key {}.",removed,value,key);
+        connection.del(key);
         return value;
     }
 
     /**
      * Pings the service to make sure that it is alive.
      * @return Result of the ping from the Redis instance.
-     * @since 2.1.0
      */
     public String ping()
     {
         getConnection();
-        final String out = connection.ping();
-        LOGGER.trace("Result of ping: {}",out);
-        return out;
+        return connection.ping();
     }
 
     @Override

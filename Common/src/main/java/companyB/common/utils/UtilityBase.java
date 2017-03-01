@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Base class for all Utilities. Main purpose is to provide a common logging point.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since  1.1.2
+ * @version 1.0.0
  */
 public abstract class UtilityBase
 {

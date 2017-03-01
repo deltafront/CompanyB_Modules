@@ -9,7 +9,7 @@ import java.io.OutputStream;
 /**
  * Utilities for dealing with ServletRequests.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0
+ * @version 1.0.0
  */
 public class ServletResponseUtils extends UtilityBase
 {
@@ -18,18 +18,16 @@ public class ServletResponseUtils extends UtilityBase
      * @param response ServletResponse to be written to.
      * @param message Message to be written.
      * @param flush If this this true, then the response's output stream will be flushed and closed.
-     * @since 2.0
      */
     public void writeResponse(ServletResponse response, String message, boolean flush)
     {
         Validate.notNull(response, "ServletResponse must be provided!");
         final String cleaned_message = (null == message) ?
                 "" : message;
-        try(final OutputStream outputStream  = response.getOutputStream())
+        try(OutputStream outputStream  = response.getOutputStream();)
         {
             outputStream.write(cleaned_message.getBytes());
             if(flush)outputStream.flush();
-            LOGGER.trace("Message written to client:\n{}", cleaned_message);
         }
         catch (IOException e)
         {

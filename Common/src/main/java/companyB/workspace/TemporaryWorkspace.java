@@ -10,14 +10,13 @@ import java.nio.file.Path;
  * @author C.A. Burrell deltafront@gmail.com
  * @since 2.3.0
  */
-@SuppressWarnings({"PMD.UnusedModifier"})
 public interface TemporaryWorkspace extends Closeable
 {
     /**
      * Gets the root directory of this temporary workspace.
      * @return root directory of this temporary workspace.
      */
-    public Path getRoot();
+    Path getRoot();
 
     /**
      * Copies a file into the temporary workspace.
@@ -26,14 +25,14 @@ public interface TemporaryWorkspace extends Closeable
      *                  The directory should have been created using the 'createDirectory' method.
      * @return Path to copied file.
      */
-    public Path copyFile(File file, String directory);
+    Path copyFile(File file, String directory);
 
     /**
      * Creates a new directory within the workspace.
      * @param directory Directory to be created.
      * @return Path to the created directory.
      */
-    public Path createDirectory(String directory);
+    Path createDirectory(String directory);
 
     /**
      *
@@ -43,19 +42,19 @@ public interface TemporaryWorkspace extends Closeable
      *                  The directory should have been created using the 'createDirectory' method.
      * @return Path to moved file.
      */
-    public Path moveFile(File file, String directory);
+    Path moveFile(File file, String directory);
 
-    public Path writeFile(String filename, byte[]content);
+    Path writeFile(String filename, byte[]content);
     /**
      * Gets a file that is in the workspace.
      * @param filename Name of file to get.
      * @return File from workspace.
      */
-    public File getFile(String filename);
+    File getFile(String filename);
 
     /**
      * Removes a file from the workspace.
      * @param filename File to be removed.
      */
-    public void removeFile(String filename);
+    void removeFile(String filename);
 }

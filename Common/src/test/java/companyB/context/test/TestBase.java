@@ -7,14 +7,14 @@ import static junit.framework.Assert.assertTrue;
 
 public class TestBase
 {
-    public void verifyTestInstance(TestObject testObject, Object[]args)
+    public void verifyTestInstance(Object testObject, Object[]args)
     {
         assertNotNull(testObject);
         for(Object arg : args)
         {
             try
             {
-                Field[]fields = TestObject.class.getFields();
+                Field[]fields = testObject.getClass().getFields();
                 boolean found = false;
                 for(Field field : fields)
                 {

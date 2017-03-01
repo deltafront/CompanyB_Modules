@@ -1,16 +1,15 @@
 package companyB.common.test;
 
 import companyB.common.utils.QueryMapper;
-import junit.framework.TestCase;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @Test(groups = {"unit","common","utils","query.mapper"})
 public class QueryMapperTest
@@ -28,63 +27,61 @@ public class QueryMapperTest
     {
 
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
-        Map<String, List<String>> mapping = getStringListMap();
-        verifyList(mapping,"one",1);
+        verifyList("one",1);
     }
 
     public void twoParams()
     {
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
-        Map<String, List<String>> mapping = getStringListMap();
-        verifyList(mapping,"two",2);
+        verifyList("two",2);
     }
 
     public void threeParams()
     {
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
-        Map<String, List<String>> mapping = getStringListMap();
-        verifyList(mapping,"three",3);
+        verifyList("three",3);
     }
 
     public void oneParamNoValue()
     {
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
-        Map<String, List<String>> mapping = getStringListMap();
-        List<String>test  = mapping.get("test");
-        assertNotNull(test);
-        assertEquals(1,test.size());
-        assertNull(test.get(0));
+        final Map<String, List<String>> mapping = getStringListMap();
+        final List<String>test  = mapping.get("test");
+        assertThat(test,is(not(nullValue())));
+        assertThat(test.size(),is(equalTo(1)));
+        assertThat(test.get(0),is(nullValue()));
     }
 
     public void invalidParam()
     {
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
-        Map<String,List<String>>mapping = getStringListMap();
-        List<String>zero  = mapping.get("zero");
-        assertNull(zero);
+        final Map<String,List<String>>mapping = getStringListMap();
+        final List<String>zero  = mapping.get("zero");
+        assertThat(zero,is(nullValue()));
     }
 
     private Map<String, List<String>> getStringListMap()
     {
-        Map<String,List<String>>mapping = queryMapper.mapRequestQuery(requestQuery);
-        assertNotNull(mapping);
+        final Map<String,List<String>>mapping = queryMapper.mapRequestQuery(requestQuery);
+        assertThat(mapping,is(not(equalTo(nullValue()))));
         return mapping;
     }
 
-    private void verifyList(Map<String,List<String>> mapping, String key, int num_expected)
+    private void verifyList(String key, int num_expected)
     {
-        assertNotNull(mapping);
-        List<String>listings = mapping.get(key);
-        if(0 == num_expected)assertNull(listings);
+        final Map<String,List<String>>mapping = getStringListMap();
+        assertThat(mapping,is(not(nullValue())));
+        final List<String>listings = mapping.get(key);
+        if(0 == num_expected)assertThat(listings,is(equalTo(nullValue())));
         else
         {
-            assertNotNull(listings);
-            assertEquals(num_expected, listings.size());
-            for(int index = 0; index<listings.size(); index++)
+            assertThat(listings,is(not(nullValue())));
+            assertThat(listings.size(),is(equalTo(num_expected)));
+            IntStream.range(0,listings.size()).forEach((index)->
             {
-                String listing = listings.get(index);
-                TestCase.assertEquals(String.format("%s.%d",key,index),listing);
-            }
+                final String listing = listings.get(index);
+                assertThat(String.format("%s.%d",key,index),is(equalTo(listing)));
+            });
         }
     }
 }

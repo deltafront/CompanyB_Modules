@@ -31,9 +31,9 @@ public final class CustomAsserts
         }
         else
         {
-            Class[] interfaces = interface_implementation.getInterfaces();
+            final Class[] interfaces = interface_implementation.getInterfaces();
             boolean found = false;
-            for (Class _interface : interfaces)
+            for (final Class _interface : interfaces)
             {
                 if (_interface.getCanonicalName().equals(interface_class.getCanonicalName()))
                 {
@@ -63,9 +63,9 @@ public final class CustomAsserts
         }
         else
         {
-            Class[] interfaces = interface_implementation.getInterfaces();
+            final Class[] interfaces = interface_implementation.getInterfaces();
             boolean found = false;
-            for (Class _interface : interfaces)
+            for (final Class _interface : interfaces)
             {
                 if (_interface.getCanonicalName().equals(interface_class.getCanonicalName()))
                 {

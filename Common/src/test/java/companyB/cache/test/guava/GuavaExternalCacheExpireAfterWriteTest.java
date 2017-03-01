@@ -1,20 +1,23 @@
 package companyB.cache.test.guava;
 
-import companyB.cache.test.ExternalCacheTestBase;
 import companyB.cache.impl.guava.GuavaExternalCache;
+import companyB.cache.test.ExternalCacheTestBase;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.testng.AssertJUnit.assertNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @SuppressWarnings("unchecked")
 @Test(groups = {"unit","http.cache.enabled","external.cache","guava.external.cache","guava.external.cache.expire.after.write"})
 public class GuavaExternalCacheExpireAfterWriteTest extends ExternalCacheTestBase
 {
+
     @BeforeMethod
     public void before()
     {
@@ -25,12 +28,13 @@ public class GuavaExternalCacheExpireAfterWriteTest extends ExternalCacheTestBas
     @AfterMethod
     public void after()
     {
-        externalCache.clear();
+        super.after();
     }
+
     public void expireAfterWrite() throws InterruptedException
     {
         externalCache.insert("key", "value");
         Thread.sleep(1001L);
-        assertNull(externalCache.retrieve("key"));
+        assertThat(externalCache.retrieve("key"),is(nullValue()));
     }
 }
