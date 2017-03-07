@@ -8,11 +8,6 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 @Test(groups = {"unit","http.cache.enabled","external.cache","guava.external.cache","guava.external.cache.expire.after.access"})
 @SuppressWarnings("unchecked")
 public class GuavaExternalCacheExpireAfterAccessTest extends ExternalCacheTestBase
@@ -34,8 +29,8 @@ public class GuavaExternalCacheExpireAfterAccessTest extends ExternalCacheTestBa
         final String expected = "value";
         externalCache.insert("key",expected);
         final String actual = (String)externalCache.retrieve("key");
-        assertThat(expected, is(equalTo(actual)));
+        validateEquality(expected,actual);
         Thread.sleep(1500L);
-        assertThat(externalCache.retrieve("key"),is(nullValue()));
+        validateNull(externalCache.retrieve("key"));
     }
 }

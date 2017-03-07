@@ -9,16 +9,9 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.testng.Assert.assertNull;
-
 @SuppressWarnings({"unchecked", "BoxingBoxedValue"})
 @Test(groups = {"unit","external.cache"}, dataProvider = "default")
-public class ExternalCacheTest
+public class ExternalCacheTest extends ExternalCacheTestBase
 {
     private ExternalCache<String,String> externalCache;
     protected String key = "foo";
@@ -43,16 +36,16 @@ public class ExternalCacheTest
     public void verifyName(String name, ExternalCache externalCache)
     {
         validateCache(externalCache);
-        assertThat(name,is(equalTo(externalCache.getName())));
+        validateEquality(name,externalCache.getName());
     }
     public void testRemoveValue(String name, ExternalCache<String,String>externalCache)
     {
         insertValue(externalCache);
         String value = "42";
         String fromCache = this.externalCache.remove("foo");
-        assertThat(fromCache,is(not(nullValue())));
-        assertThat(value,is(equalTo(fromCache)));
-        assertThat(externalCache.remove("foo"),is(nullValue()));
+        validateNotNull(fromCache);
+        validateEquality(value,fromCache);
+        validateNull(externalCache.remove("foo"));
     }
     public void insertValue(String name, ExternalCache<String,String>externalCache)
     {
@@ -63,30 +56,30 @@ public class ExternalCacheTest
         insertValue(externalCache);
         String value = "43";
         externalCache.insert(key, value);
-        assertThat(value, is(equalTo(externalCache.retrieve(key))));
+        validateEquality(value,externalCache.retrieve(key));
     }
 
     public void nullInsert(String name, ExternalCache<String,String>externalCache)
     {
         validateCache(externalCache);
         this.externalCache.insert(key, null);
-        assertThat(this.externalCache.retrieve(key),is(nullValue()));
+        validateNull(this.externalCache.retrieve(key));
     }
     public void testRemoveInvalidValue(String name, ExternalCache<String,String>externalCache)
     {
         validateCache(externalCache);
-        assertNull(this.externalCache.remove("FOO"));
+        validateNull(this.externalCache.retrieve("FOO"));
     }
     private void insertValue(ExternalCache<String,String>externalCache)
     {
         validateCache(externalCache);
         String value = "42";
         this.externalCache.insert(key, value);
-        assertThat(value, is(equalTo(externalCache.retrieve(key))));
+        validateEquality(value,externalCache.retrieve(key));
     }
     private void validateCache(ExternalCache externalCache)
     {
-        assertThat(externalCache,is(not(equalTo(nullValue()))));
+        validateNotNull(externalCache);
         this.externalCache = externalCache;
     }
 }

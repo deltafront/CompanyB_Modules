@@ -1,5 +1,6 @@
 package companyB.cache.test.utils;
 
+import companyB.cache.test.ExternalCacheTestBase;
 import companyB.cache.utils.NullStringValueNormalizer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,7 +9,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 @Test(groups = {"unit","http.cache.enabled","utils","null.string.value.normalizer"})
-public class NullStringValueNormalizerTest
+public class NullStringValueNormalizerTest extends ExternalCacheTestBase
 {
     private NullStringValueNormalizer normalizer;
 
@@ -20,20 +21,20 @@ public class NullStringValueNormalizerTest
 
     public void normalizerFromNull()
     {
-        assertThat(NullStringValueNormalizer.NULL_STRING,is(equalTo(normalizer.cleanNullStringValue(null))));
+        validateEquality(NullStringValueNormalizer.NULL_STRING,normalizer.cleanNullStringValue(null));
     }
     public void normalizerFromBlank()
     {
-        assertThat(NullStringValueNormalizer.NULL_STRING,is(equalTo(normalizer.cleanNullStringValue(""))));
+        validateEquality(NullStringValueNormalizer.NULL_STRING,normalizer.cleanNullStringValue(""));
     }
     public void normalizeFromNotNull()
     {
-        assertThat("foo",is(equalTo(normalizer.cleanNullStringValue("foo"))));
+        validateEquality("foo",normalizer.cleanNullStringValue("foo"));
     }
 
     public void normalizeToNull()
     {
-        assertThat(normalizer.dirtyNullStringValue(NullStringValueNormalizer.NULL_STRING),is(nullValue()));
+        validateNull(normalizer.dirtyNullStringValue(NullStringValueNormalizer.NULL_STRING));
     }
     public void normalizeToNotNull()
     {

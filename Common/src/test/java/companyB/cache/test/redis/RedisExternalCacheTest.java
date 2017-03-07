@@ -1,14 +1,14 @@
 package companyB.cache.test.redis;
 
-import companyB.cache.test.ExternalCacheTestBase;
 import companyB.cache.impl.redis.RedisExternalCache;
+import companyB.cache.test.ExternalCacheTestBase;
+import org.junit.Ignore;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertNotNull;
-
 @Test(groups = {"unit","http.cache.enabled","external.cache","redis.external.cache"})
+@Ignore("Not running now since this depends on an external service that has not been mocked.")
 public class RedisExternalCacheTest extends ExternalCacheTestBase
 {
     private Integer db;
@@ -24,8 +24,8 @@ public class RedisExternalCacheTest extends ExternalCacheTestBase
         host = "127.0.0.1";
         port = 6379;
         externalCache = new RedisExternalCache(host,port,db,name);
-        assertNotNull(externalCache);
-        assertNotNull(((RedisExternalCache)externalCache).ping());
+        validateNotNull(externalCache);
+        validateNotNull(((RedisExternalCache)externalCache).ping());
     }
     @AfterMethod
     public void after()

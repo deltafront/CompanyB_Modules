@@ -3,7 +3,6 @@ package companyB.cache.impl.guava;
 import com.google.common.cache.Cache;
 import companyB.cache.AbstractExternalCache;
 import companyB.cache.ExternalCache;
-import companyB.cache.utils.GuavaUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -42,10 +41,9 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     private GuavaExternalCache(String name,Integer maxSize,Long duration,TimeUnit timeUnit,Boolean expireAfterWrite)
     {
         super(name);
-        final GuavaUtils guavaUtils = new GuavaUtils();
-        if(null == expireAfterWrite) this.cache = guavaUtils.getMaxSizeCache(maxSize);
-        else if(expireAfterWrite) this.cache = guavaUtils.getExpireAfterWriteCache(duration, timeUnit);
-        else this.cache = guavaUtils.getExpireAfterAccessCache(duration, timeUnit);
+        if(null == expireAfterWrite) this.cache = GuavaCacheFactory.getMaxSizeCache(maxSize);
+        else if(expireAfterWrite) this.cache = GuavaCacheFactory.getExpireAfterWriteCache(duration, timeUnit);
+        else this.cache = GuavaCacheFactory.getExpireAfterAccessCache(duration, timeUnit);
         Validate.notNull(this.cache,"Cache has not been built. Aborting.");
     }
     @Override

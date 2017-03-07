@@ -8,10 +8,6 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 
 @SuppressWarnings("unchecked")
 @Test(groups = {"unit","http.cache.enabled","external.cache","guava.external.cache","guava.external.cache.expire.after.write"})
@@ -35,6 +31,6 @@ public class GuavaExternalCacheExpireAfterWriteTest extends ExternalCacheTestBas
     {
         externalCache.insert("key", "value");
         Thread.sleep(1001L);
-        assertThat(externalCache.retrieve("key"),is(nullValue()));
+        validateNull(externalCache.retrieve("key"));
     }
 }

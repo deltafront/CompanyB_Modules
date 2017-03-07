@@ -1,8 +1,7 @@
-package companyB.cache.utils;
+package companyB.cache.impl.guava;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import companyB.common.utils.UtilityBase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,8 +10,9 @@ import java.util.concurrent.TimeUnit;
  * @author Charles A. Burrell (deltafront@gmail.com)
  * @version 1.0.0
  */
-public class GuavaUtils extends UtilityBase
+public class GuavaCacheFactory
 {
+    private GuavaCacheFactory(){}
     /**
      * @param duration Value for time unit after last read or access a entry is set to expire.
      * @param timeUnit Time unit used for duration above.
@@ -20,7 +20,7 @@ public class GuavaUtils extends UtilityBase
      * @param <Value> Parametrised Value.
      * @return Guava cache whose entries are configured to expire a certain amount of time after the last write or access.
      */
-    public  <Key,Value>Cache<Key,Value> getExpireAfterAccessCache(Long duration, TimeUnit timeUnit)
+    public static <Key,Value>Cache<Key,Value> getExpireAfterAccessCache(Long duration, TimeUnit timeUnit)
     {
         return CacheBuilder.newBuilder().expireAfterAccess(duration,timeUnit).build();
     }
@@ -32,7 +32,7 @@ public class GuavaUtils extends UtilityBase
      * @param <Value> Parametrised Value.
      * @return Guava cache whose entries are configured to expire a certain amount of time after the last write.
      */
-    public  <Key,Value> Cache<Key,Value> getExpireAfterWriteCache(Long duration, TimeUnit timeUnit)
+    public static <Key,Value> Cache<Key,Value> getExpireAfterWriteCache(Long duration, TimeUnit timeUnit)
     {
        return CacheBuilder.newBuilder().expireAfterWrite(duration, timeUnit).build();
     }
@@ -43,7 +43,7 @@ public class GuavaUtils extends UtilityBase
      * @param <Value> Parametrised Value.
      * @return Guava cache whose maximum size is as configured.
      */
-    public  <Key,Value> Cache<Key,Value> getMaxSizeCache(Integer maxSize)
+    public static <Key,Value> Cache<Key,Value> getMaxSizeCache(Integer maxSize)
     {
         return CacheBuilder.newBuilder().maximumSize(maxSize).build();
     }

@@ -1,7 +1,7 @@
 package companyB.cache.test.guava;
 
 import com.google.common.cache.Cache;
-import companyB.cache.utils.GuavaUtils;
+import companyB.cache.impl.guava.GuavaCacheFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,52 +14,47 @@ import static org.hamcrest.core.Is.is;
 import static org.testng.Assert.assertNull;
 
 @Test(groups =  {"unit","http.cache.enabled","external.cache","guava.utils"})
-public class GuavaUtilsTest
+public class GuavaCacheFactoryTest
 {
-    private GuavaUtils guavaUtils;
 
     @BeforeMethod
-    public void before()
-    {
-        guavaUtils = new GuavaUtils();
-    }
     public void happyPathMaxSize()
     {
-        final Cache<String,String> cache = guavaUtils.getMaxSizeCache(10);
+        final Cache<String,String> cache = GuavaCacheFactory.getMaxSizeCache(10);
         assertThat(cache,is(not(nullValue())));
     }
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void maxSizeFail()
     {
-        final Cache<String,String> cache = guavaUtils.getMaxSizeCache(-1);
+        final Cache<String,String> cache = GuavaCacheFactory.getMaxSizeCache(-1);
         assertNull(cache);
     }
     @Test(expectedExceptions = NullPointerException.class)
     public void maxSizeNullFail()
     {
-        final Cache<String,String> cache = guavaUtils.getMaxSizeCache(null);
+        final Cache<String,String> cache = GuavaCacheFactory.getMaxSizeCache(null);
         assertThat(cache,is(nullValue()));
     }
     public void happyPathExpireAfterAccess()
     {
-        final Cache<String,String> cache = guavaUtils.getExpireAfterAccessCache(10L, TimeUnit.MINUTES);
+        final Cache<String,String> cache = GuavaCacheFactory.getExpireAfterAccessCache(10L, TimeUnit.MINUTES);
         assertThat(cache,is(not(nullValue())));
     }
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void expireAfterAccessFail()
     {
-        final Cache<String,String> cache = guavaUtils.getExpireAfterAccessCache(-1L, TimeUnit.MINUTES);
+        final Cache<String,String> cache = GuavaCacheFactory.getExpireAfterAccessCache(-1L, TimeUnit.MINUTES);
         assertThat(cache,is(nullValue()));
     }
     public void happyPathExpireAfterWrite()
     {
-        final Cache<String,String> cache = guavaUtils.getExpireAfterWriteCache(10L, TimeUnit.MINUTES);
+        final Cache<String,String> cache = GuavaCacheFactory.getExpireAfterWriteCache(10L, TimeUnit.MINUTES);
         assertThat(cache,is(not(nullValue())));
     }
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void expireAfterWriteFail()
     {
-        final Cache<String,String> cache = guavaUtils.getExpireAfterWriteCache(10L, TimeUnit.valueOf("FOO"));
+        final Cache<String,String> cache = GuavaCacheFactory.getExpireAfterWriteCache(10L, TimeUnit.valueOf("FOO"));
         assertThat(cache,is(nullValue()));
     }
 }
