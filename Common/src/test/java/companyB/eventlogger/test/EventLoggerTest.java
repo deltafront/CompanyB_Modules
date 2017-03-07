@@ -6,11 +6,10 @@ import org.testng.annotations.Test;
 
 import java.util.Properties;
 
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
 @Test(groups = {"unit","event.logger","event.logger.test"})
-public class EventLoggerTest
+public class EventLoggerTest extends TestBase
 {
     private EventLoggerFactory eventLoggerFactory;
     private EventLogger eventLogger;
@@ -50,13 +49,13 @@ public class EventLoggerTest
             }
         };
         EventLogger eventLogger = eventLoggerFactory.getEventLogger(this).withLogMessageFormatter(logMessageFormatter);
-        assertEquals(logMessageFormatter.getClass(), eventLogger.getLogMessageFormatter().getClass());
+        validateEquality(logMessageFormatter.getClass(), eventLogger.getLogMessageFormatter().getClass());
     }
     @Test
     public void defaultLogFormatter()
     {
         EventLogger eventLogger = eventLoggerFactory.getEventLogger(this);
-        assertEquals(DefaultLogMessageFormatter.class, eventLogger.getLogMessageFormatter().getClass());
+        validateEquality(DefaultLogMessageFormatter.class, eventLogger.getLogMessageFormatter().getClass());
     }
 
     @Test
@@ -110,7 +109,7 @@ public class EventLoggerTest
                 eventLogger.error(eventCode, logMessage, throwable, properties);
                 break;
         }
-        assertEquals(state,eventLogger.getState());
-        assertEquals(expectedMessage,eventLogger.getLastMessage());
+        validateEquality(state,eventLogger.getState());
+        validateEquality(expectedMessage,eventLogger.getLastMessage());
     }
 }
