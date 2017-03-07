@@ -13,7 +13,7 @@ import java.util.List;
  * This class will handle CRUD DB operations using SQL queries.
  * For the time being, calling stored procedures is outside of the scope of this class.
  * @author C.A. Burrell deltafront@gmail.com
- * @since 2.3.0
+ * @version 1.0.0
  */
 public class JdbcUtils extends UtilityBase
 {
@@ -30,7 +30,6 @@ public class JdbcUtils extends UtilityBase
      * @param jdbcPassword Password used by user to connect to database.
      * @param jdbcUrl URL of database.
      * @param jdbcDriverClass Fully Qualified name of JDBC driver class.
-     * @since 3.0.0
      */
     public JdbcUtils(String jdbcUsername, String jdbcPassword, String jdbcUrl, String jdbcDriverClass)
     {
@@ -48,7 +47,6 @@ public class JdbcUtils extends UtilityBase
      * @param sql SQL query to be executed.
      * @param resultSetTransformer Result Set Transformer used to bind the returned result set to POJOs.
      * @return A list containing all of the result mappings of the query.
-     * @since 3.0.0
      */
     public<TargetClass> List<TargetClass>query(String sql, ResultSetTransformer<TargetClass> resultSetTransformer)
     {
@@ -60,13 +58,10 @@ public class JdbcUtils extends UtilityBase
      * @param resultSetTransformer Result Set Transformer used to bind the returned result set to POJOs.
      * @param replacements List of replacement values to be used in the Prepared Statement.
      * @return A list containing all of the result mappings of the query.
-     * @since 3.0.0
      */
     public<TargetClass> List<TargetClass>query(String sql, ResultSetTransformer<TargetClass> resultSetTransformer, Object...replacements)
     {
-        final List<TargetClass>list =insertUpdateQuery(sql,Operation.query,resultSetTransformer,replacements);
-        LOGGER.debug(String.format("Returning %s results from query.", list.size()));
-        return list;
+        return insertUpdateQuery(sql,Operation.query,resultSetTransformer,replacements);
     }
 
 
@@ -74,7 +69,6 @@ public class JdbcUtils extends UtilityBase
      * Inserts data into the database using a simple Statement.
      * @param sql SQL query to be executed.
      * @return Id if inserted data, or -1 if insert was not successful.
-     * @since 3.0.0
      */
     public Long insert(String sql)
     {
@@ -86,20 +80,16 @@ public class JdbcUtils extends UtilityBase
      * @param sql SQL query to be executed.
      * @param replacements List of replacement values to be used in the Prepared Statement.
      * @return Id if inserted data, or -1 if insert was not successful.
-     * @since 3.0.0
      */
     public Long insert(String sql, Object...replacements)
     {
-        Long id = insertUpdateQuery(sql,Operation.insert,null,replacements);
-        LOGGER.trace(String.format("Returning id to client: %d", id));
-        return id;
+        return insertUpdateQuery(sql,Operation.insert,null,replacements);
     }
 
     /**
      * Updates data in the database using a simple Statement.
      * @param sql SQL query to be executed.
      * @return Number of rows of data affected by update, or -1 if update was not successful.
-     * @since 3.0.0
      */
     public Integer update(String sql)
     {
@@ -160,10 +150,9 @@ public class JdbcUtils extends UtilityBase
     private <T, TargetClass> T insertUpdateQuery(String sql, Operation operation, ResultSetTransformer<TargetClass>resultSetTransformer, Object...replacements)
     {
         Object out = null;
-        try
+        try(final Connection connection = dataSource.getConnection();
+            final Statement statement = getStatement(sql, connection, replacements);)
         {
-            Connection connection = dataSource.getConnection();
-            Statement statement = getStatement(sql, connection, replacements);
             Boolean isPreparedStatement = statement instanceof PreparedStatement;
             if(isPreparedStatement)doReplace((PreparedStatement) statement, replacements);
             switch (operation)

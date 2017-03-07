@@ -10,15 +10,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
 @Test(groups = {"unit", "jdbc"})
-public class JdbcTest
+public class JdbcTest extends TestBase
 {
     private final Boolean SUCCESS_EXPECTED = true;
     private final Boolean SUCCESS_NOT_EXPECTED = false;
@@ -125,8 +120,8 @@ public class JdbcTest
     private void runUpdate(String sql)
     {
         final Integer result = jdbcUtils.update(sql);
-        assertNotNull(result);
-        assertTrue("Result is -1!", result > -1L);
+        validateNotNull(result);
+        validateTrue(result > -1L);
     }
     private void doUpdate(Boolean runFailedCase, Boolean usePreparedStatement)
     {
@@ -144,7 +139,7 @@ public class JdbcTest
                 "UPDATE TEST SET NAME=? WHERE ID=?" :
                 "UPDATE TEST SET NAME='BAZ' WHERE ID=" + id;
         final Integer updated = jdbcUtils.update(update_sql, update_values);
-        assertTrue(updated > 0);
+        validateTrue(updated > 0);
         if(runFailedCase)
         {
             //update first row to match the second
@@ -155,7 +150,7 @@ public class JdbcTest
                     "UPDATE TEST SET NAME=? WHERE ID=?" :
                     "UPDATE TEST SET NAME='BAR' WHERE ID=" + id;
             final Integer failed_update_count = jdbcUtils.update(failed_update_sql,failed_update_values);
-            assertTrue(failed_update_count.equals(-1));
+            validateTrue(failed_update_count.equals(-1));
         }
     }
 
@@ -169,11 +164,11 @@ public class JdbcTest
                 jdbcUtils.insert(sql);
         if (successExpected)
         {
-            assertTrue(id > -1L);
+            validateTrue(id > -1L);
         }
         else
         {
-            assertTrue(id.equals(-1L));
+            validateTrue(id.equals(-1L));
         }
         return id;
     }
@@ -181,7 +176,7 @@ public class JdbcTest
     private void doQuery(Boolean successExpected, Boolean usePreparedStatement)
     {
         Long id = doInsert(true, usePreparedStatement);
-        assertTrue(id > -1L);
+        validateTrue(id > -1L);
         final String tableName = (successExpected) ?
                 "TEST" : "FOO";
         final String sql = (usePreparedStatement) ?
@@ -192,15 +187,15 @@ public class JdbcTest
                 jdbcUtils.query(sql.replace("{}",tableName), resultSetTransformer);
         if (successExpected)
         {
-            assertTrue(results.size() == 1);
+            validateTrue(results.size() == 1);
             final TestObj result = results.get(0);
             final Long fromDb = result.id;
-            assertNotNull(fromDb);
-            assertEquals(id, fromDb);
+            validateNotNull(fromDb);
+            validateEquality(id, fromDb);
         }
         else
         {
-            assertTrue(results.isEmpty());
+            validateTrue(results.isEmpty());
         }
     }
 
