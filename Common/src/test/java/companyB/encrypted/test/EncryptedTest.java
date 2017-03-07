@@ -5,12 +5,10 @@ import companyB.encrypted.EncryptedDecorator;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
-
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
+import java.util.function.BiConsumer;
 
 @Test(groups = {"unit","encrypted","encrypted.enabled"})
-public class EncryptedTest
+public class EncryptedTest extends TestBase
 {
 
     public void doTestClass()
@@ -33,9 +31,10 @@ public class EncryptedTest
                 field.setAccessible(true);
                 String name = field.getName();
                 String value = String.valueOf(field.get(testObject));
-                assertNotNull(value);
-                assertFalse(field.getAnnotation(Encrypted.class) != null && value.equals(name));
-                System.out.println(value);
+                validateNotNull(value);
+                final BiConsumer<Object,Object> consumer = (null==field.getAnnotation(Encrypted.class)) ?
+                        this::validateEquality : this::validateNonEquality;
+                consumer.accept(name,value);
             }
             catch (IllegalAccessException e)
             {

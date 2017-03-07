@@ -11,7 +11,7 @@ import java.util.function.Function;
 /**
  * Annotation used to designate a String that is to be encrypted.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0.0
+ * @version 1.0.0
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
