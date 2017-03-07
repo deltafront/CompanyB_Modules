@@ -11,7 +11,7 @@ import java.util.Hashtable;
 /**
  * Class responsible for providing singleton instances of EventLoggers to external clients.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0.0
+ * @version 1.0.0
  */
 public class EventLoggerFactory
 {
@@ -21,7 +21,6 @@ public class EventLoggerFactory
     /**
      * @param name Name of Event Logger to get.
      * @return Singleton instance of Event Logger.
-     * @since 2.0.0
      */
     public EventLogger getEventLogger(String name)
     {
@@ -32,7 +31,6 @@ public class EventLoggerFactory
     /**
      * @param c Class to bind EventLogger to.
      * @return Singleton instance of Event Logger.
-     * @since 2.0.0
      */
     public EventLogger getEventLogger(Class c)
     {
@@ -43,7 +41,6 @@ public class EventLoggerFactory
      * @param instance Instance of class to bind EventLogger to. Internally, the event logger is bound to the string representation
      *                 of the instance's hash code.
      * @return Singleton instance of Event Logger.
-     * @since 2.0.0
      */
     public EventLogger getEventLogger(Object instance)
     {
@@ -90,12 +87,10 @@ public class EventLoggerFactory
                     EventLog eventLog = field.getAnnotation(EventLog.class);
                     if(null != eventLog)
                     {
-                        String key = getName(eventLog,instance);
-                        LogMessageFormatter logMessageFormatter = getLogMessageFormatter(eventLog);
-                        EventLogger eventLogger = getLogger(key).withLogMessageFormatter(logMessageFormatter);
+                        final String key = getName(eventLog,instance);
+                        final LogMessageFormatter logMessageFormatter = getLogMessageFormatter(eventLog);
+                        final EventLogger eventLogger = getLogger(key).withLogMessageFormatter(logMessageFormatter);
                         field.set(instance,eventLogger);
-                        LOGGER.trace("Decorated field {}.{} (key={}) with instance of EventLogger",
-                                instance.getClass().getCanonicalName(),field.getName(),key);
                     }
                 }
             }
@@ -115,28 +110,27 @@ public class EventLoggerFactory
             Logger logger = LoggerFactory.getLogger(key);
             loggerMapping.put(key, new EventLogger(logger, String.valueOf(key)));
         }
-        LOGGER.trace(String.format("Returning instance of EventLogger bound to key '%s'.",key));
         return loggerMapping.get(key);
     }
     private String getName(EventLog eventLog, Object instance)
     {
-        if (StringUtils.isEmpty(eventLog.name())) return instance.getClass().getCanonicalName();
-        else return eventLog.name();
+        return (StringUtils.isEmpty(eventLog.name())) ?
+                instance.getClass().getCanonicalName() :
+                eventLog.name();
     }
     @SuppressWarnings("unchecked")
     private <T extends LogMessageFormatter> T getLogMessageFormatter(EventLog eventLog)
     {
-        Class logMessageFormatClass = eventLog.logMessageFormatter();
+        final Class logMessageFormatClass = eventLog.logMessageFormatter();
         LogMessageFormatter out = new DefaultLogMessageFormatter();
         try
         {
-            if (null != logMessageFormatClass)out = (LogMessageFormatter)logMessageFormatClass.newInstance();
+            out = (LogMessageFormatter)logMessageFormatClass.newInstance();
         }
         catch (InstantiationException | IllegalAccessException e)
         {
             LOGGER.error(e.getMessage(), e);
         }
-        LOGGER.trace(String.format("Returning instance of %s.",out.getClass().getCanonicalName()));
         return (T)out;
     }
 }

@@ -8,13 +8,13 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to mark an EventLogger field as being eligible for decoration.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0.0
+ * @version 1.0.0
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventLog
 {
     /* Optional name of this logger. Default name is the class name. */
-    public String name() default "";
-    public Class logMessageFormatter() default DefaultLogMessageFormatter.class;
+    String name() default "";
+    Class logMessageFormatter() default DefaultLogMessageFormatter.class;
 }

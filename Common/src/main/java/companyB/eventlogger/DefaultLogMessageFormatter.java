@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Default implementation of LogMessageFactory. Messages will be formatted to look like "Event=TestEventCode (42) {this=that,message=this is a test message}".
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.0.0
+ * @version 1.0.0
  */
 public class DefaultLogMessageFormatter implements LogMessageFormatter
 {
