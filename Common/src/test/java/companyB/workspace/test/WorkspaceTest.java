@@ -13,11 +13,8 @@ import java.nio.file.Path;
 
 import static junit.framework.TestCase.*;
 
-/**
- * Created by Charles Burrell (deltafront@gmail.com).
- */
 @Test(groups = {"unit", "workspace"})
-public class WorkspaceTests
+public class WorkspaceTest extends TestBase
 {
     private TemporaryWorkspace temporaryWorkspace;
     private String pathSep = File.separator;
@@ -46,14 +43,14 @@ public class WorkspaceTests
     {
         String path = FileUtils.getTempDirectoryPath();
         String root = temporaryWorkspace.getRoot().toAbsolutePath().toString();
-        assertTrue(String.format("Path '%s' does not contain root '%s'.",path,root),root.contains(path));
+        validateTrue(root.contains(path));
     }
     public void createDirectory()
     {
         String directory = "foo";
         String expected = String.format("%s%s%s", temporaryWorkspace.getRoot(), pathSep,directory);
         String actual = temporaryWorkspace.createDirectory(directory).toAbsolutePath().toString();
-        assertEquals(expected,actual);
+        validateEquality(expected,actual);
     }
     public void copyFileAtRoot()
     {
@@ -102,8 +99,8 @@ public class WorkspaceTests
             final File actual = (move) ?
                     temporaryWorkspace.moveFile(expected,dir).toFile() :
                     temporaryWorkspace.copyFile(expected,dir).toFile();
-            assertTrue(null != actual);
-            assertEquals(!move, expected.exists());
+            validateTrue(null != actual);
+            validateEquality(!move, expected.exists());
         }
         catch (IOException e)
         {
@@ -116,17 +113,17 @@ public class WorkspaceTests
         final String content = "This is some content.";
         final byte[]bytes = content.getBytes();
         final Path expected = temporaryWorkspace.writeFile("temp.txt",bytes);
-        assertNotNull(expected);
+        validateNotNull(expected);
         if(get)
         {
             final File actual  = temporaryWorkspace.getFile(expected.toFile().getName());
-            assertNotNull(actual);
-            assertTrue(actual.getName().contains("temp.txt"));
+            validateNotNull(actual);
+            validateTrue(actual.getName().contains("temp.txt"));
             try
             {
                 final String actualContent = FileUtils.readFileToString(actual, "UTF-8");
-                assertNotNull(actualContent);
-                assertEquals(content,actualContent);
+                validateNotNull(actualContent);
+                validateEquality(content,actualContent);
             }
             catch (IOException e)
             {
@@ -141,7 +138,7 @@ public class WorkspaceTests
         {
             temporaryWorkspace.removeFile("temp.txt");
             final File actual  = temporaryWorkspace.getFile(expected.toFile().getName());
-            assertNull(actual);
+            validateNull(actual);
         }
     }
 }

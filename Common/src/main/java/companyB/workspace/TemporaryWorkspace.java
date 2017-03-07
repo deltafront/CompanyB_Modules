@@ -8,7 +8,7 @@ import java.nio.file.Path;
  * This interface defines the contract for classes that create a temporary workspace in which to contain files needed for
  * application operations.
  * @author C.A. Burrell deltafront@gmail.com
- * @since 2.3.0
+ * @version 1.0.0
  */
 public interface TemporaryWorkspace extends Closeable
 {
