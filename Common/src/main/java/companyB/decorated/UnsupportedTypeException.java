@@ -10,7 +10,6 @@ public class UnsupportedTypeException extends Throwable
     /**
      * Default constructor.
      * @param c Class that is not supported.
-     * @since 1.0.0
      */
     public UnsupportedTypeException(Class c)
     {

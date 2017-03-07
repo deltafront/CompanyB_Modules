@@ -14,7 +14,7 @@ import java.util.Properties;
 /**
  * Decorates the fields of a class that are annotated with the @Decorated annotation. See the documentation for supported types.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0.0
+ * @version 1.0.0
  */
 @SuppressWarnings("ALL")
 public class BeanDecorator
@@ -36,7 +36,6 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0.0
      */
     public <T> T decorate(Class<T> typeOf, String propertiesFileName) throws UnsupportedTypeException
     {
@@ -62,7 +61,6 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated field are of a type that is not supported.
-     * @since 1.0.0
      */
     public <T> T decorate(T instance, String propertiesFileName) throws UnsupportedTypeException
     {
@@ -86,7 +84,6 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0.0
      */
     public <T> T decorate(Class<T>typeOf, Properties properties) throws UnsupportedTypeException
     {
@@ -113,7 +110,6 @@ public class BeanDecorator
      * @param <T> Generic type of class
      * @return Instance of class whose annotated fields have been decorated with the values found in the properties file.
      * @throws UnsupportedTypeException if any of the annotated fields are of a type that is not supported.
-     * @since 1.0.0
      */
     public <T> T decorate(T instance, Properties properties) throws UnsupportedTypeException
     {
@@ -134,12 +130,9 @@ public class BeanDecorator
     private <T> void decorateField(T instance, Properties properties, Field field, Decorated decorated) throws UnsupportedTypeException
     {
         final String name = getName(field,decorated);
-        LOGGER.debug("Resolved Name: {}",name);
         final String value = getValue(name,decorated,properties);
-        LOGGER.debug("Resolved Value: {}",value);
         final Object coerced = coerce(value,field.getType());
         final String classType = (null == coerced) ? "Null" : coerced.getClass().getCanonicalName();
-        LOGGER.debug("Coerced to {} [instance of {}]",String.valueOf(coerced),classType);
         if(null != coerced && 0 != String.valueOf(coerced).length()) fieldUtils.setField(field, instance, coerced);
     }
 

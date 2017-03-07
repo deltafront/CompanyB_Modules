@@ -15,13 +15,11 @@ public @interface Decorated
 {
     /**
      * @return Default value if value is not found in the properties.
-     * @since 1.0.0
      */
     String defaultValue() default "";
 
     /**
      * @return Name of field as it appears in the properties file or object.
-     * @since 1.0.0
      */
     String alternateName() default "";
 }

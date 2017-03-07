@@ -10,13 +10,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.testng.AssertJUnit.fail;
 
 @Test(groups = {"unit","decorator","decorator.file.loaded"})
-public class FileLoadedTestClassTest
+public class FileLoadedTestClassTest extends TestBase
 {
     private FileLoadedTestClass fileLoadedTestClass;
     private AbstractFileLoadedTestClass abstractFileLoadedTestClass;
@@ -27,13 +24,13 @@ public class FileLoadedTestClassTest
     public void validPropertiesFile() throws UnsupportedTypeException
     {
         generateFile(true,false);
-        assertNotNull(fileLoadedTestClass);
-        assertEquals(value,fileLoadedTestClass.stringVal);
+        validateNotNull(fileLoadedTestClass);
+        validateEquality(value,fileLoadedTestClass.stringVal);
     }
     public void validPropertiesFileInvalidClass() throws UnsupportedTypeException
     {
         generateFile(true,false);
-        assertNull(abstractFileLoadedTestClass);
+        validateNull(abstractFileLoadedTestClass);
     }
     @Test(expectedExceptions = IllegalStateException.class)
     public void inValidPropertiesXmlFile() throws UnsupportedTypeException
@@ -51,13 +48,13 @@ public class FileLoadedTestClassTest
     public void validPropertiesXmlFile() throws UnsupportedTypeException
     {
         generateFile(true,true);
-        assertNotNull(fileLoadedTestClass);
-        assertEquals(value,fileLoadedTestClass.stringVal);
+        validateNotNull(fileLoadedTestClass);
+        validateEquality(value,fileLoadedTestClass.stringVal);
     }
     private void generateFile(boolean loadCorrectFile, boolean isXML) throws UnsupportedTypeException
     {
         BeanDecorator beanDecorator = new BeanDecorator();
-        assertNotNull(beanDecorator);
+        validateNotNull(beanDecorator);
         String prolog = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
             "<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">";
         String property = (isXML) ? String.format("%s<properties><entry key=\"%s\">%s</entry></properties>",prolog,key,value) : String.format("%s=%s",key,value);

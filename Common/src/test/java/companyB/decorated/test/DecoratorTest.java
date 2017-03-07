@@ -13,12 +13,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Properties;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.fail;
 
 @Test(groups = {"unit","decorator"})
-public class DecoratorTest
+public class DecoratorTest extends TestBase
 {
     private TestClass testClass;
     private BeanDecorator beanDecorator;
@@ -32,63 +30,63 @@ public class DecoratorTest
     {
         String value = "value";
         set("stringValNoDefault",value);
-        assertEquals(value,testClass.stringValNoDefault);
+        validateEquality(value,testClass.stringValNoDefault);
     }
     public void stringValCanNotSet() throws UnsupportedTypeException
     {
         String value = "value";
         set("canNotSet",value);
-        assertEquals("Can not set",testClass.canNotSet);
+        validateEquality("Can not set",testClass.canNotSet);
     }
     public void stringValDefault() throws UnsupportedTypeException
     {
         set("stringValDefault","");
-        assertEquals("this",testClass.stringValDefault);
+        validateEquality("this",testClass.stringValDefault);
     }
     public void stringValDefaultNotFound() throws UnsupportedTypeException
     {
         set("stringValDefault","this");
-        assertEquals("Found!",testClass.notFoundField);
+        validateEquality("Found!",testClass.notFoundField);
     }
 
     public void stringValAltName() throws UnsupportedTypeException
     {
         String value = "value";
         set("stringAlt",value);
-        assertEquals(value,testClass.stringValAltName);
+        validateEquality(value,testClass.stringValAltName);
     }
     public void stringValAltNameDefault() throws UnsupportedTypeException
     {
         set("stringAltNameDefault","");
-        assertEquals("alt",testClass.stringValAltNameDefault);
+        validateEquality("alt",testClass.stringValAltNameDefault);
     }
 
     public void longVal() throws UnsupportedTypeException
     {
         Long value = 42L;
         set("longVal", String.valueOf(value));
-        assertEquals(value, testClass.longVal);
+        validateEquality(value, testClass.longVal);
     }
 
     public void shortVal() throws UnsupportedTypeException
     {
         Short value = 42;
         set("shortVal",String.valueOf(value));
-        assertEquals(value, testClass.shortVal);
+        validateEquality(value, testClass.shortVal);
     }
 
     public void doubleVal() throws UnsupportedTypeException
     {
         Double value = 42.00;
         set("doubleVal",String.valueOf(value));
-        assertEquals(value,testClass.doubleVal);
+        validateEquality(value,testClass.doubleVal);
     }
 
     public void intVal() throws UnsupportedTypeException
     {
         Integer value = 42;
         set("intVal",String.valueOf(value));
-        assertEquals(value,testClass.intVal);
+        validateEquality(value,testClass.intVal);
     }
 
 
@@ -97,7 +95,7 @@ public class DecoratorTest
     {
         Boolean value = true;
         set("boolVal",String.valueOf(value));
-        assertEquals(value,testClass.boolVal);
+        validateEquality(value,testClass.boolVal);
     }
 
 
@@ -105,7 +103,7 @@ public class DecoratorTest
     {
         Character value = 'a';
         set("charVal",String.valueOf(value));
-        assertEquals(value,testClass.charVal);
+        validateEquality(value,testClass.charVal);
     }
 
     @SuppressWarnings("OctalInteger")
@@ -113,22 +111,23 @@ public class DecoratorTest
     {
         Byte value = 0101;
         set("byteVal",String.valueOf(value));
-        assertEquals(value,testClass.byteVal);
+        validateEquality(value,testClass.byteVal);
     }
 
     public void bigIntVal() throws UnsupportedTypeException
     {
         BigInteger value = new BigInteger("10101");
         set("bigIntVal",String.valueOf(value));
-        assertEquals(value,testClass.bigIntVal);
+        validateEquality(value,testClass.bigIntVal);
     }
 
     public void bigDecimalVal() throws UnsupportedTypeException
     {
         BigDecimal value = new BigDecimal("10101.0001");
         set("bigDecimalVal",String.valueOf(value));
-        assertEquals(value,testClass.bigDecimalVal);
+        validateEquality(value,testClass.bigDecimalVal);
     }
+
     @Test(expectedExceptions = {UnsupportedTypeException.class})
     public void unsupportedType() throws UnsupportedTypeException
     {
@@ -145,7 +144,7 @@ public class DecoratorTest
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
         TestClass.PublicInnerClass publicInnerClass = beanDecorator.decorate(TestClass.PublicInnerClass.class,properties);
-        assertEquals(value, publicInnerClass.stringVal);
+        validateEquality(value, publicInnerClass.stringVal);
     }
 
     public void abstractClass() throws UnsupportedTypeException
@@ -154,7 +153,7 @@ public class DecoratorTest
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
         AbstractTestClass abstractTestClass = beanDecorator.decorate(AbstractTestClass.class,properties);
-        assertNull(abstractTestClass);
+        validateNull(abstractTestClass);
     }
 
 
@@ -164,7 +163,7 @@ public class DecoratorTest
         Properties properties = new Properties();
         properties.setProperty("stringVal",value);
         beanDecorator.decorate(StaticMemberTestClass.class,properties);
-        assertNull(StaticMemberTestClass.stringVal);
+        validateNull(StaticMemberTestClass.stringVal);
     }
 
     private void set(String key, String value) throws UnsupportedTypeException
@@ -173,5 +172,6 @@ public class DecoratorTest
         properties.setProperty(key,value);
         testClass = beanDecorator.decorate(TestClass.class,properties);
     }
+
 
 }
