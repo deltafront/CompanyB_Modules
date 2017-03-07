@@ -11,9 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Default implementation of ApplicationContext. This implementation is meant to be thread-safe, backed by a Concurrent
  * HashMap.
- *
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0.0
+ * @version 1.0.0
  */
 @SuppressWarnings("unchecked")
 public class DefaultIApplicationContext implements I_ApplicationContext
@@ -25,7 +24,6 @@ public class DefaultIApplicationContext implements I_ApplicationContext
 
     /**
      * Default constructor for class. All instances of this class share the same thread-safe mapping.
-     * @since 1.0.0
      */
     public DefaultIApplicationContext()
     {
@@ -36,7 +34,6 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     /**
      * All instances of this class share the same thread-safe mapping.
      * @param classArgsContainerList List of ClassArgsConstructors
-     * @since 1.0.0
      */
     public DefaultIApplicationContext(List<ClassArgsContainer> classArgsContainerList)
     {
@@ -50,8 +47,6 @@ public class DefaultIApplicationContext implements I_ApplicationContext
             Validate.notBlank(id,"Id required.");
             final Object instance = factoryUtils.getInstance(c, args);
             Validate.isTrue(this.associate(id, instance));
-            LOGGER.trace("Instantiated instance of '{}' (number of args: {}).",
-                    c.getCanonicalName(), args.length);
         }
     }
 
@@ -64,7 +59,6 @@ public class DefaultIApplicationContext implements I_ApplicationContext
         {
             mapping.put(key, value);
             inserted.getAndSet(true);
-            LOGGER.trace("Associating key {} with value {} ? {}.", key, String.valueOf(value), inserted);
         }
         return inserted.get();
     }
@@ -72,15 +66,12 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     @Override
     public <Value> Value get(String key)
     {
-        Value value = (Value) mapping.get(key);
-        LOGGER.trace("Returning value for key '{}' : [{}].", key, String.valueOf(value));
-        return value;
+        return (Value) mapping.get(key);
     }
 
     @Override
     public Set<String> getKeys()
     {
-        LOGGER.trace("Returning {} keys.", mapping.keySet().size());
         return mapping.keySet();
     }
 
@@ -88,9 +79,7 @@ public class DefaultIApplicationContext implements I_ApplicationContext
     public <T> T getInstance(Class<T> c, Object[] args, String id)
     {
         if (!mapping.containsKey(id)) mapping.put(id, factoryUtils.getInstance(c, args));
-        final T out = (T) mapping.get(id);
-        LOGGER.trace("Instance of %s returned? {}", c.getCanonicalName(), null != out);
-        return out;
+        return  (T) mapping.get(id);
     }
 
     @Override
