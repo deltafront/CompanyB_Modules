@@ -2,8 +2,6 @@ package companyB.configuration;
 
 
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,17 +9,14 @@ import java.util.Map;
 /**
  * This class generates family mappings from a configuration file.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0.0
+ * @version 1.0.0
  */
 public class CustomMapper
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CustomMapper.class);
-
     /**
      *  Returns a mapping of Family mappings based on the properties provided.
      * @param properties Key=Value parings from java properties file.
      * @return Family mappings from the properties mapping.
-     * @since 1.0.0
      */
     public Map<String,Map<String,String>>getMappings(Map<String,String> properties)
     {
@@ -35,7 +30,6 @@ public class CustomMapper
             final String value = properties.get(property);
             if(!mappings.containsKey(family))mappings.put(family, new HashMap<>());
             mappings.get(family).put(key,value);
-            LOGGER.trace("Associated key '{}' = '{}' (family: '{}')",key,value,family);
         });
         return mappings;
     }

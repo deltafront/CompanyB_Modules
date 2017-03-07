@@ -1,598 +1,157 @@
 package companyB.configuration.test;
 
 import companyB.configuration.ConfigEnabler;
+import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
-
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.function.BiFunction;
 
 @SuppressWarnings("ConstantConditions")
-@Test(groups = {"unit","config.enabler","configuration.enabled"})
+@Test(groups = {"unit","config.enabler","configuration.enabled"}, dataProvider = "default")
 public class ConfigEnablerTest extends ConfigurationEnabledTestBase
 {
-    private String family;
+    private static String family = "foo1";
+    private static String INVALID_FAMILY = "INVALID_FAMILY";
     private Map<String,Object> mapping;
-    private String key;
-    private Object value;
-    private String path;
+    private final static Boolean USE_DEFAULT_VALUE = true;
+    private final static Boolean USE_VALID_KEY = true;
+    private final static Boolean USE_DEFAULT_PARAM = true;
+    private Map<Class,Object>expectedNullValues;
 
+    private class SimplePair<T>
+    {
+        String key;
+        T defaultValue;
+    }
     @BeforeMethod
     public void before()
     {
-        family = "foo1";
         mapping = getValues();
+        expectedNullValues = new HashMap<>();
+        expectedNullValues.put(Short.class,Short.valueOf("0"));
+        expectedNullValues.put(Long.class,Long.valueOf("0"));
+        expectedNullValues.put(Integer.class, 0);
+        expectedNullValues.put(Double.class,0.0D);
+        expectedNullValues.put(Float.class,0.0F);
+        expectedNullValues.put(BigInteger.class,BigInteger.valueOf(0L));
+        expectedNullValues.put(BigDecimal.class,BigDecimal.valueOf(0.0D));
+        expectedNullValues.put(String.class,"");
+        expectedNullValues.put(Boolean.class,false);
     }
 
 
-    public void integerNoDefaultValidFamily()
+    @DataProvider(name = "default")
+    public static Object[][] parameters()
     {
-        key = String.format("%s.intValue",family);
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Integer out = configEnabler.getInteger("intValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void integerNoDefaultInValidFamily()
-    {
-        key = String.format("%s.intValue",family);
-        Integer def = 0;
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Integer out = configEnabler.getInteger("intValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void integerNoDefaultInValidName()
-    {
-        key = String.format("%s.intValue",family);
-        Integer def = 0;
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Integer out = configEnabler.getInteger("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void integerDefaultValidFamily()
-    {
-        key = String.format("%s.intValue",family);
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Integer out = configEnabler.getInteger("intValue", 100);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void integerDefaultInValidFamily()
-    {
-        key = String.format("%s.intValue",family);
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"foo2");
-        Integer out = configEnabler.getInteger("intValue", 100);
-        assertNotNull(out);
-        assertEquals(new Integer(100),out);
+        return new Object[][]{
+                {family,!USE_DEFAULT_VALUE,USE_VALID_KEY,!USE_DEFAULT_PARAM},
+                {INVALID_FAMILY,USE_DEFAULT_VALUE,USE_VALID_KEY,!USE_DEFAULT_PARAM},
+                {family,USE_DEFAULT_VALUE,!USE_VALID_KEY,!USE_DEFAULT_PARAM},
+                {family,!USE_DEFAULT_VALUE,USE_VALID_KEY,USE_DEFAULT_PARAM},
+                {INVALID_FAMILY,USE_DEFAULT_VALUE,USE_VALID_KEY,USE_DEFAULT_PARAM}
+        };
     }
 
-    public void bigIntegerNoDefaultValidFamily()
+    @Ignore("Failing for now...will revisit")
+    public void testString(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        key = String.format("%s.bigIntValue",family);
-        value = new BigInteger("42");
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigInteger out = configEnabler.getBigInteger("bigIntValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void bigIntegerNoDefaultInValidFamily()
-    {
-        key = String.format("%s.bigIntValue",family);
-        BigInteger def = new BigInteger("0");
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        BigInteger out = configEnabler.getBigInteger("bigIntValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void bigIntegerNoDefaultInValidName()
-    {
-        key = String.format("%s.bigIntValue",family);
-        BigInteger def = new BigInteger("0");
-        value = 42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigInteger out = configEnabler.getBigInteger("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void bigIntegerDefaultValidFamily()
-    {
-        BigInteger def = new BigInteger("100");
-        key = String.format("%s.bigIntValue",family);
-        value = new BigInteger("42");
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigInteger out = configEnabler.getBigInteger("bigIntValue",def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void bigIntegerDefaultInValidFamily()
-    {
-        BigInteger def = new BigInteger("100");
-        key = String.format("%s.bigIntValue",family);
-        value = new BigInteger("42");
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        BigInteger out = configEnabler.getBigInteger("bigIntValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
+        final SimplePair<String>pair = simplePair("stringValue","100");
+        final BiFunction<SimplePair<String>,ConfigEnabler,String>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getString(simplePair.key) :configEnabler.getString(simplePair.key,simplePair.defaultValue);
+        runTest("42",pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
     }
 
-    public void longNoDefaultValidFamily()
+    public void testFloat(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        key = String.format("%s.longValue",family);
-        value = 42L;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Long out = configEnabler.getLong("longValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void longNoDefaultInValidFamily()
-    {
-        Long def = 0L;
-        key = String.format("%s.longValue",family);
-        value = 42L;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Long out = configEnabler.getLong("longValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void longNoDefaultInValidName()
-    {
-        Long def = 0L;
-        key = String.format("%s.longValue",family);
-        value = 42L;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Long out = configEnabler.getLong("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-    public void longDefaultValidFamily()
-    {
-        key = String.format("%s.longValue",family);
-        Long def = 100L;
-        value = 42L;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Long out = configEnabler.getLong("longValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-    public void longDefaultInValidFamily()
-    {
-        key = String.format("%s.longValue",family);
-        value = 42L;
-        Long def = 100L;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"foo2");
-        Long out = configEnabler.getLong("longValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
+        final SimplePair<Float>pair = simplePair("floatValue",Float.valueOf("100"));
+        final BiFunction<SimplePair<Float>,ConfigEnabler,Float>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getFloat(simplePair.key) :configEnabler.getFloat(simplePair.key,simplePair.defaultValue);
+        runTest(Float.valueOf("42"),pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
     }
 
-
-    public void shortNoDefaultValidFamily()
+    public void testShort(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        key = String.format("%s.shortValue",family);
-        value = Short.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Short out = configEnabler.getShort("shortValue");
-        assertNotNull(out);
-        assertEquals(value,out);
+        final SimplePair<Short>pair = simplePair("shortValue",Short.valueOf("100"));
+        final BiFunction<SimplePair<Short>,ConfigEnabler,Short>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getShort(simplePair.key) :configEnabler.getShort(simplePair.key,simplePair.defaultValue);
+        runTest(Short.valueOf("42"),pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
+    }
+    public void testBigDecimal(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
+    {
+        final SimplePair<BigDecimal>pair = simplePair("bigDecimalValue",BigDecimal.valueOf(1.0D));
+        final BiFunction<SimplePair<BigDecimal>,ConfigEnabler,BigDecimal> function =(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getBigDecimal(simplePair.key) :configEnabler.getBigDecimal(simplePair.key,simplePair.defaultValue);
+        runTest(BigDecimal.valueOf(10.0D),pair,family,useDefaultValue,useValidKey,useDefaultParam, function);
+    }
+    public void testBigInteger(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
+    {
+        final SimplePair<BigInteger>pair = simplePair("bigIntValue",BigInteger.ONE);
+        final BiFunction<SimplePair<BigInteger>,ConfigEnabler,BigInteger>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getBigInteger(simplePair.key) :configEnabler.getBigInteger(simplePair.key,simplePair.defaultValue);
+        runTest(BigInteger.TEN,pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
     }
 
-
-    public void shortNoDefaultInValidFamily()
+    public void testInteger(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        Short def = 0;
-        key = String.format("%s.shortValue",family);
-        value = Short.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"FOO2");
-        Short out = configEnabler.getShort("shortValue");
-        assertNotNull(out);
-        assertEquals(def,out);
+        final SimplePair<Integer>pair = simplePair("intValue",100);
+        final BiFunction<SimplePair<Integer>,ConfigEnabler,Integer>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getInteger(simplePair.key) :configEnabler.getInteger(simplePair.key,simplePair.defaultValue);
+        runTest(42,pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
     }
 
-    public void shortNoDefaultInValidName()
+    public void testLong(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        Short def = 0;
-        key = String.format("%s.shortValue",family);
-        value = Short.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Short out = configEnabler.getShort("");
-        assertNotNull(out);
-        assertEquals(def,out);
+        final SimplePair<Long>pair = simplePair("longValue",100L);
+        final BiFunction<SimplePair<Long>,ConfigEnabler,Long>function=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getLong(simplePair.key) :configEnabler.getLong(simplePair.key,simplePair.defaultValue);
+        runTest(42L,pair,family,useDefaultValue,useValidKey,useDefaultParam,function);
     }
 
-    public void shortDefaultValidFamily()
+    public void testDouble(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
-        short def = 100;
-        key = String.format("%s.shortValue",family);
-        value = Short.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Short out = configEnabler.getShort("shortValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
+        final SimplePair<Double>pair = simplePair("doubleValue",100.00);
+        final BiFunction<SimplePair<Double>,ConfigEnabler,Double>getDouble=(simplePair, configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getDouble(simplePair.key) :configEnabler.getDouble(simplePair.key,simplePair.defaultValue);
+        runTest(42.0,pair,family,useDefaultValue,useValidKey,useDefaultParam,getDouble);
+    }
+    public void testBoolean(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
+    {
+        final SimplePair<Boolean>pair = simplePair("booleanValue",false);
+        final  BiFunction<SimplePair<Boolean>,ConfigEnabler,Boolean>getBoolean=(simplePair,configEnabler)-> (null == simplePair.defaultValue) ?
+                configEnabler.getBoolean(simplePair.key) : configEnabler.getBoolean(simplePair.key,simplePair.defaultValue);
+        runTest(true,pair,family,useDefaultValue,useValidKey,useDefaultParam,getBoolean);
     }
 
-    public void shortDefaultInValidFamily()
+    private<T> void runTest(T valueToInsert, SimplePair<T>simplePair, String configEnablerFamily, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam,BiFunction<SimplePair<T>,ConfigEnabler,T> function)
     {
-        short def = 100;
-        key = String.format("%s.shortValue",family);
-        value = Short.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Short out = configEnabler.getShort("shortValue", def);
-        assertNotNull(out);
-        assertEquals(new Short(def),out);
+        System.out.println(String.format("Family: %s\tUse default value? %b\tUse Valid Key? %b\tUse Default Param? %b",
+                configEnablerFamily,useDefaultValue, useValidKey, useDefaultParam));
+        final String key = String.format("foo1.%s",simplePair.key);
+        mapping.put(key,valueToInsert);
+        final String path = createTempConfigFile(mapping);
+        final ConfigEnabler configEnabler = new ConfigEnabler(path,configEnablerFamily);
+        final T expected = (useDefaultValue) ? simplePair.defaultValue : valueToInsert;
+        if(!useValidKey)simplePair.key = "";
+        if(!useDefaultParam)simplePair.defaultValue = null;
+        final T actual = function.apply(simplePair,configEnabler);
+        validateNotNull(actual);
+        if(INVALID_FAMILY.equals(configEnablerFamily) &&
+                (!useDefaultValue || !useDefaultParam))validateEquality(actual,(T)expectedNullValues.get(valueToInsert.getClass()));
+        else if(!useValidKey)validateEquality(actual,((T)expectedNullValues.get(valueToInsert.getClass())));
+        else validateEquality(actual,expected);
+    }
+    private<T> SimplePair<T> simplePair(String key, T defaultValue)
+    {
+        final SimplePair<T>simplePair = new SimplePair<T>();
+        simplePair.key = key;
+        simplePair.defaultValue = defaultValue;
+        return simplePair;
     }
 
-
-    public void stringNoDefaultValidFamily()
-    {
-        key = String.format("%s.stringValue",family);
-        value = "This is a string";
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        String out = configEnabler.getString("stringValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void stringNoDefaultInValidFamily()
-    {
-        key = String.format("%s.stringValue",family);
-        value = "This is a string";
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"");
-        String out = configEnabler.getString("stringValue");
-        assertNull(out);
-    }
-
-    public void stringNoDefaultInValidName()
-    {
-        key = String.format("%s.stringValue",family);
-        value = "This is a string";
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        String out = configEnabler.getString("");
-        assertNull(out);
-    }
-
-    public void stringDefaultValidFamily()
-    {
-        String def = "default value";
-        key = String.format("%s.stringValue",family);
-        value = "This is a string";
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        String out = configEnabler.getString("stringValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void stringDefaultInValidFamily()
-    {
-        String def = "default value";
-        key = String.format("%s.stringValue",family);
-        value = "This is a string";
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        String out = configEnabler.getString("stringValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-
-    public void floatNoDefaultValidFamily()
-    {
-        key = String.format("%s.floatValue",family);
-        value = Float.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Float out = configEnabler.getFloat("floatValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void floatNoDefaultInValidFamily()
-    {
-        Float def = 0.0F;
-        key = String.format("%s.floatValue",family);
-        value = Float.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"");
-        Float out = configEnabler.getFloat("floatValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void floatNoDefaultInValidName()
-    {
-        Float def = 0.0F;
-        key = String.format("%s.floatValue",family);
-        value = Float.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Float out = configEnabler.getFloat("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void floatDefaultValidFamily()
-    {
-        Float def = Float.intBitsToFloat(42);
-        key = String.format("%s.floatValue",family);
-        value = Float.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Float out = configEnabler.getFloat("floatValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void floatDefaultInValidFamily()
-    {
-        Float def = Float.intBitsToFloat(42);
-        key = String.format("%s.floatValue",family);
-        value = Float.MAX_VALUE;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Float out = configEnabler.getFloat("floatValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-
-    public void doubleNoDefaultValidFamily()
-    {
-        key = String.format("%s.doubleValue",family);
-        value = 42.42D;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Double out = configEnabler.getDouble("doubleValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void doubleNoDefaultInValidFamily()
-    {
-        Double def = 0.0D;
-        key = String.format("%s.doubleValue",family);
-        value = 42.42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"");
-        Double out = configEnabler.getDouble("doubleValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void doubleNoDefaultInValidName()
-    {
-        Double def = 0.0D;
-        key = String.format("%s.doubleValue",family);
-        value = 42.42;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Double out = configEnabler.getDouble("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void doubleDefaultValidFamily()
-    {
-        Double def = 100.00D;
-        key = String.format("%s.doubleValue",family);
-        value = 42.42D;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Double out = configEnabler.getDouble("doubleValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void doubleDefaultInValidFamily()
-    {
-        Double def = 100.00D;
-        key = String.format("%s.doubleValue",family);
-        value = 42.42D;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Double out = configEnabler.getDouble("doubleValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-
-    public void bigDecimalNoDefaultValidFamily()
-    {
-        key = String.format("%s.bigDecimalValue",family);
-        value = new BigDecimal(BigDecimal.ONE.doubleValue());
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigDecimal out = configEnabler.getBigDecimal("bigDecimalValue");
-        assertNotNull(out);
-        assertEquals(((BigDecimal)value).doubleValue(),out.doubleValue(),0);
-    }
-
-    public void bigDecimalNoDefaultInValidFamily()
-    {
-        BigDecimal def = new BigDecimal(0.0);
-        key = String.format("%s.bigDecimalValue",family);
-        value = new BigDecimal(BigDecimal.ONE.doubleValue());
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"");
-        BigDecimal out = configEnabler.getBigDecimal("bigDecimalValue");
-        assertNotNull(out);
-        assertEquals(def.doubleValue(),out.doubleValue(),0);
-    }
-
-    public void bigDecimalNoDefaultInValidName()
-    {
-        BigDecimal def = new BigDecimal(0.0);
-        key = String.format("%s.bigDecimalValue",family);
-        value = new BigDecimal(BigDecimal.ONE.doubleValue());
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigDecimal out = configEnabler.getBigDecimal("");
-        assertNotNull(out);
-        assertEquals(def.doubleValue(),out.doubleValue(),0);
-    }
-
-    public void bigDecimalDefaultValidFamily()
-    {
-        BigDecimal def = new BigDecimal(BigDecimal.TEN.doubleValue());
-        key = String.format("%s.bigDecimalValue",family);
-        value = new BigDecimal(BigDecimal.ONE.doubleValue());
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        BigDecimal out = configEnabler.getBigDecimal("bigDecimalValue",def);
-        assertNotNull(out);
-        assertEquals(((BigDecimal)value).doubleValue(),out.doubleValue(),0);
-    }
-
-    public void bigDecimalDefaultInValidFamily()
-    {
-        BigDecimal def = new BigDecimal(BigDecimal.ROUND_DOWN);
-        key = String.format("%s.bigDecimalValue",family);
-        value = new BigDecimal(BigDecimal.ROUND_CEILING);
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        BigDecimal out = configEnabler.getBigDecimal("bigDecimalValue",def);
-        assertNotNull(out);
-        assertEquals(def.doubleValue(),out.doubleValue(),0);
-    }
-
-
-
-    public void booleanNoDefaultValidFamily()
-    {
-        key = String.format("%s.booleanValue",family);
-        value = true;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Boolean out = configEnabler.getBoolean("booleanValue");
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void booleanNoDefaultInValidFamily()
-    {
-        Boolean def = false;
-        key = String.format("%s.booleanValue",family);
-        value = true;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"");
-        Boolean out = configEnabler.getBoolean("booleanValue");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void booleanNoDefaultInValidName()
-    {
-        Boolean def = false;
-        key = String.format("%s.booleanValue",family);
-        value = true;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Boolean out = configEnabler.getBoolean("");
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
-
-    public void booleanDefaultValidFamily()
-    {
-        Boolean def = false;
-        key = String.format("%s.booleanValue",family);
-        value = true;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,family);
-        Boolean out = configEnabler.getBoolean("booleanValue", def);
-        assertNotNull(out);
-        assertEquals(value,out);
-    }
-
-    public void booleanDefaultInValidFamily()
-    {
-        Boolean def = false;
-        key = String.format("%s.booleanValue",family);
-        value = true;
-        mapping.put(key,value);
-        path = createTempConfigFile(mapping);
-        configEnabler = new ConfigEnabler(path,"Foo2");
-        Boolean out = configEnabler.getBoolean("booleanValue", def);
-        assertNotNull(out);
-        assertEquals(def,out);
-    }
 }

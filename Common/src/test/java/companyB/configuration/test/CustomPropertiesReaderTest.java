@@ -9,13 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.fail;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @Test(groups = {"unit","custom.properties.reader","configuration.enabled"})
-public class CustomPropertiesReaderTest
+public class CustomPropertiesReaderTest extends ConfigurationEnabledTestBase
 {
     public void loadFromXml() throws Exception
     {
@@ -30,8 +27,8 @@ public class CustomPropertiesReaderTest
         String filename = file.getAbsolutePath();
         ConfigEnabler configEnabler = new ConfigEnabler(filename,"family");
         String out = configEnabler.getString("foo");
-        assertNotNull(out);
-        assertEquals("bar",out);
+        validateNotNull(out);
+        validateEquality("bar",out);
     }
 
     public void loadFromInvalidXML()
@@ -60,8 +57,7 @@ public class CustomPropertiesReaderTest
         }
         catch (Exception e)
         {
-            boolean expected = (e instanceof IllegalArgumentException);
-            assertTrue(String.format("Instance of %s caught.",e.getClass().getCanonicalName()),expected);
+            validateEquality(IllegalArgumentException.class,e.getClass());
         }
     }
 

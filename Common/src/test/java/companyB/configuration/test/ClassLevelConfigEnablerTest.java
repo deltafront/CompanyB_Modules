@@ -12,8 +12,8 @@ import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 @Test(groups = {"unit","class.level.config","configuration.enabled"})
 public class ClassLevelConfigEnablerTest
@@ -30,8 +30,8 @@ public class ClassLevelConfigEnablerTest
             writer.close();
             TestClass testClass = new TestClass();
             new ClassLevelConfigEnabler().decorate(testClass);
-            assertNotNull(testClass.configEnabler_1);
-            assertNotNull(testClass.configEnabler_2);
+            assertThat(testClass.configEnabler_1,is(not(nullValue())));
+            assertThat(testClass.configEnabler_2,is(not(nullValue())));
             passed = testClass.callAll();
         }
         catch (IOException e)
@@ -42,7 +42,7 @@ public class ClassLevelConfigEnablerTest
         {
             if(file.exists()) file.deleteOnExit();
         }
-        assertTrue(passed);
+        assertThat(passed,is(true));
     }
 }
 class TestClass

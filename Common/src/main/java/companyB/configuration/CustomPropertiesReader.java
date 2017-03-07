@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Processes a java properties file (both standard and XML format) and returns a Mapping of all of the properties within.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0.0
+ * @version 1.0.0
  */
 public class CustomPropertiesReader
 {
@@ -18,7 +18,6 @@ public class CustomPropertiesReader
      * no contextual inferences will have been made at this point.
      * @param filename Properties file name.
      * @return Mapping of all properties in file.
-     * @since 1.0.0
      */
     public Map<String,String> read(String filename)
     {
