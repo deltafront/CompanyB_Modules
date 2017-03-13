@@ -55,24 +55,12 @@ public class ConfigurationEnabledTestBase
         }
         return path;
     }
-    protected void validateEquality(Object expected, Object actual)
+    void validateEquality(Object expected, Object actual)
     {
         assertThat(expected,is(equalTo(actual)));
     }
-    void validateNull(Object instance)
-    {
-        assertThat(instance,is(nullValue()));
-    }
-    protected void validateNotNull(Object instance)
+    void validateNotNull(Object instance)
     {
         assertThat(instance,is(not(nullValue())));
-    }
-    protected void validateTrue(Boolean condition)
-    {
-        assertThat(condition,is(true));
-    }
-    protected void validateFalse(Boolean condition)
-    {
-        assertThat(condition,is(false));
     }
 }

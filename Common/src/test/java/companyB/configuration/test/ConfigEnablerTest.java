@@ -1,7 +1,6 @@
 package companyB.configuration.test;
 
 import companyB.configuration.ConfigEnabler;
-import org.junit.Ignore;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -58,7 +57,6 @@ public class ConfigEnablerTest extends ConfigurationEnabledTestBase
         };
     }
 
-    @Ignore("Failing for now...will revisit")
     public void testString(String family, Boolean useDefaultValue, Boolean useValidKey, Boolean useDefaultParam)
     {
         final SimplePair<String>pair = simplePair("stringValue","100");

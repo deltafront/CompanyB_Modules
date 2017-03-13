@@ -17,18 +17,15 @@ public class ServletRequestUtils extends UtilityBase
      */
     public String getBodyFromRequest(ServletRequest request )
     {
-        String result = "";
+        final StringBuilder result = new StringBuilder();
         try(BufferedReader bufferedReader = request.getReader())
         {
-            String temp;
-            while(null !=(temp = bufferedReader.readLine())) result += temp;
-            if(0 == result.length())result = null;
-            bufferedReader.close();
+            bufferedReader.lines().forEach(result::append);
         }
         catch (IOException e)
         {
             LOGGER.error(e.getMessage(),e);
         }
-        return result;
+        return result.toString().length() ==0 ? null : result.toString();
     }
 }

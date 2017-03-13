@@ -6,14 +6,8 @@ import org.testng.annotations.Test;
 import java.io.*;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
-
 @Test(groups = {"unit","common","guid","utils"})
-public class GuidTest
+public class GuidTest extends TestBase
 {
     public void noArgs()
     {
@@ -39,8 +33,8 @@ public class GuidTest
             final InputStream inputStream = new FileInputStream(file.getAbsolutePath());
             final ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             final GUID fromStream = (GUID)objectInputStream.readObject();
-            assertThat(fromStream,is(not(nullValue())));
-            assertThat(guid.getGuid(), is(equalTo(fromStream.getGuid())));
+            validateNotNull(fromStream);
+            validateEquality(guid.getGuid(),fromStream.getGuid());
             file.deleteOnExit();
         }
         catch (IOException| ClassNotFoundException e)
@@ -52,7 +46,7 @@ public class GuidTest
     public void getHashedGuid()
     {
         GUID guid = new GUID();
-        IntStream.range(0,1000).forEach((i)-> assertThat(guid.getHashedGuid(),is(not(nullValue()))));
+        IntStream.range(0,1000).forEach((i)-> validateNotNull(guid.getHashedGuid()));
     }
 
 }

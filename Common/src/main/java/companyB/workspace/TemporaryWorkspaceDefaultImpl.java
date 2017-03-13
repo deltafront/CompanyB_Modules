@@ -127,7 +127,6 @@ public class TemporaryWorkspaceDefaultImpl implements TemporaryWorkspace
         }
         catch (IOException e)
         {
-            System.out.println(e.getMessage());
             LOGGER.error(e.getMessage(),e);
         }
         return out;

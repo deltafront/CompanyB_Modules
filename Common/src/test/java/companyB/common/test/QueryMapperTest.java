@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Test(groups = {"unit","common","utils","query.mapper"})
-public class QueryMapperTest
+public class QueryMapperTest extends TestBase
 {
     private String requestQuery;
     private QueryMapper queryMapper;
@@ -47,9 +47,9 @@ public class QueryMapperTest
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
         final Map<String, List<String>> mapping = getStringListMap();
         final List<String>test  = mapping.get("test");
-        assertThat(test,is(not(nullValue())));
-        assertThat(test.size(),is(equalTo(1)));
-        assertThat(test.get(0),is(nullValue()));
+        validateNotNull(test);
+        validateEquality(test.size(),1);
+        validateNull(test.get(0));
     }
 
     public void invalidParam()
@@ -57,30 +57,30 @@ public class QueryMapperTest
         requestQuery = "?one=one.0&two=two.0&two=two.1&&three=three.0&three=three.1&&&three=three.2&test";
         final Map<String,List<String>>mapping = getStringListMap();
         final List<String>zero  = mapping.get("zero");
-        assertThat(zero,is(nullValue()));
+        validateNull(zero);
     }
 
     private Map<String, List<String>> getStringListMap()
     {
         final Map<String,List<String>>mapping = queryMapper.mapRequestQuery(requestQuery);
-        assertThat(mapping,is(not(equalTo(nullValue()))));
+        validateNotNull(mapping);
         return mapping;
     }
 
     private void verifyList(String key, int num_expected)
     {
         final Map<String,List<String>>mapping = getStringListMap();
-        assertThat(mapping,is(not(nullValue())));
+        validateNotNull(mapping);
         final List<String>listings = mapping.get(key);
         if(0 == num_expected)assertThat(listings,is(equalTo(nullValue())));
         else
         {
-            assertThat(listings,is(not(nullValue())));
-            assertThat(listings.size(),is(equalTo(num_expected)));
+            validateNotNull(listings);
+            validateEquality(listings.size(),num_expected);
             IntStream.range(0,listings.size()).forEach((index)->
             {
                 final String listing = listings.get(index);
-                assertThat(String.format("%s.%d",key,index),is(equalTo(listing)));
+                validateEquality(String.format("%s.%d",key,index),listing);
             });
         }
     }

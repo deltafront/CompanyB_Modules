@@ -8,13 +8,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
-
 @Test(groups = {"unit","converter","utils","common"})
-public class ConverterTest
+public class ConverterTest extends TestBase
 {
     private Converter converter;
 
@@ -40,12 +35,12 @@ public class ConverterTest
         for (Class c : Converter.numberClasses)
         {
             Object ret = converter.convertToNumber(numberString, c);
-            assertThat(ret,is(not(nullValue())));
-            assertThat(converter.isNumberType(ret.getClass()),is(true));
-            if (Double.class.equals(c) || double.class.equals(c))
-                assertThat(String.valueOf(Double.parseDouble(numberString)), is(equalTo(String.valueOf(ret))));
+            validateNotNull(ret);
+            validateTrue(converter.isNumberType(ret.getClass()));
+           if (Double.class.equals(c) || double.class.equals(c))
+               validateEquality(String.valueOf(Double.parseDouble(numberString)),String.valueOf(ret));
             else
-                assertThat(numberString, is(equalTo(String.valueOf(ret))));
+                validateEquality(numberString, String.valueOf(ret));
         }
     }
 
@@ -56,43 +51,43 @@ public class ConverterTest
         for (byte b : byteValues.getBytes())
         {
             Object ret = converter.convertToByte(String.valueOf(b));
-            assertThat(ret,is(not(nullValue())));
-            assertThat(converter.isByte(ret.getClass()),is(true));
-            assertThat(b, is(equalTo(ret)));
+            validateNotNull(ret);
+            validateTrue(converter.isByte(ret.getClass()));
+            validateEquality(b, ret);
         }
     }
 
 
     public void isByte()
     {
-        for (Class c : new Class[]{Byte.class, byte.class}) assertThat(converter.isByte(c),is(true));
+        for (Class c : new Class[]{Byte.class, byte.class}) validateTrue(converter.isByte(c));
     }
 
     public void isByteFalse()
     {
-        assertFalse(converter.isByte(int.class));
+        validateFalse(converter.isByte(int.class));
     }
 
     public void isBoolean()
     {
-        for(Class c : new Class[]{Boolean.class,boolean.class}) assertThat(converter.isBoolean(c),is(true));
+        for(Class c : new Class[]{Boolean.class,boolean.class}) validateTrue(converter.isBoolean(c));
     }
 
     public void isBooleanFalse()
     {
-        assertThat(converter.isBoolean(int.class),is(false));
+        validateFalse(converter.isBoolean(int.class));
     }
 
 
     public void invalidSupportedType()
     {
-        assertThat(converter.isSupported(this.getClass()),is(false));
+        validateFalse(converter.isSupported(this.getClass()));
     }
 
 
     public void validSupportedTypes()
     {
-        for (Class c : Converter.supportedClasses) assertThat(converter.isSupported(c),is(true));
+        for (Class c : Converter.supportedClasses) validateTrue(converter.isSupported(c));
     }
 
 
@@ -102,31 +97,31 @@ public class ConverterTest
         for (Class c : new Class[]{String.class, char.class, Character.class})
         {
             Object ret = converter.convertToStringOrChar(charValue, c);
-            assertThat(ret,is(not(nullValue())));
-            assertThat(converter.isCharOrString(ret.getClass()),is(true));
-            assertThat(charValue, is(equalTo(String.valueOf(ret))));
+            validateNotNull(ret);
+            validateTrue(converter.isCharOrString(ret.getClass()));
+            validateEquality(charValue,String.valueOf(ret));
         }
     }
 
 
     public void isStringOrChar()
     {
-        for (Class c : new Class[]{String.class, char.class, Character.class}) assertThat(converter.isCharOrString(c),is(true));
+        for (Class c : new Class[]{String.class, char.class, Character.class}) validateTrue(converter.isCharOrString(c));
     }
 
     public void isStringOrCharFalse()
     {
-        assertThat(converter.isCharOrString(int.class),is(false));
+        validateFalse(converter.isCharOrString(int.class));
     }
 
 
     public void isBigType()
     {
-        for (Class c : new Class[]{BigDecimal.class, BigInteger.class}) assertThat(converter.isBigType(c),is(true));
+        for (Class c : new Class[]{BigDecimal.class, BigInteger.class}) validateTrue(converter.isBigType(c));
     }
     public void isBigTypeFalse()
     {
-        assertThat(converter.isBigType(int.class),is(false));
+        validateFalse(converter.isBigType(int.class));
     }
 
 
@@ -146,8 +141,8 @@ public class ConverterTest
         boolean isBigDecimal = BigDecimal.class.equals(c);
         final String big = isBigDecimal ? "42.0" : "42";
         final Object ret = converter.convertToBig(big, c);
-        assertThat(converter.isBigType(ret.getClass()),is(true));
-        assertThat(big, is(equalTo(String.valueOf(ret))));
+        validateTrue(converter.isBigType(ret.getClass()));
+        validateEquality(big, ret.toString());
 
     }
 
@@ -157,9 +152,9 @@ public class ConverterTest
         values.forEach((value)->
         {
             final Object ret = converter.convertToBoolean(value);
-            assertThat(ret,is(not(nullValue())));
-            assertThat(converter.isBoolean(ret.getClass()),is(true));
-            assertThat(testForTrue, is(equalTo(ret)));
+            validateNotNull(ret);
+            validateTrue(converter.isBoolean(ret.getClass()));
+            validateEquality(testForTrue,ret);
         });
     }
 

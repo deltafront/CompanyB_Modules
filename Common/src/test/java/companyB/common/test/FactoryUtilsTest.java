@@ -3,15 +3,14 @@ package companyB.common.test;
 import companyB.common.test.objects.TestObject;
 import companyB.common.test.objects.test;
 import companyB.common.utils.FactoryUtils;
-import companyB.context.test.TestBase;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
@@ -33,131 +32,93 @@ public class FactoryUtilsTest extends TestBase
     public void loadObjectTrue()
     {
         final Object loaded = factoryUtils.loadObject(valid_class_name);
-        assertThat(loaded,is(not(nullValue())));
-        assertThat(loaded instanceof test, is(true));
+        validateNotNull(loaded);
+        validateTrue(loaded instanceof test);
     }
 
     
     public void loadObjectFalse()
     {
         final Object loaded = factoryUtils.loadObject("java.lang.Foo");
-        assertThat(loaded, is(nullValue()));
+        validateNull(loaded);
     }
 
     
     public void notStatic()
     {
-        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, false);
-        assertThat(loaded_1,is(not(nullValue())));
-        assertThat(loaded_1 instanceof test,is(true));
-        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
-        assertThat(loaded_2,is(not(nullValue())));
-        assertThat(loaded_2 instanceof test,is(true));
-        assertThat(loaded_1.hashCode(),is(not(equalTo(loaded_2.hashCode()))));
+        twoInstanceTests(false,this::validateNotSame);
     }
 
     
     public void isStaticInitial()
     {
-        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_1,is(not(nullValue())));
-        assertThat(loaded_1 instanceof test,is(true));
-        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_2,is(not(nullValue())));
-        assertThat(loaded_2 instanceof test,is(true));
-        assertThat(loaded_1.hashCode(),is(equalTo(loaded_2.hashCode())));
+        twoInstanceTests(true, this::validateNotSame);
     }
 
     
     public void isStaticAfter()
     {
-        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, false);
-        assertThat(loaded_1,is(not(nullValue())));
-        assertThat(loaded_1 instanceof test,is(true));
-        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_2,is(not(nullValue())));
-        assertThat(loaded_2 instanceof test,is(true));
-        assertThat(loaded_1.hashCode(),is(not(equalTo(loaded_2.hashCode()))));
-        final Object loaded_3 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_3,is(not(nullValue())));
-        assertThat(loaded_3 instanceof test,is(true));
-        assertThat(loaded_3.hashCode(),is(equalTo(loaded_2.hashCode())));
-        assertThat(loaded_3.hashCode(),is(not(equalTo(loaded_1.hashCode()))));
+        testThreeInstances(false,this::validateNotSame,this::validateNotSame,this::validateNotSame);
     }
 
     
     public void isStaticOneNotTwoIsThree()
     {
-        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_1,is(not(nullValue())));
-        assertThat(loaded_1 instanceof test,is(true));
-        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
-        assertThat(loaded_2,is(not(nullValue())));
-        assertThat(loaded_2 instanceof test,is(true));
-        assertThat(loaded_1.hashCode(),is(not(equalTo(loaded_2.hashCode()))));
-        final Object loaded_3 = factoryUtils.loadObject(valid_class_name, true);
-        assertThat(loaded_3,is(not(nullValue())));
-        assertThat(loaded_3 instanceof test,is(true));
-        assertThat(loaded_3.hashCode(),is(equalTo(loaded_1.hashCode())));
-        assertThat(loaded_3.hashCode(),is(not(equalTo(loaded_2.hashCode()))));
+        testThreeInstances(true,this::validateNotSame,this::validateSame,this::validateNotSame);
     }
-    
+
     public void instantiateNoArgs()
     {
         final Object[]args = new Object[]{};
         final TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
-        assertThat(testObject,is(not(nullValue())));
-        assertThat("foo",is(equalTo(testObject.stringValue)));
-        assertThat(false, is(equalTo(testObject.booleanValue)));
-        assertThat(42,is(equalTo(testObject.intValue)));
+        validateNotNull(testObject);
+        validateEquality("foo",testObject.stringValue);
+        validateEquality(false,testObject.booleanValue);
+        validateEquality(42,testObject.intValue);
     }
     
     public void instantiateOneArgsTrue()
     {
-        final Object[]args = new Object[]{17,"this",true};
-        Arrays.asList(args).forEach((arg)->{
-            final TestObject testObject = factoryUtils.getInstance(TestObject.class, new Object[]{arg});
-            verifyTestInstance(testObject, new Object[]{arg});
-        });
+        instantiateOneArg(new Object[]{17,"this",true});
     }
     
     @SuppressWarnings({"UnnecessaryBoxing", "BooleanConstructorCall"})
     public void instantiateOneArgsTrueBoxed()
     {
-        final Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
-        Arrays.asList(args).forEach((arg)->{
-            final TestObject testObject = factoryUtils.getInstance(TestObject.class, new Object[]{arg});
-            verifyTestInstance(testObject, new Object[]{arg});
-        });
+        instantiateOneArg(new Object[]{new Integer(17),"this",new Boolean(true)});
     }
 
     
     public void instantiateThreeArgsTrue()
     {
-        final Object[]args = new Object[]{17,"this",true};
-        final TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
-        assertThat(testObject,is(not(nullValue())));
-        assertThat("this",is(equalTo(testObject.stringValue)));
-        assertThat(true,is(equalTo(testObject.booleanValue)));
-        assertThat(17,is(equalTo(testObject.intValue)));
+        instantiateThreeArgs(new Object[]{17,"this",true},false);
     }
-    
-    public void instantiateThreeArgsWrongOrder()
-    {
-        final Object[]args = new Object[]{"this",17,true};
-        final TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
-        assertNull(testObject);
-    }
-    
+
     @SuppressWarnings("UnnecessaryBoxing")
     public void instantiateThreeArgsTrueBoxed()
     {
-        final Object[]args = new Object[]{new Integer(17),"this",new Boolean(true)};
+       instantiateThreeArgs(new Object[]{new Integer(17),"this",new Boolean(true)},false);
+    }
+
+    public void instantiateThreeArgsWrongOrder()
+    {
+        instantiateThreeArgs(new Object[]{"this",17,true},true);
+    }
+
+    private void instantiateThreeArgs(Object[]args, Boolean nullExpected)
+    {
         final TestObject testObject = factoryUtils.getInstance(TestObject.class,args);
-        assertThat(testObject,is(not(nullValue())));
-        assertThat("this",is(equalTo(testObject.stringValue)));
-        assertThat(true,is(equalTo(testObject.booleanValue)));
-        assertThat(17,is(equalTo(testObject.intValue)));
+        if(!nullExpected)
+        {
+            validateNotNull(testObject);
+            validateEquality("this",testObject.stringValue);
+            validateEquality(true,testObject.booleanValue);
+            validateEquality(17,testObject.intValue);
+        }
+        else
+        {
+            validateNull(testObject);
+        }
     }
 
     
@@ -198,12 +159,54 @@ public class FactoryUtilsTest extends TestBase
         final Iterable<Boolean>booleanIterable = testObject.booleanIterable;
         booleanIterable.forEach((ignored)->fail("ClassCastException Expected."));
     }
+    private void instantiateOneArg(Object[]args)
+    {
+        Arrays.asList(args).forEach((arg)->{
+            final TestObject testObject = factoryUtils.getInstance(TestObject.class, new Object[]{arg});
+            verifyTestInstance(testObject, new Object[]{arg});
+        });
+    }
 
-    
+    private void twoInstanceTests(Boolean firstStatic, BiConsumer<Object,Object>validationMethod)
+    {
+        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, firstStatic);
+        validateTestInstance(loaded_1);
+
+        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
+        validateTestInstance(loaded_2);
+
+        validationMethod.accept(loaded_1,loaded_2);
+    }
+
+    private void testThreeInstances(Boolean firstStatic,BiConsumer<Object,Object>firstValidation,
+                                    BiConsumer<Object,Object>secondValidation, BiConsumer<Object,Object>thirdValidation)
+    {
+        final Object loaded_1 = factoryUtils.loadObject(valid_class_name, firstStatic);
+        validateTestInstance(loaded_1);
+
+        final Object loaded_2 = factoryUtils.loadObject(valid_class_name, false);
+        validateTestInstance(loaded_2);
+
+        firstValidation.accept(loaded_1,loaded_2);
+
+        final Object loaded_3 = factoryUtils.loadObject(valid_class_name, true);
+        validateTestInstance(loaded_3);
+
+        secondValidation.accept(loaded_1,loaded_3);
+        thirdValidation.accept(loaded_2,loaded_3);
+    }
+
+
+
     public void instantiateInvalidArgs()
     {
         final Object[]args = {Long.MAX_VALUE};
         final TestObject testObject = factoryUtils.getInstance(TestObject.class, args);
         assertThat(testObject,is(nullValue()));
+    }
+    private void validateTestInstance(Object instance)
+    {
+        validateNotNull(instance);
+        validateTrue(instance instanceof  test);
     }
 }

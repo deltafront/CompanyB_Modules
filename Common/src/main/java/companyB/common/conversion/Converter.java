@@ -37,18 +37,6 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class Converter
 {
-    private final static Class[] _supported = new Class[]
-            {Long.class, long.class, String.class, Integer.class, int.class,
-                    short.class, Short.class, Double.class, double.class,
-                    Boolean.class, boolean.class, Byte.class, byte.class,
-                    char.class, Character.class, BigDecimal.class, BigInteger.class
-            };
-    private final static Class[] _numbers = new Class[]
-            {Long.class, long.class, Integer.class, int.class,
-                    short.class, Short.class, Double.class, double.class,
-            };
-    private final static String[] _true = new String[]{"t", "true", "y", "yes", "1"};
-    private final static String[] _false = new String[]{"f", "false", "n", "no", "0"};
 
     /**
      * All supported classes.
@@ -81,13 +69,21 @@ public class Converter
     {
 
         supportedClasses = new LinkedList<>();
-        Collections.addAll(supportedClasses, _supported);
+        Collections.addAll(supportedClasses, new Class[]
+                {Long.class, long.class, String.class, Integer.class, int.class,
+                        short.class, Short.class, Double.class, double.class,
+                        Boolean.class, boolean.class, Byte.class, byte.class,
+                        char.class, Character.class, BigDecimal.class, BigInteger.class
+                });
         trueValues = new LinkedList<>();
-        Collections.addAll(trueValues, _true);
+        Collections.addAll(trueValues, new String[]{"t", "true", "y", "yes", "1"});
         falseValues = new LinkedList<>();
-        Collections.addAll(falseValues, _false);
+        Collections.addAll(falseValues, new String[]{"f", "false", "n", "no", "0"});
         numberClasses = new LinkedList<>();
-        Collections.addAll(numberClasses, _numbers);
+        Collections.addAll(numberClasses, new Class[]
+                {Long.class, long.class, Integer.class, int.class,
+                        short.class, Short.class, Double.class, double.class,
+                });
     }
 
     /**

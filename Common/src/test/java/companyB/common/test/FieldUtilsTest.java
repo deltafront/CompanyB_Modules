@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 import static org.testng.Assert.*;
 
 @Test(groups = {"unit","common","utils","field.utils"})
-public class FieldUtilsTest
+public class FieldUtilsTest extends TestBase
 {
 
     FieldUtils fieldUtils;
@@ -39,16 +39,15 @@ public class FieldUtilsTest
     public void getValidAnnotation()
     {
         final Field field = fieldUtils.getField("testfield",testclass);
-        assertThat(fieldUtils.getField("testfield",testclass),is(not(nullValue())));
-        final Foo foo = fieldUtils.getAnnotation(Foo.class,field);
-        assertThat(foo,is(not(nullValue())));
+        validateNotNull(fieldUtils.getField("testfield",testclass));
+        validateNotNull(fieldUtils.getAnnotation(Foo.class,field));
     }
 
     public void getInvalidAnnotation()
     {
         final Field field = fieldUtils.getField("testfield",testclass);
-        assertThat(fieldUtils.getField("testfield",testclass),is(not(nullValue())));
-        assertThat(fieldUtils.getAnnotation(Bar.class, field),is(nullValue()));
+        validateNotNull(fieldUtils.getField("testfield",testclass));
+        validateNull(fieldUtils.getAnnotation(Bar.class, field));
     }
 
     public void setValidField()
@@ -56,8 +55,8 @@ public class FieldUtilsTest
         final Object value = "foo";
         fieldUtils.setField("testfield",testclass,value);
         final Object fromClass = testclass.getTestfield();
-        assertThat(fromClass,is((not(nullValue()))));
-        assertThat(value,is(equalTo(fromClass)));
+        validateNotNull(fromClass);
+        validateEquality(fromClass,value);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
@@ -73,8 +72,8 @@ public class FieldUtilsTest
         final Object value = "foo";
         fieldUtils.setField("testfield",testclass,value);
         final Object fromUtils = fieldUtils.getFieldValue("testfield",testclass);
-        assertThat(fromUtils,is(not(nullValue())));
-        assertThat(value,is(equalTo(fromUtils)));
+        validateNotNull(fromUtils);
+        validateEquality(value,fromUtils);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
@@ -89,7 +88,7 @@ public class FieldUtilsTest
     public void getFields()
     {
         final Field[]fields = fieldUtils.getFields(testclass);
-        assertThat(fields,is(not(nullValue())));
+        validateNotNull(fields);
     }
 
     public static class testclass

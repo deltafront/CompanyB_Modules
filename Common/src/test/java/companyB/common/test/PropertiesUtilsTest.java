@@ -3,6 +3,7 @@ package companyB.common.test;
 import companyB.common.utils.PropertiesUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
@@ -12,14 +13,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 @Test(groups = {"unit","properties.utils","common"})
-public class PropertiesUtilsTest
+public class PropertiesUtilsTest extends TestBase
 {
     private PropertiesUtils propertiesUtils;
     private static String[] old_props = {"one=1", "two=2", "three=3", "four=4"};
@@ -46,59 +43,63 @@ public class PropertiesUtilsTest
         propertiesUtils = new PropertiesUtils();
     }
 
-    public void happyPath()
+    @DataProvider(name = "default")
+    public static Object[][]data()
     {
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, "one"),is(equalTo("1")));
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, "two"),is(equalTo("2")));
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, "three"),is(equalTo("3")));
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, "four"),is(equalTo("4")));
-        assertThat(propertiesUtils.getProperty(new_prop_file_name, "one"),is(equalTo("10")));
-        assertThat(propertiesUtils.getProperty(new_prop_file_name, "two"),is(equalTo("20")));
-        assertThat(propertiesUtils.getProperty(new_prop_file_name, "three"),is(equalTo("30")));
-        assertThat(propertiesUtils.getProperty(new_prop_file_name, "four"),is(equalTo("40")));
-        assertThat(propertiesUtils.getProperty(xml_prop_file,"one"),is(equalTo("1")));
-        assertThat(propertiesUtils.getProperty(xml_prop_file,"two"),is(equalTo("2")));
-        assertThat(propertiesUtils.getProperty(xml_prop_file,"three"),is(equalTo("3")));
+        return new Object[][]
+                {
+                        {"1",old_prop_file_name,"one"},
+                        {"2",old_prop_file_name,"two"},
+                        {"3",old_prop_file_name,"three"},
+                        {"4",old_prop_file_name,"four"},
+                        {"10",new_prop_file_name,"one"},
+                        {"20",new_prop_file_name,"two"},
+                        {"30",new_prop_file_name,"three"},
+                        {"40",new_prop_file_name,"four"},
+                        {"1",xml_prop_file,"one"},
+                        {"2",xml_prop_file,"two"},
+                        {"3",xml_prop_file,"three"}
+                };
     }
-
-    
+    @DataProvider(name = "invalid")
+    public static Object[][]invalid()
+    {
+        return new Object[][]
+                {
+                        {null, "five"},
+                        {"", "five"},
+                };
+    }
+    @Test(dataProvider = "default")
+    public void happyPath(String expected, String filename, String key)
+    {
+        validateEquality(expected,propertiesUtils.getProperty(filename,key));
+    }
+    @Test(dataProvider = "invalid",expectedExceptions = IllegalStateException.class)
+    public void withExceptions(String filename, String key)
+    {
+        validateNull(propertiesUtils.getProperty(filename,key));
+        fail("IllegalStateException expected!");
+    }
+    @Test(dataProvider = "invalid")
+    public void nullProperties(String path, String key)
+    {
+        validateNull(propertiesUtils.getProperties(path));
+    }
     public void invalidProperty()
     {
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, "five"),is(nullValue()));
-        assertThat(propertiesUtils.getProperty(new_prop_file_name, "one"),is(not(equalTo("1"))));
+        validateNull(propertiesUtils.getProperty(old_prop_file_name, "five"));
+        validateInEquality("1",propertiesUtils.getProperty(new_prop_file_name, "one"));
     }
 
-    @Test(expectedExceptions = IllegalStateException.class)
-    public void invalidFile()
-    {
-        assertThat(propertiesUtils.getProperty(old_prop_file_name + ".props", "five"),is(nullValue()));
-        fail("IllegalStateException expected - invalid file.");
-    }
-
-    @Test(expectedExceptions = IllegalStateException.class)
-    public void nullFileName()
-    {
-        assertThat(propertiesUtils.getProperty(null, "five"),is(nullValue()));
-        fail("IllegalStateException expected - null filename.");
-    }
-
-    @Test(expectedExceptions = IllegalStateException.class)
-    public void emptyStringName()
-    {
-        assertThat(propertiesUtils.getProperty("", "five"),is(nullValue()));
-        fail("IllegalStateException expected - empty string filename.");
-    }
-
-    
     public void nullProperty()
     {
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, null),is(nullValue()));
+        validateNull(propertiesUtils.getProperty(old_prop_file_name, null));
     }
 
-    
     public void emptyStringProperty()
     {
-        assertThat(propertiesUtils.getProperty(old_prop_file_name, ""),is(nullValue()));
+        validateNull(propertiesUtils.getProperty(old_prop_file_name, ""));
     }
 
     
@@ -106,31 +107,31 @@ public class PropertiesUtilsTest
     {
         final Map<String, String> props_old = propertiesUtils.getProperties(old_prop_file_name);
         final Map<String, String> props_new = propertiesUtils.getProperties(new_prop_file_name);
-        assertThat(props_old,is(not(nullValue())));
-        assertThat(props_new,is(not(nullValue())));
-        assertThat(old_props.length, is(equalTo(props_old.size())));
-        assertThat(new_props.length, is(equalTo(props_new.size())));
-        Arrays.asList(old_props).forEach((key_value_pair)->assertThat(matcher(key_value_pair, props_old),is(true)));
-        Arrays.asList(new_props).forEach((key_value_pair)->assertThat(matcher(key_value_pair, props_new),is(true)));
+        validateNotNull(props_old);
+        validateNotNull(props_new);
+        validateEquality(old_props.length, props_old.size());
+        validateEquality(new_props.length, props_new.size());
+        Arrays.asList(old_props).forEach((key_value_pair)->validateTrue(matcher(key_value_pair, props_old)));
+        Arrays.asList(new_props).forEach((key_value_pair)->validateTrue(matcher(key_value_pair, props_new)));
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void getPropertiesByPathInvalidPath()
     {
-        assertNull(propertiesUtils.getProperties(new_prop_file_name + ".properties"));
+        validateNull(propertiesUtils.getProperties(new_prop_file_name + ".properties"));
         fail("IllegalStateException expected - invalid file path.");
     }
 
     
     public void getPropertiesByPathNullPath()
     {
-        assertNull(propertiesUtils.getProperties(null));
+        validateNull(propertiesUtils.getProperties(null));
     }
 
     
     public void getPropertiesByPathEmptyStringPath()
     {
-        assertNull(propertiesUtils.getProperties(""));
+        validateNull(propertiesUtils.getProperties(""));
     }
 
     private boolean matcher(String value_key_pair, Map<String, String> map)

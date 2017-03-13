@@ -19,25 +19,18 @@ public class RuntimeUtils extends UtilityBase
     @SuppressWarnings("ThrowFromFinallyBlock")
     public String executeCommand(String... commandArgs)
     {
-        String result = null;
+        final StringBuilder result = new StringBuilder();
         try
         {
             final Optional<Process>process = getProcess(commandArgs);
-            BufferedReader bufferedReader = null;
             if(process.isPresent())
             {
-                try
-                {
-                    final InputStream inputStream = process.get().getInputStream();
+                try(final InputStream inputStream = process.get().getInputStream();
                     final Reader reader = new InputStreamReader(inputStream);
-                    bufferedReader = new BufferedReader(reader);
-                    String temp;
-                    while((temp = bufferedReader.readLine())!= null) result += temp;
-                }
-                finally
+                    final BufferedReader bufferedReader = new BufferedReader(reader)
+                )
                 {
-                    if(null != bufferedReader)
-                        bufferedReader.close();
+                    bufferedReader.lines().forEach(result::append);
                 }
             }
             else
@@ -49,8 +42,7 @@ public class RuntimeUtils extends UtilityBase
         {
             LOGGER.error(e.getMessage(),e);
         }
-
-        return result;
+        return result.toString().length() ==0 ? null : result.toString();
     }
     private Optional<Process> getProcess(String...commandArgs)
     {
@@ -77,5 +69,4 @@ class RuntimeUtilsException extends Exception
     {
         super(message);
     }
-
 }

@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
-
 @Test(groups = {"unit","to.string.utils","common"})
-public class ToStringUtilsTest
+public class ToStringUtilsTest extends TestBase
 {
     private ToStringUtils toStringUtils;
 
@@ -23,6 +20,7 @@ public class ToStringUtilsTest
     {
         toStringUtils = new ToStringUtils();
     }
+
     public void iterableToStringBasic()
     {
         String actual = toStringUtils.iterableToString(getIntegers(10));
@@ -67,8 +65,8 @@ public class ToStringUtilsTest
 
     private void doCompare(String actual, String expected)
     {
-        assertThat(actual,is(not(nullValue())));
-        assertThat(actual,is(equalTo(expected)));
+        validateNotNull(actual);
+        validateEquality(expected,actual);
     }
     private Map<Integer, Map<Integer, Integer>> getIntegerMapMap()
     {
@@ -81,6 +79,7 @@ public class ToStringUtilsTest
         });
         return map;
     }
+
 
     private List<Integer> getIntegers(int num)
     {

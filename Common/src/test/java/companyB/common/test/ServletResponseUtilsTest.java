@@ -10,12 +10,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 @Test(groups = {"unit", "common", "servlet.response.utils","utils"})
-public class ServletResponseUtilsTest
+public class ServletResponseUtilsTest extends TestBase
 {
     private IMocksControl control;
     private ServletResponse response;
@@ -55,8 +51,8 @@ public class ServletResponseUtilsTest
         {
             final String content = "foo";
             responseUtils.writeResponse(response,content,true);
-            assertThat(outputContent.length(),is(equalTo(content.length())));
-            assertThat(content,is(equalTo(outputContent)));
+            validateEquality(outputContent.length(),content.length());
+            validateEquality(content,outputContent);
         }
         finally
         {
@@ -69,7 +65,7 @@ public class ServletResponseUtilsTest
         try
         {
             responseUtils.writeResponse(response,null,false);
-            assertThat(outputContent.length(),is(equalTo(0)));
+            validateEquality(0,outputContent.length());
         }
         finally
         {
@@ -87,7 +83,7 @@ public class ServletResponseUtilsTest
         {
             final String content = "foo";
             responseUtils.writeResponse(response,content,true);
-            assertThat(outputContent.length(),is(equalTo(0)));
+            validateEquality(0,outputContent.length());
         }
         finally
         {

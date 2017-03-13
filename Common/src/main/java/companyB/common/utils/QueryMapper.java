@@ -35,22 +35,30 @@ public class QueryMapper extends UtilityBase
      * @param requestQuery request query to be mapped.
      * @return Mapping of request parameters.
      */
-    public Map<String,List<String>> mapRequestQuery(final String requestQuery)
+    public Map<String,List<String>> mapRequestQuery(String requestQuery)
     {
-        String query = requestQuery;
+        final String query = cleanQuery(requestQuery);
         final Map<String,List<String>>mapping = new HashMap<>();
-        if(query.contains("?"))query = query.replace("?","");
-        while(query.contains("&&")) query = query.replace("&&","&");
-        getKeyValuePairs(query).forEach((keyValuePair)->
-        {
-            key_value keyValue = getKeyValue(keyValuePair);
-            final List<String>listing = getListing(keyValue.key,mapping);
-            listing.add(keyValue.value);
-            mapping.put(keyValue.key,listing);
-        });
-
+        getKeyValuePairs(query).forEach((keyValuePair)-> mapQuery(mapping, keyValuePair));
         return mapping;
     }
+
+    private String cleanQuery(String query)
+    {
+        String _q = query;
+        if(_q.contains("?"))_q = _q.replace("?","");
+        while(_q.contains("&&")) _q = _q.replace("&&","&");
+        return _q;
+    }
+
+    private void mapQuery(Map<String, List<String>> mapping, String keyValuePair)
+    {
+        key_value keyValue = getKeyValue(keyValuePair);
+        final List<String>listing = getListing(keyValue.key,mapping);
+        listing.add(keyValue.value);
+        mapping.put(keyValue.key,listing);
+    }
+
     private List<String>getKeyValuePairs(String requestQuery)
     {
         return Arrays.asList(requestQuery.split("&"));
@@ -61,12 +69,13 @@ public class QueryMapper extends UtilityBase
     }
     private List<String>getListing(String key, Map<String,List<String>>mapping)
     {
-        if(mapping.containsKey(key)) return mapping.get(key);
-        else
-        {
-            final List<String>listing = new LinkedList<>();
-            mapping.put(key,listing);
-            return getListing(key,mapping);
-        }
+        return mapping.containsKey(key) ? mapping.get(key) :getNewListingMapping(key,mapping);
+    }
+
+    private List<String> getNewListingMapping(String key, Map<String, List<String>> mapping)
+    {
+        final List<String>listing = new LinkedList<>();
+        mapping.put(key,listing);
+        return getListing(key,mapping);
     }
 }

@@ -8,16 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static junit.framework.Assert.assertNotNull;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 @Test(groups = {"unit","iso8601","common","utils"})
-public class Iso8601Test
+public class Iso8601Test extends TestBase
 {
     public void iso8601()
     {
@@ -26,19 +20,19 @@ public class Iso8601Test
         try
         {
             final Date date = DateConstants.ISO_8601.dateFormat().parse(dateString);
-            assertNotNull(date);
+            validateNotNull(date);
             final Calendar calendar = Calendar.getInstance();
-            assertNotNull(calendar);
+            validateNotNull(calendar);
             calendar.setTimeInMillis(date.getTime());
-            assertThat(1969,is(equalTo(calendar.get(Calendar.YEAR))));
-            assertThat(Calendar.AUGUST,is(equalTo(calendar.get(Calendar.MONTH))));
-            assertThat(3,is(equalTo(calendar.get(Calendar.DAY_OF_MONTH))));
-            assertThat(15,is(equalTo(calendar.get(Calendar.HOUR_OF_DAY))));
-            assertThat(15,is(equalTo(calendar.get(Calendar.MINUTE))));
-            assertThat(0,is(equalTo(calendar.get(Calendar.SECOND))));
+            validateEquality(1969,calendar.get(Calendar.YEAR));
+            validateEquality(Calendar.AUGUST,calendar.get(Calendar.MONTH));
+            validateEquality(3,calendar.get(Calendar.DAY_OF_MONTH));
+            validateEquality(15,calendar.get(Calendar.HOUR_OF_DAY));
+            validateEquality(15,calendar.get(Calendar.MINUTE));
+            validateEquality(0,calendar.get(Calendar.SECOND));
             final TimeZone timeZone = calendar.getTimeZone();
-            assertThat(timeZone,is(not(nullValue())));
-            assertThat("Pacific Standard Time",is(equalTo(timeZone.getDisplayName())));
+            validateNotNull(timeZone);
+            validateEquality("Pacific Standard Time",timeZone.getDisplayName());
 
         }
         catch (ParseException e)
@@ -59,7 +53,7 @@ public class Iso8601Test
         final Date date = new Date(calendar.getTimeInMillis());
         final DateConstants dateConstant= DateConstants.valueOf("ISO_8601");
         final String dateString = dateConstant.dateFormat().format(date);
-        assertThat("1969-08-03T08:15:00-07",is(equalTo(dateString)));
+        validateEquality("1969-08-03T08:15:00-07",dateString);
 
     }
 }

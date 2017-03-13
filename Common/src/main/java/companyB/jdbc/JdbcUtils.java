@@ -100,7 +100,6 @@ public class JdbcUtils extends UtilityBase
      * @param sql SQL query to be executed.
      * @param replacements List of replacement values to be used in the Prepared Statement.
      * @return Number of rows of data affected by update, or -1 if update was not successful.
-     * @since 3.0.0
      */
     public Integer update(String sql, Object...replacements)
     {

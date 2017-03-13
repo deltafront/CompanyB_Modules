@@ -4,13 +4,8 @@ import companyB.common.utils.RuntimeUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
-
 @Test(groups = {"unit","runtime.utils","common","utils"})
-public class RuntimeUtilsTest
+public class RuntimeUtilsTest extends TestBase
 {
     private RuntimeUtils runtimeUtils;
     @BeforeMethod
@@ -21,11 +16,11 @@ public class RuntimeUtilsTest
     public void runSimpleCommand()
     {
         final String out = runtimeUtils.executeCommand("date");
-        assertThat(out,is(not(nullValue())));
+        validateNotNull(out);
     }
     public void invalidCommand()
     {
         final String out = runtimeUtils.executeCommand("blah");
-        assertThat(out,is(nullValue()));
+        validateNull(out);
     }
 }

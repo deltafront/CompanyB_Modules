@@ -19,7 +19,7 @@ public class CollectionsSplitter extends UtilityBase
     {
         number_of_lists(CollectionsSplitter::number_of_lists),
         number_of_items(CollectionsSplitter::number_of_items);
-        private optimization_strategy(BiFunction<Collection,Integer, List<List>> function)
+        optimization_strategy(BiFunction<Collection,Integer, List<List>> function)
         {
             this.biFunction = function;
         }
@@ -53,9 +53,11 @@ public class CollectionsSplitter extends UtilityBase
     {
         final List<List> list = new LinkedList<>();
         IntStream.range(0,num).forEach(i->list.add(new LinkedList()));
+        System.out.println("Size of collection:" + collection.size());
+        System.out.println("Added number of lists:" + list.size());
         final AtomicInteger count = new AtomicInteger(0);
-       collection.forEach((next)->
-       {
+        collection.forEach((next)->
+        {
            if (count.get() == num)count.getAndSet(0);
            list.get(count.get()).add(next);
            count.getAndIncrement();

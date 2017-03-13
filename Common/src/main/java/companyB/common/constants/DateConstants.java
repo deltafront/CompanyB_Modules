@@ -11,7 +11,7 @@ public enum DateConstants
 {
     ISO_8601("yyyy-MM-dd'T'HH:mm:ssX");
     private SimpleDateFormat simpleDateFormat;
-    private DateConstants(String dateFormat)
+    DateConstants(String dateFormat)
     {
        this.simpleDateFormat= new SimpleDateFormat(dateFormat);
     }

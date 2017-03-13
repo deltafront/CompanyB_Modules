@@ -1,9 +1,8 @@
 package companyB.context.test;
 
-import java.lang.reflect.Field;
+import java.util.Arrays;
 
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,34 +11,28 @@ import static org.hamcrest.core.IsNot.not;
 
 public class TestBase
 {
-    public void verifyTestInstance(Object testObject, Object[]args)
+    void verifyTestInstance(Object testObject, Object[]args)
     {
         assertNotNull(testObject);
-        for(Object arg : args)
+        Arrays.asList(args).forEach((arg)->
         {
-            try
+            final Long count = Arrays.asList(testObject.getClass().getDeclaredFields()).stream().filter((field) ->
             {
-                Field[]fields = testObject.getClass().getFields();
-                boolean found = false;
-                for(Field field : fields)
+                try
                 {
-                    Object fromField = field.get(testObject);
-                    if (arg.equals(fromField) || arg == fromField)
-                    {
-                        found = true;
-                        break;
-                    }
+                    return arg == field.get(testObject) || arg.equals(field.get(testObject));
                 }
-                assertTrue(String.format("Did not find value %s in test object!",arg),found);
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-        }
+                catch (IllegalAccessException e)
+                {
+                    return false;
+                }
+            }).count();
+            validateTrue(count > 0);
+        });
+
 
     }
-    protected void validateEquality(Object expected, Object actual)
+    void validateEquality(Object expected, Object actual)
     {
         assertThat(expected,is(equalTo(actual)));
     }
@@ -47,15 +40,15 @@ public class TestBase
     {
         assertThat(instance,is(nullValue()));
     }
-    protected void validateNotNull(Object instance)
+    void validateNotNull(Object instance)
     {
         assertThat(instance,is(not(nullValue())));
     }
-    protected void validateTrue(Boolean condition)
+    void validateTrue(Boolean condition)
     {
         assertThat(condition,is(true));
     }
-    protected void validateFalse(Boolean condition)
+    void validateFalse(Boolean condition)
     {
         assertThat(condition,is(false));
     }

@@ -9,11 +9,8 @@ import org.testng.annotations.Test;
 import javax.servlet.ServletRequest;
 import java.io.*;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 @Test(groups = {"unit", "common", "http.servlet.request.utils","utils"})
-public class ServletRequestUtilsTest
+public class ServletRequestUtilsTest extends TestBase
 {
     private ServletRequest request;
     private IMocksControl control;
@@ -32,8 +29,8 @@ public class ServletRequestUtilsTest
         {
             setUpRequest("foo");
             final String result = servletRequestUtils.getBodyFromRequest(request);
-            assertThat(result,is(not(nullValue())));
-            assertThat(result,is(equalTo("foo")));
+            validateNotNull(result);
+            validateEquality("foo",result);
         }
         finally
         {
@@ -46,7 +43,7 @@ public class ServletRequestUtilsTest
         {
             setUpRequest("");
             final String result = servletRequestUtils.getBodyFromRequest(request);
-            assertThat(result,is(nullValue()));
+            validateNull(result);
         }
         finally
         {
@@ -61,7 +58,7 @@ public class ServletRequestUtilsTest
             EasyMock.expect(request.getReader()).andThrow(new IOException(""));
             control.replay();
             final String result = servletRequestUtils.getBodyFromRequest(request);
-            assertThat(null == result || 0 == result.length(),is(true));
+            validateTrue(null == result || 0 == result.length());
         }
         finally
         {

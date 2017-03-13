@@ -20,15 +20,16 @@ public class ToStringUtils extends UtilityBase
     {
         final StringBuilder result = new StringBuilder("[");
         if(null != iterable)
-        {
-            iterable.forEach((out)->{
-                String temp = getString(out);
-                result.append(String.format("%s,",temp));
-            });
-        }
+            iterable.forEach((out)->appendToIterable(result, out));
         final String output = stripLastComma(result,"]");
         LOGGER.trace("Returning string representation of iterable\n{}",output);
         return output;
+    }
+
+    private <E> void appendToIterable(StringBuilder result, E out)
+    {
+        String temp = getString(out);
+        result.append(String.format("%s,",temp));
     }
 
     private <E> String getString(E out)
@@ -48,21 +49,22 @@ public class ToStringUtils extends UtilityBase
     {
         final StringBuilder out = new StringBuilder("{");
         if(null != map)
-        {
-            map.keySet().forEach((key)->{
-
-                Value value = map.get(key);
-                String temp = getString((value));
-                out.append(String.format("%s:%s,",key,temp));
-            });
-        }
+            map.keySet().forEach((key)->appendToMapping(map, out, key));
         return stripLastComma(out, "}");
     }
+
+    private <Key, Value> void appendToMapping(Map<Key, Value> map, StringBuilder out, Key key)
+    {
+        Value value = map.get(key);
+        String temp = getString((value));
+        out.append(String.format("%s:%s,",key,temp));
+    }
+
     private String stripLastComma(StringBuilder stringBuffer, String finalAppend)
     {
         String output = stringBuffer.toString();
         if (output.contains(","))
-            output= output.substring(0,output.lastIndexOf(","));
+            output = output.substring(0,output.lastIndexOf(","));
         return String.format("%s%s",output,finalAppend);
     }
 }
