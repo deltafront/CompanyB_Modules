@@ -4,9 +4,8 @@ import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * Converts Strings representations into various supported datatypes.
@@ -64,26 +63,35 @@ public class Converter
      * </ul>
      */
     public static List<Class> numberClasses;
+    private static Map<Class,Function<String,Object>>converterFunctionsMappings;
 
     static
     {
 
-        supportedClasses = new LinkedList<>();
-        Collections.addAll(supportedClasses, new Class[]
-                {Long.class, long.class, String.class, Integer.class, int.class,
-                        short.class, Short.class, Double.class, double.class,
-                        Boolean.class, boolean.class, Byte.class, byte.class,
-                        char.class, Character.class, BigDecimal.class, BigInteger.class
-                });
-        trueValues = new LinkedList<>();
-        Collections.addAll(trueValues, new String[]{"t", "true", "y", "yes", "1"});
-        falseValues = new LinkedList<>();
-        Collections.addAll(falseValues, new String[]{"f", "false", "n", "no", "0"});
-        numberClasses = new LinkedList<>();
-        Collections.addAll(numberClasses, new Class[]
-                {Long.class, long.class, Integer.class, int.class,
-                        short.class, Short.class, Double.class, double.class,
-                });
+        supportedClasses = Arrays.asList(Long.class, long.class, String.class, Integer.class, int.class,
+                short.class, Short.class, Double.class, double.class,
+                Boolean.class, boolean.class, Byte.class, byte.class,
+                char.class, Character.class, BigDecimal.class, BigInteger.class);
+        trueValues = Arrays.asList("t","true","y","yes","1");
+        falseValues = Arrays.asList("f","false","n","no","0");
+
+        numberClasses = Arrays.asList(Long.class, long.class, Integer.class, int.class);
+        converterFunctionsMappings = new HashMap<>();
+        converterFunctionsMappings.put(Long.class,(value)-> Long.parseLong(value));
+        converterFunctionsMappings.put(long.class,(value)-> Long.parseLong(value));
+        converterFunctionsMappings.put(Integer.class,(value)-> Integer.parseInt(value));
+        converterFunctionsMappings.put(int.class,(value)-> Integer.parseInt(value));
+        converterFunctionsMappings.put(Short.class,(value)-> Short.parseShort(value));
+        converterFunctionsMappings.put(short.class,(value)-> Short.parseShort(value));
+        converterFunctionsMappings.put(Double.class,(value)-> Double.parseDouble(value));
+        converterFunctionsMappings.put(double.class,(value)-> Double.parseDouble(value));
+        converterFunctionsMappings.put(BigDecimal.class,(value)-> new BigDecimal(value));
+        converterFunctionsMappings.put(BigInteger.class,(value)-> new BigInteger(value));
+        converterFunctionsMappings.put(char.class, (value)->new Character(value.charAt(0)));
+        converterFunctionsMappings.put(Character.class, (value)->new Character(value.charAt(0)));
+        converterFunctionsMappings.put(String.class, (value)->value);
+        converterFunctionsMappings.put(Byte.class,(value)->Byte.parseByte(value));
+        converterFunctionsMappings.put(byte.class,(value)->Byte.parseByte(value));
     }
 
     /**
@@ -155,9 +163,7 @@ public class Converter
      */
     public Byte convertToByte(String value)
     {
-        Validate.notNull(value,"Value is required.");
-        final Byte out = Byte.parseByte(value);
-        return out;
+        return convert(Byte.class,value);
     }
 
     /**
@@ -167,14 +173,9 @@ public class Converter
      */
     public <T> T convertToStringOrChar(String value, Class<T> classType)
     {
-        Validate.notNull(value,"Class is required.");
-        Validate.notNull(classType,"Class type is required.");
-        Object out = null;
-        if(char.class.equals(classType))out = new Character(value.charAt(0));
-        if(Character.class.equals(classType))out = new Character(value.charAt(0));
-        if(String.class.equals(classType))out = value;
-        return (T)out;
+        return convert(classType,value);
     }
+
 
     /**
      * @param value     String value to be converted.
@@ -183,13 +184,7 @@ public class Converter
      */
     public <T> T convertToBig(String value, Class<T> classType)
     {
-        Validate.notNull(value,"Class is required.");
-        Validate.notNull(classType,"Class type is required.");
-        Object out = BigDecimal.class.equals(classType) ?
-                new BigDecimal(value) :
-                BigInteger.class.equals(classType) ?
-                        new BigInteger(value) : null;
-        return (T) out;
+        return convert(classType,value);
     }
 
     /**
@@ -199,14 +194,7 @@ public class Converter
      */
     public <T> T convertToNumber(String value, Class<T> classType)
     {
-        Validate.notNull(value,"Class is required.");
-        Validate.notNull(classType,"Class type is required.");
-        Object out = value;
-        out = getLong(value, classType, out);
-        out = getShort(value, classType, out);
-        out = getDouble(value, classType, out);
-        out = getInteger(value, classType, out);
-        return (T) out;
+        return convert(classType,value);
     }
 
     /**
@@ -223,31 +211,16 @@ public class Converter
         return out;
     }
 
-    private <T> Object getInteger(String value, Class<T> classType, Object out)
+    private <T>T convert(Class<T>classType, String value)
     {
-        return int.class.equals(classType) || Integer.class.equals(classType) ?
-                Integer.parseInt(value) :
-                out;
+        validateClassIsPresent(value, classType);
+        return converterFunctionsMappings.containsKey(classType) ?
+                (T) converterFunctionsMappings.get(classType).apply(value) :
+                (T) value;
     }
-
-    private <T> Object getDouble(String value, Class<T> classType, Object out)
+    private <T> void validateClassIsPresent(String value, Class<T> classType)
     {
-        return double.class.equals(classType) || Double.class.equals(classType) ?
-                Double.parseDouble(value) :
-                out;
-    }
-
-    private <T> Object getShort(String value, Class<T> classType, Object out)
-    {
-        return  short.class.equals(classType) || Short.class.equals(classType) ?
-                Short.parseShort(value) :
-                out;
-    }
-
-    private <T> Object getLong(String value, Class<T> classType, Object out)
-    {
-        return  long.class.equals(classType) || Long.class.equals(classType) ?
-                Long.parseLong(value) :
-                out;
+        Validate.notNull(value,"Class is required.");
+        Validate.notNull(classType,"Class type is required.");
     }
 }

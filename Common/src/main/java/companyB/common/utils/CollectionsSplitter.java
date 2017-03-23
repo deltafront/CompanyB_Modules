@@ -53,16 +53,16 @@ public class CollectionsSplitter extends UtilityBase
     {
         final List<List> list = new LinkedList<>();
         IntStream.range(0,num).forEach(i->list.add(new LinkedList()));
-        System.out.println("Size of collection:" + collection.size());
-        System.out.println("Added number of lists:" + list.size());
         final AtomicInteger count = new AtomicInteger(0);
-        collection.forEach((next)->
-        {
-           if (count.get() == num)count.getAndSet(0);
-           list.get(count.get()).add(next);
-           count.getAndIncrement();
-       });
+        collection.forEach((next)-> generateOuterLists(num, list, count, next));
         return list;
+    }
+
+    private static void generateOuterLists(int num, List<List> list, AtomicInteger count, Object next)
+    {
+        if (count.get() == num)count.getAndSet(0);
+        list.get(count.get()).add(next);
+        count.getAndIncrement();
     }
 
     //helper methods
@@ -72,19 +72,26 @@ public class CollectionsSplitter extends UtilityBase
         List<List> list = new LinkedList<>();
         final AtomicInteger count = new AtomicInteger(0);
         final List _list = new LinkedList();
-        collection.forEach((next) ->{
-            _list.add(next);
-            count.incrementAndGet();
-            if (count.get() == num)
-            {
-                count.getAndSet(0);
-                final List inner = new LinkedList<>();
-                inner.addAll(_list);
-                list.add(inner);
-                _list.clear();
-            }
-        });
+        collection.forEach((next) -> generateOuterList(num, list, count, _list, next));
         if (_list.size() > 0) list.add(_list);
         return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void generateOuterList(int num, List<List> list, AtomicInteger count, List _list, Object next)
+    {
+        _list.add(next);
+        count.incrementAndGet();
+        if (count.get() == num) addInnerList(list, count, _list);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void addInnerList(List<List> list, AtomicInteger count, List _list)
+    {
+        count.getAndSet(0);
+        final List inner = new LinkedList<>();
+        inner.addAll(_list);
+        list.add(inner);
+        _list.clear();
     }
 }

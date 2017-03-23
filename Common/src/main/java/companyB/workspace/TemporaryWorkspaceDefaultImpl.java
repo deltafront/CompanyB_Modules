@@ -117,8 +117,7 @@ public class TemporaryWorkspaceDefaultImpl implements TemporaryWorkspace
         {
             final File source = sourcePath.toFile();
             final File dest = new File(newFileName);
-            final String copyOrMove = delete ? "move" : "copy";
-            final String message = String.format("Attempting to %s '%s' to '%s'.",copyOrMove,source.getAbsolutePath(), dest.getAbsolutePath());
+            final String message = getCopyOrMoveMessage(delete, source, dest);
             LOGGER.debug(message);
             FileUtils.copyFile(source,dest);
             if(delete)source.delete();
@@ -131,6 +130,12 @@ public class TemporaryWorkspaceDefaultImpl implements TemporaryWorkspace
         }
         return out;
     }
+
+    private String getCopyOrMoveMessage(Boolean delete, File source, File dest)
+    {
+        return String.format("Attempting to %s '%s' to '%s'.",delete ? "move" : "copy",source.getAbsolutePath(), dest.getAbsolutePath());
+    }
+
     private String getRootAsString()
     {
         return String.format("%s%s", root.toFile().getAbsolutePath(), pathSep);

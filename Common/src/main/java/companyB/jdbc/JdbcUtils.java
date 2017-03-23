@@ -1,12 +1,15 @@
 package companyB.jdbc;
 
 import companyB.common.utils.UtilityBase;
+import companyB.jdbc.helpers.ResultHelper;
+import companyB.jdbc.helpers.ResultHelperFactory;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -19,6 +22,7 @@ public class JdbcUtils extends UtilityBase
 {
     private final DataSource dataSource;
     private final JdbcExceptionUtils jdbcExceptionUtils;
+    private final ResultHelperFactory resultHelperFactory;
     private enum Operation
     {
         insert,update,query
@@ -40,6 +44,7 @@ public class JdbcUtils extends UtilityBase
         basicDataSource.setDriverClassName(jdbcDriverClass);
         this.dataSource = basicDataSource;
         this.jdbcExceptionUtils = new JdbcExceptionUtils();
+        this.resultHelperFactory = new ResultHelperFactory();
     }
 
     /**
@@ -61,7 +66,7 @@ public class JdbcUtils extends UtilityBase
      */
     public<TargetClass> List<TargetClass>query(String sql, ResultSetTransformer<TargetClass> resultSetTransformer, Object...replacements)
     {
-        return insertUpdateQuery(sql,Operation.query,resultSetTransformer,replacements);
+        return insertUpdateQuery(sql,resultHelperFactory.queryResultsHelper(resultSetTransformer),replacements);
     }
 
 
@@ -83,7 +88,7 @@ public class JdbcUtils extends UtilityBase
      */
     public Long insert(String sql, Object...replacements)
     {
-        return insertUpdateQuery(sql,Operation.insert,null,replacements);
+        return insertUpdateQuery(sql,resultHelperFactory.insertResultsHelper(),replacements);
     }
 
     /**
@@ -103,26 +108,7 @@ public class JdbcUtils extends UtilityBase
      */
     public Integer update(String sql, Object...replacements)
     {
-        return insertUpdateQuery(sql,Operation.update,null,replacements);
-    }
-
-    private<TargetClass> List<TargetClass> fromResultSet(ResultSet resultSet, ResultSetTransformer<TargetClass>resultSetTransformer) throws SQLException
-    {
-        List<TargetClass>list = new LinkedList<>();
-        while(resultSet.next())list.add(resultSetTransformer.fromResultSet(resultSet));
-        return list;
-    }
-
-    private Long getGeneratedKey(Statement statement) throws SQLException
-    {
-        Long key = -1L;
-        final ResultSet rs = statement.getGeneratedKeys();
-        if (rs.next())
-        {
-            Integer temp = (Integer)rs.getObject(1);
-            if(temp > -1)key = Long.parseLong(String.valueOf(temp));
-        }
-        return key;
+        return insertUpdateQuery(sql,resultHelperFactory.updateResultsHelper(),replacements);
     }
 
     private Statement getStatement(String sql, Connection connection, Object[] replacements) throws SQLException
@@ -146,7 +132,7 @@ public class JdbcUtils extends UtilityBase
     }
 
     @SuppressWarnings("unchecked")
-    private <T, TargetClass> T insertUpdateQuery(String sql, Operation operation, ResultSetTransformer<TargetClass>resultSetTransformer, Object...replacements)
+    private <T, TargetClass> T insertUpdateQuery(String sql, ResultHelper resultHelper,Object...replacements)
     {
         Object out = null;
         try(final Connection connection = dataSource.getConnection();
@@ -154,40 +140,11 @@ public class JdbcUtils extends UtilityBase
         {
             Boolean isPreparedStatement = statement instanceof PreparedStatement;
             if(isPreparedStatement)doReplace((PreparedStatement) statement, replacements);
-            switch (operation)
-            {
-                case query:
-                    ResultSet resultSet = isPreparedStatement ?
-                            ((PreparedStatement)statement).executeQuery() :
-                            statement.executeQuery(sql);
-                    out = fromResultSet(resultSet,resultSetTransformer);
-                    break;
-                case update:
-                    out = isPreparedStatement ?
-                            ((PreparedStatement)statement).executeUpdate() :
-                            statement.executeUpdate(sql);
-                    break;
-                case insert:
-                    if(isPreparedStatement) ((PreparedStatement)statement).execute();
-                    else statement.execute(sql);
-                    out = getGeneratedKey(statement);
-                    break;
-            }
+            out = resultHelper.returnResults(sql,statement,isPreparedStatement);
         }
         catch (SQLException e)
         {
-            switch (operation)
-            {
-                case insert:
-                    out = -1L;
-                    break;
-                case update:
-                    out = -1;
-                    break;
-                case query:
-                    out = new LinkedList<HashMap<String,Object>>();
-                    break;
-            }
+            out = resultHelper.returnErrorResult();
             jdbcExceptionUtils.handleSqlException(e,LOGGER);
         }
         return (T)out;

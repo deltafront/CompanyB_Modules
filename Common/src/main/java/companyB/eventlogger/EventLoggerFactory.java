@@ -114,7 +114,7 @@ public class EventLoggerFactory
     }
     private String getName(EventLog eventLog, Object instance)
     {
-        return (StringUtils.isEmpty(eventLog.name())) ?
+        return StringUtils.isEmpty(eventLog.name()) ?
                 instance.getClass().getCanonicalName() :
                 eventLog.name();
     }

@@ -9,22 +9,27 @@ import java.util.*;
  */
 public class QueryMapper extends UtilityBase
 {
-    class key_value
+    private class key_value
     {
         key_value(String kv)
         {
-            if(kv.contains("="))
-            {
-                String[]split = kv.split("=");
-                key = split[0];
-                value = split[1];
-            }
-            else
-            {
-                key = kv;
-                value = null;
-            }
+            if(kv.contains("="))getKeyValueFromDelimitedString(kv);
+            else getKeyValueFromNonDelimitedString(kv);
         }
+
+        private void getKeyValueFromNonDelimitedString(String kv)
+        {
+            key = kv;
+            value = null;
+        }
+
+        private void getKeyValueFromDelimitedString(String kv)
+        {
+            String[]split = kv.split("=");
+            key = split[0];
+            value = split[1];
+        }
+
         String key;
         String value;
     }
@@ -69,13 +74,12 @@ public class QueryMapper extends UtilityBase
     }
     private List<String>getListing(String key, Map<String,List<String>>mapping)
     {
-        return mapping.containsKey(key) ? mapping.get(key) :getNewListingMapping(key,mapping);
+        return mapping.containsKey(key) ? mapping.get(key) : getNewListingMapping(key,mapping);
     }
 
     private List<String> getNewListingMapping(String key, Map<String, List<String>> mapping)
     {
-        final List<String>listing = new LinkedList<>();
-        mapping.put(key,listing);
+        mapping.put(key,new LinkedList<>());
         return getListing(key,mapping);
     }
 }
