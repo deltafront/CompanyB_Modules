@@ -93,3 +93,9 @@
 # 2.2.0 (Funplex)
 *   Removed all Http-specific modules
     *   [card](https://trello.com/c/DxWFOjgT/64-core-pom-2-2-0-depricate-httpcookieenabled-and-httpsessionenabled-modules)
+# 2.3.0 (Cocteat Twins)
+*   Removed SimpleRegexUtils (Apache does a much better job)
+*   Introduced JdbcUtils
+*   Logging changes - following SLF4J formatting standards
+*   More Java8 Goodness
+*   Updated JaCoCo to fail on < 80% coverage

@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
  * Spring based processor for Auto-injecting SLF4J Log fields.
  * @author Charles Burrell (deltafront@gmail.com)
  * @see org.springframework.beans.factory.config.BeanPostProcessor
- * @since 1..0
+ *
  */
 public class LogBeanProcessor implements BeanPostProcessor
 {
@@ -21,16 +21,16 @@ public class LogBeanProcessor implements BeanPostProcessor
     {
 
         final FieldUtils fieldUtils = new FieldUtils();
-        Field[]fields = fieldUtils.getFields(o);
-        for(Field field : fields)
+        final Field[]fields = fieldUtils.getFields(o);
+        for(final Field field : fields)
         {
             if(Logger.class.equals(field.getType()))
             {
-                Log log = fieldUtils.getAnnotation(Log.class,field);
+                final Log log = fieldUtils.getAnnotation(Log.class,field);
                 if(null != log)
                 {
-                    String name = getName(log,o);
-                    Logger logger = LoggerFactory.getLogger(name);
+                    final String name = getName(log,o);
+                    final Logger logger = LoggerFactory.getLogger(name);
                     fieldUtils.setField(field,o,logger);
                 }
             }

@@ -1,22 +1,27 @@
 package companyB.common.utils;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
+import java.util.stream.IntStream;
 
 /**
  * Splits Collection into a List of Lists.
- *
  * @author C.A. Burrell (deltafront@gmail.com)
- * @since  1.0.0
  */
-@SuppressWarnings("PMD.UselessParentheses")
 public class CollectionsSplitter extends UtilityBase
 {
     public enum optimization_strategy
     {
-        number_of_lists, number_of_items
+        number_of_lists(CollectionsSplitter::number_of_lists),
+        number_of_items(CollectionsSplitter::number_of_items);
+        optimization_strategy(BiFunction<Collection,Integer, List<List>> function)
+        {
+            this.biFunction = function;
+        }
+        BiFunction<Collection, Integer, List<List>>biFunction;
     }
 
     /**
@@ -29,61 +34,62 @@ public class CollectionsSplitter extends UtilityBase
      *                   containing <strong>at most</strong> split_num items.
      * @param strategy   one of optimization_strategy.number_of_lists | optimization_strategy.number_of_items
      * @return list of lists.
-     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public List<List> split(Collection collection, int split_num, optimization_strategy strategy)
     {
-        if(null != collection) LOGGER.trace(String.format("Size of collection:\t%d\nSplit Number:\t%d\nStrategy:\t%s",
-                collection.size(), split_num,strategy.name()));
-        if (null == collection)return new LinkedList<>();
-        int num = (split_num == 0 || split_num > collection.size())
-                ? collection.size() : split_num;
-        List<List>lists =  (strategy == optimization_strategy.number_of_items)
-                ? number_of_items(collection, num) : number_of_lists(collection, num);
-        LOGGER.trace(String.format("Returning new list of %d elements.",lists.size()));
-        return lists;
+        final int num = (null != collection) ?
+                (split_num == 0 || split_num > collection.size())
+                ? collection.size() : split_num : -1;
+        return  (null != collection) ?
+                strategy.biFunction.apply(collection,num) :
+                new LinkedList<>();
     }
 
     @SuppressWarnings({"unchecked", "WhileLoopReplaceableByForEach"})
-    private List<List> number_of_lists(Collection collection, int num)
+    private static List<List> number_of_lists(Collection collection, int num)
     {
-        List<List> list = new LinkedList<>();
-        for (int i = 0; i < num; i++)list.add(new LinkedList());
-        int count = 0;
-        Iterator iter = collection.iterator();
-        while (iter.hasNext())
-        {
-            if (count == num)count = 0;
-            list.get(count).add(iter.next());
-            count++;
-        }
-        LOGGER.trace(String.format("Returning a master list that contains %d lists.",list.size()));
+        final List<List> list = new LinkedList<>();
+        IntStream.range(0,num).forEach(i->list.add(new LinkedList()));
+        final AtomicInteger count = new AtomicInteger(0);
+        collection.forEach((next)-> generateOuterLists(num, list, count, next));
         return list;
     }
 
-    //helper methods
     @SuppressWarnings("unchecked")
-    private List<List> number_of_items(Collection collection, int num)
+    private static void generateOuterLists(int num, List<List> list, AtomicInteger count, Object next)
+    {
+        if (count.get() == num)count.getAndSet(0);
+        list.get(count.get()).add(next);
+        count.getAndIncrement();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<List> number_of_items(Collection collection, int num)
     {
         List<List> list = new LinkedList<>();
-        Iterator iter = collection.iterator();
-        int count = 0;
-        List _list = new LinkedList();
-        while (iter.hasNext())
-        {
-            _list.add(iter.next());
-            count++;
-            if (count == num)
-            {
-                count = 0;
-                list.add(_list);
-                _list = new LinkedList();
-            }
-        }
+        final AtomicInteger count = new AtomicInteger(0);
+        final List _list = new LinkedList();
+        collection.forEach((next) -> generateOuterList(num, list, count, _list, next));
         if (_list.size() > 0) list.add(_list);
-        LOGGER.trace(String.format("Returning a master list of %d lists in which each list contains at least %d elements.",
-                list.size(),num));
         return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void generateOuterList(int num, List<List> list, AtomicInteger count, List _list, Object next)
+    {
+        _list.add(next);
+        count.incrementAndGet();
+        if (count.get() == num) addInnerList(list, count, _list);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void addInnerList(List<List> list, AtomicInteger count, List _list)
+    {
+        count.getAndSet(0);
+        final List inner = new LinkedList<>();
+        inner.addAll(_list);
+        list.add(inner);
+        _list.clear();
     }
 }

@@ -1,33 +1,34 @@
 package companyB.common.utils;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Produces a mapping of passed-in request query parameters.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 2.1.0
  */
 public class QueryMapper extends UtilityBase
 {
-    class key_value
+    private class key_value
     {
         key_value(String kv)
         {
-            if(kv.contains("="))
-            {
-                String[]split = kv.split("=");
-                key = split[0];
-                value = split[1];
-            }
-            else
-            {
-                key = kv;
-                value = null;
-            }
+            if(kv.contains("="))getKeyValueFromDelimitedString(kv);
+            else getKeyValueFromNonDelimitedString(kv);
         }
+
+        private void getKeyValueFromNonDelimitedString(String kv)
+        {
+            key = kv;
+            value = null;
+        }
+
+        private void getKeyValueFromDelimitedString(String kv)
+        {
+            String[]split = kv.split("=");
+            key = split[0];
+            value = split[1];
+        }
+
         String key;
         String value;
     }
@@ -37,29 +38,34 @@ public class QueryMapper extends UtilityBase
      * request parameter can have more than a single value.
      * @param requestQuery request query to be mapped.
      * @return Mapping of request parameters.
-     * @since 2.1.0
      */
-    public Map<String,List<String>> mapRequestQuery(final String requestQuery)
+    public Map<String,List<String>> mapRequestQuery(String requestQuery)
     {
-        String query = requestQuery;
-        Map<String,List<String>>mapping = new HashMap<>();
-        if(query.contains("?"))query = query.replace("?","");
-        while(query.contains("&&")) query = query.replace("&&","&");
-        String[]keyValuePairs = getKeyValuePairs(query);
-        for(String keyValuePair : keyValuePairs)
-        {
-            key_value keyValue = getKeyValue(keyValuePair);
-            List<String>listing = getListing(keyValue.key,mapping);
-            listing.add(keyValue.value);
-            mapping.put(keyValue.key,listing);
-            LOGGER.trace(String.format("Added value '%s' to listing for key '%s'. Listing has %d elements."
-                    ,keyValue.value,keyValue.key,listing.size()));
-        }
+        final String query = cleanQuery(requestQuery);
+        final Map<String,List<String>>mapping = new HashMap<>();
+        getKeyValuePairs(query).forEach((keyValuePair)-> mapQuery(mapping, keyValuePair));
         return mapping;
     }
-    private String[]getKeyValuePairs(String requestQuery)
+
+    private String cleanQuery(String query)
     {
-        return requestQuery.split("&");
+        String _q = query;
+        if(_q.contains("?"))_q = _q.replace("?","");
+        while(_q.contains("&&")) _q = _q.replace("&&","&");
+        return _q;
+    }
+
+    private void mapQuery(Map<String, List<String>> mapping, String keyValuePair)
+    {
+        key_value keyValue = getKeyValue(keyValuePair);
+        final List<String>listing = getListing(keyValue.key,mapping);
+        listing.add(keyValue.value);
+        mapping.put(keyValue.key,listing);
+    }
+
+    private List<String>getKeyValuePairs(String requestQuery)
+    {
+        return Arrays.asList(requestQuery.split("&"));
     }
     private key_value getKeyValue(String keyValuePair)
     {
@@ -67,12 +73,12 @@ public class QueryMapper extends UtilityBase
     }
     private List<String>getListing(String key, Map<String,List<String>>mapping)
     {
-        if(mapping.containsKey(key)) return mapping.get(key);
-        else
-        {
-            List<String>listing = new LinkedList<>();
-            mapping.put(key,listing);
-            return getListing(key,mapping);
-        }
+        return mapping.containsKey(key) ? mapping.get(key) : getNewListingMapping(key,mapping);
+    }
+
+    private List<String> getNewListingMapping(String key, Map<String, List<String>> mapping)
+    {
+        mapping.put(key,new LinkedList<>());
+        return getListing(key,mapping);
     }
 }

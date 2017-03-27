@@ -3,11 +3,19 @@ package companyB.common.constants;
 import java.text.SimpleDateFormat;
 
 /**
+ * Somewhat useful date constants.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since  1.1.0
  */
-public class DateConstants
+public enum DateConstants
 {
-    public final static String ISO_8601_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
-    public final static SimpleDateFormat ISO_8601 = new SimpleDateFormat(ISO_8601_DATE_FORMAT);
+    ISO_8601("yyyy-MM-dd'T'HH:mm:ssX");
+    private SimpleDateFormat simpleDateFormat;
+    DateConstants(String dateFormat)
+    {
+       this.simpleDateFormat= new SimpleDateFormat(dateFormat);
+    }
+    public SimpleDateFormat dateFormat()
+    {
+        return this.simpleDateFormat;
+    }
 }

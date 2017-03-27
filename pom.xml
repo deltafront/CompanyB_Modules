@@ -5,17 +5,10 @@
     <groupId>companyB</groupId>
     <artifactId>core</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.2</version>
+    <version>2.3.0</version>
     <modules>
 
         <module>Common</module>
-        <module>ConfigurationEnabled</module>
-        <module>Decorator</module>
-        <module>ContextEnabled</module>
-        <module>EventLogger</module>
-        <module>FlywayEnabled</module>
-        <module>EncryptionEnabled</module>
-        <module>CacheEnabled</module>
         <module>SpringEnabled</module>
     </modules>
 
@@ -23,15 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <master.version>${version}</master.version>
         <module.common.version>${master.version}</module.common.version>
-        <module.decorator.version>${master.version}</module.decorator.version>
-        <module.data.access.version>${master.version}</module.data.access.version>
         <module.spring.enabled.version>${master.version}</module.spring.enabled.version>
-        <module.cache.enabled.version>${master.version}</module.cache.enabled.version>
-        <module.configuration.enabled.version>${master.version}</module.configuration.enabled.version>
-        <module.flyway.enabled.version>${master.version}</module.flyway.enabled.version>
-        <module.event.logger.version>${master.version}</module.event.logger.version>
-        <module.encryption.enabled.version>${master.version}</module.encryption.enabled.version>
-
         <unit.test.groups>unit</unit.test.groups>
         <integration.test.groups>integration</integration.test.groups>
         <excluded.test.groups>experimental, failing</excluded.test.groups>
@@ -51,14 +36,15 @@
         <plugin.compliler.version>3.2</plugin.compliler.version>
         <plugin.release.version>2.5.2</plugin.release.version>
 
-        <java.source.version>1.7</java.source.version>
-        <java.target.version>1.7</java.target.version>
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
 
         <enforced.java.version>1.7.0</enforced.java.version>
         <enforced.maven.version>3.1.1</enforced.maven.version>
         <enforced.ban.latest>false</enforced.ban.latest>
         <enforced.ban.snapshot>false</enforced.ban.snapshot>
         <enforced.ban.release>false</enforced.ban.release>
+        <test.ng.version>6.9.8</test.ng.version>
     </properties>
 
     <repositories>
@@ -89,8 +75,26 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.21</version>
+            <version>${test.ng.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.uncommons</groupId>
+            <artifactId>reportng</artifactId>
+            <version>1.1.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -117,6 +121,47 @@
             <artifactId>commons-codec</artifactId>
             <version>1.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.190</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+
     </dependencies>
     <contributors>
         <contributor>
@@ -284,11 +329,11 @@
                         <properties>
                             <property>
                                 <name>usedefaultlisteners</name>
-                                <value>true</value>
+                                <value>false</value>
                             </property>
                             <property>
-                                <name>reporter</name>
-                                <value>listenReport.Reporter</value>
+                                <name>listener</name>
+                                <value>org.uncommons.reportng.HTMLReporter, org.uncommons.reportng.JUnitXMLReporter</value>
                             </property>
                         </properties>
                         <workingDirectory>target/</workingDirectory>

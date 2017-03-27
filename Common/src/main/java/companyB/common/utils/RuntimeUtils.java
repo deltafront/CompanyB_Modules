@@ -1,12 +1,11 @@
 package companyB.common.utils;
 
 import java.io.*;
-import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Provides a one-step utility for executing simple commands.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since  1.0.0
  */
 public class RuntimeUtils extends UtilityBase
 {
@@ -15,26 +14,58 @@ public class RuntimeUtils extends UtilityBase
      * Executes command and returns the result.
      * @param commandArgs Command line arguments
      * @return String result of Execution
-     * @since 1.0.0
      */
+    @SuppressWarnings("ThrowFromFinallyBlock")
     public String executeCommand(String... commandArgs)
     {
-        String result = null;
+        final StringBuilder result = new StringBuilder();
         try
         {
-            Runtime runtime = Runtime.getRuntime();
-            Process process = runtime.exec(commandArgs);
-            InputStream inputStream = process.getInputStream();
-            Reader reader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String temp;
-            while((temp = bufferedReader.readLine())!= null) result += temp;
+            final Optional<Process>process = getProcess(commandArgs);
+            final Process _process = process.orElseThrow(()->new RuntimeUtilsException("Null process returned."));
+            returnResultFromExecutedCommand(result, _process);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-           LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(),e);
         }
-        LOGGER.trace(String.format("Result of command '%s': '%s'.", Arrays.toString(commandArgs), result));
-        return result;
+        return result.toString().length() ==0 ? null : result.toString();
+    }
+
+    private void returnResultFromExecutedCommand(StringBuilder result, Process process) throws IOException
+    {
+        try(final InputStream inputStream = process.getInputStream();
+            final Reader reader = new InputStreamReader(inputStream);
+            final BufferedReader bufferedReader = new BufferedReader(reader)
+        )
+        {
+            bufferedReader.lines().forEach(result::append);
+        }
+    }
+
+    private Optional<Process> getProcess(String...commandArgs)
+    {
+        Optional<Process>process;
+        final Runtime runtime = Runtime.getRuntime();
+        try
+        {
+            process = Optional.ofNullable(runtime.exec(commandArgs));
+        }
+        catch (Exception e)
+        {
+            process = Optional.empty();
+        }
+        return process;
+    }
+}
+
+/**
+ * Custom Exception thrown in case of process or runtime failure.
+ */
+class RuntimeUtilsException extends Exception
+{
+    RuntimeUtilsException(String message)
+    {
+        super(message);
     }
 }
