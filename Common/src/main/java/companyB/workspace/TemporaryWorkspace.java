@@ -8,7 +8,6 @@ import java.nio.file.Path;
  * This interface defines the contract for classes that create a temporary workspace in which to contain files needed for
  * application operations.
  * @author C.A. Burrell deltafront@gmail.com
- * @version 1.0.0
  */
 public interface TemporaryWorkspace extends Closeable
 {
@@ -44,7 +43,14 @@ public interface TemporaryWorkspace extends Closeable
      */
     Path moveFile(File file, String directory);
 
+    /**
+     * Writes content to a file within the workspace.
+     * @param filename Name of the file to write this content to. If the file does not exist, it should be created.
+     * @param content Content to write.
+     * @return Path to the file written to.
+     */
     Path writeFile(String filename, byte[]content);
+
     /**
      * Gets a file that is in the workspace.
      * @param filename Name of file to get.

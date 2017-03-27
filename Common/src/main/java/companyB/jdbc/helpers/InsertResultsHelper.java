@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.atomic.AtomicLong;
 
-
+/**
+ * This helper returns the results of an INSERT Sql statement, specifically the number of rows inserted.
+ * @author C.A. Burrell deltafront@gmail.com
+ */
 class InsertResultsHelper implements ResultHelper<Long>
 {
     public Long returnResults(String sql, Statement statement, Boolean isPreparedStatement) throws SQLException

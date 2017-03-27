@@ -8,7 +8,6 @@ import redis.clients.jedis.Jedis;
 /**
  * Redis - based implementation of ExternalCache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class RedisExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -36,6 +35,7 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
         this.port = port;
         this.cacheName = cacheName;
     }
+
     @Override
     public void insert(String key, String value)
     {
@@ -69,6 +69,13 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
         return value;
     }
 
+
+    @Override
+    public String getName()
+    {
+        return cacheName;
+    }
+
     /**
      * Pings the service to make sure that it is alive.
      * @return Result of the ping from the Redis instance.
@@ -77,12 +84,6 @@ public class RedisExternalCache extends AbstractExternalCache implements Externa
     {
         getConnection();
         return connection.ping();
-    }
-
-    @Override
-    public String getName()
-    {
-        return cacheName;
     }
 
     private void getConnection()

@@ -5,9 +5,9 @@ import java.util.Optional;
 /**
  * A class for holding Optional containers whose contents may change but whose basic contract will not. In other words,
  * immutability for the Optional itself is guaranteed, but not that of its value.
- * @author Charles A. Burrell (deltafront@gmail.com)
- * @version 1.0.0
  * @param <T> Type of the value being held by the Optional.
+ * @author Charles A. Burrell (deltafront@gmail.com)
+ *
  */
 public class AtomicOptional<T>
 {

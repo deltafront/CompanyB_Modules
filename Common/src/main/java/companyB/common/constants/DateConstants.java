@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 /**
  * Somewhat useful date constants.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public enum DateConstants
 {

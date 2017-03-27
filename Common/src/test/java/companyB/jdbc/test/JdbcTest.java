@@ -1,14 +1,16 @@
 package companyB.jdbc.test;
 
-import companyB.jdbc.JdbcUtils;
 import companyB.jdbc.ResultSetTransformer;
-import org.testng.annotations.AfterMethod;
+import companyB.jdbc.ResultSetTransformerDefaultImpl;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -22,13 +24,26 @@ public class JdbcTest extends TestBase
     private final Boolean RUN_FAILED_CASE = true;
     private final Boolean DO_NOT_RUN_FAILED_CASE = false;
 
-    protected JdbcUtils jdbcUtils;
-    private ResultSetTransformer<TestObj> resultSetTransformer;
-
-    @BeforeMethod
-    public void before()
+    @DataProvider(name = "default")
+    public static Object[][]data()
     {
-        resultSetTransformer = resultSet -> {
+        final BiConsumer<List<TestObj>,Long> verifyTestObj = (list,id)->
+        {
+            final TestObj result = list.get(0);
+            final Long fromDb = result.id;
+            validateNotNull(fromDb);
+            validateEquality(id, fromDb);
+        };
+        final BiConsumer<List<Map<String,Object>>,Long> verifyMap = (list, id)->
+        {
+            final Map<String,Object> result = list.get(0);
+            validateEquality(2,result.size());
+            validateTrue(result.containsKey("ID"));
+            final Object idFromDb = result.get("ID");
+            validateNotNull(idFromDb);
+            validateEquality(id, Long.valueOf(String.valueOf(idFromDb)));
+        };
+        final ResultSetTransformer<TestObj>resultSetTransformer = resultSet -> {
             TestObj out = null;
             try
             {
@@ -42,86 +57,124 @@ public class JdbcTest extends TestBase
             }
             return out;
         };
-        jdbcUtils = new JdbcUtils("sa", "", "jdbc:h2:~/test.db", "org.h2.Driver");
+        return new Object[][]
+                {
+                        {resultSetTransformer, verifyTestObj},
+                        {new ResultSetTransformerDefaultImpl(),verifyMap}
+                };
+    }
+
+    @DataProvider(name = "combinations")
+    public static Object[][] combinations()
+    {
+        return new Object[][]
+                {
+                        {true,true},
+                        {true,false},
+                        {false,true},
+                        {false,false}
+                };
+    }
+
+    @BeforeMethod
+    public void before()
+    {
+        super.before();
         final List<String> createStatements = new LinkedList<>();
         createStatements.add("DROP TABLE IF EXISTS TEST;" +
                 "CREATE TABLE TEST(ID INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(250) NOT NULL UNIQUE);");
         createStatements.forEach(this::runUpdate);
     }
 
-    @AfterMethod
-    public void after()
+
+    @Test(dataProvider = "combinations")
+    public void insert(Boolean successExpected, Boolean usePreparedStatement)
     {
-        final List<String>dropStatements = new LinkedList<>();
-        dropStatements.add("DROP TABLE IF EXISTS TEST;");
-        dropStatements.forEach(this::runUpdate);
+        System.out.println(String.format("Success Expected: %b \tUse Prepared Statement: %b",successExpected,usePreparedStatement));
+        if(successExpected) doInsert(successExpected,usePreparedStatement);
+        else
+        {
+            doInsert(true,usePreparedStatement);
+            doInsert(false,usePreparedStatement);
+        }
     }
 
 
-    public void insertSqlHappyPath()
+    @Test(dataProvider = "combinations")
+    public void update(Boolean runFailedCate, Boolean usePreparedStatement)
     {
-        doInsert(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
+        System.out.println(String.format("Executng failed case: %b \tUse Prepared Statement: %b",runFailedCate,usePreparedStatement));
+        doUpdate(runFailedCate,usePreparedStatement);
+    }
+    @Test(dataProvider = "combinations")
+    public void delete(Boolean successExpected, Boolean usePreparedStatement)
+    {
+        System.out.println(String.format("Success Expected: %b \tUse Prepared Statement: %b",successExpected,usePreparedStatement));
+        doDelete(successExpected,usePreparedStatement);
     }
 
-    public void insertSqlFailure()
+
+    @Test(dataProvider = "default")
+    public<T> void querySqlHappyPath(ResultSetTransformer<T>resultSetTransformer, BiConsumer<List<T>,Long>biConsumer)
     {
-        doInsert(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
-        doInsert(SUCCESS_NOT_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
+        doQuery(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT,resultSetTransformer,biConsumer);
+    }
+    @Test(dataProvider = "default")
+    public<T> void queryPreparedStatementHappyPath(ResultSetTransformer<T>resultSetTransformer, BiConsumer<List<T>,Long>biConsumer)
+    {
+        doQuery(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT,resultSetTransformer,biConsumer);
+    }
+    @Test(dataProvider = "default")
+    public<T> void querySqlFailure(ResultSetTransformer<T>resultSetTransformer, BiConsumer<List<T>,Long>biConsumer)
+    {
+        doQuery(SUCCESS_NOT_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT,resultSetTransformer,biConsumer);
+    }
+    @Test(dataProvider = "default")
+    public<T> void queryPreparedStatementFailure(ResultSetTransformer<T>resultSetTransformer, BiConsumer<List<T>,Long>biConsumer)
+    {
+        doQuery(SUCCESS_NOT_EXPECTED, USE_PREPARED_STATEMENT,resultSetTransformer,biConsumer);
     }
 
-    public void insertPreparedStatement()
+    public void deleteSqlHappyPath()
     {
-        doInsert(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
+        doDelete(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
     }
 
-    public void insertPreparedStatementFailure()
+    public void deletePreparedStatementHappyPath()
     {
-        doInsert(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
-        doInsert(SUCCESS_NOT_EXPECTED, USE_PREPARED_STATEMENT);
+        doDelete(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
     }
 
-    public void updateSqlHappyPath()
+    public void deleteSqlFailure()
     {
-        doUpdate(DO_NOT_RUN_FAILED_CASE,DO_NOT_USE_PREPARED_STATEMENT);
+        doDelete(SUCCESS_NOT_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
     }
 
-    public void updateSqlFailure()
+    public void deletePreparedStatementFailure()
     {
-        doUpdate(RUN_FAILED_CASE, DO_NOT_USE_PREPARED_STATEMENT);
-    }
-    public void updatePreparedStatementHappyPath()
-    {
-        doUpdate(DO_NOT_RUN_FAILED_CASE,USE_PREPARED_STATEMENT);
-    }
-    public void updatePreparedStatementFailure()
-    {
-        doUpdate(RUN_FAILED_CASE,USE_PREPARED_STATEMENT);
+        doDelete(SUCCESS_NOT_EXPECTED, USE_PREPARED_STATEMENT);
     }
 
-    public void querySqlHappyPath()
+    private void doDelete(Boolean runFailedCase, Boolean usePreparedStatement)
     {
-        doQuery(SUCCESS_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
-    }
-
-    public void queryPreparedStatementHappyPath()
-    {
-        doQuery(SUCCESS_EXPECTED, USE_PREPARED_STATEMENT);
-    }
-    public void querySqlFailure()
-    {
-        doQuery(SUCCESS_NOT_EXPECTED, DO_NOT_USE_PREPARED_STATEMENT);
-    }
-
-    public void queryPreparedStatementFailure()
-    {
-        doQuery(SUCCESS_NOT_EXPECTED, USE_PREPARED_STATEMENT);
-    }
-
-    private void runUpdate(String sql)
-    {
-        final Integer result = jdbcUtils.update(sql);
-        validateNotNull(result);
-        validateTrue(result > -1L);
+        final Long id = doInsert(true,false);
+        final String sql = usePreparedStatement ?
+                "DELETE FROM TEST WHERE ID=?" :
+                String.format("DELETE FROM TEST WHERE ID=%s",id);
+        final Object[]delete_values = usePreparedStatement ?
+                new Object[]{id} :
+                new Object[0];
+        Integer deleted = usePreparedStatement ?
+                jdbcUtils.delete(sql,delete_values) :
+                jdbcUtils.delete(sql);
+        validateEquality(1,deleted);
+        if(runFailedCase)
+        {
+            deleted = usePreparedStatement ?
+                    jdbcUtils.delete(sql,delete_values) :
+                    jdbcUtils.delete(sql);
+            validateEquality(0,deleted);
+        }
     }
     private void doUpdate(Boolean runFailedCase, Boolean usePreparedStatement)
     {
@@ -138,7 +191,9 @@ public class JdbcTest extends TestBase
         final String update_sql = (usePreparedStatement) ?
                 "UPDATE TEST SET NAME=? WHERE ID=?" :
                 "UPDATE TEST SET NAME='BAZ' WHERE ID=" + id;
-        final Integer updated = jdbcUtils.update(update_sql, update_values);
+        final Integer updated = usePreparedStatement ?
+                jdbcUtils.update(update_sql,update_values) :
+                jdbcUtils.update(update_sql);
         validateTrue(updated > 0);
         if(runFailedCase)
         {
@@ -156,24 +211,20 @@ public class JdbcTest extends TestBase
 
     private Long doInsert(Boolean successExpected, Boolean usePreparedStatement)
     {
-        String sql = (usePreparedStatement) ?
+        final String sql = (usePreparedStatement) ?
                 "INSERT INTO TEST(NAME) VALUES(?)" :
                 "INSERT INTO TEST(NAME) VALUES('FOO')";
-        Long id = (usePreparedStatement) ?
+        final Long id = (usePreparedStatement) ?
                 jdbcUtils.insert(sql, "FOO") :
                 jdbcUtils.insert(sql);
         if (successExpected)
-        {
             validateTrue(id > -1L);
-        }
         else
-        {
             validateTrue(id.equals(-1L));
-        }
         return id;
     }
 
-    private void doQuery(Boolean successExpected, Boolean usePreparedStatement)
+    private<T> void doQuery(Boolean successExpected, Boolean usePreparedStatement,ResultSetTransformer<T>resultSetTransformer,BiConsumer<List<T>,Long>consumer)
     {
         Long id = doInsert(true, usePreparedStatement);
         validateTrue(id > -1L);
@@ -182,27 +233,17 @@ public class JdbcTest extends TestBase
         final String sql = (usePreparedStatement) ?
                 "SELECT NAME, ID FROM {} WHERE NAME=?" :
                 "SELECT NAME, ID FROM {} WHERE NAME='FOO'";
-        final List<TestObj> results = (usePreparedStatement) ?
+        final List<T> results = (usePreparedStatement) ?
                 jdbcUtils.query(sql.replace("{}",tableName), resultSetTransformer, "FOO") :
                 jdbcUtils.query(sql.replace("{}",tableName), resultSetTransformer);
         if (successExpected)
         {
             validateTrue(results.size() == 1);
-            final TestObj result = results.get(0);
-            final Long fromDb = result.id;
-            validateNotNull(fromDb);
-            validateEquality(id, fromDb);
+            consumer.accept(results,id);
         }
         else
         {
             validateTrue(results.isEmpty());
         }
     }
-
-    private class TestObj
-    {
-        String name;
-        Long id;
-    }
-
 }

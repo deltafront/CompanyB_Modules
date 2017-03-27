@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 /**
  * Default implementation of TemporaryWorkspace.
  * @author C.A. Burrell deltafront@gmail.com
- * @version 1.0.0
  */
 public class TemporaryWorkspaceDefaultImpl implements TemporaryWorkspace
 {
@@ -75,7 +74,7 @@ public class TemporaryWorkspaceDefaultImpl implements TemporaryWorkspace
         Path path = newFile.toPath();
         try
         {
-            FileUtils.writeByteArrayToFile(newFile,content);
+            FileUtils.writeByteArrayToFile(newFile,content,newFile.exists());
         }
         catch (IOException e)
         {

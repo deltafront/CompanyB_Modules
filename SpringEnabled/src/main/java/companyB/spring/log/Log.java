@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation for SLF4J log fields.
  * @author Charles Burrell (deltafront@gmail.com)
- * @since 1.0
+ *
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -4,7 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * This helper returns the results of an UPDATE Sql statement, specifically the number of rows updated.
+ * @author C.A. Burrell deltafront@gmail.com
+ */
 class UpdateResultsHelper implements ResultHelper<Integer>
 {
 

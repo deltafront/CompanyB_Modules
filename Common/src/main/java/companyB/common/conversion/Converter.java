@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Converts Strings representations into various supported datatypes.
@@ -29,53 +30,23 @@ import java.util.function.Function;
  * <li><double/li>
  * <li>byte</li>
  * </ul>
- *
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 @SuppressWarnings("ALL")
 public class Converter
 {
-
-    /**
-     * All supported classes.
-     */
-    public static List<Class> supportedClasses;
-    /**
-     * String values which constitute a boolean value of 'true'.
-     */
-    public static List<String> trueValues;
-    /**
-     * String values which constitute a boolean value of 'false'.
-     */
-    public static List<String> falseValues;
-    /**
-     * All of the valid number classes. This list includes:
-     * <ul>
-     * <li>java.lang.Integer</li>
-     * <li>java.lang.Short</li>
-     * <li>java.lang.Long</li>
-     * <li>java.lang.Double</li>
-     * <li>int</li>
-     * <li>long</li>
-     * <li>short</li>
-     * <li><double/li>
-     * </ul>
-     */
-    public static List<Class> numberClasses;
+    private static List<String> trueValues;
+    private static List<String> falseValues;
+    private static List<Class> numberClasses;
     private static Map<Class,Function<String,Object>>converterFunctionsMappings;
 
     static
     {
 
-        supportedClasses = Arrays.asList(Long.class, long.class, String.class, Integer.class, int.class,
-                short.class, Short.class, Double.class, double.class,
-                Boolean.class, boolean.class, Byte.class, byte.class,
-                char.class, Character.class, BigDecimal.class, BigInteger.class);
-        trueValues = Arrays.asList("t","true","y","yes","1");
-        falseValues = Arrays.asList("f","false","n","no","0");
-
+        trueValues = Arrays.asList("y,yes,t,true,1".split(","));
+        falseValues = Arrays.asList("n,no,f,false,0".split(","));
         numberClasses = Arrays.asList(Long.class, long.class, Integer.class, int.class);
+
         converterFunctionsMappings = new HashMap<>();
         converterFunctionsMappings.put(Long.class,(value)-> Long.parseLong(value));
         converterFunctionsMappings.put(long.class,(value)-> Long.parseLong(value));
@@ -92,6 +63,8 @@ public class Converter
         converterFunctionsMappings.put(String.class, (value)->value);
         converterFunctionsMappings.put(Byte.class,(value)->Byte.parseByte(value));
         converterFunctionsMappings.put(byte.class,(value)->Byte.parseByte(value));
+        converterFunctionsMappings.put(Boolean.class,(value)-> trueValues.contains(value) ? true : falseValues.contains(value) ? false : null);
+        converterFunctionsMappings.put(boolean.class,(value)-> trueValues.contains(value) ? true : falseValues.contains(value) ? false : null);
     }
 
     /**
@@ -101,8 +74,7 @@ public class Converter
      */
     public boolean isSupported(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return supportedClasses.contains(c);
+        return isClass(c,(_class)->converterFunctionsMappings.containsKey(c));
     }
 
     /**
@@ -111,8 +83,7 @@ public class Converter
      */
     public boolean isNumberType(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return numberClasses.contains(c);
+        return isClass(c,(_class)->numberClasses.contains(_class));
     }
 
     /**
@@ -121,8 +92,7 @@ public class Converter
      */
     public boolean isBigType(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return BigDecimal.class.equals(c) || BigInteger.class.equals(c);
+        return isClass(c, (_class)->BigDecimal.class.equals(c) || BigInteger.class.equals(c));
     }
 
     /**
@@ -131,8 +101,7 @@ public class Converter
      */
     public boolean isBoolean(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return boolean.class.equals(c) || Boolean.class.equals(c);
+        return isClass(c,(_class)->boolean.class.equals(c) || Boolean.class.equals(c));
     }
 
     /**
@@ -141,8 +110,7 @@ public class Converter
      */
     public boolean isByte(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return byte.class.equals(c) || Byte.class.equals(c);
+        return isClass(c,(_class)->byte.class.equals(c) || Byte.class.equals(c));
     }
 
     /**
@@ -151,10 +119,9 @@ public class Converter
      */
     public boolean isCharOrString(Class c)
     {
-        Validate.notNull(c,"Class is required.");
-        return char.class.equals(c) ||
+        return isClass(c,(_class)->char.class.equals(c) ||
                 Character.class.equals(c) ||
-                String.class.equals(c);
+                String.class.equals(c));
     }
 
     /**
@@ -175,7 +142,6 @@ public class Converter
     {
         return convert(classType,value);
     }
-
 
     /**
      * @param value     String value to be converted.
@@ -203,12 +169,13 @@ public class Converter
      */
     public Boolean convertToBoolean(String value)
     {
-        Validate.notNull(value,"Value is required.");
-        final Boolean out = trueValues.contains(value.toLowerCase()) ?
-                Boolean.TRUE :
-                falseValues.contains(value.toLowerCase()) ?
-                        Boolean.FALSE : null;
-        return out;
+        return convert(Boolean.class,value);
+    }
+
+    private<T> boolean isClass(Class<T> c, Predicate<Class<T>>predicate)
+    {
+        Validate.notNull(c,"Class is required.");
+        return predicate.test(c);
     }
 
     private <T>T convert(Class<T>classType, String value)
@@ -218,6 +185,7 @@ public class Converter
                 (T) converterFunctionsMappings.get(classType).apply(value) :
                 (T) value;
     }
+
     private <T> void validateClassIsPresent(String value, Class<T> classType)
     {
         Validate.notNull(value,"Class is required.");

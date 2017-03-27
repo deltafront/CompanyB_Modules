@@ -6,7 +6,6 @@ import java.io.*;
 /**
  * Utility class for dealing with ServletRequests.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class ServletRequestUtils extends UtilityBase
 {

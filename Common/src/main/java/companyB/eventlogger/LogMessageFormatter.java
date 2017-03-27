@@ -5,7 +5,7 @@ import java.util.Properties;
 /**
  * Defines contract for formatting log messages. Concrete implementations should define custom formatting for the log messages.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
+ *
  */
 public interface LogMessageFormatter
 {

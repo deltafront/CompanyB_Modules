@@ -9,7 +9,10 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * This helper returns the results of an Query Sql statement, a list of transformed objects.
+ * @author C.A. Burrell deltafront@gmail.com
+ */
 class QueryResultHelper<TargetClass>  implements ResultHelper<List<TargetClass>>
 {
     private final ResultSetTransformer<TargetClass>resultSetTransformer;

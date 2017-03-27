@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Contains convenience methods for constructing Guava-based caches.
  * @author Charles A. Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class GuavaCacheFactory
 {

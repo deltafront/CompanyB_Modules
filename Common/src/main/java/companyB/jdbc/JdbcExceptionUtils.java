@@ -7,16 +7,15 @@ import java.sql.SQLException;
 /**
  * Generic utility for handling JDBC exceptions.
  * @author C.A. Burrell deltafront@gmail.com
- * @version 1.0.0
  */
-public class JdbcExceptionUtils
+class JdbcExceptionUtils
 {
     /**
      * Logs the stack trace for the SQL exception. This method will append any embedded SQLExceptions to that of the original.
      * @param sqlException SQLException that has been caught.
      * @param logger Logger to which the output is to be written.
      */
-    public void handleSqlException(SQLException sqlException, Logger logger)
+    void handleSqlException(SQLException sqlException, Logger logger)
     {
         final StringBuilder out = new StringBuilder(sqlException.getMessage());
         sqlException.forEach(ex -> out.append(String.format("\n%s", ex.getMessage())));

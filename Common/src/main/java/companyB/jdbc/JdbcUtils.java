@@ -16,18 +16,12 @@ import java.util.List;
  * This class will handle CRUD DB operations using SQL queries.
  * For the time being, calling stored procedures is outside of the scope of this class.
  * @author C.A. Burrell deltafront@gmail.com
- * @version 1.0.0
  */
 public class JdbcUtils extends UtilityBase
 {
     private final DataSource dataSource;
     private final JdbcExceptionUtils jdbcExceptionUtils;
     private final ResultHelperFactory resultHelperFactory;
-    private enum Operation
-    {
-        insert,update,query
-    }
-
 
     /**
      * @param jdbcUsername Username used to connect to a database.
@@ -57,6 +51,7 @@ public class JdbcUtils extends UtilityBase
     {
         return query(sql,resultSetTransformer,new Object[0]);
     }
+
     /**
      * Executes a SQL query against the database using a Prepared Statement.
      * @param sql SQL query to be executed.
@@ -68,7 +63,6 @@ public class JdbcUtils extends UtilityBase
     {
         return insertUpdateQuery(sql,resultHelperFactory.queryResultsHelper(resultSetTransformer),replacements);
     }
-
 
     /**
      * Inserts data into the database using a simple Statement.
@@ -100,13 +94,34 @@ public class JdbcUtils extends UtilityBase
     {
         return update(sql, new Object[0]);
     }
+
     /**
-     * Updates data in the database using a simple Statement.
+     * Updates data in the database using a Prepared Statement.
      * @param sql SQL query to be executed.
      * @param replacements List of replacement values to be used in the Prepared Statement.
      * @return Number of rows of data affected by update, or -1 if update was not successful.
      */
     public Integer update(String sql, Object...replacements)
+    {
+        return insertUpdateQuery(sql,resultHelperFactory.updateResultsHelper(),replacements);
+    }
+    /**
+     * Deletes data in the database using a simple Statement.
+     * @param sql SQL query to be executed.
+     * @return Number of rows of data affected by update, or -1 if update was not successful.
+     */
+    public Integer delete(String sql)
+    {
+        return delete(sql, new Object[0]);
+    }
+
+    /**
+     * Deletes data in the database using a Prepared Statement.
+     * @param sql SQL query to be executed.
+     * @param replacements List of replacement values to be used in the Prepared Statement.
+     * @return Number of rows of data affected by update, or -1 if update was not successful.
+     */
+    public Integer delete(String sql, Object...replacements)
     {
         return insertUpdateQuery(sql,resultHelperFactory.updateResultsHelper(),replacements);
     }
@@ -132,9 +147,9 @@ public class JdbcUtils extends UtilityBase
     }
 
     @SuppressWarnings("unchecked")
-    private <T, TargetClass> T insertUpdateQuery(String sql, ResultHelper resultHelper,Object...replacements)
+    private <T> T insertUpdateQuery(String sql, ResultHelper resultHelper,Object...replacements)
     {
-        Object out = null;
+        Object out;
         try(final Connection connection = dataSource.getConnection();
             final Statement statement = getStatement(sql, connection, replacements);)
         {

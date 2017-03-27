@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * Memory-based implementation of ExternalCache. This cache is backed by an internal hash map.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class MemoryExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -25,6 +24,7 @@ public class MemoryExternalCache extends AbstractExternalCache implements Extern
     {
         this(name,1000*1000);
     }
+
     /**
      * @param name Name of the cache. Required.
      * @param initialLoad - Initial load of the cache. Required.

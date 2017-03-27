@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
  * such as blank strings are replaced with a sensible universally accessible default value, and (b) if this default value
  * exists in the cache it is replaced with 'null' upon retrieval.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class NullStringValueNormalizer
 {

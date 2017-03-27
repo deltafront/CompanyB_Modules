@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 /**
  * Generic contract for transforming the contents of a result set to a specific object instance.
  * @author C.A. Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public interface ResultSetTransformer<TargetClass>
 {

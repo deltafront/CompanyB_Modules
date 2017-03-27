@@ -12,7 +12,6 @@ import java.util.function.Function;
 /**
  * Class for creating simple Globally unique identifiers.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class GUID implements Serializable
 {

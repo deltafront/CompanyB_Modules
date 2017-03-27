@@ -6,7 +6,6 @@ import java.util.Optional;
 /**
  * Provides a one-step utility for executing simple commands.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class RuntimeUtils extends UtilityBase
 {
@@ -23,20 +22,8 @@ public class RuntimeUtils extends UtilityBase
         try
         {
             final Optional<Process>process = getProcess(commandArgs);
-            if(process.isPresent())
-            {
-                try(final InputStream inputStream = process.get().getInputStream();
-                    final Reader reader = new InputStreamReader(inputStream);
-                    final BufferedReader bufferedReader = new BufferedReader(reader)
-                )
-                {
-                    bufferedReader.lines().forEach(result::append);
-                }
-            }
-            else
-            {
-                throw new RuntimeUtilsException("Null process returned.");
-            }
+            final Process _process = process.orElseThrow(()->new RuntimeUtilsException("Null process returned."));
+            returnResultFromExecutedCommand(result, _process);
         }
         catch (Exception e)
         {
@@ -44,6 +31,18 @@ public class RuntimeUtils extends UtilityBase
         }
         return result.toString().length() ==0 ? null : result.toString();
     }
+
+    private void returnResultFromExecutedCommand(StringBuilder result, Process process) throws IOException
+    {
+        try(final InputStream inputStream = process.getInputStream();
+            final Reader reader = new InputStreamReader(inputStream);
+            final BufferedReader bufferedReader = new BufferedReader(reader)
+        )
+        {
+            bufferedReader.lines().forEach(result::append);
+        }
+    }
+
     private Optional<Process> getProcess(String...commandArgs)
     {
         Optional<Process>process;

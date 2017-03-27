@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 /**
  * Represents a single event code.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
+ *
  */
 public class EventCode
 {

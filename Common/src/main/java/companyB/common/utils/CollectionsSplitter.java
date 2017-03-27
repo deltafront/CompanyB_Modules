@@ -9,9 +9,7 @@ import java.util.stream.IntStream;
 
 /**
  * Splits Collection into a List of Lists.
- *
  * @author C.A. Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class CollectionsSplitter extends UtilityBase
 {
@@ -58,6 +56,7 @@ public class CollectionsSplitter extends UtilityBase
         return list;
     }
 
+    @SuppressWarnings("unchecked")
     private static void generateOuterLists(int num, List<List> list, AtomicInteger count, Object next)
     {
         if (count.get() == num)count.getAndSet(0);
@@ -65,7 +64,6 @@ public class CollectionsSplitter extends UtilityBase
         count.getAndIncrement();
     }
 
-    //helper methods
     @SuppressWarnings("unchecked")
     private static List<List> number_of_items(Collection collection, int num)
     {

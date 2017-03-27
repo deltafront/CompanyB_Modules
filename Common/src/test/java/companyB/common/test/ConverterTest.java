@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 
 @Test(groups = {"unit","converter","utils","common"})
@@ -32,16 +33,16 @@ public class ConverterTest extends TestBase
     public void numberConversions()
     {
         String numberString = "42";
-        for (Class c : Converter.numberClasses)
-        {
+        final List<Class>numberClasses =  Arrays.asList(Long.class, long.class, Integer.class, int.class);
+        numberClasses.forEach( (c)->{
             Object ret = converter.convertToNumber(numberString, c);
             validateNotNull(ret);
             validateTrue(converter.isNumberType(ret.getClass()));
-           if (Double.class.equals(c) || double.class.equals(c))
-               validateEquality(String.valueOf(Double.parseDouble(numberString)),String.valueOf(ret));
+            if (Double.class.equals(c) || double.class.equals(c))
+                validateEquality(String.valueOf(Double.parseDouble(numberString)),String.valueOf(ret));
             else
                 validateEquality(numberString, String.valueOf(ret));
-        }
+        });
     }
 
 
@@ -87,7 +88,11 @@ public class ConverterTest extends TestBase
 
     public void validSupportedTypes()
     {
-        for (Class c : Converter.supportedClasses) validateTrue(converter.isSupported(c));
+        final List<Class>supportedClasses = Arrays.asList(Long.class, long.class, String.class, Integer.class, int.class,
+                short.class, Short.class, Double.class, double.class,
+                Boolean.class, boolean.class, Byte.class, byte.class,
+                char.class, Character.class, BigDecimal.class, BigInteger.class);
+        supportedClasses.forEach((c)-> validateTrue(converter.isSupported(c)));
     }
 
 
@@ -148,7 +153,9 @@ public class ConverterTest extends TestBase
 
     private void testForBoolean(boolean testForTrue)
     {
-        final List<String> values = (testForTrue) ? Converter.trueValues : Converter.falseValues;
+        final List<String> values = (testForTrue) ?
+                Arrays.asList("t","true","y","yes","1"):
+                Arrays.asList("f","false","n","no","0");
         values.forEach((value)->
         {
             final Object ret = converter.convertToBoolean(value);

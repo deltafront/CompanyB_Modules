@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 /**
  * Field utilities for low-level access to declared fields.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class FieldUtils extends UtilityBase
 {
@@ -86,6 +85,7 @@ public class FieldUtils extends UtilityBase
             LOGGER.error(e.getMessage(),e);
         }
     }
+
     /**
      * @param fieldName Name of field to get value from..
      * @param instance Instance to get field value from.
@@ -100,6 +100,7 @@ public class FieldUtils extends UtilityBase
                 instance.getClass().getCanonicalName(),fieldName));
         return getFieldValue(field,instance);
     }
+
     /**
      * @param field Field to get value from.
      * @param instance Instance to get field value from.

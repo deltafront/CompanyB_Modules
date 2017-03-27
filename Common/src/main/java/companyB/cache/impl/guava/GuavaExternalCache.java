@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Implementation of ExternalCache that uses Google Guava default cache.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class GuavaExternalCache extends AbstractExternalCache implements ExternalCache<String,String>
 {
@@ -38,14 +37,7 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
     {
         this(name,null,duration,timeUnit,expireAfterWrite);
     }
-    private GuavaExternalCache(String name,Integer maxSize,Long duration,TimeUnit timeUnit,Boolean expireAfterWrite)
-    {
-        super(name);
-        if(null == expireAfterWrite) this.cache = GuavaCacheFactory.getMaxSizeCache(maxSize);
-        else if(expireAfterWrite) this.cache = GuavaCacheFactory.getExpireAfterWriteCache(duration, timeUnit);
-        else this.cache = GuavaCacheFactory.getExpireAfterAccessCache(duration, timeUnit);
-        Validate.notNull(this.cache,"Cache has not been built. Aborting.");
-    }
+
     @Override
     public void insert(String key, String value)
     {
@@ -75,17 +67,27 @@ public class GuavaExternalCache extends AbstractExternalCache implements Externa
         return value;
     }
 
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    private GuavaExternalCache(String name,Integer maxSize,Long duration,TimeUnit timeUnit,Boolean expireAfterWrite)
+    {
+        super(name);
+        if(null == expireAfterWrite) this.cache = GuavaCacheFactory.getMaxSizeCache(maxSize);
+        else if(expireAfterWrite) this.cache = GuavaCacheFactory.getExpireAfterWriteCache(duration, timeUnit);
+        else this.cache = GuavaCacheFactory.getExpireAfterAccessCache(duration, timeUnit);
+        Validate.notNull(this.cache,"Cache has not been built. Aborting.");
+    }
     private String removeAndGetValue(String key, String value)
     {
         final String val = normalizer.dirtyNullStringValue(value);
         cache.invalidate(key);
         return val;
     }
-    @Override
-    public String getName()
-    {
-        return name;
-    }
+
     private String getEncryptedString(String key)
     {
         return normalizer.dirtyNullStringValue(cache.getIfPresent(key));

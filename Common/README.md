@@ -67,9 +67,10 @@ This package contains reusable components for consumption by other modules and a
 ### Top Level Packages
 
 #### AtomicOptional
+`companyB.common.atomic.AtomicOptional` is class for holding Optional containers whose contents may change but whose basic contract will not. In other words, immutability for the Optional itself is guaranteed, but not that of its value.
 
 #### Conversion
-`companyB.conversion.Converter` converts Strings representations into various supported datatypes.
+`companyB.common.conversion.Converter` converts Strings representations into various supported datatypes.
 
 #### GUID
 This Serializable class facilitates the creation of simple Globally Unique Identifiers.
@@ -78,28 +79,29 @@ This Serializable class facilitates the creation of simple Globally Unique Ident
 The following utility classes are available via this module. For each of the following modules, consult the JavaDocs
 for further information.
 
-#### Collections Splitter
+#### companyB.common.utils.CollectionsSplitter
 Splits Collection into a List of Lists, either into `n` number of equally sized lists, or `x` number of lists each of which
 has at a minimum of `n` items.
 
-#### Factory Utils
+#### companyB.common.utils.FactoryUtils
 Instantiates classes; optionally provides singleton instances.
 
-#### FieldUtils
+#### companyB.common.utils.FieldUtils
+A class that provides low-level access to declared fields.
 
-#### Properties Utils
+#### companyB.common.utils.PropertiesUtils
 Provides a simple wrapper for `java.util.Properties`. It allows a property to be retrieved using a single-line of code.
 
-#### Query Mapper
+#### companyB.common.utils.QueryMapper
 This class takes a Http Query String and returns a mapping of all of its elements.
 
-#### RunTimeUtils
+#### companyB.common.utils.RuntimeUtils
 Provides a one-step utility for executing simple commands.
 
-#### ServletRequestUtils
+#### companyB.common.utils.ServletRequestUtils
 This class contains convenience methods for dealing with Servlet Requests. Presently, the only method in this class is `getRequestBody(request)`.
 
-#### ServletResponseUtils
+#### companyB.common.utils.ServletResponseUtils
 This class contains convenience methods for dealing with Servlet Responses. Presently, the only method in this class is `writeResponse(response, message, flush)`.
 
 ## EventLogger
@@ -165,7 +167,9 @@ The `@EventLog` supports two optional parameters:
     If this **is** supplied, then the implementing class is required to have a single no-args publicly accessible constructor.
 
 ## JDBC
+This package will handle CRUD DB operations using SQL queries. For the time being, calling stored procedures is outside of the scope.
 
+## Workspace
 
 ## Logging
 All logging is done via SLF4J. You will need to provide your own runtime implementations.

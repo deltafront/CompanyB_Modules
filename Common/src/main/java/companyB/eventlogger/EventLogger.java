@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Logs event to underlying slf4j Facade.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
+ *
  */
 public class EventLogger
 {

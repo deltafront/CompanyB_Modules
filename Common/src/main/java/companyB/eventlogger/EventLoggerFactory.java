@@ -11,7 +11,7 @@ import java.util.Hashtable;
 /**
  * Class responsible for providing singleton instances of EventLoggers to external clients.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
+ *
  */
 public class EventLoggerFactory
 {

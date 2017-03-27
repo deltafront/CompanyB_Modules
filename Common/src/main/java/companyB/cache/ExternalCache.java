@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @param <Key> Type of key. The class used for this <strong>must</strong> implement Serializable.
  * @param <Value> Type of value. The class used for this <strong>must</strong> implement Serializable.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public interface ExternalCache<Key extends Serializable,Value extends Serializable>
 {
@@ -18,6 +17,7 @@ public interface ExternalCache<Key extends Serializable,Value extends Serializab
      * @param value Value to be associated with key.
      */
     void insert(Key key, Value value);
+
     /**
      * Associates key with value in the cache.
      * @param key Key associated with value.

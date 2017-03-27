@@ -9,7 +9,6 @@ import java.io.OutputStream;
 /**
  * Utilities for dealing with ServletRequests.
  * @author Charles Burrell (deltafront@gmail.com)
- * @version 1.0.0
  */
 public class ServletResponseUtils extends UtilityBase
 {
@@ -22,8 +21,7 @@ public class ServletResponseUtils extends UtilityBase
     public void writeResponse(ServletResponse response, String message, boolean flush)
     {
         Validate.notNull(response, "ServletResponse must be provided!");
-        final String cleaned_message = (null == message) ?
-                "" : message;
+        final String cleaned_message = returnEmptyStringIfNullIsPassed(message);
         try(OutputStream outputStream  = response.getOutputStream();)
         {
             outputStream.write(cleaned_message.getBytes());
@@ -33,5 +31,11 @@ public class ServletResponseUtils extends UtilityBase
         {
             LOGGER.error(e.getMessage(),e);
         }
+    }
+
+    private String returnEmptyStringIfNullIsPassed(String message)
+    {
+        return (null == message) ?
+                "" : message;
     }
 }
